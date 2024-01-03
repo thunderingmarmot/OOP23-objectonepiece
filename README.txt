@@ -60,3 +60,9 @@ Suddivisione del lavoro:
 * Grimaldi:
 
 * Scorza: 
+
+Suddivisioni possibili:
+1) Enemy, Player, Ship
+2) Entity, Barrel, Island
+3) World, Section
+4) View, Controller
