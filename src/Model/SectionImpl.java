@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import Model.Entity.Position;
-import Model.Entity.Type;
 
 public class SectionImpl implements Section {
 
@@ -15,13 +14,7 @@ public class SectionImpl implements Section {
     }
 
     @Override
-    public List<Entity> getEntitiesOfType(Type type) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEntitiesOfType'");
-    }
-
-    @Override
-    public List<Entity> getEntities() {
+    public <T extends Entity> List<T> getEntities() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getEntities'");
     }

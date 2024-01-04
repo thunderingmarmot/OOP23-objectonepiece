@@ -5,11 +5,4 @@ public interface Entity {
     
     public record Position(int x, int y) {};
     public Position getPosition();
-
-    public enum Type {
-        BARREL,
-        SHIP,
-        ISLAND
-    }
-    public Type getType();
 }
