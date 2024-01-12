@@ -1,8 +1,20 @@
+> [!WARNING]
+> Before doing your first commit (or when you use a new machine), assure with `git config --list` that:
+> 
+> You set your real name with `git config --global user.name "Your name"
+> 
+> Set your institutional e-mail with `git config --global user.email "name.surname@studio.unibo.it"`
+
+
+
 Email dei componenti:
 
 tommaso.detommaso@studio.unibo.it
+
 matteo.giorgini12@studio.unibo.it
+
 leonardo.grimaldi2@studio.unibo.it
+
 edoardo.scorza@studio.unibo.it
 
 Il gruppo si pone come obiettivo quello di realizzare un videogioco di esplorazione
