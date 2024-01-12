@@ -1,7 +1,7 @@
 > [!WARNING]
 > Before doing your first commit (or when you use a new machine), assure with `git config --list` that:
 > 
-> You set your real name with `git config --global user.name "Your name"
+> You set your real name with `git config --global user.name "Your name"`
 > 
 > Set your institutional e-mail with `git config --global user.email "name.surname@studio.unibo.it"`
 
