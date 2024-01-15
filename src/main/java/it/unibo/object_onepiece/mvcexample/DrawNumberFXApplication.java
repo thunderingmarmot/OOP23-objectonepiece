@@ -1,4 +1,4 @@
-package it.unibo.samplejavafx.mvcexample;
+package it.unibo.object_onepiece.mvcexample;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

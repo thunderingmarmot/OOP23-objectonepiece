@@ -1,4 +1,4 @@
-package it.unibo.samplejavafx.mvcexample;
+package it.unibo.object_onepiece.mvcexample;
 
 /**
  * Possible outcomes of a guess.
