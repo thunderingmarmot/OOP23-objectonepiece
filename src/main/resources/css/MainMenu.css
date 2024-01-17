@@ -1,6 +1,6 @@
 .label {
     -fx-font: 40px "Segoe UI";
-    -fx-font-weight: semi-bold;
+    -fx-font-weight: 600;
     -fx-font-style: italic;
 
 }
