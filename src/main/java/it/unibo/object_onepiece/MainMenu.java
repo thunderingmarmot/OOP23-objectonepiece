@@ -16,6 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -29,29 +30,30 @@ public final class MainMenu extends Application {
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
 
-        BorderPane border = new BorderPane();
         GridPane grid = new GridPane();
         grid.setGridLinesVisible(true);
-        grid.getRowConstraints().addAll(DoubleStream.of(10, 20, 40, 10, 10).mapToObj(height -> {
+        grid.getRowConstraints().addAll(DoubleStream.of(10, 20, 40, 20).mapToObj(height -> {
             RowConstraints rc = new RowConstraints();
             rc.setPercentHeight(height);
             rc.setFillHeight(true);
             return rc;
         }).toArray(RowConstraints[]::new));
         grid.getColumnConstraints().add(new ColumnConstraints(50));
-        border.setCenter(grid);
 
         Label gameName = new Label("Object One Piece!");
         gameName.setFont(new Font(20));
         grid.add(gameName, 2, 1);
 
-        Label start = new Label("Start!");
-        Label quit = new Label("Quit");
+        Button start = new Button("Start!");
+        Button quit = new Button("Quit");
 
-        grid.add(start, 2, 3);
-        grid.add(quit, 2, 4);
+        VBox labelContainer = new VBox(20);
+        labelContainer.getChildren().addAll(start, quit);
+        labelContainer.getChildren().forEach(i -> VBox.setMargin(i, new Insets(0, 0, 0, 50)));
 
-        Scene scene = new Scene(border, 600, 600);
+        grid.add(labelContainer, 2, 3);
+
+        Scene scene = new Scene(grid, 600, 600);
         scene.getStylesheets().add("css/MainMenu.css");
         primaryStage.setScene(scene);
         primaryStage.show();
