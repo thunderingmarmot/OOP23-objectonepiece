@@ -33,8 +33,7 @@ public final class MainMenu extends Application {
         primaryStage.setTitle("Object One Piece!");
 
         GridPane grid = new GridPane();
-        grid.setGridLinesVisible(true);
-        grid.getRowConstraints().addAll(DoubleStream.of(10, 20, 20, 40).mapToObj(height -> {
+        grid.getRowConstraints().addAll(DoubleStream.of(10, 20, 20, 50).mapToObj(height -> {
             RowConstraints rc = new RowConstraints();
             rc.setPercentHeight(height);
             rc.setFillHeight(true);
