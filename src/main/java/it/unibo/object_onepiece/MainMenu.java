@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece;
 
+import java.awt.Color;
 import java.util.stream.DoubleStream;
 
 import javax.swing.SpringLayout.Constraints;
@@ -10,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -32,7 +34,7 @@ public final class MainMenu extends Application {
 
         GridPane grid = new GridPane();
         grid.setGridLinesVisible(true);
-        grid.getRowConstraints().addAll(DoubleStream.of(10, 20, 40, 20).mapToObj(height -> {
+        grid.getRowConstraints().addAll(DoubleStream.of(10, 20, 20, 40).mapToObj(height -> {
             RowConstraints rc = new RowConstraints();
             rc.setPercentHeight(height);
             rc.setFillHeight(true);
