@@ -1,6 +1,20 @@
-.label {
-    -fx-font: 40px "Segoe UI";
-    -fx-font-weight: 600;
-    -fx-font-style: italic;
-
+.root {
+    -fx-background-color: #2c80ec;
 }
+
+.label {
+    -fx-font: 60px "Segoe UI";
+}
+
+.button {
+    -fx-font: 40px "Segoe UI";
+}
+
+.label, .button {
+    -fx-text-fill: white;
+    -fx-font-weight: 800;
+    -fx-font-style: italic;
+}
+
+
+
