@@ -35,6 +35,10 @@ dependencies {
 
     // Example library: Guava. Add what you need (and remove Guava if you don't use it)
     // implementation("com.google.guava:guava:28.1-jre")
+    
+    // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
+    implementation("org.controlsfx:controlsfx:11.2.0")
+
 
     // JavaFX: comment out if you do not need them
     val javaFxVersion = 15
