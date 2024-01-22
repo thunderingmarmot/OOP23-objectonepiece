@@ -1,6 +1,8 @@
 package it.unibo.object_onepiece.model;
 
-// Interface that models the enemy's ship
+/**
+ * The enemy interface models a ship controlled by the CPU
+ */
 public interface Enemy extends Ship {
     public enum State {
         PATROLLING,

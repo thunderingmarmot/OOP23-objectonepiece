@@ -1,5 +1,8 @@
 package it.unibo.object_onepiece.model;
 
+/**
+ * An animated entity, it can be the player or an enemy
+ */
 public interface Ship extends Entity {
     public enum Direction {
         UP,
