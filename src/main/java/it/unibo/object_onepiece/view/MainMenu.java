@@ -1,4 +1,4 @@
-package it.unibo.object_onepiece;
+package it.unibo.object_onepiece.view;
 
 import java.awt.Color;
 import java.util.stream.DoubleStream;

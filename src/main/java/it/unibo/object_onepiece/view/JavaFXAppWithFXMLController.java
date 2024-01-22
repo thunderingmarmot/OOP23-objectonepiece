@@ -1,4 +1,4 @@
-package it.unibo.object_onepiece;
+package it.unibo.object_onepiece.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
