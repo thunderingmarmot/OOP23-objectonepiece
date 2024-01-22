@@ -1,6 +1,19 @@
 package it.unibo.object_onepiece;
 
+import java.util.LinkedList;
+
+import org.controlsfx.control.spreadsheet.SpreadsheetView;
+import org.controlsfx.control.tableview2.TableColumn2;
+import org.controlsfx.control.tableview2.TableView2;
+
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.WritableIntegerValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -8,9 +21,11 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -35,8 +50,21 @@ public final class ObjectOnePieceApp extends Application {
 
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
-        gridPane.setGridLinesVisible(true);
+        gridPane.setGridLinesVisible(false);
+
+        TableView2<Entity> entityInfoTable = new TableView2<>();
+        ObservableList<Entity> eList = FXCollections.observableArrayList(new Entity("Usopp", 100));
+        entityInfoTable.setItems(eList);
         
+        TableColumn2<Entity, Image> iconColumn = new TableColumn2<>("Image");
+        TableColumn2<Entity, String> nameColumn = new TableColumn2<>("Name");
+        nameColumn.setCellValueFactory(p -> p.getValue().name);
+        TableColumn2<Entity, Integer> healthColumn = new TableColumn2<>("Health");
+        healthColumn.setCellValueFactory(p -> p.getValue().health.asObject());
+
+        entityInfoTable.getColumns().setAll(nameColumn, healthColumn);
+        
+
         Canvas health = new Canvas(100, 100);
         GraphicsContext healthGC = health.getGraphicsContext2D();
         Rectangle healthBar = new Rectangle(20, 100);
@@ -58,6 +86,7 @@ public final class ObjectOnePieceApp extends Application {
 
         borderPane.setCenter(gridPane);
         borderPane.setRight(healthContainer);
+        borderPane.setLeft(entityInfoTable);
         Scene scene = new Scene(borderPane, 600, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -71,6 +100,19 @@ public final class ObjectOnePieceApp extends Application {
                rect.getHeight());
         gc.setFill(Color.GREEN);
         gc.setStroke(Color.BLUE);
+    }
+
+    public class Entity {
+        private StringProperty name;
+        private IntegerProperty health;
+        private Canvas healthBar;
+        private GraphicsContext gc;
+
+        public Entity(final String string, final int health) {
+            this.name = new SimpleStringProperty(string);
+            this.health = new SimpleIntegerProperty(health);
+        }
+
     }
 
     /**
