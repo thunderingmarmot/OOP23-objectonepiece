@@ -1,9 +1,9 @@
-package Model;
+package it.unibo.object_onepiece.model;
 
 import java.util.List;
 import java.util.Optional;
 
-import Model.Entity.Position;
+import it.unibo.object_onepiece.model.Entity.Position;
 
 public class SectionImpl implements Section {
 

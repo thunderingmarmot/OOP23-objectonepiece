@@ -1,4 +1,4 @@
-package Model;
+package it.unibo.object_onepiece.model;
 
 //Interface that models the player's ship
 public interface Player extends Ship {

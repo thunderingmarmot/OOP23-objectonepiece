@@ -1,4 +1,4 @@
-package Model;
+package it.unibo.object_onepiece.model;
 
 public class WorldImpl implements World {
 
