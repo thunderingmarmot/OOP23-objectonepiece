@@ -22,11 +22,13 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -79,17 +81,33 @@ public final class ObjectOnePieceApp extends Application {
         for (int i = 0; i < MAP_ROWS; i++) {
             for (int j = 0; j < MAP_COLUMNS; j++) {
                 buttons[i] = new Button(i + ", " + j);
-                buttons[i].setPadding(new Insets(20));
-                gridPane.add(buttons[i], i, j);
+                //buttons[i].setPadding(new Insets(20));
+                buttons[i].setMaxSize(30, 30);
+                buttons[i].setPrefSize(30,30);
+                gridPane.add(buttons[i], j, i);
             }
         }
+
+        drawPlayer(gridPane, 2);
 
         borderPane.setCenter(gridPane);
         borderPane.setRight(healthContainer);
         borderPane.setLeft(entityInfoTable);
         Scene scene = new Scene(borderPane, 600, 600);
+        scene.getStylesheets().add("/css/ObjectOnePieceApp.css");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private void drawPlayer(GridPane grid, int position) {
+        Image img = new Image("pirate_ship_00000.png");
+        ImageView view = new ImageView(img);
+        //view.setFitHeight(30);
+        view.setPreserveRatio(false);
+        Button b = (Button)grid.getChildren().get(position);
+        view.setFitHeight(30);
+        view.setFitWidth(30);
+        b.setGraphic(view);
     }
 
     private void drawHealthBar(GraphicsContext gc,Rectangle rect) {
