@@ -6,6 +6,8 @@ import org.controlsfx.control.spreadsheet.SpreadsheetView;
 import org.controlsfx.control.tableview2.TableColumn2;
 import org.controlsfx.control.tableview2.TableView2;
 
+import eu.lestard.grid.GridModel;
+import eu.lestard.grid.GridView;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -50,9 +52,25 @@ public final class ObjectOnePieceApp extends Application {
 
         BorderPane borderPane = new BorderPane();
 
-        GridPane gridPane = new GridPane();
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.setGridLinesVisible(false);
+        GridModel<EntityView> gridModel = new GridModel<>();
+
+        gridModel.setDefaultState(EntityView.WATER);
+        gridModel.setNumberOfColumns(MAP_COLUMNS);
+        gridModel.setNumberOfRows(MAP_ROWS);
+
+        GridView<EntityView> gridView = new GridView<>();
+        gridView.setGridModel(gridModel);
+
+        gridView.addNodeMapping(EntityView.WATER, i -> {
+            Image img = new Image("water.png");
+            ImageView waterView = new ImageView(img);
+            waterView.setPreserveRatio(true); 
+            waterView.setFitHeight(50); 
+            waterView.setFitWidth(50);
+            return waterView;
+        });
+
+        
 
         TableView2<Entity> entityInfoTable = new TableView2<>();
         ObservableList<Entity> eList = FXCollections.observableArrayList(new Entity("Usopp", 100));
@@ -77,20 +95,8 @@ public final class ObjectOnePieceApp extends Application {
         VBox healthContainer = new VBox();
         healthContainer.getChildren().addAll(health, healthPoints);
 
-        Button buttons[] = new Button[MAP_ROWS * MAP_COLUMNS];
-        for (int i = 0; i < MAP_ROWS; i++) {
-            for (int j = 0; j < MAP_COLUMNS; j++) {
-                buttons[i] = new Button(i + ", " + j);
-                //buttons[i].setPadding(new Insets(20));
-                buttons[i].setMaxSize(30, 30);
-                buttons[i].setPrefSize(30,30);
-                gridPane.add(buttons[i], j, i);
-            }
-        }
 
-        drawPlayer(gridPane, 2);
-
-        borderPane.setCenter(gridPane);
+        borderPane.setCenter(gridView);
         borderPane.setRight(healthContainer);
         borderPane.setLeft(entityInfoTable);
         Scene scene = new Scene(borderPane, 600, 600);
