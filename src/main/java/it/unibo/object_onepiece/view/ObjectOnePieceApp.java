@@ -1,6 +1,7 @@
 package it.unibo.object_onepiece.view;
 
 import java.util.LinkedList;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.controlsfx.control.spreadsheet.SpreadsheetView;
@@ -56,28 +57,34 @@ public final class ObjectOnePieceApp extends Application {
 
     private static final Color CELL_BORDER_COLOR = Color.rgb(66, 138, 245);
 
+    private final GridModel<EntityView> gridModel = new GridModel<>();
+    private final GridView<EntityView> gridView = new GridView<>();
+
     @Override
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
 
         BorderPane borderPane = new BorderPane();
 
-        GridModel<EntityView> gridModel = new GridModel<>();
-
         gridModel.setDefaultState(EntityView.WATER);
         gridModel.setNumberOfColumns(MAP_COLUMNS);
         gridModel.setNumberOfRows(MAP_ROWS);
-
-        GridView<EntityView> gridView = new GridView<>();
         gridView.setGridModel(gridModel);
-
         Stream.of(EntityView.values())
-            .filter(i -> i.color.isPresent())
-            .forEach(i -> gridView.addColorMapping(i, i.color.get()));
+        .filter(i -> i.color.isPresent())
+        .forEach(i -> gridView.addColorMapping(i, i.color.get()));
 
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
-        
-        
+        gridView.addNodeMapping(EntityView.PLAYER, i -> {
+            Image img = new Image("pirate_ship_00000.png");
+            ImageView pirateView = new ImageView(img);
+            pirateView.setPreserveRatio(true); 
+            pirateView.fitHeightProperty().bind(gridView.cellSizeProperty());
+            return pirateView;
+        });
+
+        drawPlayer(0, 0);
+        drawPlayer(2, 3);
 
         TableView2<Entity> entityInfoTable = new TableView2<>();
         ObservableList<Entity> eList = FXCollections.observableArrayList(new Entity("Usopp", 100));
@@ -112,15 +119,8 @@ public final class ObjectOnePieceApp extends Application {
         primaryStage.show();
     }
 
-    private void drawPlayer(GridPane grid, int position) {
-        Image img = new Image("pirate_ship_00000.png");
-        ImageView view = new ImageView(img);
-        //view.setFitHeight(30);
-        view.setPreserveRatio(false);
-        Button b = (Button)grid.getChildren().get(position);
-        view.setFitHeight(30);
-        view.setFitWidth(30);
-        b.setGraphic(view);
+    private void drawPlayer(int row, int col) {
+        gridModel.getCell(col, row).changeState(EntityView.PLAYER);
     }
 
     private void drawHealthBar(GraphicsContext gc,Rectangle rect) {
