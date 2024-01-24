@@ -39,6 +39,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
     implementation("org.controlsfx:controlsfx:11.2.0")
 
+    implementation("eu.lestard:grid:0.2.0");
+
 
     // JavaFX: comment out if you do not need them
     val javaFxVersion = 15
