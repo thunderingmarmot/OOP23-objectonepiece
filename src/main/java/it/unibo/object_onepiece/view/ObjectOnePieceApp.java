@@ -25,8 +25,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
@@ -64,12 +69,12 @@ public final class ObjectOnePieceApp extends Application {
         gridView.addNodeMapping(EntityView.WATER, i -> {
             Image img = new Image("water.png");
             ImageView waterView = new ImageView(img);
-            waterView.setPreserveRatio(true); 
-            waterView.setFitHeight(50); 
-            waterView.setFitWidth(50);
+            waterView.setPreserveRatio(true);
+            waterView.fitHeightProperty().bind(gridView.cellSizeProperty());
+            
+
             return waterView;
         });
-
         
 
         TableView2<Entity> entityInfoTable = new TableView2<>();
