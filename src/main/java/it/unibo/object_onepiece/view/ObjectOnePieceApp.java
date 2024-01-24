@@ -1,6 +1,7 @@
 package it.unibo.object_onepiece.view;
 
 import java.util.LinkedList;
+import java.util.stream.Stream;
 
 import org.controlsfx.control.spreadsheet.SpreadsheetView;
 import org.controlsfx.control.tableview2.TableColumn2;
@@ -16,6 +17,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.WritableIntegerValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
@@ -51,6 +54,8 @@ public final class ObjectOnePieceApp extends Application {
     private static final int MAP_ROWS = 10;
     private static final int MAP_COLUMNS = 10;
 
+    private static final Color CELL_BORDER_COLOR = Color.rgb(66, 138, 245);
+
     @Override
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
@@ -66,15 +71,12 @@ public final class ObjectOnePieceApp extends Application {
         GridView<EntityView> gridView = new GridView<>();
         gridView.setGridModel(gridModel);
 
-        gridView.addNodeMapping(EntityView.WATER, i -> {
-            Image img = new Image("water.png");
-            ImageView waterView = new ImageView(img);
-            waterView.setPreserveRatio(true);
-            waterView.fitHeightProperty().bind(gridView.cellSizeProperty());
-            
+        Stream.of(EntityView.values())
+            .filter(i -> i.color.isPresent())
+            .forEach(i -> gridView.addColorMapping(i, i.color.get()));
 
-            return waterView;
-        });
+        gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
+        
         
 
         TableView2<Entity> entityInfoTable = new TableView2<>();
