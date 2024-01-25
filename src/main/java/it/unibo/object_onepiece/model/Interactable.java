@@ -1,5 +1,7 @@
 package it.unibo.object_onepiece.model;
 
-public interface Interactable {
-    public Runnable getInteraction();
+import java.util.function.Consumer;
+
+public interface Interactable<T extends Interactor<T>> {
+    public Consumer<T> getInteraction();
 }

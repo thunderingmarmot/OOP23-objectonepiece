@@ -24,8 +24,8 @@ public class PlayerImpl extends ShipImpl implements Player {
     }
 
     @Override
-    public void interact(Interactable interactedWith) {
-        interactedWith.getInteraction().run();
+    public void interact(Interactable<Player> interactedWith) {
+        interactedWith.getInteraction().accept(this);
     }
 
     @Override

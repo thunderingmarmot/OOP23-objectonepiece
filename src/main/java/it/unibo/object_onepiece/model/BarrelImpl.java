@@ -1,5 +1,7 @@
 package it.unibo.object_onepiece.model;
 
+import java.util.function.Consumer;
+
 import it.unibo.object_onepiece.model.Utils.Position;
 
 public class BarrelImpl extends EntityImpl implements Barrel {
@@ -14,6 +16,11 @@ public class BarrelImpl extends EntityImpl implements Barrel {
     @Override
     public void take(Player player) {
         player.addExperience(experienceGiven);
+    }
+
+    @Override
+    public Consumer<Player> getInteraction() {
+        return () -> take();
     }
     
 }
