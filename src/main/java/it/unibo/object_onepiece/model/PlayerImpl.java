@@ -1,4 +1,6 @@
 package it.unibo.object_onepiece.model;
+import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.Position;
 
 public class PlayerImpl extends ShipImpl implements Player {
 
