@@ -24,5 +24,11 @@ public class SectionImpl implements Section {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getPlayer'");
     }
+
+    @Override
+    public void removeEntityAt(Position position) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'removeEntityAt'");
+    }
     
 }
