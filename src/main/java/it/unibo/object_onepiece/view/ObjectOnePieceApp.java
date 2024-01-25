@@ -1,6 +1,7 @@
 package it.unibo.object_onepiece.view;
 
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -80,11 +81,12 @@ public final class ObjectOnePieceApp extends Application {
             ImageView pirateView = new ImageView(img);
             pirateView.setPreserveRatio(true); 
             pirateView.fitHeightProperty().bind(gridView.cellSizeProperty());
+            //gridView.addColorMapping(EntityView.PLAYER, EntityView.PLAYER.color.get());
             return pirateView;
         });
 
-        drawPlayer(0, 0);
-        drawPlayer(2, 3);
+        movePlayer(0, 0);
+        movePlayer(2, 3);
 
         TableView2<Entity> entityInfoTable = new TableView2<>();
         ObservableList<Entity> eList = FXCollections.observableArrayList(new Entity("Usopp", 100));
@@ -119,7 +121,13 @@ public final class ObjectOnePieceApp extends Application {
         primaryStage.show();
     }
 
-    private void drawPlayer(int row, int col) {
+    private void movePlayer(int row, int col) {
+        var playerList = gridModel.getCellsWithState(EntityView.PLAYER);
+        if (!playerList.isEmpty() && playerList.size() > 1) {
+            throw new IllegalStateException("There can't exist two players on the map");
+        } else if (!playerList.isEmpty()) {
+            playerList.get(0).changeState(EntityView.WATER);
+        }   
         gridModel.getCell(col, row).changeState(EntityView.PLAYER);
     }
 
