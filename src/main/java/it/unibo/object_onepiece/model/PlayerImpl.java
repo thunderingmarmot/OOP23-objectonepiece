@@ -19,5 +19,10 @@ public class PlayerImpl extends ShipImpl implements Player {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'interact'");
     }
+
+    @Override
+    public void heal(int healthGained) {
+        
+    }
     
 }
