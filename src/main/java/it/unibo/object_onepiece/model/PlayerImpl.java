@@ -24,9 +24,8 @@ public class PlayerImpl extends ShipImpl implements Player {
     }
 
     @Override
-    public void interact(Entity interactedWith) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'interact'");
+    public void interact(Interactable interactedWith) {
+        interactedWith.getInteraction().run();
     }
 
     @Override
