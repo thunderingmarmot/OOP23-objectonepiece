@@ -55,7 +55,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void takeDamage(int damage) {
         this.health -= damage;
-        if(this.health == 0) {
+        if(this.health <= 0) {
             this.getSection().removeEntityAt(this.getPosition());
         }
     }
