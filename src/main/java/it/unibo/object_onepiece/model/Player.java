@@ -8,5 +8,5 @@ public interface Player extends Ship {
 
     public void heal(int healthGained);
 
-    public void interact();
+    public void interact(Entity interactedWith);
 }
