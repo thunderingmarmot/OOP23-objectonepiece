@@ -20,15 +20,15 @@ public class SectionImpl implements Section {
     }
 
     @Override
-    public Player getPlayer() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPlayer'");
-    }
-
-    @Override
     public void removeEntityAt(Position position) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'removeEntityAt'");
+    }
+
+    @Override
+    public Player getPlayer() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPlayer'");
     }
     
 }
