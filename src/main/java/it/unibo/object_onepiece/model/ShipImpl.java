@@ -1,11 +1,19 @@
 package it.unibo.object_onepiece.model;
 
 public abstract class ShipImpl extends EntityImpl implements Ship {
+    private final Direction currDirection;
+    private int health;
+
+    public ShipImpl(Direction direction, int health) {
+        this.currDirection = direction;
+        this.health = health;
+    }
 
     @Override
     public void move(Direction direction) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'move'");
+        if(direction==this.currDirection) {
+
+        }
     }
 
     @Override
