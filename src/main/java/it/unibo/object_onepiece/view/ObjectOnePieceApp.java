@@ -67,13 +67,11 @@ public final class ObjectOnePieceApp extends Application {
 
         BorderPane borderPane = new BorderPane();
 
-        gridModel.setDefaultState(EntityView.WATER);
+        gridModel.setDefaultState(new EntityView());
         gridModel.setNumberOfColumns(MAP_COLUMNS);
         gridModel.setNumberOfRows(MAP_ROWS);
         gridView.setGridModel(gridModel);
-        Stream.of(EntityView.values())
-        .filter(i -> i.color.isPresent())
-        .forEach(i -> gridView.addColorMapping(i, i.color.get()));
+        gridModel.getCells().forEach(i -> gridView.addColorMapping(i.getState(), i.getState().getColor()));
 
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
         gridView.addNodeMapping(EntityView.PLAYER, i -> {
@@ -81,7 +79,7 @@ public final class ObjectOnePieceApp extends Application {
             ImageView pirateView = new ImageView(img);
             pirateView.setPreserveRatio(true); 
             pirateView.fitHeightProperty().bind(gridView.cellSizeProperty());
-            //gridView.addColorMapping(EntityView.PLAYER, EntityView.PLAYER.color.get());
+            gridView.addColorMapping(EntityView.PLAYER, EntityView.PLAYER.color.get());
             return pirateView;
         });
 
