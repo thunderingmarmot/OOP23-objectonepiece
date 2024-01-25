@@ -20,7 +20,7 @@ public class BarrelImpl extends EntityImpl implements Barrel {
 
     @Override
     public Consumer<Player> getInteraction() {
-        return () -> take();
+        return this::take;
     }
     
 }
