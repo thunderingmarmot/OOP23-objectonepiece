@@ -2,15 +2,15 @@ package it.unibo.object_onepiece.model;
 
 public class BarrelImpl extends EntityImpl implements Barrel {
 
-    private final int experience;
+    private final int experienceGiven;
 
-    public BarrelImpl(int experience) {
-        this.experience = experience;
+    public BarrelImpl(int experienceGiven) {
+        this.experienceGiven = experienceGiven;
     }
 
     @Override
     public void take(Player player) {
-        player.addExperience(experience);
+        player.addExperience(experienceGiven);
     }
     
 }
