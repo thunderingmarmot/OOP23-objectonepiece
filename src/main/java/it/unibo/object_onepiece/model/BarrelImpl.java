@@ -2,10 +2,15 @@ package it.unibo.object_onepiece.model;
 
 public class BarrelImpl extends EntityImpl implements Barrel {
 
+    private final int experience;
+
+    public BarrelImpl(int experience) {
+        this.experience = experience;
+    }
+
     @Override
     public void take(Player player) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'take'");
+        player.addExperience(experience);
     }
     
 }
