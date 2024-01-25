@@ -1,10 +1,13 @@
 package it.unibo.object_onepiece.model;
+import java.util.Optional;
+
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
     protected int health;
+    private final int DAMAGE = 20;
 
     public ShipImpl(Position p, Direction direction, int health) {
         super(p);
@@ -36,36 +39,56 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
                     break;
             }
         } else {
-            this.currDirection = direction;
+            rotate(direction);
         }
     }
 
     @Override
     public boolean shoot(Position position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'shoot'");
+        switch (this.currDirection) {
+            case UP: case DOWN:
+                if(position.x() == this.position.x() && position.y() != this.position.y() && (position.x() >= this.position.x()+3 || position.x() <= this.position.x()-3)) {
+                    hitTargets(position);
+                    return true;
+                }
+                break;
+        
+            case LEFT: case RIGHT:
+                if(position.y() == this.position.y() && position.x() != this.position.x() && (position.y() >= this.position.y()+3 || position.y() <= this.position.y()-3)) {
+                    hitTargets(position);
+                    return true;
+                }
+                break;
+
+            default:
+                break;
+        }
+        return false;
     }
     
     @Override
     public void takeDamage(int damage) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'takeDamage'");
+        this.health -= damage;
     }
     
     @Override
     public int getHealth() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getHealth'");
+        return this.health;
     }
     
     @Override
     public Direction getDirection() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDirection'");
+        return this.currDirection;
     }
     
+    private void hitTargets(Position position) {
+        Optional<Enemy> enemy = this.getSection().<Enemy>getEntityAt(position);
+        if(enemy.isPresent()) {
+            enemy.get().takeDamage(DAMAGE);
+        }
+    }
+
     private void rotate(Direction direction) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'rotate'");
+        this.currDirection = direction;
     }
 }
