@@ -2,9 +2,10 @@ package it.unibo.object_onepiece.model;
 
 public abstract class ShipImpl extends EntityImpl implements Ship {
     private final Direction currDirection;
-    private int health;
+    protected int health;
 
-    public ShipImpl(Direction direction, int health) {
+    public ShipImpl(Direction direction, int health, Position p) {
+        super(p);
         this.currDirection = direction;
         this.health = health;
     }

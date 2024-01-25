@@ -1,6 +1,11 @@
 package it.unibo.object_onepiece.model;
 
 public abstract class EntityImpl implements Entity {
+    private Position position;
+
+    public EntityImpl(Position p) {
+        this.position = p;
+    }
 
     @Override
     public Section getSection() {
