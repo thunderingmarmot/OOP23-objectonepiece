@@ -13,5 +13,7 @@ public interface Section {
     public <T extends Entity> Optional<T> getEntityAt(Position position);
     public <T extends Entity> List<T> getEntities();
 
+    public void removeEntityAt(Position position);
+
     public Player getPlayer();
 }
