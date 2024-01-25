@@ -7,7 +7,8 @@ import it.unibo.object_onepiece.model.Utils.Position;
 public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
     protected int health;
-    private final int DAMAGE = 20;
+    private final int MAX_DAMAGE = 20;
+    private final int MIN_DAMAGE = 10;
 
     public ShipImpl(Position p, Direction direction, int health) {
         super(p);
@@ -18,26 +19,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void move(Direction direction) {
         if(direction==this.currDirection) {
-            switch (this.currDirection) {
-                case UP:
-                    this.position = this.position.moveUP();
-                    break;
-            
-                case DOWN:
-                    this.position = this.position.moveDOWN();
-                    break;
-
-                case LEFT:
-                    this.position = this.position.moveLEFT();
-                    break;
-
-                case RIGHT:
-                    this.position = this.position.moveRIGHT();
-                    break;
-
-                default:
-                    break;
-            }
+            this.position = this.position.move(direction);
         } else {
             rotate(direction);
         }
@@ -48,14 +30,18 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         switch (this.currDirection) {
             case UP: case DOWN:
                 if(position.x() == this.position.x() && position.y() != this.position.y() && (position.x() >= this.position.x()+3 || position.x() <= this.position.x()-3)) {
-                    hitTargets(position);
+                    hitTarget(position, MAX_DAMAGE);
+                    Position.aroundPosition.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
+                    Position.diagonalPosition.stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
                     return true;
                 }
                 break;
         
             case LEFT: case RIGHT:
                 if(position.y() == this.position.y() && position.x() != this.position.x() && (position.y() >= this.position.y()+3 || position.y() <= this.position.y()-3)) {
-                    hitTargets(position);
+                    hitTarget(position, MAX_DAMAGE);
+                    Position.aroundPosition.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
+                    Position.diagonalPosition.stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
                     return true;
                 }
                 break;
@@ -69,6 +55,9 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void takeDamage(int damage) {
         this.health -= damage;
+        if(this.health == 0) {
+            this.getSection().removeEntityAt(this.getPosition());
+        }
     }
     
     @Override
@@ -80,11 +69,11 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     public Direction getDirection() {
         return this.currDirection;
     }
-    
-    private void hitTargets(Position position) {
-        Optional<Enemy> enemy = this.getSection().<Enemy>getEntityAt(position);
-        if(enemy.isPresent()) {
-            enemy.get().takeDamage(DAMAGE);
+
+    private void hitTarget(Position position, int damage) {
+        Optional<Ship> ship = this.getSection().<Ship>getEntityAt(position);
+        if(ship.isPresent()) {
+            ship.get().takeDamage(damage);
         }
     }
 
