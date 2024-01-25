@@ -12,7 +12,6 @@ public interface Ship extends Entity {
     };
 
     public void move(Direction direction);
-    public void rotate(Direction direction);
 
     public boolean shoot(Position position);
     public void takeDamage(int damage);
