@@ -4,7 +4,8 @@ public class IslandImpl extends EntityImpl implements Island {
 
     private final int healthGiven;
 
-    public IslandImpl(int healthGiven) {
+    public IslandImpl(Position position, int healthGiven) {
+        super(position);
         this.healthGiven = healthGiven;
     }
 
