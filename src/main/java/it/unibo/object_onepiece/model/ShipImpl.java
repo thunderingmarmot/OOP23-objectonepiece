@@ -8,8 +8,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         throw new UnsupportedOperationException("Unimplemented method 'move'");
     }
 
-    @Override
-    public void rotate(Direction direction) {
+    private void rotate(Direction direction) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'rotate'");
     }
