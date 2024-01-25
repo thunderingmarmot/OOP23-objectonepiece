@@ -1,7 +1,8 @@
 package it.unibo.object_onepiece.model;
+import it.unibo.object_onepiece.model.Utils.Position;
 
 public abstract class EntityImpl implements Entity {
-    private Position position;
+    protected Position position;
 
     public EntityImpl(Position p) {
         this.position = p;

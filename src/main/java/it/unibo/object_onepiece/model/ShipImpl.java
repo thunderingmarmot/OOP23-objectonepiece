@@ -1,10 +1,12 @@
 package it.unibo.object_onepiece.model;
+import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.Position;
 
 public abstract class ShipImpl extends EntityImpl implements Ship {
-    private final Direction currDirection;
+    private Direction currDirection;
     protected int health;
 
-    public ShipImpl(Direction direction, int health, Position p) {
+    public ShipImpl(Position p, Direction direction, int health) {
         super(p);
         this.currDirection = direction;
         this.health = health;
@@ -13,7 +15,28 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void move(Direction direction) {
         if(direction==this.currDirection) {
+            switch (this.currDirection) {
+                case UP:
+                    this.position = this.position.moveUP();
+                    break;
+            
+                case DOWN:
+                    this.position = this.position.moveDOWN();
+                    break;
 
+                case LEFT:
+                    this.position = this.position.moveLEFT();
+                    break;
+
+                case RIGHT:
+                    this.position = this.position.moveRIGHT();
+                    break;
+
+                default:
+                    break;
+            }
+        } else {
+            this.currDirection = direction;
         }
     }
 

@@ -1,4 +1,5 @@
 package it.unibo.object_onepiece.model;
+import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
  * Everything present physically in the game (es player,barrel...)
@@ -10,6 +11,5 @@ public interface Entity {
      * The coordinate system used within
      * a section
      */
-    public record Position(int x, int y) {};
     public Position getPosition();
 }
