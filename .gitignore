@@ -11,3 +11,8 @@ bin/
 .idea
 
 .settings
+
+# git-time ignore
+node_modules/
+package.json
+package-lock.json
