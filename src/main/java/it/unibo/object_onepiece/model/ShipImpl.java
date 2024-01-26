@@ -20,7 +20,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void move(final Direction direction) {
         if(direction==this.currDirection) {
-            this.position = this.position.move(direction);
+            this.position = this.position.moveTowards(direction);
         } else {
             rotate(direction);
         }
@@ -28,10 +28,10 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     @Override
     public boolean shoot(final Position position) {
-        if(this.position.isInLine(position, this.currDirection) && this.position.distanceFrom(position) <= ATTACK_DISTANCE) {
+        if(this.position.isInlineWith(position, this.currDirection) && this.position.distanceFrom(position) <= ATTACK_DISTANCE) {
             hitTarget(position, MAX_DAMAGE);
-            Position.aroundPosition.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
-            Position.diagonalPosition.stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
+            Position.directionPositions.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
+            Position.diagonalPositions.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
             return true;
         }
         return false;
