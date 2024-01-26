@@ -20,5 +20,10 @@ public class BarrelImpl extends EntityImpl implements Barrel {
     public Runnable getInteraction() {
         return this::take;
     }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.BARREL;
+    }
     
 }

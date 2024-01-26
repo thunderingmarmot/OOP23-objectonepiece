@@ -27,5 +27,10 @@ public class IslandImpl extends EntityImpl implements Island {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getInteraction'");
     }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.ISLAND;
+    }
     
 }

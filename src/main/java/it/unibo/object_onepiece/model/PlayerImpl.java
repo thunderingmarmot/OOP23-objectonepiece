@@ -33,5 +33,10 @@ public class PlayerImpl extends ShipImpl implements Player {
         int nextHealth = this.health + healthGained;
         this.health = nextHealth < MAX_HEALTH ? nextHealth : MAX_HEALTH;
     }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.PLAYER;
+    }
     
 }
