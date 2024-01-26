@@ -38,7 +38,7 @@ public final class Utils {
         }
 
         public boolean isInlineWith(Position position, Direction direction) {
-            return inlineConditions.get(direction).test(this, position);
+            return Position.inlineConditions.get(direction).test(this, position);
         }
     };
 
