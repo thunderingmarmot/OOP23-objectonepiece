@@ -8,7 +8,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 public interface World {
     public record State(Section section, Position playerPosition, int playerExperience) {}
     public State getSavedState();
-    public void setSavedState();
+    public void setSavedState(State state);
 
     public Section getCurrentSection();
     public Section generateSection();
