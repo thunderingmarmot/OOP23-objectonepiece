@@ -3,6 +3,7 @@ import java.util.Optional;
 
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.Utils.MoveReturnTypes;
 
 public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
@@ -18,12 +19,14 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     @Override
-    public void move(final Direction direction) {
-        if(direction==this.currDirection) {
+    public MoveReturnTypes move(final Direction direction) {
+        if(direction.equals(this.currDirection)) {
+            Optional<Ship> collidable = this.getSection().<Ship>getEntityAt(this.position.move(direction));
             this.position = this.position.move(direction);
         } else {
             rotate(direction);
         }
+        return MoveReturnTypes.COLLIDABLE;
     }
 
     @Override

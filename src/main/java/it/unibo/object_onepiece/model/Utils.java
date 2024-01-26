@@ -2,6 +2,7 @@ package it.unibo.object_onepiece.model;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 public final class Utils {
@@ -49,6 +50,10 @@ public final class Utils {
             }
             return false;
         }
+
+        public MoveReturnTypes isNextPlaceFree(Direction d) {
+            return MoveReturnTypes.COLLIDABLE;
+        }
     };
 
     public static enum Direction {
@@ -57,4 +62,11 @@ public final class Utils {
         DOWN,
         LEFT
     };
+
+    public static enum MoveReturnTypes {
+        COLLIDABLE,
+        BORDER,
+        SUCCESS,
+        ROTATION
+    }
 }
