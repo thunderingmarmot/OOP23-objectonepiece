@@ -17,7 +17,7 @@ public class SectionImpl implements Section {
     public <T extends Entity> Optional<T> getEntityAt(Position position, Class<T> entityClass) {
         Optional<Entity> entity = find(position);
 
-        if (entity != null && entityClass.isInstance(entity)) {
+        if (entity != null &&  entityClass.isInstance(entity)) {
             return Optional.of(entityClass.cast(entity));
         } else {
             return Optional.empty();

@@ -5,14 +5,14 @@ public abstract class EntityImpl implements Entity {
     final protected Position position;
     final protected Section section;
 
-    public EntityImpl(final Position p, final Section s) {
-        this.position = p;
+    public EntityImpl(final Section s, final Position p) {
         this.section = s;
+        this.position = p;
     }
 
     @Override
     public Section getSection() {
-       return this.getSection();
+       return this.section;
     }
 
     @Override

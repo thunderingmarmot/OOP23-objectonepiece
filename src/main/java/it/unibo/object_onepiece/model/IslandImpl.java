@@ -1,5 +1,4 @@
 package it.unibo.object_onepiece.model;
-import java.util.function.Consumer;
 
 import it.unibo.object_onepiece.model.Utils.Position;
 
@@ -7,8 +6,8 @@ public class IslandImpl extends EntityImpl implements Island {
 
     private final int healthGiven;
 
-    public IslandImpl(Position position, int healthGiven) {
-        super(position);
+    public IslandImpl(Section section, Position position, int healthGiven) {
+        super(section, position);
         this.healthGiven = healthGiven;
     }
 
@@ -19,12 +18,12 @@ public class IslandImpl extends EntityImpl implements Island {
     }
 
     @Override
-    public void heal(Player player) {
-        player.heal(healthGiven);
+    public void heal() {
+        this.getSection().getPlayer().heal(healthGiven);
     }
 
     @Override
-    public Consumer<Player> getInteraction() {
+    public Runnable getInteraction() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getInteraction'");
     }
