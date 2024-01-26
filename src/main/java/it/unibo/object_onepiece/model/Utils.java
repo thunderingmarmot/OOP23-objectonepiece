@@ -29,8 +29,8 @@ public final class Utils {
             Direction.RIGHT, (p1, p2) -> p1.y() == p2.y() && p1.x() != p2.x()
         );
 
-        public Position moveTowards(Direction d) {
-            return Position.directionPositions.get(d).apply(this);
+        public Position moveTowards(Direction direction) {
+            return Position.directionPositions.get(direction).apply(this);
         }
 
         public Integer distanceFrom(final Position position){
