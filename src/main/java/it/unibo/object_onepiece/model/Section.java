@@ -3,6 +3,7 @@ package it.unibo.object_onepiece.model;
 import java.util.List;
 import java.util.Optional;
 
+import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
@@ -11,6 +12,8 @@ import it.unibo.object_onepiece.model.Utils.Position;
 */
 public interface Section {
     public World getWorld();
+
+    public Bound getBounds();
 
     public <T extends Entity> Optional<T> getEntityAt(Position position);
     public <T extends Entity> List<T> getEntities();
