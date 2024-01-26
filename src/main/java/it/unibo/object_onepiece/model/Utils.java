@@ -44,6 +44,10 @@ public final class Utils {
         public MoveReturnTypes isNextPlaceFree(Direction d) {
             return MoveReturnTypes.COLLIDABLE;
         }
+
+        public Position traslate(final Position position){
+            return new Position(this.x + position.x, this.y + position.y);
+        }
     };
 
     public static enum Direction {
