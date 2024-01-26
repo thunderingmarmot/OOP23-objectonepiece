@@ -5,8 +5,8 @@ import it.unibo.object_onepiece.model.Utils.Position;
 
 public class EnemyImpl extends ShipImpl implements Enemy {
 
-    public EnemyImpl(Position position, Direction direction, int health) {
-        super(position, direction, health);
+    public EnemyImpl(Section section, Position position, Direction direction, int health) {
+        super(section, position, direction, health);
     }
 
     @Override
