@@ -1,6 +1,7 @@
 package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.Utils.State;
 
 public class IslandImpl extends EntityImpl implements Island {
 
@@ -13,8 +14,7 @@ public class IslandImpl extends EntityImpl implements Island {
 
     @Override
     public void save() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        this.getSection().getWorld().setSavedState();
     }
 
     @Override
@@ -24,8 +24,7 @@ public class IslandImpl extends EntityImpl implements Island {
 
     @Override
     public Runnable getInteraction() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getInteraction'");
+        return this::heal;
     }
 
     @Override
