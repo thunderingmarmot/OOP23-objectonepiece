@@ -16,8 +16,7 @@ public abstract class EntityImpl implements Entity {
 
     @Override
     public Position getPosition() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPosition'");
+        return this.position;
     }
     
 }
