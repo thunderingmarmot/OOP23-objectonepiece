@@ -5,7 +5,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * Everything present physically in the game (es player,barrel...)
  */
 public interface Entity {
-    public enum Type {
+    public enum EntityType {
         BARREL,
         ISLAND,
         SHIP,
@@ -21,5 +21,5 @@ public interface Entity {
      */
     public Position getPosition();
 
-    public Type getType();
+    public EntityType getEntityType();
 }
