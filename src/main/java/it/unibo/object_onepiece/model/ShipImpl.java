@@ -29,7 +29,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     public boolean shoot(final Position position) {
         switch (this.currDirection) {
             case UP: case DOWN:
-                if(position.x() == this.position.x() && position.y() != this.position.y() && (position.y() <= this.position.y()+3 || position.y() >= this.position.y()-3)) {
+                if(this.position.isInLine(position.x(), this.position.x(), position.y(), this.position.y()) && this.position.distanceFrom(position) <=3) {
                     hitTarget(position, MAX_DAMAGE);
                     Position.aroundPosition.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
                     Position.diagonalPosition.stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
@@ -38,7 +38,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
                 break;
         
             case LEFT: case RIGHT:
-                if(position.y() == this.position.y() && position.x() != this.position.x() && (position.x() <= this.position.x()+3 || position.x() >= this.position.x()-3)) {
+                if(this.position.isInLine(position.y(), this.position.y(), position.x(), this.position.x()) && this.position.distanceFrom(position) <=3) {
                     hitTarget(position, MAX_DAMAGE);
                     Position.aroundPosition.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
                     Position.diagonalPosition.stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
