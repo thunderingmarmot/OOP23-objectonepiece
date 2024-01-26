@@ -19,4 +19,9 @@ public abstract class EntityImpl implements Entity {
     public Position getPosition() {
         return this.position;
     }
+
+    @Override
+    public void remove() {
+        this.getSection().removeEntityAt(this.position);
+    }
 }

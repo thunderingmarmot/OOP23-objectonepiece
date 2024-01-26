@@ -12,4 +12,6 @@ public interface Entity {
      * a section
      */
     public Position getPosition();
+
+    public void remove();
 }
