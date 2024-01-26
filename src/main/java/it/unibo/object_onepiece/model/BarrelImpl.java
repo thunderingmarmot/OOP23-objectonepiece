@@ -20,10 +20,4 @@ public class BarrelImpl extends EntityImpl implements Barrel {
     public void interact() {
         take();
     }
-
-    @Override
-    public EntityType getEntityType() {
-        return EntityType.BARREL;
-    }
-    
 }

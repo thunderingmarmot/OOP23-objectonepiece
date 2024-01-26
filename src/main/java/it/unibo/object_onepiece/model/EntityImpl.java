@@ -19,7 +19,4 @@ public abstract class EntityImpl implements Entity {
     public Position getPosition() {
         return this.position;
     }
-
-    @Override
-    public abstract EntityType getEntityType();
 }

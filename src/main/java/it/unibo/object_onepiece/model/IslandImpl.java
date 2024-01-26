@@ -26,10 +26,4 @@ public class IslandImpl extends EntityImpl implements Island {
         heal();
         save();
     }
-
-    @Override
-    public EntityType getEntityType() {
-        return EntityType.ISLAND;
-    }
-    
 }
