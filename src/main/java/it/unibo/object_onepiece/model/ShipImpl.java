@@ -32,10 +32,10 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
             }
 
             this.position = this.position.moveTowards(direction);
-            return MoveReturnTypes.SUCCESS;
+            return MoveReturnTypes.MOVED;
         } else {
             rotate(direction);
-            return MoveReturnTypes.ROTATION;
+            return MoveReturnTypes.ROTATED;
         }
     }
 

@@ -71,8 +71,8 @@ public final class Utils {
     public static enum MoveReturnTypes {
         COLLIDABLE,
         BORDER,
-        SUCCESS,
-        ROTATION
+        MOVED,
+        ROTATED
     };
     
     public static enum Diagonal {
