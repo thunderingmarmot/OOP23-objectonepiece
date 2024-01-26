@@ -9,7 +9,7 @@ public class WorldImpl implements World {
     }
 
     @Override
-    public Section getSavedSection() {
+    public State getSavedState() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getSavedSection'");
     }
