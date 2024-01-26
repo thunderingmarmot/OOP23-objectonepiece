@@ -8,7 +8,6 @@ public interface Entity {
     public enum EntityType {
         BARREL,
         ISLAND,
-        SHIP,
         ENEMY,
         PLAYER,
     }

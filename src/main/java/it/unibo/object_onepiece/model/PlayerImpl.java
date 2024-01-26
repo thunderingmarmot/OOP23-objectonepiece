@@ -8,8 +8,8 @@ public class PlayerImpl extends ShipImpl implements Player {
 
     private int experience;
 
-    public PlayerImpl(Position position, Direction direction, int health, int experience) {
-        super(position, direction, health);
+    public PlayerImpl(Section section, Position position, Direction direction, int health, int experience) {
+        super(section, position, direction, health);
         this.experience = experience;
     }
 

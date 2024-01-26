@@ -10,14 +10,14 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     private final int MAX_DAMAGE = 20;
     private final int MIN_DAMAGE = 10;
 
-    public ShipImpl(Position p, Section s, Direction direction, int health) {
+    public ShipImpl(final Section s, final Position p, final Direction direction, final int health) {
         super(s, p);
         this.currDirection = direction;
         this.health = health;
     }
 
     @Override
-    public void move(Direction direction) {
+    public void move(final Direction direction) {
         if(direction==this.currDirection) {
             this.position = this.position.move(direction);
         } else {
@@ -26,10 +26,10 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     @Override
-    public boolean shoot(Position position) {
+    public boolean shoot(final Position position) {
         switch (this.currDirection) {
             case UP: case DOWN:
-                if(position.x() == this.position.x() && position.y() != this.position.y() && (position.x() >= this.position.x()+3 || position.x() <= this.position.x()-3)) {
+                if(position.x() == this.position.x() && position.y() != this.position.y() && (position.y() <= this.position.y()+3 || position.y() >= this.position.y()-3)) {
                     hitTarget(position, MAX_DAMAGE);
                     Position.aroundPosition.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
                     Position.diagonalPosition.stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
@@ -38,7 +38,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
                 break;
         
             case LEFT: case RIGHT:
-                if(position.y() == this.position.y() && position.x() != this.position.x() && (position.y() >= this.position.y()+3 || position.y() <= this.position.y()-3)) {
+                if(position.y() == this.position.y() && position.x() != this.position.x() && (position.x() <= this.position.x()+3 || position.x() >= this.position.x()-3)) {
                     hitTarget(position, MAX_DAMAGE);
                     Position.aroundPosition.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
                     Position.diagonalPosition.stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
