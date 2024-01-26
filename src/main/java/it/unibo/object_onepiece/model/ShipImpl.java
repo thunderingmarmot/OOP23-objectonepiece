@@ -12,6 +12,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     public final int MIN_DAMAGE = 10;
     public final int ATTACK_DISTANCE = 3;
 
+    //public Map<MoveReturnTypes, Predicate<>>
+
     public ShipImpl(final Section s, final Position p, final Direction direction, final int health) {
         super(s, p);
         this.currDirection = direction;
@@ -25,7 +27,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
             if(collidable.get() instanceof Collidable) {
                 return MoveReturnTypes.COLLIDABLE;
-            } else if(this.position.moveTowards(direction).x() == 0 || this.position.moveTowards(direction).y() == 0 || this.position.moveTowards(direction).x() == 10 || this.position.moveTowards(direction).y() == 10) {
+            } else if(this.getSection().getBounds().isInside(position)) {
                 return MoveReturnTypes.BORDER;
             }
 
@@ -67,9 +69,9 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     private void hitTarget(Position position, int damage) {
-        Optional<Ship> ship = this.getSection().<Ship>getEntityAt(position);
-        if(ship.isPresent()) {
-            ship.get().takeDamage(damage);
+        Optional<Entity> ship = this.getSection().getEntityAt(position);
+        if(ship.get() instanceof Ship s) {
+            s.takeDamage(damage);
         }
     }
 
