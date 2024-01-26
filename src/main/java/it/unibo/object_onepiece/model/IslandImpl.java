@@ -13,8 +13,7 @@ public class IslandImpl extends EntityImpl implements Island {
 
     @Override
     public void save() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        this.getSection().getWorld().setSavedState();
     }
 
     @Override
@@ -24,8 +23,7 @@ public class IslandImpl extends EntityImpl implements Island {
 
     @Override
     public Runnable getInteraction() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getInteraction'");
+        return this::heal;
     }
 
     @Override

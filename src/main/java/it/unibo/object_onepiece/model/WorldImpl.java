@@ -3,15 +3,21 @@ package it.unibo.object_onepiece.model;
 public class WorldImpl implements World {
 
     @Override
-    public Section getCurrentSection() {
+    public State getSavedState() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCurrentSection'");
+        throw new UnsupportedOperationException("Unimplemented method 'getSavedSection'");
     }
 
     @Override
-    public Section getSavedSection() {
+    public void setSavedState() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSavedSection'");
+        throw new UnsupportedOperationException("Unimplemented method 'setSavedState'");
+    }
+
+    @Override
+    public Section getCurrentSection() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCurrentSection'");
     }
 
     @Override
@@ -19,5 +25,4 @@ public class WorldImpl implements World {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateSection'");
     }
-    
 }
