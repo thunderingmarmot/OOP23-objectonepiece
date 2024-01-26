@@ -10,8 +10,8 @@ import it.unibo.object_onepiece.model.Utils.Position;
 * that can contain an Entity 
 */
 public interface Section {
-    public <T extends Entity> Optional<T> getEntityAt(Position position,Class<T> entityClass);
-    public <T extends Entity> List<T> getEntities(Class<T> entityClass);
+    public <T extends Entity> Optional<T> getEntityAt(Position position);
+    public <T extends Entity> List<T> getEntities();
 
     public void removeEntityAt(Position position);
 
