@@ -77,7 +77,7 @@ public final class ObjectOnePieceApp extends Application {
 
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
         gridView.addNodeMapping(EntityView.PLAYER, i -> {
-            Image img = new Image("pirate_ship_00000.png");
+            Image img = new Image("img/sprites/player/player.png");
             ImageView pirateView = new ImageView(img);
             pirateView.setPreserveRatio(true); 
             pirateView.fitHeightProperty().bind(gridView.cellSizeProperty());
