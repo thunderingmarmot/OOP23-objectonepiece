@@ -40,10 +40,6 @@ public final class Utils {
         public boolean isInlineWith(Position position, Direction direction) {
             return Position.inlineConditions.get(direction).test(this, position);
         }
-
-        public MoveReturnTypes isNextPlaceFree(Direction d) {
-            return MoveReturnTypes.COLLIDABLE;
-        }
     };
 
     public static enum Direction {

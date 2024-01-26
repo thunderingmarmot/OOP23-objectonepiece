@@ -21,12 +21,20 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public MoveReturnTypes move(final Direction direction) {
         if(direction.equals(this.currDirection)) {
-            Optional<Ship> collidable = this.getSection().<Ship>getEntityAt(this.position.moveTowards(direction));
+            Optional<Entity> collidable = this.getSection().getEntityAt(this.position.moveTowards(direction));
+
+            if(collidable.get() instanceof Collidable) {
+                return MoveReturnTypes.COLLIDABLE;
+            } else if(this.position.moveTowards(direction).x() == 0 || this.position.moveTowards(direction).y() == 0 || this.position.moveTowards(direction).x() == 10 || this.position.moveTowards(direction).y() == 10) {
+                return MoveReturnTypes.BORDER;
+            }
+
             this.position = this.position.moveTowards(direction);
+            return MoveReturnTypes.SUCCESS;
         } else {
             rotate(direction);
+            return MoveReturnTypes.ROTATION;
         }
-        return MoveReturnTypes.COLLIDABLE;
     }
 
     @Override

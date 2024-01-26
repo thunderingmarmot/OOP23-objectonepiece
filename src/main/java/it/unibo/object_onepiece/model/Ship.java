@@ -6,7 +6,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 /**
  * An animated entity, it can be the player or an enemy
  */
-public interface Ship extends Entity {
+public interface Ship extends Entity, Collidable {
     public MoveReturnTypes move(Direction direction);
 
     public boolean shoot(Position position);
