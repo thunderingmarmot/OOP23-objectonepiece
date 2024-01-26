@@ -9,6 +9,12 @@ public class WorldImpl implements World {
     }
 
     @Override
+    public void setSavedState() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setSavedState'");
+    }
+
+    @Override
     public Section getCurrentSection() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getCurrentSection'");
@@ -19,5 +25,4 @@ public class WorldImpl implements World {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'generateSection'");
     }
-    
 }
