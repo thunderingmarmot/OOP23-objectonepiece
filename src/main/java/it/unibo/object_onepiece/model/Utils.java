@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 public final class Utils {
-    public record State(Section section, Position playerPosition, int playerExperience) {}
+    public static record State(Section section, Position playerPosition, int playerHealth, int playerExperience) {}
 
     public static record Position(int x, int y) {
         public static Map<Direction, Function<Position, Position>> aroundPosition = Map.of(
