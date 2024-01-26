@@ -7,8 +7,9 @@ import it.unibo.object_onepiece.model.Utils.Position;
 public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
     protected int health;
-    private final int MAX_DAMAGE = 20;
-    private final int MIN_DAMAGE = 10;
+    public final int MAX_DAMAGE = 20;
+    public final int MIN_DAMAGE = 10;
+    public final int ATTACK_DISTANCE = 3;
 
     public ShipImpl(final Section s, final Position p, final Direction direction, final int health) {
         super(s, p);
@@ -27,27 +28,11 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     @Override
     public boolean shoot(final Position position) {
-        switch (this.currDirection) {
-            case UP: case DOWN:
-                if(this.position.isInLine(position.x(), this.position.x(), position.y(), this.position.y()) && this.position.distanceFrom(position) <=3) {
-                    hitTarget(position, MAX_DAMAGE);
-                    Position.aroundPosition.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
-                    Position.diagonalPosition.stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
-                    return true;
-                }
-                break;
-        
-            case LEFT: case RIGHT:
-                if(this.position.isInLine(position.y(), this.position.y(), position.x(), this.position.x()) && this.position.distanceFrom(position) <=3) {
-                    hitTarget(position, MAX_DAMAGE);
-                    Position.aroundPosition.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
-                    Position.diagonalPosition.stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
-                    return true;
-                }
-                break;
-
-            default:
-                break;
+        if(this.position.isInLine(position, this.currDirection) && this.position.distanceFrom(position) <= ATTACK_DISTANCE) {
+            hitTarget(position, MAX_DAMAGE);
+            Position.aroundPosition.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
+            Position.diagonalPosition.stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
+            return true;
         }
         return false;
     }
