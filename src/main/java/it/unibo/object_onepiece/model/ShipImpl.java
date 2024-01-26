@@ -10,7 +10,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     private final int MAX_DAMAGE = 20;
     private final int MIN_DAMAGE = 10;
 
-    public ShipImpl(Position p, Section s, Direction direction, int health) {
+    public ShipImpl(Section s, Position p, Direction direction, int health) {
         super(s, p);
         this.currDirection = direction;
         this.health = health;
