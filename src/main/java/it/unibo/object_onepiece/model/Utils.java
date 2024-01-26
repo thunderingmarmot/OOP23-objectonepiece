@@ -30,9 +30,22 @@ public final class Utils {
             return Math.abs((this.x - position.x) + (this.y - position.y));
         }
 
-        public boolean isInLine(Integer eq1, Integer eq2, Integer diff1, Integer diff2) {
-            if(eq1.equals(eq2) && !diff1.equals(diff2)) {
-                return true;
+        public boolean isInLine(Position p, Direction d) {
+            switch (d) {
+                case UP: case DOWN:
+                    if(this.x() == p.x() && this.y() != p.y()) {
+                        return true;
+                    }
+                    break;
+
+                case LEFT: case RIGHT:
+                    if(this.y() == p.y() && this.x() != p.x()) {
+                        return true;
+                    }
+                    break;
+
+                default:
+                    break;
             }
             return false;
         }
