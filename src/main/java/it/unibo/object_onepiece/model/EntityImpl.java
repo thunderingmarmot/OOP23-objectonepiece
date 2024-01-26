@@ -2,16 +2,17 @@ package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 public abstract class EntityImpl implements Entity {
-    protected Position position;
+    final protected Position position;
+    final protected Section section;
 
-    public EntityImpl(Position p) {
+    public EntityImpl(final Position p, final Section s) {
         this.position = p;
+        this.section = s;
     }
 
     @Override
     public Section getSection() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSection'");
+       return this.getSection();
     }
 
     @Override
