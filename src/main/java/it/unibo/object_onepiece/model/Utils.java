@@ -23,6 +23,9 @@ public final class Utils {
         public Position move(Direction d) {
             return Position.aroundPosition.get(d).apply(this);
         }
+        public Integer Distance(final Position position){
+            return Math.abs((this.x - position.x) + (this.y - position.y));
+        }
     };
 
     public static enum Direction {
