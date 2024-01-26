@@ -43,8 +43,7 @@ public class SectionImpl implements Section {
 
     @Override
     public Player getPlayer() {
-        //the section should have the direct reference to the player? or is better to have it in the world?
-       throw new UnsupportedOperationException();
+        return getEntities(Player.class).get(0);
     }
 
     private Optional<Entity> find(Position position){
