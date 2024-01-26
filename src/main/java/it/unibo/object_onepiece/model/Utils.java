@@ -42,11 +42,7 @@ public final class Utils {
             return Position.inlineConditions.get(direction).test(this, position);
         }
 
-        public MoveReturnTypes isNextPlaceFree(Direction d) {
-            return MoveReturnTypes.COLLIDABLE;
-        }
-
-        public Position traslate(final Position position){
+        public Position translate(final Position position){
             return new Position(this.x + position.x, this.y + position.y);
         }
     };
