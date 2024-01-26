@@ -40,6 +40,10 @@ public final class Utils {
         public boolean isInlineWith(Position position, Direction direction) {
             return Position.inlineConditions.get(direction).test(this, position);
         }
+
+        public Position translate(final Position position){
+            return new Position(this.x + position.x, this.y + position.y);
+        }
     };
 
     public static enum Direction {
