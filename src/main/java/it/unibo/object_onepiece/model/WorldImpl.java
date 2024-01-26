@@ -1,17 +1,20 @@
 package it.unibo.object_onepiece.model;
 
+import it.unibo.object_onepiece.model.Utils.State;
+
 public class WorldImpl implements World {
+
+    private State savedState;
 
     @Override
     public State getSavedState() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSavedSection'");
+        return savedState;
     }
 
     @Override
     public void setSavedState() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setSavedState'");
+        Player player = getCurrentSection().getPlayer();
+        savedState = new State(getCurrentSection(), player.getPosition(), player.getHealth(), player.getExperience());
     }
 
     @Override
