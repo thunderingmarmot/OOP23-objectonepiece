@@ -22,8 +22,9 @@ public class IslandImpl extends EntityImpl implements Island {
     }
 
     @Override
-    public Runnable getInteraction() {
-        return this::heal;
+    public void interact() {
+        heal();
+        save();
     }
 
     @Override
