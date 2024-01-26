@@ -74,14 +74,14 @@ public final class ObjectOnePieceApp extends Application {
         gridModel.getCells().forEach(i -> gridView.addColorMapping(i.getState(), i.getState().getColor()));
 
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
-        gridView.addNodeMapping(EntityView.PLAYER, i -> {
+        /*gridView.addNodeMapping(EntityView.PLAYER, i -> {
             Image img = new Image("pirate_ship_00000.png");
             ImageView pirateView = new ImageView(img);
             pirateView.setPreserveRatio(true); 
             pirateView.fitHeightProperty().bind(gridView.cellSizeProperty());
             gridView.addColorMapping(EntityView.PLAYER, EntityView.PLAYER.color.get());
             return pirateView;
-        });
+        });*/
 
         movePlayer(0, 0);
         movePlayer(2, 3);
@@ -120,13 +120,13 @@ public final class ObjectOnePieceApp extends Application {
     }
 
     private void movePlayer(int row, int col) {
-        var playerList = gridModel.getCellsWithState(EntityView.PLAYER);
+        /*var playerList = gridModel.getCellsWithState(EntityView.PLAYER);
         if (!playerList.isEmpty() && playerList.size() > 1) {
             throw new IllegalStateException("There can't exist two players on the map");
         } else if (!playerList.isEmpty()) {
             playerList.get(0).changeState(EntityView.WATER);
         }   
-        gridModel.getCell(col, row).changeState(EntityView.PLAYER);
+        gridModel.getCell(col, row).changeState(EntityView.PLAYER);*/
     }
 
     private void drawHealthBar(GraphicsContext gc,Rectangle rect) {
