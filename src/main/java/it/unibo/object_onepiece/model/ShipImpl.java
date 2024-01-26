@@ -55,7 +55,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
     
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(final int damage) {
         this.health -= damage;
         if(this.health <= 0) {
             this.remove();
@@ -77,14 +77,14 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         this.remove();
     }
 
-    private void hitTarget(Position position, int damage) {
+    private void hitTarget(final Position position, final int damage) {
         Optional<Entity> ship = this.getSection().getEntityAt(position);
         if(ship.get() instanceof Ship s) {
             s.takeDamage(damage);
         }
     }
 
-    private void rotate(Direction direction) {
+    private void rotate(final Direction direction) {
         this.currDirection = direction;
     }
 }

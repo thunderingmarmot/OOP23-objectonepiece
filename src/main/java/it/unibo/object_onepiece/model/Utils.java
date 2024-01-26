@@ -30,7 +30,7 @@ public final class Utils {
             Direction.RIGHT, (p1, p2) -> p1.y == p2.y && p1.x != p2.x
         );
 
-        public Position moveTowards(Direction direction) {
+        public Position moveTowards(final Direction direction) {
             return Position.directionPositions.get(direction).apply(this);
         }
 
@@ -38,7 +38,7 @@ public final class Utils {
             return Math.abs((this.x - position.x) + (this.y - position.y));
         }
 
-        public boolean isInlineWith(Position position, Direction direction) {
+        public boolean isInlineWith(final Position position, final Direction direction) {
             return Position.inlineConditions.get(direction).test(this, position);
         }
 
@@ -56,7 +56,7 @@ public final class Utils {
             (b, p) -> p.y > b.leftLimit
         );
 
-        public boolean isInside(Position position) {
+        public boolean isInside(final Position position) {
             return insideConditions.stream().allMatch((condition) -> condition.test(this, position));
         }
     }
