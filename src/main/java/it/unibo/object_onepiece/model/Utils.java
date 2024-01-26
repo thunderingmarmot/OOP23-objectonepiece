@@ -70,6 +70,7 @@ public final class Utils {
 
     public static enum MoveReturnTypes {
         COLLIDABLE,
+        CRASHABLE,
         BORDER,
         MOVED,
         ROTATED
