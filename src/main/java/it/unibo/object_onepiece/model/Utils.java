@@ -1,54 +1,44 @@
 package it.unibo.object_onepiece.model;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.BiPredicate;
 
 public final class Utils {
     public static record State(Section section, Position playerPosition, int playerHealth, int playerExperience) {}
 
     public static record Position(int x, int y) {
-        public static Map<Direction, Function<Position, Position>> aroundPosition = Map.of(
-            Direction.UP, (pos) -> new Position(pos.x() + 1, pos.y()),
-            Direction.DOWN, (pos) -> new Position(pos.x() - 1, pos.y()),
-            Direction.RIGHT, (pos) -> new Position(pos.x(), pos.y() + 1),
-            Direction.LEFT, (pos) -> new Position(pos.x(), pos.y() - 1)
+        public static Map<Direction, Function<Position, Position>> directionPositions = Map.of(
+            Direction.UP, (p) -> new Position(p.x() + 1, p.y()),
+            Direction.DOWN, (p) -> new Position(p.x() - 1, p.y()),
+            Direction.RIGHT, (p) -> new Position(p.x(), p.y() + 1),
+            Direction.LEFT, (p) -> new Position(p.x(), p.y() - 1)
         );
 
-        public static List<Function<Position, Position>> diagonalPosition = List.of(
-            (pos) -> new Position(pos.x() + 1, pos.y() + 1),
-            (pos) -> new Position(pos.x() - 1, pos.y() - 1),
-            (pos) -> new Position(pos.x() + 1, pos.y() - 1),
-            (pos) -> new Position(pos.x() - 1, pos.y() + 1)
+        public static Map<Diagonal, Function<Position, Position>> diagonalPositions = Map.of(
+            Diagonal.UPPERRIGHT, (p) -> new Position(p.x() + 1, p.y() + 1),
+            Diagonal.LOWERLEFT, (p) -> new Position(p.x() - 1, p.y() - 1),
+            Diagonal.UPPERLEFT, (p) -> new Position(p.x() + 1, p.y() - 1),
+            Diagonal.LOWERRIGHT, (p) -> new Position(p.x() - 1, p.y() + 1)
         );
 
-        public Position move(Direction d) {
-            return Position.aroundPosition.get(d).apply(this);
+        public static Map<Direction, BiPredicate<Position, Position>> inlineConditions = Map.of(
+            Direction.UP, (p1, p2) -> p1.x() == p2.x() && p1.y() != p2.y(),
+            Direction.DOWN, (p1, p2) -> p1.x() == p2.x() && p1.y() != p2.y(),
+            Direction.LEFT, (p1, p2) -> p1.y() == p2.y() && p1.x() != p2.x(),
+            Direction.RIGHT, (p1, p2) -> p1.y() == p2.y() && p1.x() != p2.x()
+        );
+
+        public Position moveTowards(Direction direction) {
+            return Position.directionPositions.get(direction).apply(this);
         }
 
         public Integer distanceFrom(final Position position){
             return Math.abs((this.x - position.x) + (this.y - position.y));
         }
 
-        public boolean isInLine(Position p, Direction d) {
-            switch (d) {
-                case UP: case DOWN:
-                    if(this.x() == p.x() && this.y() != p.y()) {
-                        return true;
-                    }
-                    break;
-
-                case LEFT: case RIGHT:
-                    if(this.y() == p.y() && this.x() != p.x()) {
-                        return true;
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-            return false;
+        public boolean isInlineWith(Position position, Direction direction) {
+            return Position.inlineConditions.get(direction).test(this, position);
         }
 
         public MoveReturnTypes isNextPlaceFree(Direction d) {
@@ -60,7 +50,7 @@ public final class Utils {
         UP,
         RIGHT,
         DOWN,
-        LEFT
+        LEFT,
     };
 
     public static enum MoveReturnTypes {
@@ -68,5 +58,12 @@ public final class Utils {
         BORDER,
         SUCCESS,
         ROTATION
-    }
+    };
+    
+    public static enum Diagonal {
+        UPPERLEFT,
+        UPPERRIGHT,
+        LOWERRIGHT,
+        LOWERLEFT,
+    };
 }
