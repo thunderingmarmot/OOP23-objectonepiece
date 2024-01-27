@@ -24,12 +24,7 @@ public class PlayerImpl extends ShipImpl implements Player {
     }
 
     @Override
-    public void interactWith(Interactable interactable) {
-        interactable.interact();
-    }
-
-    @Override
-    public void heal(int healthGained) {
+    public void addHealth(int healthGained) {
         int nextHealth = this.getHealth() + healthGained;
         this.setHealth(nextHealth < MAX_HEALTH ? nextHealth : MAX_HEALTH);
     }
