@@ -8,8 +8,8 @@ public class PlayerImpl extends ShipImpl implements Player {
 
     private int experience;
 
-    public PlayerImpl(Section section, Position position, Direction direction, int health, int experience) {
-        super(section, position, direction, health);
+    public PlayerImpl(Section section, Position position, Direction direction, int health, Weapon weapon, int experience) {
+        super(section, position, direction, health, weapon);
         this.experience = experience;
     }
 
@@ -30,7 +30,7 @@ public class PlayerImpl extends ShipImpl implements Player {
 
     @Override
     public void heal(int healthGained) {
-        int nextHealth = this.health + healthGained;
-        this.health = nextHealth < MAX_HEALTH ? nextHealth : MAX_HEALTH;
+        int nextHealth = this.getHealth() + healthGained;
+        this.setHealth(nextHealth < MAX_HEALTH ? nextHealth : MAX_HEALTH);
     }
 }
