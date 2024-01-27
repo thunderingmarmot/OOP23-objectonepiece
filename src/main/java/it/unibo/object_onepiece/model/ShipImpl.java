@@ -9,14 +9,16 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
     private int health;
     private Weapon weapon;
+    private int crashDamage;
 
     //public Map<MoveReturnTypes, Predicate<>>
 
-    public ShipImpl(final Section s, final Position p, final Direction direction, final int health, final Weapon weapon) {
+    public ShipImpl(final Section s, final Position p, final Direction direction, final int health, final Weapon weapon, final int crashDamage) {
         super(s, p);
         this.currDirection = direction;
         this.health = health;
         this.weapon = weapon;
+        this.crashDamage = crashDamage;
     }
 
     @Override
@@ -87,7 +89,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     @Override
     public int getCrashDamage() {
-        return 100;
+        return this.crashDamage;
     }
 
     private void rotate(final Direction direction) {
