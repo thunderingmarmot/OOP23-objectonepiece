@@ -32,8 +32,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
             this.position = this.position.moveTowards(direction);
             if(collidable.get() instanceof Crashable s) {
-                s.crash(this.getCrashDamage());
-                this.crash(s.getCrashDamage());
+                s.crash(this.getCrashDamage(), this);
+                this.crash(s.getCrashDamage(), s);
                 return MoveReturnTypes.CRASHABLE;
             } else {
                 return MoveReturnTypes.MOVED;
@@ -68,7 +68,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     @Override
-    public void crash(final int damage) {
+    public void crash(final int damage, final Crashable c) {
         this.takeDamage(damage);
     }
 
