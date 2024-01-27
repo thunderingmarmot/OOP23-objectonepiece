@@ -14,16 +14,11 @@ public class BarrelImpl extends EntityImpl implements Barrel {
     @Override
     public void take() {
         this.getSection().getPlayer().addExperience(experienceGiven);
+        this.remove();
     }
 
     @Override
     public void interact() {
         take();
     }
-
-    @Override
-    public EntityType getEntityType() {
-        return EntityType.BARREL;
-    }
-    
 }

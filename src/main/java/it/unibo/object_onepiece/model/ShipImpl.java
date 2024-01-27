@@ -12,6 +12,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     public final int MIN_DAMAGE = 10;
     public final int ATTACK_DISTANCE = 3;
 
+    //public Map<MoveReturnTypes, Predicate<>>
+
     public ShipImpl(final Section s, final Position p, final Direction direction, final int health) {
         super(s, p);
         this.currDirection = direction;
@@ -21,12 +23,24 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public MoveReturnTypes move(final Direction direction) {
         if(direction.equals(this.currDirection)) {
-            Optional<Ship> collidable = this.getSection().<Ship>getEntityAt(this.position.moveTowards(direction));
+            Optional<Entity> collidable = this.getSection().getEntityAt(this.position.moveTowards(direction));
+
+            if(collidable.get() instanceof Collidable) {
+                return MoveReturnTypes.COLLIDABLE;
+            } else if(collidable.get() instanceof Crashable s) {
+                s.crash();
+                this.crash();
+                return MoveReturnTypes.CRASHABLE;
+            } else if(this.getSection().getBounds().isInside(position)) {
+                return MoveReturnTypes.BORDER;
+            }
+
             this.position = this.position.moveTowards(direction);
+            return MoveReturnTypes.MOVED;
         } else {
             rotate(direction);
+            return MoveReturnTypes.ROTATED;
         }
-        return MoveReturnTypes.COLLIDABLE;
     }
 
     @Override
@@ -41,10 +55,10 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
     
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(final int damage) {
         this.health -= damage;
         if(this.health <= 0) {
-            this.getSection().removeEntityAt(this.getPosition());
+            this.remove();
         }
     }
     
@@ -58,14 +72,19 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         return this.currDirection;
     }
 
-    private void hitTarget(Position position, int damage) {
-        Optional<Ship> ship = this.getSection().<Ship>getEntityAt(position);
-        if(ship.isPresent()) {
-            ship.get().takeDamage(damage);
+    @Override
+    public void crash() {
+        this.remove();
+    }
+
+    private void hitTarget(final Position position, final int damage) {
+        Optional<Entity> ship = this.getSection().getEntityAt(position);
+        if(ship.get() instanceof Ship s) {
+            s.takeDamage(damage);
         }
     }
 
-    private void rotate(Direction direction) {
+    private void rotate(final Direction direction) {
         this.currDirection = direction;
     }
 }
