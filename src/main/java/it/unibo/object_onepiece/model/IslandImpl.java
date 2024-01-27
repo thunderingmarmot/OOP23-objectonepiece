@@ -22,8 +22,8 @@ public class IslandImpl extends EntityImpl implements Island {
     }
 
     @Override
-    public void collide(Entity c) {
-        if(c instanceof Player player) {
+    public void collide(Ship ship) {
+        if(ship instanceof Player player) {
             heal(player);
         }
     }

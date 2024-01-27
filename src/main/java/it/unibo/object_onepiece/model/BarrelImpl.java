@@ -18,8 +18,8 @@ public class BarrelImpl extends EntityImpl implements Barrel {
     }
 
     @Override
-    public void crash(Crashable c) {
-        if(c instanceof Player player) {
+    public void crash(Crashable crashable) {
+        if(crashable instanceof Player player) {
             take(player);
         }
     }
