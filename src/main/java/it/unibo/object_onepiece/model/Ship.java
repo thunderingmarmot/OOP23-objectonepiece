@@ -10,6 +10,7 @@ public interface Ship extends Entity, Crashable {
 
     public void takeDamage(int damage);
 
+    public void setWeapon(Weapon weapon);
     public void setHealth(int health);
 
     public Weapon getWeapon();

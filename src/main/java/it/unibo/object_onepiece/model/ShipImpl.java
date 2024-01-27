@@ -53,6 +53,11 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     @Override
+    public void setWeapon(final Weapon weapon) {
+        this.weapon = weapon;
+    }
+
+    @Override
     public void setHealth(final int health) {
         this.health = health;
     }
