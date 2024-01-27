@@ -12,6 +12,7 @@ public interface Ship extends Entity, Crashable {
     public boolean shoot(Position position);
     public void takeDamage(int damage);
 
+    public Weapon getWeapon();
     public int getHealth();
     public Direction getDirection();
 }

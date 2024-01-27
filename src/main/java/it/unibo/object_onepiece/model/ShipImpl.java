@@ -8,16 +8,15 @@ import it.unibo.object_onepiece.model.Utils.MoveReturnTypes;
 public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
     protected int health;
-    public final int MAX_DAMAGE = 20;
-    public final int MIN_DAMAGE = 10;
-    public final int ATTACK_DISTANCE = 3;
+    private Weapon weapon;
 
     //public Map<MoveReturnTypes, Predicate<>>
 
-    public ShipImpl(final Section s, final Position p, final Direction direction, final int health) {
+    public ShipImpl(final Section s, final Position p, final Direction direction, final int health, final Weapon weapon) {
         super(s, p);
         this.currDirection = direction;
         this.health = health;
+        this.weapon = weapon;
     }
 
     @Override
@@ -44,17 +43,6 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
             return MoveReturnTypes.ROTATED;
         }
     }
-
-    @Override
-    public boolean shoot(final Position position) {
-        if(this.position.isInlineWith(position, this.currDirection) && this.position.distanceFrom(position) <= ATTACK_DISTANCE) {
-            hitTarget(position, MAX_DAMAGE);
-            Position.directionPositions.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
-            Position.diagonalPositions.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
-            return true;
-        }
-        return false;
-    }
     
     @Override
     public void takeDamage(final int damage) {
@@ -64,6 +52,11 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         }
     }
     
+    @Override
+    public Weapon getWeapon() {
+        return this.weapon;
+    }
+
     @Override
     public int getHealth() {
         return this.health;
@@ -82,13 +75,6 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public int getCrashDamage() {
         return 100;
-    }
-
-    private void hitTarget(final Position position, final int damage) {
-        Optional<Entity> ship = this.getSection().getEntityAt(position);
-        if(ship.get() instanceof Ship s) {
-            s.takeDamage(damage);
-        }
     }
 
     private void rotate(final Direction direction) {
