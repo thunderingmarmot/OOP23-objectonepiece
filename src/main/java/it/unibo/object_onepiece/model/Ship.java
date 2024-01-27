@@ -1,7 +1,6 @@
 package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.MoveReturnTypes;
-import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
  * An animated entity, it can be the player or an enemy
