@@ -7,7 +7,7 @@ import it.unibo.object_onepiece.model.Utils.MoveReturnTypes;
 
 public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
-    protected int health;
+    private int health;
     private Weapon weapon;
 
     //public Map<MoveReturnTypes, Predicate<>>
@@ -50,6 +50,11 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         if(this.health <= 0) {
             this.remove();
         }
+    }
+
+    @Override
+    public void setHealth(final int health) {
+        this.health = health;
     }
     
     @Override

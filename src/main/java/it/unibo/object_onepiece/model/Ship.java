@@ -9,8 +9,9 @@ import it.unibo.object_onepiece.model.Utils.Position;
 public interface Ship extends Entity, Crashable {
     public MoveReturnTypes move(Direction direction);
 
-    public boolean shoot(Position position);
     public void takeDamage(int damage);
+
+    public void setHealth(int health);
 
     public Weapon getWeapon();
     public int getHealth();
