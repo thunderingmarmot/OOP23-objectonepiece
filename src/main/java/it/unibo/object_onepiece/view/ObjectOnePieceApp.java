@@ -68,6 +68,8 @@ public final class ObjectOnePieceApp extends Application {
 
     public enum Entity {
         ENEMY,
+        PLAYER,
+        BARREL,
         WATER;
     }
 
@@ -107,6 +109,7 @@ public final class ObjectOnePieceApp extends Application {
                             entityImage.setRotate(RIGHT_ANGLE * direction.ordinal());
                         }
                         entityImage.setPreserveRatio(true);
+                        entityImage.fitWidthProperty().bind(gridView.cellSizeProperty());
                         entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
                         return entityImage;
                     });
