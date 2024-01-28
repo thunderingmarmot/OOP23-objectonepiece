@@ -54,4 +54,5 @@ public class WeaponImpl implements Weapon {
             s.takeDamage(damage);
         }
     }
+
 }

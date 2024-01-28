@@ -8,19 +8,21 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
     private int health;
     private Weapon weapon;
+    private Sail sail;
+    private final int crashDamage;
 
-    private final int crashDamage = 10;
-
-    public ShipImpl(final Section s, final Position p, final Direction direction, final int health, final Weapon weapon) {
+    public ShipImpl(final Section s, final Position p, final Direction direction, final int health, final Weapon weapon, final Sail sail, final int crashDamage) {
         super(s, p);
         this.currDirection = direction;
         this.health = health;
         this.weapon = weapon;
+        this.sail = sail;
+        this.crashDamage = crashDamage;
     }
 
     @Override
     public MoveReturnType move(final Direction direction) {
-        if(!direction.equals(this.currDirection)) {
+        if(!direction.equals(this.currDirection) ) {
             rotate(direction);
             return new MoveReturnType(false, MoveDetails.ROTATED_FIRST);
         }
