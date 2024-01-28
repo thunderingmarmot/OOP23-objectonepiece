@@ -29,6 +29,10 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
             return new MoveReturnType(false, MoveDetails.OUT_OF_SPEED_RANGE);
         }
 
+        if(this.sail.getHealth() <= 0) {
+            return new MoveReturnType(false, MoveDetails.SAIL_BROKEN);
+        }
+
         Position nextPosition = this.position.moveTowards(direction, this.getPosition().distanceFrom(nextPos));
         
         if(!direction.equals(this.currDirection)) {
@@ -130,7 +134,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void collideWith(Collidable collidable) {
         collidable.onCollisionWith(this);
-        if(collidable.getRigidness() == Rigidness.MEDIUM && this.bow.getHealth() > 0) {
+        if(collidable.getRigidness() == Rigidness.MEDIUM) {
             this.takeDamage(this.bow.getCrashDamage(), this.bow);
         }
     }
