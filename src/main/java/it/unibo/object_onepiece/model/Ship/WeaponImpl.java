@@ -1,6 +1,8 @@
 package it.unibo.object_onepiece.model.Ship;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import it.unibo.object_onepiece.model.Entity;
 import it.unibo.object_onepiece.model.Utils.Position;
@@ -69,7 +71,11 @@ public class WeaponImpl implements Weapon {
     private void hitTarget(final Position position, final int damage) {
         Optional<Entity> ship = this.ship.getSection().getEntityAt(position);
         if(ship.get() instanceof Ship s) {
-            s.takeDamage(damage, s.getBow());
+            List<ShipComponent> sc = List.of(this, this.getShip().getSail(), this.getShip().getBow());
+            s.takeDamage(damage, sc.stream()
+                                   .skip(new Random().nextInt(sc.size()))
+                                   .findFirst()
+                                   .orElse(null));
         }
     }
 }
