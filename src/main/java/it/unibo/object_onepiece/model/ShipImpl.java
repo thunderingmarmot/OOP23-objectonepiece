@@ -8,40 +8,40 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
     private int health;
     private Weapon weapon;
-    private int crashDamage;
 
     //public Map<MoveReturnTypes, Predicate<>>
 
-    public ShipImpl(final Section s, final Position p, final Direction direction, final int health, final Weapon weapon, final int crashDamage) {
+    public ShipImpl(final Section s, final Position p, final Direction direction, final int health, final Weapon weapon) {
         super(s, p);
         this.currDirection = direction;
         this.health = health;
         this.weapon = weapon;
-        this.crashDamage = crashDamage;
     }
 
     @Override
     public MoveReturnType move(final Direction direction) {
-        if(direction.equals(this.currDirection)) {
-            Optional<Entity> collidable = this.getSection().getEntityAt(this.position.moveTowards(direction));
-
-            if(collidable.get() instanceof Collidable c && c.isRigid()) {
-                this.collideWith(c);
-                return MoveReturnType.COLLIDABLE;
-            } else if(this.getSection().getBounds().isInside(position)) {
-                return MoveReturnType.BORDER;
-            }
-
-            this.position = this.position.moveTowards(direction);
-            if(collidable.get() instanceof Collidable c && !c.isRigid()) {
-                this.collideWith(c);
-                return MoveReturnType.CRASHABLE;
-            } else {
-                return MoveReturnType.MOVED;
-            }
-        } else {
+        if(!direction.equals(this.currDirection)) {
             rotate(direction);
-            return MoveReturnType.ROTATED;
+            return new MoveReturnType(false, MoveDetails.ROTATED_FIRST);
+        }
+
+        Position nextPosition = this.position.moveTowards(direction);
+        Optional<Entity> collidable = this.getSection().getEntityAt(nextPosition);
+
+        if(collidable.isPresent() && collidable.get() instanceof Collidable c && c.isRigid()) {
+            this.collideWith(c);
+            return new MoveReturnType(false, MoveDetails.RIGID_COLLISION);
+        } else if(this.getSection().getBounds().isInside(position)) {
+            return new MoveReturnType(false, MoveDetails.BORDER_REACHED);
+        }
+
+        this.position = nextPosition;
+
+        if(collidable.get() instanceof Collidable c && !c.isRigid()) {
+            this.collideWith(c);
+            return new MoveReturnType(true, MoveDetails.MOVED_BUT_COLLIDED);
+        } else {
+            return new MoveReturnType(true, MoveDetails.MOVED_SUCCESSFULLY);
         }
     }
     
