@@ -113,10 +113,12 @@ public final class ObjectOnePieceApp extends Application {
                         entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
                         return entityImage;
                     });
+                    gridView.addColorMapping(new Pair<>(i, Optional.of(j)), DEFAULT_COLOR);
                 });
             }
-            
         });
+
+        drawEntity(0, 2, Entity.ENEMY, Optional.of(Direction.DOWN));
         
         Canvas health = new Canvas(100, 100);
         GraphicsContext healthGC = health.getGraphicsContext2D();
@@ -150,19 +152,6 @@ public final class ObjectOnePieceApp extends Application {
         gc.setFill(Color.GREEN);
         gc.setStroke(Color.BLUE);
     }
-
-    /*public class Entity {
-        private StringProperty name;
-        private IntegerProperty health;
-        private Canvas healthBar;
-        private GraphicsContext gc;
-
-        public Entity(final String string, final int health) {
-            this.name = new SimpleStringProperty(string);
-            this.health = new SimpleIntegerProperty(health);
-        }
-
-    }*/
 
     /**
      * Program's entry point.
