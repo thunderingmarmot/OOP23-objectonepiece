@@ -3,7 +3,6 @@ import java.util.Optional;
 
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.Utils.MoveReturnTypes;
 
 public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
@@ -22,12 +21,12 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     @Override
-    public MoveReturnTypes move(final Direction direction) {
+    public MoveReturnType move(final Direction direction) {
         if(direction.equals(this.currDirection)) {
             Optional<Entity> collidable = this.getSection().getEntityAt(this.position.moveTowards(direction));
 
             if(collidable.get() instanceof Collidable c) {
-                c.collide(this);
+                c.collideWith(this);
                 return MoveReturnTypes.COLLIDABLE;
             } else if(this.getSection().getBounds().isInside(position)) {
                 return MoveReturnTypes.BORDER;
@@ -35,7 +34,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
             this.position = this.position.moveTowards(direction);
             if(collidable.get() instanceof Crashable s) {
-                s.crash(this);
+                this.crashInto(s);
                 return MoveReturnTypes.CRASHABLE;
             } else {
                 return MoveReturnTypes.MOVED;
@@ -80,7 +79,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     @Override
-    public void crash(final Crashable c) {
+    public void crashInto(final Crashable c) {
         this.takeDamage(c.getCrashDamage());
         if(c instanceof Ship s) {
             s.takeDamage(this.getCrashDamage());
