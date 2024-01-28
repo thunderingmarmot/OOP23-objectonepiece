@@ -21,13 +21,22 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     @Override
-    public MoveReturnType move(final Direction direction) {
-        if(!direction.equals(this.currDirection) ) {
-            rotate(direction);
-            return new MoveReturnType(false, MoveDetails.ROTATED_FIRST);
+    public MoveReturnType move(final Direction direction, final Position nextPos) {
+        if((this.getPosition().distanceFrom(nextPos) > this.sail.getMaxSpeed()) ||
+        (this.getPosition().distanceFrom(nextPos) < this.sail.getMinSpeed())) {
+            return new MoveReturnType(false, MoveDetails.OUT_OF_SPEED_RANGE);
         }
 
-        Position nextPosition = this.position.moveTowards(direction);
+        Position nextPosition = this.position.moveTowards(direction, this.getPosition().distanceFrom(nextPos));
+        
+        if(!direction.equals(this.currDirection)) {
+            rotate(direction);
+            if(this.sail.getRotationPower() >= this.getPosition().distanceFrom(nextPos)) {
+                this.position = nextPosition;
+                return new MoveReturnType(true, MoveDetails.ROTATED_AND_MOVED);
+            }
+            return new MoveReturnType(false, MoveDetails.ROTATED);
+        }
 
         if(this.getSection().getBounds().isInside(position)) {
             return new MoveReturnType(false, MoveDetails.BORDER_REACHED);
