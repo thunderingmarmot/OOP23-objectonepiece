@@ -10,12 +10,14 @@ public class WeaponImpl implements Weapon {
     private final int minDamage;
     private final int attackRange;
     private final Ship ship;
+    private int health;
 
-    public WeaponImpl(final int max, final int min, final int range, final Ship ship) {
+    public WeaponImpl(final int max, final int min, final int range, final Ship ship, final int health) {
         this.maxDamage = max;
         this.minDamage = min;
         this.attackRange = range;
         this.ship = ship;
+        this.health = health;
     }
 
     @Override
@@ -27,6 +29,11 @@ public class WeaponImpl implements Weapon {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     @Override
@@ -49,11 +56,15 @@ public class WeaponImpl implements Weapon {
         return this.attackRange;
     }
 
+    @Override
+    public int getHealth() {
+        return this.health;
+    }
+    
     private void hitTarget(final Position position, final int damage) {
         Optional<Entity> ship = this.ship.getSection().getEntityAt(position);
         if(ship.get() instanceof Ship s) {
-            s.takeDamage(damage);
+            s.takeDamage(damage, s.getBow());
         }
     }
-
 }

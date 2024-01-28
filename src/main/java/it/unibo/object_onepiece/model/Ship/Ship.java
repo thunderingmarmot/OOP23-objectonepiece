@@ -10,16 +10,16 @@ import it.unibo.object_onepiece.model.Utils.Position;
 public interface Ship extends Entity, Collider {
     public MoveReturnType move(Direction direction, Position nextPos);
 
-    public void takeDamage(int damage);
+    public void takeDamage(int damage, ShipComponent s);
 
     public void setWeapon(Weapon weapon);
     public void setSail(Sail sail);
     public void setBow(Bow bow);
-    public void setHealth(int health);
+    public void setTotalHealth(int health);
 
     public Weapon getWeapon();
     public Sail getSail();
     public Bow getBow();
-    public int getHealth();
+    public int getTotalHealth();
     public Direction getDirection();
 }
