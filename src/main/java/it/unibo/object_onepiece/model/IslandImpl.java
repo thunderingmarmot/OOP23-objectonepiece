@@ -30,7 +30,7 @@ public class IslandImpl extends EntityImpl implements Island {
     }
 
     @Override
-    public boolean isRigid() {
-        return true;
+    public Rigidness getRigidness() {
+        return Rigidness.HARD;
     }
 }

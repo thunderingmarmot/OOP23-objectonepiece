@@ -33,14 +33,15 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
         Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
         
-        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.isRigid()) {
+        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c &&
+        (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {
             this.collideWith(c);
-            return new MoveReturnType(false, MoveDetails.RIGID_COLLISION);
+            return new MoveReturnType(false, MoveDetails.STATIC_COLLISION);
         }
 
         this.position = nextPosition; // Here the Ship actually moves
 
-        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && !c.isRigid()) {
+        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.getRigidness() == Rigidness.SOFT) {
             this.collideWith(c);
             return new MoveReturnType(true, MoveDetails.MOVED_BUT_COLLIDED);
         }
@@ -85,14 +86,13 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         this.currDirection = direction;
     }
 
-    @Override
-    public boolean isRigid() {
-        return false;
+    public Rigidness getRigidness() {
+        return Rigidness.MEDIUM;
     }
 
     @Override
     public void onCollisionWith(Collider collider) {
-        if(!collider.isRigid()) {
+        if(collider.getRigidness() == Rigidness.MEDIUM) {
             this.takeDamage(crashDamage);
         }
     }
@@ -100,7 +100,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void collideWith(Collidable collidable) {
         collidable.onCollisionWith(this);
-        if(!collidable.isRigid() && collidable instanceof Collider) {
+        if(collidable.getRigidness() == Rigidness.MEDIUM) {
             this.takeDamage(crashDamage);
         }
     }

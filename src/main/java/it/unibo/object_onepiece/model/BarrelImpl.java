@@ -25,8 +25,7 @@ public class BarrelImpl extends EntityImpl implements Barrel {
     }
 
     @Override
-    public boolean isRigid() {
-        return false;
+    public Rigidness getRigidness() {
+        return Rigidness.SOFT;
     }
-
 }

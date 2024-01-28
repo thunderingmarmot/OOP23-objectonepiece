@@ -4,7 +4,7 @@ import it.unibo.object_onepiece.model.Utils.Direction;
 
 public interface Movable {
     public enum MoveDetails {
-        RIGID_COLLISION,
+        STATIC_COLLISION,
         BORDER_REACHED,
         ROTATED_FIRST,
         MOVED_BUT_COLLIDED,
