@@ -9,8 +9,6 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     private int health;
     private Weapon weapon;
 
-    //public Map<MoveReturnTypes, Predicate<>>
-
     public ShipImpl(final Section s, final Position p, final Direction direction, final int health, final Weapon weapon) {
         super(s, p);
         this.currDirection = direction;
