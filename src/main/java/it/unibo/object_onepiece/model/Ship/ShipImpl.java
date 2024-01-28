@@ -14,15 +14,15 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     private int health;
     private Weapon weapon;
     private Sail sail;
-    private final int crashDamage;
+    private Bow bow;
 
-    public ShipImpl(final Section s, final Position p, final Direction direction, final int health, final Weapon weapon, final Sail sail, final int crashDamage) {
+    public ShipImpl(final Section s, final Position p, final Direction direction, final int health, final Weapon weapon, final Sail sail, final Bow bow) {
         super(s, p);
         this.currDirection = direction;
         this.health = health;
         this.weapon = weapon;
         this.sail = sail;
-        this.crashDamage = crashDamage;
+        this.bow = bow;
     }
 
     @Override
@@ -84,6 +84,11 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     @Override
+    public void setBow(final Bow bow) {
+        this.bow = bow;
+    }
+
+    @Override
     public void setHealth(final int health) {
         this.health = health;
     }
@@ -96,6 +101,11 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public Sail getSail() {
         return this.sail;
+    }
+
+    @Override
+    public Bow getBow() {
+        return this.bow;
     }
 
     @Override
@@ -119,7 +129,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void onCollisionWith(Collider collider) {
         if(collider.getRigidness() == Rigidness.MEDIUM) {
-            this.takeDamage(crashDamage);
+            this.takeDamage(this.bow.getCrashDamage());
         }
     }
 
@@ -127,7 +137,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     public void collideWith(Collidable collidable) {
         collidable.onCollisionWith(this);
         if(collidable.getRigidness() == Rigidness.MEDIUM) {
-            this.takeDamage(crashDamage);
+            this.takeDamage(this.bow.getCrashDamage());
         }
     }
 }

@@ -1,7 +1,8 @@
 package it.unibo.object_onepiece.model;
-import it.unibo.object_onepiece.model.Ship.Sail;
 import it.unibo.object_onepiece.model.Ship.ShipImpl;
 import it.unibo.object_onepiece.model.Ship.Weapon;
+import it.unibo.object_onepiece.model.Ship.Sail;
+import it.unibo.object_onepiece.model.Ship.Bow;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 
@@ -11,8 +12,8 @@ public class PlayerImpl extends ShipImpl implements Player {
 
     private int experience;
 
-    public PlayerImpl(Section section, Position position, Direction direction, int health, Weapon weapon, Sail sail, int crashDamage, int experience) {
-        super(section, position, direction, health, weapon, sail, crashDamage);
+    public PlayerImpl(Section section, Position position, Direction direction, int health, Weapon weapon, Sail sail, Bow bow, int experience) {
+        super(section, position, direction, health, weapon, sail, bow);
         this.experience = experience;
     }
 
