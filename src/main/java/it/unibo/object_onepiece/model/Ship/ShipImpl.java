@@ -27,8 +27,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     @Override
     public MoveReturnType move(final Direction direction, final Position nextPos) {
-        if((this.getPosition().distanceFrom(nextPos) > this.sail.getMaxSpeed()) ||
-        (this.getPosition().distanceFrom(nextPos) < this.sail.getMinSpeed())) {
+        if(this.sail.isInSpeedRange(this.getPosition(), nextPos)) {
             return new MoveReturnType(false, MoveDetails.OUT_OF_SPEED_RANGE);
         }
 
