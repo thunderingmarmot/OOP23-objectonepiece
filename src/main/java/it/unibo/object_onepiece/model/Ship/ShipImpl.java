@@ -65,7 +65,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void takeDamage(final int damage, final ShipComponent s) {
         s.setHealth(s.getHealth() - damage);
-        if(this.getTotalHealth() <= 0) {
+        if(this.bow.getHealth() <= 0) {
             this.remove();
         }
     }
@@ -106,13 +106,6 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     public Bow getBow() {
         return this.bow;
     }
-
-    @Override
-    public int getTotalHealth() {
-        return (this.weapon.getHealth() + 
-                this.sail.getHealth() + 
-                this.bow.getHealth());
-    }
     
     @Override
     public Direction getDirection() {
@@ -137,7 +130,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void collideWith(Collidable collidable) {
         collidable.onCollisionWith(this);
-        if(collidable.getRigidness() == Rigidness.MEDIUM) {
+        if(collidable.getRigidness() == Rigidness.MEDIUM && this.bow.getHealth() > 0) {
             this.takeDamage(this.bow.getCrashDamage(), this.bow);
         }
     }

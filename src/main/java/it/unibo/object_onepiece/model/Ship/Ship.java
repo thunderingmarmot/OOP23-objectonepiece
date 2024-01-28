@@ -20,6 +20,5 @@ public interface Ship extends Entity, Collider {
     public Weapon getWeapon();
     public Sail getSail();
     public Bow getBow();
-    public int getTotalHealth();
     public Direction getDirection();
 }
