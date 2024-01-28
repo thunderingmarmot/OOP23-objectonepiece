@@ -17,13 +17,20 @@ public class IslandImpl extends EntityImpl implements Island {
     }
 
     @Override
-    public void heal() {
-        this.getSection().getPlayer().heal(healthGiven);
+    public void heal(Player player) {
+        player.addHealth(healthGiven);
     }
 
     @Override
-    public void interact() {
-        heal();
-        save();
+    public void onCollisionWith(Collider collider) {
+        if(collider instanceof Player player) {
+            heal(player);
+            save();
+        }
+    }
+
+    @Override
+    public boolean isRigid() {
+        return true;
     }
 }

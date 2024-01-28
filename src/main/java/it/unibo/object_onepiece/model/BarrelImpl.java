@@ -12,13 +12,21 @@ public class BarrelImpl extends EntityImpl implements Barrel {
     }
 
     @Override
-    public void take() {
-        this.getSection().getPlayer().addExperience(experienceGiven);
+    public void take(Player player) {
+        player.addExperience(experienceGiven);
         this.remove();
     }
 
     @Override
-    public void interact() {
-        take();
+    public void onCollisionWith(Collider collider) {
+        if(collider instanceof Player player) {
+            take(player);
+        }
     }
+
+    @Override
+    public boolean isRigid() {
+        return false;
+    }
+
 }

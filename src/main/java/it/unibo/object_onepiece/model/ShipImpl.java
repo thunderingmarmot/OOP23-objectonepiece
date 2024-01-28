@@ -3,57 +3,49 @@ import java.util.Optional;
 
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.Utils.MoveReturnTypes;
 
 public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
-    protected int health;
-    public final int MAX_DAMAGE = 20;
-    public final int MIN_DAMAGE = 10;
-    public final int ATTACK_DISTANCE = 3;
+    private int health;
+    private Weapon weapon;
 
-    //public Map<MoveReturnTypes, Predicate<>>
+    private final int crashDamage = 10;
 
-    public ShipImpl(final Section s, final Position p, final Direction direction, final int health) {
+    public ShipImpl(final Section s, final Position p, final Direction direction, final int health, final Weapon weapon) {
         super(s, p);
         this.currDirection = direction;
         this.health = health;
+        this.weapon = weapon;
     }
 
     @Override
-    public MoveReturnTypes move(final Direction direction) {
-        if(direction.equals(this.currDirection)) {
-            Optional<Entity> collidable = this.getSection().getEntityAt(this.position.moveTowards(direction));
-
-            if(collidable.get() instanceof Collidable) {
-                return MoveReturnTypes.COLLIDABLE;
-            } else if(this.getSection().getBounds().isInside(position)) {
-                return MoveReturnTypes.BORDER;
-            }
-
-            this.position = this.position.moveTowards(direction);
-            if(collidable.get() instanceof Crashable s) {
-                s.crash(this.getCrashDamage());
-                this.crash(s.getCrashDamage());
-                return MoveReturnTypes.CRASHABLE;
-            } else {
-                return MoveReturnTypes.MOVED;
-            }
-        } else {
+    public MoveReturnType move(final Direction direction) {
+        if(!direction.equals(this.currDirection)) {
             rotate(direction);
-            return MoveReturnTypes.ROTATED;
+            return new MoveReturnType(false, MoveDetails.ROTATED_FIRST);
         }
-    }
 
-    @Override
-    public boolean shoot(final Position position) {
-        if(this.position.isInlineWith(position, this.currDirection) && this.position.distanceFrom(position) <= ATTACK_DISTANCE) {
-            hitTarget(position, MAX_DAMAGE);
-            Position.directionPositions.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
-            Position.diagonalPositions.values().stream().forEach((f) -> hitTarget(f.apply(position), MIN_DAMAGE));
-            return true;
+        Position nextPosition = this.position.moveTowards(direction);
+
+        if(this.getSection().getBounds().isInside(position)) {
+            return new MoveReturnType(false, MoveDetails.BORDER_REACHED);
         }
-        return false;
+
+        Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
+        
+        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.isRigid()) {
+            this.collideWith(c);
+            return new MoveReturnType(false, MoveDetails.RIGID_COLLISION);
+        }
+
+        this.position = nextPosition; // Here the Ship actually moves
+
+        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && !c.isRigid()) {
+            this.collideWith(c);
+            return new MoveReturnType(true, MoveDetails.MOVED_BUT_COLLIDED);
+        }
+        
+        return new MoveReturnType(true, MoveDetails.MOVED_SUCCESSFULLY);
     }
     
     @Override
@@ -63,7 +55,22 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
             this.remove();
         }
     }
+
+    @Override
+    public void setWeapon(final Weapon weapon) {
+        this.weapon = weapon;
+    }
+
+    @Override
+    public void setHealth(final int health) {
+        this.health = health;
+    }
     
+    @Override
+    public Weapon getWeapon() {
+        return this.weapon;
+    }
+
     @Override
     public int getHealth() {
         return this.health;
@@ -74,24 +81,27 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         return this.currDirection;
     }
 
-    @Override
-    public void crash(final int damage) {
-        this.takeDamage(damage);
+    private void rotate(final Direction direction) {
+        this.currDirection = direction;
     }
 
     @Override
-    public int getCrashDamage() {
-        return 100;
+    public boolean isRigid() {
+        return false;
     }
 
-    private void hitTarget(final Position position, final int damage) {
-        Optional<Entity> ship = this.getSection().getEntityAt(position);
-        if(ship.get() instanceof Ship s) {
-            s.takeDamage(damage);
+    @Override
+    public void onCollisionWith(Collider collider) {
+        if(!collider.isRigid()) {
+            this.takeDamage(crashDamage);
         }
     }
 
-    private void rotate(final Direction direction) {
-        this.currDirection = direction;
+    @Override
+    public void collideWith(Collidable collidable) {
+        collidable.onCollisionWith(this);
+        if(!collidable.isRigid() && collidable instanceof Collider) {
+            this.takeDamage(crashDamage);
+        }
     }
 }

@@ -84,14 +84,6 @@ public final class Utils {
         DOWN,
         LEFT,
     };
-
-    public static enum MoveReturnTypes {
-        COLLIDABLE,
-        CRASHABLE,
-        BORDER,
-        MOVED,
-        ROTATED
-    };
     
     public static enum Diagonal {
         UPPERLEFT,
