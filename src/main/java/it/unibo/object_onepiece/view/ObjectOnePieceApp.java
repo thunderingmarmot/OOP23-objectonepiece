@@ -57,9 +57,33 @@ public final class ObjectOnePieceApp extends Application {
     @Override
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
+        gridSetUp();
 
         BorderPane borderPane = new BorderPane();
+        
+        drawEntity(0, 2, Entity.ENEMY, Optional.of(Direction.DOWN));
+        drawEntity(0, 2, Entity.BARREL, Optional.of(Direction.LEFT));
+        
+        Canvas health = new Canvas(100, 100);
+        GraphicsContext healthGC = health.getGraphicsContext2D();
+        Rectangle healthBar = new Rectangle(20, 100);
+        drawHealthBar(healthGC, healthBar);
 
+        Label healthPoints = new Label("100");
+
+        VBox healthContainer = new VBox();
+        healthContainer.getChildren().addAll(health, healthPoints);
+
+
+        borderPane.setCenter(gridView);
+        borderPane.setRight(healthContainer);
+        Scene scene = new Scene(borderPane, 600, 600);
+        scene.getStylesheets().add("/css/ObjectOnePieceApp.css");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void gridSetUp() {
         gridModel.setDefaultState(new Pair<>(Entity.WATER, Optional.empty()));
         gridModel.setNumberOfColumns(MAP_COLUMNS);
         gridModel.setNumberOfRows(MAP_ROWS);
@@ -91,28 +115,6 @@ public final class ObjectOnePieceApp extends Application {
                 });
             }
         });
-
-        
-        drawEntity(0, 2, Entity.ENEMY, Optional.of(Direction.DOWN));
-        drawEntity(0, 2, Entity.BARREL, Optional.of(Direction.LEFT));
-        
-        Canvas health = new Canvas(100, 100);
-        GraphicsContext healthGC = health.getGraphicsContext2D();
-        Rectangle healthBar = new Rectangle(20, 100);
-        drawHealthBar(healthGC, healthBar);
-
-        Label healthPoints = new Label("100");
-
-        VBox healthContainer = new VBox();
-        healthContainer.getChildren().addAll(health, healthPoints);
-
-
-        borderPane.setCenter(gridView);
-        borderPane.setRight(healthContainer);
-        Scene scene = new Scene(borderPane, 600, 600);
-        scene.getStylesheets().add("/css/ObjectOnePieceApp.css");
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     private void drawEntity(int row, int col, Entity e, Optional<Direction> d) {
