@@ -25,23 +25,23 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         if(direction.equals(this.currDirection)) {
             Optional<Entity> collidable = this.getSection().getEntityAt(this.position.moveTowards(direction));
 
-            if(collidable.get() instanceof Collidable c) {
-                c.collideWith(this);
-                return MoveReturnTypes.COLLIDABLE;
+            if(collidable.get() instanceof Collidable c && c.isRigid()) {
+                this.collideWith(c);
+                return MoveReturnType.COLLIDABLE;
             } else if(this.getSection().getBounds().isInside(position)) {
-                return MoveReturnTypes.BORDER;
+                return MoveReturnType.BORDER;
             }
 
             this.position = this.position.moveTowards(direction);
-            if(collidable.get() instanceof Crashable s) {
-                this.crashInto(s);
-                return MoveReturnTypes.CRASHABLE;
+            if(collidable.get() instanceof Collidable c && !c.isRigid()) {
+                this.collideWith(c);
+                return MoveReturnType.CRASHABLE;
             } else {
-                return MoveReturnTypes.MOVED;
+                return MoveReturnType.MOVED;
             }
         } else {
             rotate(direction);
-            return MoveReturnTypes.ROTATED;
+            return MoveReturnType.ROTATED;
         }
     }
     
@@ -78,20 +78,19 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         return this.currDirection;
     }
 
-    @Override
-    public void crashInto(final Crashable c) {
-        this.takeDamage(c.getCrashDamage());
-        if(c instanceof Ship s) {
-            s.takeDamage(this.getCrashDamage());
-        }
-    }
-
-    @Override
-    public int getCrashDamage() {
-        return this.crashDamage;
-    }
-
     private void rotate(final Direction direction) {
         this.currDirection = direction;
+    }
+
+    @Override
+    public boolean isRigid() {
+        return false;
+    }
+
+    @Override
+    public void collideWith(Collidable collidable) {
+        if(collidable instanceof StaticCollidable s) {
+            s.onCollision(this);
+        }
     }
 }

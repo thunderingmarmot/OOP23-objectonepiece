@@ -22,9 +22,15 @@ public class IslandImpl extends EntityImpl implements Island {
     }
 
     @Override
-    public void collide(Ship ship) {
-        if(ship instanceof Player player) {
+    public void onCollision(MovingCollidable collider) {
+        if(collider instanceof Player player) {
             heal(player);
+            save();
         }
+    }
+
+    @Override
+    public boolean isRigid() {
+        return true;
     }
 }

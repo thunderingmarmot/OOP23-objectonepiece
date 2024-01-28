@@ -18,14 +18,15 @@ public class BarrelImpl extends EntityImpl implements Barrel {
     }
 
     @Override
-    public void crash(Crashable crashable) {
-        if(crashable instanceof Player player) {
+    public void onCollision(MovingCollidable collider) {
+        if(collider instanceof Player player) {
             take(player);
         }
     }
 
     @Override
-    public int getCrashDamage() {
-        return 0;
+    public boolean isRigid() {
+        return false;
     }
+
 }
