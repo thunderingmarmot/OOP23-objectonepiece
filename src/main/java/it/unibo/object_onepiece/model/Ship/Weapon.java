@@ -1,4 +1,4 @@
-package it.unibo.object_onepiece.model;
+package it.unibo.object_onepiece.model.Ship;
 
 import it.unibo.object_onepiece.model.Utils.Position;
 

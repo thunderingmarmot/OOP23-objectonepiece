@@ -1,7 +1,8 @@
-package it.unibo.object_onepiece.model;
+package it.unibo.object_onepiece.model.Ship;
 
 import java.util.Optional;
 
+import it.unibo.object_onepiece.model.Entity;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 public class WeaponImpl implements Weapon {

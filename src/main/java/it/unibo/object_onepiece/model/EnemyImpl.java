@@ -3,6 +3,9 @@ package it.unibo.object_onepiece.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.unibo.object_onepiece.model.Ship.Sail;
+import it.unibo.object_onepiece.model.Ship.ShipImpl;
+import it.unibo.object_onepiece.model.Ship.Weapon;
 import it.unibo.object_onepiece.model.Utils.*;
 
 public class EnemyImpl extends ShipImpl implements Enemy {
