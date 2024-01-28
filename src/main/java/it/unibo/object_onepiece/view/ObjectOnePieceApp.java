@@ -1,6 +1,7 @@
 package it.unibo.object_onepiece.view;
 
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -11,6 +12,7 @@ import org.controlsfx.control.tableview2.TableView2;
 import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
 import javafx.application.Application;
+import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -66,13 +68,16 @@ public final class ObjectOnePieceApp extends Application {
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
 
         Stream.of(Entity.values()).forEach(i -> {
-            String entityName = i.toString().toLowerCase();
-            URL imgPath = getClass().getResource("/img/sprites/" + entityName + "/" + entityName + ".png");
+            final String entityName = i.toString().toLowerCase();
+            final URL imgPath = getClass().getResource("/img/sprites/" + entityName + "/" + entityName + ".png");
             if (imgPath != null) {
-                Stream.of(Direction.values()).forEach(j -> {
-                    gridView.addNodeMapping(new Pair<>(i, Optional.of(j)), cell -> {
-                        Image img = new Image(imgPath.toString());
-                        ImageView entityImage = new ImageView(img);
+                LinkedList<Optional<Direction>> od = new LinkedList<>();
+                Stream.of(Direction.values()).forEach(d -> od.add(Optional.of(d)));
+                od.add(Optional.empty());
+                od.forEach(j -> {
+                    gridView.addNodeMapping(new Pair<>(i, j), cell -> {
+                        final Image img = new Image(imgPath.toString());
+                        final ImageView entityImage = new ImageView(img);
                         if (cell.getState().getY().isPresent()) {
                             var direction = cell.getState().getY().get();
                             entityImage.setRotate(RIGHT_ANGLE * direction.ordinal());
@@ -82,12 +87,14 @@ public final class ObjectOnePieceApp extends Application {
                         entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
                         return entityImage;
                     });
-                    gridView.addColorMapping(new Pair<>(i, Optional.of(j)), DEFAULT_COLOR);
+                    gridView.addColorMapping(new Pair<>(i, j), DEFAULT_COLOR);
                 });
             }
         });
 
+        
         drawEntity(0, 2, Entity.ENEMY, Optional.of(Direction.DOWN));
+        drawEntity(0, 2, Entity.BARREL, Optional.of(Direction.LEFT));
         
         Canvas health = new Canvas(100, 100);
         GraphicsContext healthGC = health.getGraphicsContext2D();
