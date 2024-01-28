@@ -30,7 +30,7 @@ public class IslandImpl extends EntityImpl implements Island {
     }
 
     @Override
-    public boolean isStatic() {
+    public boolean isRigid() {
         return true;
     }
 }

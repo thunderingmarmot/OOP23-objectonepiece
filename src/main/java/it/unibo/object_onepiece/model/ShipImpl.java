@@ -9,6 +9,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     private int health;
     private Weapon weapon;
 
+    private final int crashDamage = 10;
+
     public ShipImpl(final Section s, final Position p, final Direction direction, final int health, final Weapon weapon) {
         super(s, p);
         this.currDirection = direction;
@@ -31,14 +33,14 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
         Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
         
-        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.isStatic()) {
+        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.isRigid()) {
             this.collideWith(c);
             return new MoveReturnType(false, MoveDetails.RIGID_COLLISION);
         }
 
         this.position = nextPosition; // Here the Ship actually moves
 
-        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && !c.isStatic()) {
+        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && !c.isRigid()) {
             this.collideWith(c);
             return new MoveReturnType(true, MoveDetails.MOVED_BUT_COLLIDED);
         }
@@ -84,17 +86,22 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     @Override
+    public boolean isRigid() {
+        return false;
+    }
+
+    @Override
     public void onCollisionWith(Collider collider) {
-        if(!collider.isStatic() && collider instanceof Ship ship) {
-            ship.remove();
+        if(!collider.isRigid()) {
+            this.takeDamage(crashDamage);
         }
     }
 
     @Override
     public void collideWith(Collidable collidable) {
         collidable.onCollisionWith(this);
-        if(!collidable.isStatic() && collidable instanceof Collider && collidable instanceof Ship ship) {
-            ship.remove();
+        if(!collidable.isRigid() && collidable instanceof Collider) {
+            this.takeDamage(crashDamage);
         }
     }
 }

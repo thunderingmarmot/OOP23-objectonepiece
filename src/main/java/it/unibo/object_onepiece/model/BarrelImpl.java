@@ -25,7 +25,7 @@ public class BarrelImpl extends EntityImpl implements Barrel {
     }
 
     @Override
-    public boolean isStatic() {
+    public boolean isRigid() {
         return false;
     }
 
