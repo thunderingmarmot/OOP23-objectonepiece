@@ -24,18 +24,18 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         }
 
         Position nextPosition = this.position.moveTowards(direction);
-        Optional<Entity> collidable = this.getSection().getEntityAt(nextPosition);
+        Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
 
-        if(collidable.isPresent() && collidable.get() instanceof Collidable c && c.isRigid()) {
+        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.isRigid()) {
             this.collideWith(c);
             return new MoveReturnType(false, MoveDetails.RIGID_COLLISION);
         } else if(this.getSection().getBounds().isInside(position)) {
             return new MoveReturnType(false, MoveDetails.BORDER_REACHED);
         }
 
-        this.position = nextPosition;
+        this.position = nextPosition; // Here the Ship actually moves
 
-        if(collidable.get() instanceof Collidable c && !c.isRigid()) {
+        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && !c.isRigid()) {
             this.collideWith(c);
             return new MoveReturnType(true, MoveDetails.MOVED_BUT_COLLIDED);
         } else {
