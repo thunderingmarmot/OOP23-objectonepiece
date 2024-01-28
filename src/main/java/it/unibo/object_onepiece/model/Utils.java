@@ -7,7 +7,6 @@ import java.util.function.BiPredicate;
 
 public final class Utils {
     public static record State(Section section, Position playerPosition, int playerHealth, int playerExperience) {}
-
     public static record Position(int x, int y) {
         public static Map<Direction, Function<Position, Position>> directionPositions = Map.of(
             Direction.UP, (p) -> new Position(p.x + 1, p.y),
@@ -30,6 +29,18 @@ public final class Utils {
             Direction.RIGHT, (p1, p2) -> p1.y == p2.y && p1.x != p2.x
         );
 
+        public static Map<Position,Direction> vectorToDirectionMap = Map.of(
+            new Position(-1, -1), Direction.DOWN,
+            new Position(1, -1), Direction.DOWN,
+            new Position(-1, 1), Direction.UP,
+            new Position(1, 1), Direction.UP,
+            
+            new Position(0, 1), Direction.UP,    
+            new Position(-1,0),   Direction.LEFT,  
+            new Position(0,-1),   Direction.DOWN,  
+            new Position(1,0),  Direction.RIGHT
+        );
+
         public Position moveTowards(final Direction direction) {
             return Position.directionPositions.get(direction).apply(this);
         }
@@ -44,6 +55,12 @@ public final class Utils {
 
         public Position translate(final Position position){
             return new Position(this.x + position.x, this.y + position.y);
+        }
+
+        public Position vectorialDirection( final Position position ){
+            var xx = position.x - x;
+            var yy = position.y - y;
+            return new Position(xx/Math.abs(xx), yy/Math.abs(yy));
         }
     };
 
@@ -82,4 +99,6 @@ public final class Utils {
         LOWERRIGHT,
         LOWERLEFT,
     };
+
+
 }
