@@ -22,7 +22,7 @@ public class IslandImpl extends EntityImpl implements Island {
     }
 
     @Override
-    public void onCollision(MovingCollidable collider) {
+    public void onCollisionWith(Collider collider) {
         if(collider instanceof Player player) {
             heal(player);
             save();
@@ -30,7 +30,7 @@ public class IslandImpl extends EntityImpl implements Island {
     }
 
     @Override
-    public boolean isRigid() {
+    public boolean isStatic() {
         return true;
     }
 }

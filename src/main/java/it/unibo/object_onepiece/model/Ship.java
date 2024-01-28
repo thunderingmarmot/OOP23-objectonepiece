@@ -4,7 +4,7 @@ import it.unibo.object_onepiece.model.Utils.Direction;
 /**
  * An animated entity, it can be the player or an enemy
  */
-public interface Ship extends Entity, MovingCollidable {
+public interface Ship extends Entity, Collider {
     public MoveReturnType move(Direction direction);
 
     public void takeDamage(int damage);

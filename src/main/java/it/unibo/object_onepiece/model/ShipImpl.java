@@ -24,23 +24,26 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         }
 
         Position nextPosition = this.position.moveTowards(direction);
-        Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
 
-        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.isRigid()) {
+        if(this.getSection().getBounds().isInside(position)) {
+            return new MoveReturnType(false, MoveDetails.BORDER_REACHED);
+        }
+
+        Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
+        
+        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.isStatic()) {
             this.collideWith(c);
             return new MoveReturnType(false, MoveDetails.RIGID_COLLISION);
-        } else if(this.getSection().getBounds().isInside(position)) {
-            return new MoveReturnType(false, MoveDetails.BORDER_REACHED);
         }
 
         this.position = nextPosition; // Here the Ship actually moves
 
-        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && !c.isRigid()) {
+        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && !c.isStatic()) {
             this.collideWith(c);
             return new MoveReturnType(true, MoveDetails.MOVED_BUT_COLLIDED);
-        } else {
-            return new MoveReturnType(true, MoveDetails.MOVED_SUCCESSFULLY);
         }
+        
+        return new MoveReturnType(true, MoveDetails.MOVED_SUCCESSFULLY);
     }
     
     @Override
@@ -81,14 +84,17 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     @Override
-    public boolean isRigid() {
-        return false;
+    public void onCollisionWith(Collider collider) {
+        if(!collider.isStatic() && collider instanceof Ship ship) {
+            ship.remove();
+        }
     }
 
     @Override
     public void collideWith(Collidable collidable) {
-        if(collidable instanceof StaticCollidable s) {
-            s.onCollision(this);
+        collidable.onCollisionWith(this);
+        if(!collidable.isStatic() && collidable instanceof Collider && collidable instanceof Ship ship) {
+            ship.remove();
         }
     }
 }
