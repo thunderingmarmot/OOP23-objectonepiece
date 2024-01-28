@@ -10,9 +10,11 @@ public interface Ship extends Entity, Collider {
     public void takeDamage(int damage);
 
     public void setWeapon(Weapon weapon);
+    public void setSail(Sail sail);
     public void setHealth(int health);
 
     public Weapon getWeapon();
+    public Sail getSail();
     public int getHealth();
     public Direction getDirection();
 }
