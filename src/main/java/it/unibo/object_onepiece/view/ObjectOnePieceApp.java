@@ -1,5 +1,10 @@
 package it.unibo.object_onepiece.view;
 
+import java.io.File;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.function.Function;
@@ -11,6 +16,7 @@ import org.controlsfx.control.tableview2.TableView2;
 
 import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
+import it.unibo.object_onepiece.view.EntityView.EntityType;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -57,9 +63,23 @@ public final class ObjectOnePieceApp extends Application {
     private static final int MAP_COLUMNS = 10;
 
     private static final Color CELL_BORDER_COLOR = Color.rgb(66, 138, 245);
+    private static final Color DEFAULT_COLOR = Color.rgb(2, 127, 222);
+    private static final int RIGHT_ANGLE = 90;
 
-    private final GridModel<EntityView> gridModel = new GridModel<>();
-    private final GridView<EntityView> gridView = new GridView<>();
+    public enum Entity {
+        ENEMY,
+        WATER;
+    }
+
+    public enum Direction {
+        UP,
+        RIGHT,
+        DOWN,
+        LEFT;
+    }
+
+    private final GridModel<Pair<Entity, Optional<Direction>>> gridModel = new GridModel<>();
+    private final GridView<Pair<Entity, Optional<Direction>>> gridView = new GridView<>();
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
@@ -67,38 +87,34 @@ public final class ObjectOnePieceApp extends Application {
 
         BorderPane borderPane = new BorderPane();
 
-        gridModel.setDefaultState(new EntityView());
+        gridModel.setDefaultState(new Pair<>(Entity.WATER, Optional.empty()));
         gridModel.setNumberOfColumns(MAP_COLUMNS);
         gridModel.setNumberOfRows(MAP_ROWS);
         gridView.setGridModel(gridModel);
-        gridModel.getCells().forEach(i -> gridView.addColorMapping(i.getState(), i.getState().getColor()));
-
+        gridModel.getCells().forEach(i -> gridView.addColorMapping(new Pair<>(Entity.WATER, Optional.empty()), DEFAULT_COLOR));
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
-        /*gridView.addNodeMapping(EntityView.PLAYER, i -> {
-            Image img = new Image("pirate_ship_00000.png");
-            ImageView pirateView = new ImageView(img);
-            pirateView.setPreserveRatio(true); 
-            pirateView.fitHeightProperty().bind(gridView.cellSizeProperty());
-            gridView.addColorMapping(EntityView.PLAYER, EntityView.PLAYER.color.get());
-            return pirateView;
-        });*/
 
-        movePlayer(0, 0);
-        movePlayer(2, 3);
-
-        TableView2<Entity> entityInfoTable = new TableView2<>();
-        ObservableList<Entity> eList = FXCollections.observableArrayList(new Entity("Usopp", 100));
-        entityInfoTable.setItems(eList);
+        Stream.of(Entity.values()).forEach(i -> {
+            String entityName = i.toString().toLowerCase();
+            URL imgPath = getClass().getResource("/img/sprites/" + entityName + "/" + entityName + ".png");
+            if (imgPath != null) {
+                Stream.of(Direction.values()).forEach(j -> {
+                    gridView.addNodeMapping(new Pair<>(i, Optional.of(j)), cell -> {
+                        Image img = new Image(imgPath.toString());
+                        ImageView entityImage = new ImageView(img);
+                        if (cell.getState().getY().isPresent()) {
+                            var direction = cell.getState().getY().get();
+                            entityImage.setRotate(RIGHT_ANGLE * direction.ordinal());
+                        }
+                        entityImage.setPreserveRatio(true);
+                        entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
+                        return entityImage;
+                    });
+                });
+            }
+            
+        });
         
-        TableColumn2<Entity, Image> iconColumn = new TableColumn2<>("Image");
-        TableColumn2<Entity, String> nameColumn = new TableColumn2<>("Name");
-        nameColumn.setCellValueFactory(p -> p.getValue().name);
-        TableColumn2<Entity, Integer> healthColumn = new TableColumn2<>("Health");
-        healthColumn.setCellValueFactory(p -> p.getValue().health.asObject());
-
-        entityInfoTable.getColumns().setAll(nameColumn, healthColumn);
-        
-
         Canvas health = new Canvas(100, 100);
         GraphicsContext healthGC = health.getGraphicsContext2D();
         Rectangle healthBar = new Rectangle(20, 100);
@@ -112,21 +128,14 @@ public final class ObjectOnePieceApp extends Application {
 
         borderPane.setCenter(gridView);
         borderPane.setRight(healthContainer);
-        borderPane.setLeft(entityInfoTable);
         Scene scene = new Scene(borderPane, 600, 600);
         scene.getStylesheets().add("/css/ObjectOnePieceApp.css");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    private void movePlayer(int row, int col) {
-        /*var playerList = gridModel.getCellsWithState(EntityView.PLAYER);
-        if (!playerList.isEmpty() && playerList.size() > 1) {
-            throw new IllegalStateException("There can't exist two players on the map");
-        } else if (!playerList.isEmpty()) {
-            playerList.get(0).changeState(EntityView.WATER);
-        }   
-        gridModel.getCell(col, row).changeState(EntityView.PLAYER);*/
+    private void drawEntity(int row, int col, Entity e, Optional<Direction> d) {
+        gridModel.getCell(col, row).changeState(new Pair<>(e, d));
     }
 
     private void drawHealthBar(GraphicsContext gc,Rectangle rect) {
@@ -139,7 +148,7 @@ public final class ObjectOnePieceApp extends Application {
         gc.setStroke(Color.BLUE);
     }
 
-    public class Entity {
+    /*public class Entity {
         private StringProperty name;
         private IntegerProperty health;
         private Canvas healthBar;
@@ -150,7 +159,7 @@ public final class ObjectOnePieceApp extends Application {
             this.health = new SimpleIntegerProperty(health);
         }
 
-    }
+    }*/
 
     /**
      * Program's entry point.
