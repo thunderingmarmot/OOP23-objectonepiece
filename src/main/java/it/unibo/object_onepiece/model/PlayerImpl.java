@@ -29,7 +29,5 @@ public class PlayerImpl extends ShipImpl implements Player {
     public void addHealth(int healthGained) {
         int nextHealth = this.getTotalHealth() + healthGained;
         this.setHealth(nextHealth < MAX_HEALTH ? nextHealth : MAX_HEALTH);
-    }
-
-    
+    }    
 }

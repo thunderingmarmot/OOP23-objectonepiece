@@ -2,7 +2,7 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.Position;
 
-public class BarrelImpl extends EntityImpl<Barrel> implements Barrel {
+public class BarrelImpl extends EntityImpl implements Barrel {
 
     private final int experienceGiven;
 
@@ -27,10 +27,5 @@ public class BarrelImpl extends EntityImpl<Barrel> implements Barrel {
     @Override
     public Rigidness getRigidness() {
         return Rigidness.SOFT;
-    }
-
-    @Override
-    public Barrel cast() {
-        return this;
     }
 }
