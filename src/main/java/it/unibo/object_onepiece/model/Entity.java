@@ -5,15 +5,6 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * Everything present physically in the game (es player,barrel...)
  */
 public interface Entity {
-    public enum Type {
-        BARREL,
-        ISLAND,
-        ENEMY,
-        PLAYER,
-    }
-
-    public Type getType();
-
     public Section getSection();
     
     /**

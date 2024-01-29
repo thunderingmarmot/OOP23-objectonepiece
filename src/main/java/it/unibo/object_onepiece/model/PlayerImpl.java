@@ -24,9 +24,4 @@ public class PlayerImpl extends ShipImpl implements Player {
     public void addExperience(int experience) {
         this.experience += experience;
     }
-
-    @Override
-    public Type getType() {
-        return Type.PLAYER;
-    }    
 }
