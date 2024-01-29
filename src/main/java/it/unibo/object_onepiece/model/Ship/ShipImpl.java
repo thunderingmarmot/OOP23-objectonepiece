@@ -43,12 +43,12 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
                 break;
 
             case STATIC_COLLISION:
-                //this.collideWith(obstacle);
+                this.collideWith(obstacle);
                 break;
 
             case MOVED_BUT_COLLIDED:
                 this.position = nextPosition;
-                //this.collideWith(obstacle);
+                this.collideWith(obstacle);
                 break;
 
             default:
