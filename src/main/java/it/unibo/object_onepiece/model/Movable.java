@@ -15,5 +15,7 @@ public interface Movable {
         SAIL_BROKEN
     };
 
-    public MoveDetails move(Direction direction, Position nextPos);
+    public void move(Direction direction, Position finalPosition);
+
+    public MoveDetails canMove(Direction direction, Position nexPosition);
 }

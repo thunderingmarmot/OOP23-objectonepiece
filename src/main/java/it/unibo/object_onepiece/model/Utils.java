@@ -3,7 +3,6 @@ package it.unibo.object_onepiece.model;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.IntStream;
 import java.util.function.BiPredicate;
 
 public final class Utils {
@@ -42,10 +41,8 @@ public final class Utils {
             new Position(1,0),  Direction.RIGHT
         );
 
-        public Position moveTowards(final Direction direction, final int steps) {
-            Position p = this;
-            IntStream.range(0, steps).forEach(i -> Position.directionPositions.get(direction).apply(p));
-            return p;
+        public Position moveTowards(final Direction direction) {
+            return Position.directionPositions.get(direction).apply(this);
         }
 
         public Integer distanceFrom(final Position position){
