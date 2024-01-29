@@ -7,26 +7,26 @@ import java.util.function.BiPredicate;
 
 public final class Utils {
     public static record State(Section section, Position playerPosition, int playerExperience) {}
-    public static record Position(int x, int y) {
+    public static record Position(int row, int column) {
         public static Map<Direction, Function<Position, Position>> directionPositions = Map.of(
-            Direction.UP, (p) -> new Position(p.x + 1, p.y),
-            Direction.DOWN, (p) -> new Position(p.x - 1, p.y),
-            Direction.RIGHT, (p) -> new Position(p.x, p.y + 1),
-            Direction.LEFT, (p) -> new Position(p.x, p.y - 1)
+            Direction.UP, (p) -> new Position(p.row + 1, p.column),
+            Direction.DOWN, (p) -> new Position(p.row - 1, p.column),
+            Direction.RIGHT, (p) -> new Position(p.row, p.column + 1),
+            Direction.LEFT, (p) -> new Position(p.row, p.column - 1)
         );
 
         public static Map<Diagonal, Function<Position, Position>> diagonalPositions = Map.of(
-            Diagonal.UPPERRIGHT, (p) -> new Position(p.x + 1, p.y + 1),
-            Diagonal.LOWERLEFT, (p) -> new Position(p.x - 1, p.y - 1),
-            Diagonal.UPPERLEFT, (p) -> new Position(p.x + 1, p.y - 1),
-            Diagonal.LOWERRIGHT, (p) -> new Position(p.x - 1, p.y + 1)
+            Diagonal.UPPERRIGHT, (p) -> new Position(p.row + 1, p.column + 1),
+            Diagonal.LOWERLEFT, (p) -> new Position(p.row - 1, p.column - 1),
+            Diagonal.UPPERLEFT, (p) -> new Position(p.row + 1, p.column - 1),
+            Diagonal.LOWERRIGHT, (p) -> new Position(p.row - 1, p.column + 1)
         );
 
         public static Map<Direction, BiPredicate<Position, Position>> inlineConditions = Map.of(
-            Direction.UP, (p1, p2) -> p1.x == p2.x && p1.y != p2.y,
-            Direction.DOWN, (p1, p2) -> p1.x == p2.x && p1.y != p2.y,
-            Direction.LEFT, (p1, p2) -> p1.y == p2.y && p1.x != p2.x,
-            Direction.RIGHT, (p1, p2) -> p1.y == p2.y && p1.x != p2.x
+            Direction.UP, (p1, p2) -> p1.row == p2.row && p1.column != p2.column,
+            Direction.DOWN, (p1, p2) -> p1.row == p2.row && p1.column != p2.column,
+            Direction.LEFT, (p1, p2) -> p1.column == p2.column && p1.row != p2.row,
+            Direction.RIGHT, (p1, p2) -> p1.column == p2.column && p1.row != p2.row
         );
 
         public static Map<Position,Direction> vectorToDirectionMap = Map.of(
@@ -46,7 +46,7 @@ public final class Utils {
         }
 
         public Integer distanceFrom(final Position position){
-            return Math.abs((this.x - position.x) + (this.y - position.y));
+            return Math.abs((this.row - position.row) + (this.column - position.column));
         }
 
         public boolean isInlineWith(final Position position, final Direction direction) {
@@ -54,23 +54,23 @@ public final class Utils {
         }
 
         public Position translate(final Position position){
-            return new Position(this.x + position.x, this.y + position.y);
+            return new Position(this.row + position.row, this.column + position.column);
         }
 
-        public Position vectorialDirection( final Position position ){
-            var xx = position.x - x;
-            var yy = position.y - y;
-            return new Position(xx/Math.abs(xx), yy/Math.abs(yy));
+        public Position vectorialDirection(final Position position){
+            var deltaRow = position.row - this.row;
+            var deltaColumn = position.column - this.column;
+            return new Position(deltaRow/Math.abs(deltaRow), deltaColumn/Math.abs(deltaColumn));
         }
     };
 
     public static record Bound(int upLimit, int leftLimit, int downLimit, int rightLimit) {
 
         public static List<BiPredicate<Bound, Position>> insideConditions = List.of(
-            (b, p) -> p.x < b.upLimit,
-            (b, p) -> p.x > b.downLimit,
-            (b, p) -> p.y < b.rightLimit,
-            (b, p) -> p.y > b.leftLimit
+            (b, p) -> p.row < b.upLimit,
+            (b, p) -> p.row > b.downLimit,
+            (b, p) -> p.column < b.rightLimit,
+            (b, p) -> p.column > b.leftLimit
         );
 
         public boolean isInside(final Position position) {
