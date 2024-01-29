@@ -21,7 +21,7 @@ class Patrol implements EnemyState{
     @Override
     public Boolean perform() {
         Direction suggestedDir = compass.move(ship.getPosition());
-        MoveDetails result = ship.canMove(suggestedDir);
+        MoveDetails result = ship.canMove(suggestedDir).details();
 
         if(result != MoveDetails.ROTATED || result != MoveDetails.MOVED_SUCCESSFULLY || 
             result != MoveDetails.SAIL_BROKEN){
@@ -29,7 +29,7 @@ class Patrol implements EnemyState{
             return false;
         } 
 
-        ship.move(suggestedDir);
+        ship.move(suggestedDir,1);
         checkPlayer();
         return true;
     }

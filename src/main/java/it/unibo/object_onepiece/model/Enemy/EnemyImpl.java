@@ -6,11 +6,9 @@ import java.util.List;
 import it.unibo.object_onepiece.model.Ship.ShipImpl;
 import it.unibo.object_onepiece.model.Ship.Weapon;
 import it.unibo.object_onepiece.model.Ship.Sail;
-import it.unibo.object_onepiece.model.Ship.Ship;
 import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.Ship.Bow;
 import it.unibo.object_onepiece.model.Utils.*;
-import it.unibo.object_onepiece.view.ObjectOnePieceApp.Entity;
 
 public class EnemyImpl extends ShipImpl implements Enemy {
     private final List<EnemyState> enemyStates;
@@ -26,7 +24,7 @@ public class EnemyImpl extends ShipImpl implements Enemy {
 
     @Override
     public void goNext() {
-      
+        while (!currentState.perform());
     }
 
     @Override
@@ -38,7 +36,6 @@ public class EnemyImpl extends ShipImpl implements Enemy {
     public void changeState(States state) {
        this.currentState = findState(state);
     }
-
 
     private EnemyState findState(States stato){
         return enemyStates.stream().filter(x -> x.getState().equals(States.PATROLLING)).findFirst().get();
