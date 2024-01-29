@@ -33,13 +33,13 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
                 this.position = nextPosition;
                 break;
 
+            case ROTATED:
+                rotate(direction);
+                break;
+
             case ROTATED_AND_MOVED:
                 rotate(direction);
                 this.position = nextPosition;
-                break;
-
-            case ROTATED:
-                rotate(direction);
                 break;
 
             case STATIC_COLLISION:
@@ -47,8 +47,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
                 break;
 
             case MOVED_BUT_COLLIDED:
-                this.position = nextPosition;
                 this.collideWith(obstacle);
+                this.position = nextPosition;
                 break;
 
             default:
@@ -139,14 +139,14 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     @Override
-    public void onCollisionWith(Collider collider) {
+    public void onCollisionWith(final Collider collider) {
         if(collider.getRigidness() == Rigidness.MEDIUM) {
             this.takeDamage(this.bow.getCrashDamage(), this.bow);
         }
     }
 
     @Override
-    public void collideWith(Collidable collidable) {
+    public void collideWith(final Collidable collidable) {
         collidable.onCollisionWith(this);
         if(collidable.getRigidness() == Rigidness.MEDIUM) {
             this.takeDamage(this.bow.getCrashDamage(), this.bow);
