@@ -17,11 +17,9 @@ public class EnemyImpl extends ShipImpl implements Enemy {
     
     public EnemyImpl(Section section, Position position, Direction direction, Weapon weapon, Sail sail, Bow bow) {
         super(section, position, direction, weapon, sail, bow);
-        
         enemyStates = new ArrayList<>(List.of(
             new Patrol(this, new Compass())
         ));
-
         currentState = findState(States.PATROLLING);
     }
 
