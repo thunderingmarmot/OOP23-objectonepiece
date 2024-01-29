@@ -18,6 +18,6 @@ public interface NavigationSystem {
      * @return The direction to reach the objective
      *
      */
-    public Direction Move(Position objectivePosition,Position currentPosition);
-    public Direction Move(Position currentPosition);
+    public Direction move(Position objectivePosition,Position currentPosition);
+    public Direction move(Position currentPosition);
 }

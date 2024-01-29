@@ -15,7 +15,7 @@ public interface Enemy extends Ship {
      */
     public enum States {
         PATROLLING,
-        FOLLOWING,
+        AVOIDING,
         ATTACKING
     } 
 
