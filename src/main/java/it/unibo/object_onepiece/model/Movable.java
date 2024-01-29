@@ -15,7 +15,5 @@ public interface Movable {
         SAIL_BROKEN
     };
 
-    public record MoveReturnType(boolean hasMoved, MoveDetails details) {};
-
-    public MoveReturnType move(Direction direction, Position nextPos);
+    public MoveDetails move(Direction direction, Position nextPos);
 }

@@ -8,7 +8,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * An animated entity, it can be the player or an enemy
  */
 public interface Ship extends Entity, Collider {
-    public MoveReturnType move(Direction direction, Position nextPos);
+    public MoveDetails move(Direction direction, Position nextPos);
 
     public void takeDamage(int damage, ShipComponent s);
 
