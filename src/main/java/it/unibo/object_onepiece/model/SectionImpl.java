@@ -35,15 +35,15 @@ public class SectionImpl implements Section {
     }
 
     @Override
-    public <T extends Entity<T>> List<T> getEntities() {
+    public <T> Optional<T> getEntityAt(Position position) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEntities'");
+        throw new UnsupportedOperationException("Unimplemented method 'getEntityAt'");
     }
 
     @Override
-    public <T extends Entity<T>> Optional<T> getEntityAt(Position position) {
+    public <T> List<T> getEntities() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEntityAt'");
+        throw new UnsupportedOperationException("Unimplemented method 'getEntities'");
     }
     
 }
