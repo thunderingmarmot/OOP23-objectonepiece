@@ -4,11 +4,8 @@ import it.unibo.object_onepiece.model.Utils.Position;
 
 public class IslandImpl extends EntityImpl implements Island {
 
-    private final int healthGiven;
-
-    public IslandImpl(Section section, Position position, int healthGiven) {
+    public IslandImpl(Section section, Position position) {
         super(section, position);
-        this.healthGiven = healthGiven;
     }
 
     @Override
@@ -18,7 +15,9 @@ public class IslandImpl extends EntityImpl implements Island {
 
     @Override
     public void heal(Player player) {
-        player.addHealth(healthGiven);
+        player.getWeapon().setHealth(player.getWeapon().getMaxHealth());
+        player.getSail().setHealth(player.getSail().getMaxHealth());
+        player.getBow().setHealth(player.getBow().getMaxHealth());
     }
 
     @Override

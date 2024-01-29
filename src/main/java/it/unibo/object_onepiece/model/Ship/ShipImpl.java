@@ -26,7 +26,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void move(final Direction direction) {
         Position nextPosition = this.position.moveTowards(direction);
-        Collidable obstacle = this.getSection().<Collidable>getEntityAt(nextPosition).get();
+        Collidable obstacle = this.getSection().getEntityAt(nextPosition).get();
 
         switch (canMove(direction)) {
             case MOVED_SUCCESSFULLY:
