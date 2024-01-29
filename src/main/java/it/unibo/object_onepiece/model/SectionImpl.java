@@ -3,12 +3,19 @@ package it.unibo.object_onepiece.model;
 import java.util.List;
 import java.util.Optional;
 
+import it.unibo.object_onepiece.model.Ship.Weapon;
+import it.unibo.object_onepiece.model.Ship.WeaponImpl;
 import it.unibo.object_onepiece.model.Utils.Bound;
+import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 public class SectionImpl implements Section {
 
     List<Entity> entities;
+
+    public SectionImpl() {
+        entities.add(new PlayerImpl(this, new Position(0, 0), Direction.UP, null, null, null, 0));
+    }
 
     @Override
     public World getWorld() {
