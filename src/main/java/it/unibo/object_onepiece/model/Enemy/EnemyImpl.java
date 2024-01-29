@@ -43,15 +43,4 @@ public class EnemyImpl extends ShipImpl implements Enemy {
     private EnemyState findState(States stato){
         return enemyStates.stream().filter(x -> x.getState().equals(States.PATROLLING)).findFirst().get();
     }
-
-    @Override
-    public Ship cast() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cast'");
-    }
-
-    @Override
-    public Type getType() {
-        return Type.ENEMY;
-    }
 }
