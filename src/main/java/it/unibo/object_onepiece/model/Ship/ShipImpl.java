@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model.Ship;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import it.unibo.object_onepiece.model.Collidable;
 import it.unibo.object_onepiece.model.Collider;
@@ -24,21 +25,52 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     @Override
-    public MoveDetails move(final Direction direction, final Position nextPos) {
-        if(!this.sail.isInSpeedRange(this.getPosition(), nextPos)) {
+    public void move(final Direction direction, final Position finalPosition) {
+        for(int i = 0; i < this.getPosition().distanceFrom(finalPosition); i++) {
+            Position nextPosition = this.position.moveTowards(direction);
+            Collidable obstacle = this.getSection().getEntityAt(nextPosition);
+
+            switch (canMove(direction, nextPosition)) {
+                case MOVED_SUCCESSFULLY:
+                    this.position = nextPosition;
+                    break;
+    
+                case ROTATED_AND_MOVED:
+                    rotate(direction);
+                    this.position = nextPosition;
+                    break;
+    
+                case ROTATED:
+                    rotate(direction);
+                    break;
+    
+                case STATIC_COLLISION:
+                    this.collideWith(obstacle);
+                    break;
+    
+                case MOVED_BUT_COLLIDED:
+                    this.position = nextPosition;
+                    this.collideWith(obstacle);
+                    break;
+    
+                default:
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public MoveDetails canMove(final Direction direction, final Position nextPosition) {        
+        if(!this.sail.isInSpeedRange(this.getPosition(), nextPosition)) {
             return MoveDetails.OUT_OF_SPEED_RANGE;
         }
 
         if(this.sail.getHealth() <= 0) {
             return MoveDetails.SAIL_BROKEN;
         }
-
-        Position nextPosition = this.position.moveTowards(direction, this.getPosition().distanceFrom(nextPos));
         
         if(!direction.equals(this.currDirection)) {
-            rotate(direction);
-            if(this.sail.getRotationPower() >= this.getPosition().distanceFrom(nextPos)) {
-                this.position = nextPosition;
+            if(this.sail.getRotationPower() >= this.getPosition().distanceFrom(nextPosition)) {
                 return MoveDetails.ROTATED_AND_MOVED;
             }
             return MoveDetails.ROTATED;
@@ -47,19 +79,15 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         if(this.getSection().getBounds().isInside(position)) {
             return MoveDetails.BORDER_REACHED;
         }
-
-        Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
         
+        Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
+
         if(obstacle.isPresent() && obstacle.get() instanceof Collidable c &&
         (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {
-            this.collideWith(c);
             return MoveDetails.STATIC_COLLISION;
         }
 
-        this.position = nextPosition; // Here the Ship actually moves
-
         if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.getRigidness() == Rigidness.SOFT) {
-            this.collideWith(c);
             return MoveDetails.MOVED_BUT_COLLIDED;
         }
         
