@@ -10,6 +10,7 @@ import it.unibo.object_onepiece.model.Ship.Ship;
 import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.Ship.Bow;
 import it.unibo.object_onepiece.model.Utils.*;
+import it.unibo.object_onepiece.view.ObjectOnePieceApp.Entity;
 
 public class EnemyImpl extends ShipImpl implements Enemy {
     private final List<EnemyState> enemyStates;
@@ -47,5 +48,10 @@ public class EnemyImpl extends ShipImpl implements Enemy {
     public Ship cast() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'cast'");
+    }
+
+    @Override
+    public Type getType() {
+        return Type.ENEMY;
     }
 }
