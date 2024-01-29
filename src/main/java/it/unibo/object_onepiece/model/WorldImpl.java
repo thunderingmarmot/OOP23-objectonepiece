@@ -6,6 +6,12 @@ public class WorldImpl implements World {
 
     private State savedState;
 
+    private Section currentSection;
+
+    public WorldImpl() {
+        this.currentSection = generateSection();
+    }
+
     @Override
     public State getSavedState() {
         return savedState;
@@ -25,7 +31,6 @@ public class WorldImpl implements World {
 
     @Override
     public Section generateSection() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'generateSection'");
+        return new SectionImpl();
     }
 }
