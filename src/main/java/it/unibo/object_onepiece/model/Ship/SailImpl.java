@@ -1,5 +1,4 @@
 package it.unibo.object_onepiece.model.Ship;
-import it.unibo.object_onepiece.model.Utils.Position;
 
 public class SailImpl implements Sail {
     private final int maxSpeed;
@@ -17,9 +16,9 @@ public class SailImpl implements Sail {
     }
 
     @Override
-    public boolean isInSpeedRange(Position currPosition, Position nextPosition) {
-        if((currPosition.distanceFrom(nextPosition) > this.maxSpeed) ||
-        (currPosition.distanceFrom(nextPosition) < this.minSpeed)) {
+    public boolean isInSpeedRange(final int steps) {
+        if((steps > this.maxSpeed) ||
+        (steps < this.minSpeed)) {
             return false;
         }
         return true;
