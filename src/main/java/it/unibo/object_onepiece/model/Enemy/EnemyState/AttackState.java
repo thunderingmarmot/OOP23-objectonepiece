@@ -1,5 +1,6 @@
-package it.unibo.object_onepiece.model.Enemy;
+package it.unibo.object_onepiece.model.Enemy.EnemyState;
 
+import it.unibo.object_onepiece.model.Enemy.Enemy;
 import it.unibo.object_onepiece.model.Enemy.Enemy.States;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;

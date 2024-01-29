@@ -1,12 +1,14 @@
-package it.unibo.object_onepiece.model.Enemy;
+package it.unibo.object_onepiece.model.Enemy.EnemyState;
 
 import java.util.function.Supplier;
+
+import it.unibo.object_onepiece.model.Enemy.Enemy;
 import it.unibo.object_onepiece.model.Enemy.Enemy.States;
 import it.unibo.object_onepiece.model.Movable.MoveDetails;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 
-class ObstacleAvoidance implements EnemyState{
+public class ObstacleAvoidance  implements EnemyState {
     private Enemy ship;
     private int attempt = 0;
     private Direction primaryDirection;

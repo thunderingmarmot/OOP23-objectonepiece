@@ -1,12 +1,13 @@
-package it.unibo.object_onepiece.model.Enemy;
+package it.unibo.object_onepiece.model.Enemy.EnemyState;
 
-import it.unibo.object_onepiece.model.Utils;
+import it.unibo.object_onepiece.model.Enemy.Enemy;
+import it.unibo.object_onepiece.model.Enemy.NavigationSystem;
 import it.unibo.object_onepiece.model.Enemy.Enemy.States;
 import it.unibo.object_onepiece.model.Movable.MoveDetails;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 
-class Patrol implements EnemyState{
+public class Patrol implements EnemyState{
 
     private final int triggerDistance = 3;
     private final NavigationSystem compass;
