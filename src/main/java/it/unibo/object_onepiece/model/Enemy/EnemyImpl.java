@@ -6,6 +6,7 @@ import java.util.List;
 import it.unibo.object_onepiece.model.Ship.ShipImpl;
 import it.unibo.object_onepiece.model.Ship.Weapon;
 import it.unibo.object_onepiece.model.Ship.Sail;
+import it.unibo.object_onepiece.model.Ship.Ship;
 import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.Ship.Bow;
 import it.unibo.object_onepiece.model.Utils.*;
@@ -42,5 +43,11 @@ public class EnemyImpl extends ShipImpl implements Enemy {
 
     private EnemyState findState(States stato){
         return enemyStates.stream().filter(x -> x.getState().equals(States.PATROLLING)).findFirst().get();
+    }
+
+    @Override
+    public Ship cast() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'cast'");
     }
 }

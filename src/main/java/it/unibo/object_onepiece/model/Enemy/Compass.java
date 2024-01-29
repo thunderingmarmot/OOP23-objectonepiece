@@ -15,16 +15,16 @@ class Compass implements NavigationSystem {
     }
 
     @Override
-    public Direction Move(Position objectivePosition,Position currentPosition) {
+    public Direction move(Position objectivePosition,Position currentPosition) {
         var direction = currentPosition.vectorialDirection(objectivePosition);
         return Position.vectorToDirectionMap.get(direction);
     }
 
-    public Direction Move(Position currentPosition){
+    public Direction move(Position currentPosition){
         if(objectiveReached(objective)){
             defineRandomObjective();
         } 
-        return this.Move(objective, currentPosition);
+        return this.move(objective, currentPosition);
     }
 
     private void defineRandomObjective(){

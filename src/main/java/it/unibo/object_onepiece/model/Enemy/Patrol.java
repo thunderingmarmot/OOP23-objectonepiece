@@ -9,11 +9,9 @@ import it.unibo.object_onepiece.model.Utils.Position;
 class Patrol implements EnemyState{
 
     private final int triggerDistance = 3;
-    private Boolean obstacleAvoiding = false;
     private final NavigationSystem compass;
     private final Enemy ship;
     private final States stato = States.PATROLLING;
-    private Direction direction;
 
     public Patrol(Enemy ship,NavigationSystem compass){
         this.ship = ship;
@@ -21,26 +19,19 @@ class Patrol implements EnemyState{
     }
 
     @Override
-    public void perform() {
+    public Boolean perform() {
+        Direction suggestedDir = compass.move(ship.getPosition());
+        MoveDetails result = ship.canMove(suggestedDir, nextPos(suggestedDir));
 
-        if(obstacleAvoiding == false){
-            direction = compass.Move(ship.getPosition());
-        }
+        if(result != MoveDetails.ROTATED || result != MoveDetails.MOVED_SUCCESSFULLY || 
+            result != MoveDetails.SAIL_BROKEN){
+            ship.changeState(States.AVOIDING);
+            return false;
+        } 
 
-        MoveDetails result = ship.move(compass.Move(ship.getPosition()),
-            Position.directionPositions.get(direction).apply(ship.getPosition())).details();
-       
-
-        switch (result) {
-            case MOVED_BUT_COLLIDED:
-                obstacleAvoiding = true;
-
-                break;
-        
-            default:
-                break;
-        }
-        checkState();
+        ship.move(suggestedDir, nextPos(suggestedDir));
+        checkPlayer();
+        return true;
     }
 
     @Override
@@ -48,9 +39,9 @@ class Patrol implements EnemyState{
        return stato;
     }
 
-    private void checkState(){
+    private void checkPlayer(){
         if(this.ship.getPosition().distanceFrom(playerPos()) <= triggerDistance){
-            this.ship.changeState(States.FOLLOWING);
+            this.ship.changeState(States.ATTACKING);
         }
     }
 
@@ -58,6 +49,9 @@ class Patrol implements EnemyState{
         return this.ship.getSection().getPlayer().getPosition();
     }
 
-    private Direction NextDirection();
+    private Position nextPos( Direction direction ){
+        return Position.directionPositions
+                .get(direction).apply(ship.getPosition());
+    }
 
 }
