@@ -35,13 +35,13 @@ public class SectionImpl implements Section {
     }
 
     @Override
-    public <T> Optional<T> getEntityAt(Position position) {
+    public Optional<Entity> getEntityAt(Position position) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getEntityAt'");
     }
 
     @Override
-    public <T> List<T> getEntities() {
+    public List<Entity> getEntities() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getEntities'");
     }
