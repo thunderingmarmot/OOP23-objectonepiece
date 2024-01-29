@@ -32,9 +32,4 @@ public class IslandImpl extends EntityImpl implements Island {
     public Rigidness getRigidness() {
         return Rigidness.HARD;
     }
-
-    @Override
-    public Type getType() {
-        return Type.ISLAND;
-    }
 }
