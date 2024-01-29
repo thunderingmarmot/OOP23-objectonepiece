@@ -8,6 +8,8 @@ import it.unibo.object_onepiece.model.Utils.Position;
 
 public class SectionImpl implements Section {
 
+    List<Entity> entities;
+
     @Override
     public World getWorld() {
         // TODO Auto-generated method stub
@@ -21,18 +23,6 @@ public class SectionImpl implements Section {
     }
 
     @Override
-    public Optional<Entity> getEntityAt(Position position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEntityAt'");
-    }
-
-    @Override
-    public List<Entity> getEntities() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEntities'");
-    }
-
-    @Override
     public void removeEntityAt(Position position) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'removeEntityAt'");
@@ -42,6 +32,18 @@ public class SectionImpl implements Section {
     public Player getPlayer() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getPlayer'");
+    }
+
+    @Override
+    public <T extends Entity<T>> List<T> getEntities() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEntities'");
+    }
+
+    @Override
+    public <T extends Entity<T>> Optional<T> getEntityAt(Position position) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEntityAt'");
     }
     
 }

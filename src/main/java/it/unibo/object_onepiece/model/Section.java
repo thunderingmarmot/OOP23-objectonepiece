@@ -15,8 +15,8 @@ public interface Section {
 
     public Bound getBounds();
 
-    public Optional<Entity> getEntityAt(Position position);
-    public List<Entity> getEntities();
+    public <T extends Entity<T>> Optional<T> getEntityAt(Position position);
+    public <T extends Entity<T>> List<T> getEntities();
 
     public void removeEntityAt(Position position);
 

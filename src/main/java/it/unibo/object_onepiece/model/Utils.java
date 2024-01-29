@@ -6,7 +6,7 @@ import java.util.function.Function;
 import java.util.function.BiPredicate;
 
 public final class Utils {
-    public static record State(Section section, Position playerPosition, int playerHealth, int playerExperience) {}
+    public static record State(Section section, Position playerPosition, int playerExperience) {}
     public static record Position(int x, int y) {
         public static Map<Direction, Function<Position, Position>> directionPositions = Map.of(
             Direction.UP, (p) -> new Position(p.x + 1, p.y),

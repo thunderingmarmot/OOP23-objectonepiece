@@ -14,7 +14,7 @@ public class WorldImpl implements World {
     @Override
     public void setSavedState() {
         Player player = getCurrentSection().getPlayer();
-        savedState = new State(getCurrentSection(), player.getPosition(), player.getHealth(), player.getExperience());
+        savedState = new State(getCurrentSection(), player.getPosition(), player.getExperience());
     }
 
     @Override
