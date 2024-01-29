@@ -24,13 +24,13 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     @Override
-    public MoveReturnType move(final Direction direction, final Position nextPos) {
+    public MoveDetails move(final Direction direction, final Position nextPos) {
         if(!this.sail.isInSpeedRange(this.getPosition(), nextPos)) {
-            return new MoveReturnType(false, MoveDetails.OUT_OF_SPEED_RANGE);
+            return MoveDetails.OUT_OF_SPEED_RANGE;
         }
 
         if(this.sail.getHealth() <= 0) {
-            return new MoveReturnType(false, MoveDetails.SAIL_BROKEN);
+            return MoveDetails.SAIL_BROKEN;
         }
 
         Position nextPosition = this.position.moveTowards(direction, this.getPosition().distanceFrom(nextPos));
@@ -39,13 +39,13 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
             rotate(direction);
             if(this.sail.getRotationPower() >= this.getPosition().distanceFrom(nextPos)) {
                 this.position = nextPosition;
-                return new MoveReturnType(true, MoveDetails.ROTATED_AND_MOVED);
+                return MoveDetails.ROTATED_AND_MOVED;
             }
-            return new MoveReturnType(false, MoveDetails.ROTATED);
+            return MoveDetails.ROTATED;
         }
 
         if(this.getSection().getBounds().isInside(position)) {
-            return new MoveReturnType(false, MoveDetails.BORDER_REACHED);
+            return MoveDetails.BORDER_REACHED;
         }
 
         Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
@@ -53,17 +53,17 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         if(obstacle.isPresent() && obstacle.get() instanceof Collidable c &&
         (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {
             this.collideWith(c);
-            return new MoveReturnType(false, MoveDetails.STATIC_COLLISION);
+            return MoveDetails.STATIC_COLLISION;
         }
 
         this.position = nextPosition; // Here the Ship actually moves
 
         if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.getRigidness() == Rigidness.SOFT) {
             this.collideWith(c);
-            return new MoveReturnType(true, MoveDetails.MOVED_BUT_COLLIDED);
+            return MoveDetails.MOVED_BUT_COLLIDED;
         }
         
-        return new MoveReturnType(true, MoveDetails.MOVED_SUCCESSFULLY);
+        return MoveDetails.MOVED_SUCCESSFULLY;
     }
     
     @Override

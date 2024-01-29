@@ -23,19 +23,19 @@ public class WeaponImpl implements Weapon {
     }
 
     @Override
-    public ShootReturnType shoot(final Position position) {
+    public ShootDetails shoot(final Position position) {
         if(this.health <= 0) {
-            return new ShootReturnType(false, ShootDetails.WEAPON_BROKEN);
+            return ShootDetails.WEAPON_BROKEN;
         }
 
         if(this.ship.getPosition().isInlineWith(position, this.ship.getDirection()) && this.ship.getPosition().distanceFrom(position) <= this.attackRange) {
             hitTarget(position, this.maxDamage);
             Position.directionPositions.values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
             Position.diagonalPositions.values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
-            return new ShootReturnType(true, ShootDetails.SHOOTED_SUCCESSFULLY);
+            return ShootDetails.SHOOTED_SUCCESSFULLY;
         }
 
-        return new ShootReturnType(false, ShootDetails.OUT_OF_SHOOTING_RANGE);
+        return ShootDetails.OUT_OF_SHOOTING_RANGE;
     }
 
     @Override
