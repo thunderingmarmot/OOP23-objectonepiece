@@ -2,7 +2,7 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.Position;
 
-public class IslandImpl extends EntityImpl implements Island {
+public class IslandImpl extends EntityImpl<Island> implements Island {
 
     private final int healthGiven;
 
@@ -32,5 +32,10 @@ public class IslandImpl extends EntityImpl implements Island {
     @Override
     public Rigidness getRigidness() {
         return Rigidness.HARD;
+    }
+
+    @Override
+    public Island cast() {
+        return this;
     }
 }

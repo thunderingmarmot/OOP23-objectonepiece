@@ -4,7 +4,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 /**
  * Everything present physically in the game (es player,barrel...)
  */
-public interface Entity {
+public interface Entity<T extends Entity<T>> {
     public Section getSection();
     
     /**
@@ -14,4 +14,6 @@ public interface Entity {
     public Position getPosition();
 
     public void remove();
+
+    public T cast();
 }
