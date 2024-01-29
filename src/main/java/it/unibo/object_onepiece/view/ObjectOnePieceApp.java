@@ -1,6 +1,7 @@
 package it.unibo.object_onepiece.view;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -11,6 +12,8 @@ import org.controlsfx.control.tableview2.TableView2;
 
 import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
+import it.unibo.object_onepiece.model.World;
+import it.unibo.object_onepiece.model.WorldImpl;
 import javafx.application.Application;
 import javafx.event.EventType;
 import javafx.scene.Scene;
@@ -37,12 +40,15 @@ public final class ObjectOnePieceApp extends Application {
     private static final Color DEFAULT_COLOR = Color.rgb(2, 127, 222);
     private static final int RIGHT_ANGLE = 90;
 
-    public enum Entity {
+    public enum EntityType {
         ENEMY,
         PLAYER,
         BARREL,
+        ISLAND,
         WATER;
     }
+
+    //private static final Map<EntityType, Predicate<Entity, >> m = new HashMap<>();
 
     public enum Direction {
         UP,
@@ -51,18 +57,20 @@ public final class ObjectOnePieceApp extends Application {
         LEFT;
     }
 
-    private final GridModel<Pair<Entity, Optional<Direction>>> gridModel = new GridModel<>();
-    private final GridView<Pair<Entity, Optional<Direction>>> gridView = new GridView<>();
+    private final GridModel<Pair<EntityType, Optional<Direction>>> gridModel = new GridModel<>();
+    private final GridView<Pair<EntityType, Optional<Direction>>> gridView = new GridView<>();
+    private final World world = new WorldImpl();
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
         gridSetUp();
+        world.getCurrentSection().getEntities();
 
         BorderPane borderPane = new BorderPane();
-        
-        drawEntity(0, 2, Entity.ENEMY, Optional.of(Direction.DOWN));
-        drawEntity(0, 2, Entity.BARREL, Optional.of(Direction.LEFT));
+
+        drawEntity(0, 1, EntityType.ENEMY, Optional.of(Direction.DOWN));
+        drawEntity(0, 2, EntityType.ISLAND, Optional.empty());
         
         Canvas health = new Canvas(100, 100);
         GraphicsContext healthGC = health.getGraphicsContext2D();
@@ -84,14 +92,14 @@ public final class ObjectOnePieceApp extends Application {
     }
 
     private void gridSetUp() {
-        gridModel.setDefaultState(new Pair<>(Entity.WATER, Optional.empty()));
+        gridModel.setDefaultState(new Pair<>(EntityType.WATER, Optional.empty()));
         gridModel.setNumberOfColumns(MAP_COLUMNS);
         gridModel.setNumberOfRows(MAP_ROWS);
         gridView.setGridModel(gridModel);
-        gridModel.getCells().forEach(i -> gridView.addColorMapping(new Pair<>(Entity.WATER, Optional.empty()), DEFAULT_COLOR));
+        gridModel.getCells().forEach(i -> gridView.addColorMapping(new Pair<>(EntityType.WATER, Optional.empty()), DEFAULT_COLOR));
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
 
-        Stream.of(Entity.values()).forEach(i -> {
+        Stream.of(EntityType.values()).forEach(i -> {
             final String entityName = i.toString().toLowerCase();
             final URL imgPath = getClass().getResource("/img/sprites/" + entityName + "/" + entityName + ".png");
             if (imgPath != null) {
@@ -117,7 +125,7 @@ public final class ObjectOnePieceApp extends Application {
         });
     }
 
-    private void drawEntity(int row, int col, Entity e, Optional<Direction> d) {
+    private void drawEntity(int row, int col, EntityType e, Optional<Direction> d) {
         gridModel.getCell(col, row).changeState(new Pair<>(e, d));
     }
 
