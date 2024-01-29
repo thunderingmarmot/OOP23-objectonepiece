@@ -1,7 +1,6 @@
 package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.Direction;
-import it.unibo.object_onepiece.model.Utils.Position;
 
 public interface Movable {
     public enum MoveDetails {
@@ -15,7 +14,7 @@ public interface Movable {
         SAIL_BROKEN
     };
 
-    public void move(Direction direction, Position finalPosition);
+    public void move(Direction direction);
 
-    public MoveDetails canMove(Direction direction, Position nexPosition);
+    public MoveDetails canMove(Direction direction);
 }
