@@ -26,7 +26,7 @@ public abstract class ShipImpl extends EntityImpl<Ship> implements Ship {
     @Override
     public void move(final Direction direction) {
         Position nextPosition = this.position.moveTowards(direction);
-        //Collidable obstacle = this.getSection().getEntityAt(nextPosition);
+        Collidable obstacle = this.getSection().<Collidable>getEntityAt(nextPosition).get();
 
         switch (canMove(direction)) {
             case MOVED_SUCCESSFULLY:
@@ -108,13 +108,6 @@ public abstract class ShipImpl extends EntityImpl<Ship> implements Ship {
     @Override
     public void setBow(final Bow bow) {
         this.bow = bow;
-    }
-
-    @Override
-    public void setTotalHealth(final int health) {
-        this.weapon.setHealth(health);
-        this.sail.setHealth(health);
-        this.bow.setHealth(health);
     }
     
     @Override

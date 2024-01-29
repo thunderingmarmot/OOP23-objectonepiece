@@ -12,7 +12,6 @@ public interface Ship extends Entity<Ship>, Collider {
     public void setWeapon(Weapon weapon);
     public void setSail(Sail sail);
     public void setBow(Bow bow);
-    public void setTotalHealth(int health);
 
     public Weapon getWeapon();
     public Sail getSail();

@@ -7,28 +7,26 @@ import java.util.Random;
 import it.unibo.object_onepiece.model.Entity;
 import it.unibo.object_onepiece.model.Utils.Position;
 
-public class WeaponImpl implements Weapon {
+public class WeaponImpl extends ShipComponentImpl implements Weapon {
     private final int maxDamage;
     private final int minDamage;
     private final int attackRange;
-    private final Ship ship;
-    private int health;
 
     public WeaponImpl(final int max, final int min, final int range, final Ship ship, final int health) {
+        super(ship, health);
         this.maxDamage = max;
         this.minDamage = min;
         this.attackRange = range;
-        this.ship = ship;
-        this.health = health;
     }
 
     @Override
     public ShootDetails shoot(final Position position) {
-        if(this.health <= 0) {
+        if(this.getHealth() <= 0) {
             return ShootDetails.WEAPON_BROKEN;
         }
 
-        if(this.ship.getPosition().isInlineWith(position, this.ship.getDirection()) && this.ship.getPosition().distanceFrom(position) <= this.attackRange) {
+        if((this.getShip().getPosition().isInlineWith(position, this.getShip().getDirection())) && 
+        (this.getShip().getPosition().distanceFrom(position) <= this.attackRange)) {
             hitTarget(position, this.maxDamage);
             Position.directionPositions.values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
             Position.diagonalPositions.values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
@@ -36,16 +34,6 @@ public class WeaponImpl implements Weapon {
         }
 
         return ShootDetails.OUT_OF_SHOOTING_RANGE;
-    }
-
-    @Override
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    @Override
-    public Ship getShip() {
-        return this.ship;
     }
 
     @Override
@@ -62,14 +50,9 @@ public class WeaponImpl implements Weapon {
     public int getRange() {
         return this.attackRange;
     }
-
-    @Override
-    public int getHealth() {
-        return this.health;
-    }
     
     private void hitTarget(final Position position, final int damage) {
-        Optional<Entity> ship = this.ship.getSection().getEntityAt(position);
+        Optional<Entity> ship = this.getShip().getSection().getEntityAt(position);
         if(ship.get() instanceof Ship s) {
             List<ShipComponent> sc = List.of(this, this.getShip().getSail(), this.getShip().getBow());
             s.takeDamage(damage, sc.stream()

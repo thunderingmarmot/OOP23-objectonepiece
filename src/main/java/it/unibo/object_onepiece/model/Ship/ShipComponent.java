@@ -5,4 +5,5 @@ public interface ShipComponent {
 
     public Ship getShip();
     public int getHealth();
+    public int getMaxHealth();
 }
