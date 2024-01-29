@@ -6,7 +6,7 @@ import it.unibo.object_onepiece.model.Utils.Direction;
 /**
  * An animated entity, it can be the player or an enemy
  */
-public interface Ship extends Entity, Collider {
+public interface Ship extends Entity<Ship>, Collider {
     public void takeDamage(int damage, ShipComponent s);
 
     public void setWeapon(Weapon weapon);

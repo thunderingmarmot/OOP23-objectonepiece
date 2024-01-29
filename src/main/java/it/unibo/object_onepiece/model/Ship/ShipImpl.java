@@ -10,7 +10,7 @@ import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 
-public abstract class ShipImpl extends EntityImpl implements Ship {
+public abstract class ShipImpl extends EntityImpl<Ship> implements Ship {
     private Direction currDirection;
     private Weapon weapon;
     private Sail sail;
