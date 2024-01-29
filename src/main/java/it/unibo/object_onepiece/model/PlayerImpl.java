@@ -24,10 +24,4 @@ public class PlayerImpl extends ShipImpl implements Player {
     public void addExperience(int experience) {
         this.experience += experience;
     }
-
-    @Override
-    public void addHealth(int healthGained) {
-        int nextHealth = this.getTotalHealth() + healthGained;
-        this.setHealth(nextHealth < MAX_HEALTH ? nextHealth : MAX_HEALTH);
-    }    
 }
