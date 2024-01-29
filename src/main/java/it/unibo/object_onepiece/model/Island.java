@@ -3,7 +3,7 @@ package it.unibo.object_onepiece.model;
 /**
  * The healing and saving point for the player
  */
-public interface Island extends Entity<Island>, Collidable {
+public interface Island extends Collidable {
     public void save();
     public void heal(Player player);
 }

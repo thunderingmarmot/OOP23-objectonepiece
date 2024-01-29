@@ -9,7 +9,7 @@ import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 
-public abstract class ShipImpl extends EntityImpl<Ship> implements Ship {
+public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
     private Weapon weapon;
     private Sail sail;
@@ -26,15 +26,10 @@ public abstract class ShipImpl extends EntityImpl<Ship> implements Ship {
     @Override
     public void move(final Direction direction) {
         Position nextPosition = this.position.moveTowards(direction);
-        //Collidable obstacle = this.getSection().getEntityAt(nextPosition);
+        Collidable obstacle = this.getSection().<Collidable>getEntityAt(nextPosition).get();
 
         switch (canMove(direction)) {
             case MOVED_SUCCESSFULLY:
-                this.position = nextPosition;
-                break;
-
-            case ROTATED_AND_MOVED:
-                rotate(direction);
                 this.position = nextPosition;
                 break;
 
@@ -42,13 +37,18 @@ public abstract class ShipImpl extends EntityImpl<Ship> implements Ship {
                 rotate(direction);
                 break;
 
+            case ROTATED_AND_MOVED:
+                rotate(direction);
+                this.position = nextPosition;
+                break;
+
             case STATIC_COLLISION:
-                //this.collideWith(obstacle);
+                this.collideWith(obstacle);
                 break;
 
             case MOVED_BUT_COLLIDED:
+                this.collideWith(obstacle);
                 this.position = nextPosition;
-                //this.collideWith(obstacle);
                 break;
 
             default:
@@ -109,13 +109,6 @@ public abstract class ShipImpl extends EntityImpl<Ship> implements Ship {
     public void setBow(final Bow bow) {
         this.bow = bow;
     }
-
-    @Override
-    public void setTotalHealth(final int health) {
-        this.weapon.setHealth(health);
-        this.sail.setHealth(health);
-        this.bow.setHealth(health);
-    }
     
     @Override
     public Weapon getWeapon() {
@@ -146,14 +139,14 @@ public abstract class ShipImpl extends EntityImpl<Ship> implements Ship {
     }
 
     @Override
-    public void onCollisionWith(Collider collider) {
+    public void onCollisionWith(final Collider collider) {
         if(collider.getRigidness() == Rigidness.MEDIUM) {
             this.takeDamage(this.bow.getCrashDamage(), this.bow);
         }
     }
 
     @Override
-    public void collideWith(Collidable collidable) {
+    public void collideWith(final Collidable collidable) {
         collidable.onCollisionWith(this);
         if(collidable.getRigidness() == Rigidness.MEDIUM) {
             this.takeDamage(this.bow.getCrashDamage(), this.bow);

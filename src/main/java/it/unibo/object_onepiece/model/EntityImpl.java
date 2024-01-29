@@ -1,7 +1,7 @@
 package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.Position;
 
-public abstract class EntityImpl<T extends Entity<T>> implements Entity<T> {
+public abstract class EntityImpl implements Entity {
     final protected Section section;
     protected Position position;
 
@@ -24,4 +24,7 @@ public abstract class EntityImpl<T extends Entity<T>> implements Entity<T> {
     public void remove() {
         this.getSection().removeEntityAt(this.position);
     }
+
+    @Override
+    public abstract Type getType();
 }
