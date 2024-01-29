@@ -1,6 +1,6 @@
-package it.unibo.object_onepiece.model;
+package it.unibo.object_onepiece.model.Enemy;
 
-import it.unibo.object_onepiece.model.Enemy.States;
+import it.unibo.object_onepiece.model.Enemy.Enemy.States;
 
 class Follow implements EnemyState{
 
