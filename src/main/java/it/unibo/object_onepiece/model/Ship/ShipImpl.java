@@ -1,6 +1,6 @@
 package it.unibo.object_onepiece.model.Ship;
+import java.util.Map;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 import it.unibo.object_onepiece.model.Collidable;
 import it.unibo.object_onepiece.model.Collider;
@@ -25,51 +25,59 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     @Override
-    public boolean move(final Position finaPosition, final Direction direction) {
-        final int steps = this.getPosition().distanceFrom(finaPosition);
+    public MoveReturnType move(final Direction direction, final int steps) {
+        Position nextPosition = this.position.moveTowards(direction);
+        Collidable obstacle = (Collidable) this.getSection().getEntityAt(nextPosition).get();
 
-        if(this.sail.isInSpeedRange(steps)) {
-            IntStream.range(0, steps)
-                     .forEach(i -> moveStep(direction));
-            return true;
+        Map<MoveDetails, Runnable> moveCondition = Map.of(
+            MoveDetails.MOVED_SUCCESSFULLY, () -> this.position = nextPosition,
+            MoveDetails.ROTATED, () -> rotate(direction),
+            MoveDetails.STATIC_COLLISION, () -> this.collideWith(obstacle),
+            MoveDetails.MOVED_BUT_COLLIDED, () -> { this.collideWith(obstacle);
+                                                    this.position = nextPosition; }
+        );
+
+        MoveReturnType nextStep = canMove(direction);
+        moveCondition.get(nextStep.details()).run();
+                
+        if(steps==0) {
+            return nextStep;
+        } else {
+            return move(direction, steps-1);
         }
-
-        if(this.sail.getRotationPower() >= steps) {
-            IntStream.range(0, steps + 1)
-                     .forEach(i -> moveStep(direction));
-            return true;
-        }
-
-        return false;
     }
 
-    
+
+    public MoveReturnType move(final Direction direction) {
+        return move(direction, 1);
+    }
+
     @Override
-    public MoveDetails canMove(final Direction direction) {
+    public MoveReturnType canMove(final Direction direction) {
         if(this.sail.getHealth() <= 0) {
-            return MoveDetails.SAIL_BROKEN;
+            return new MoveReturnType(false, MoveDetails.SAIL_BROKEN);
         }
         
         if(!direction.equals(this.currDirection)) {
-            return MoveDetails.ROTATED;
+            return new MoveReturnType(false, MoveDetails.ROTATED);
         }
         
-        if(this.getSection().getBounds().isInside(position)) {
-            return MoveDetails.BORDER_REACHED;
+        if(!this.getSection().getBounds().isInside(position)) {
+            return new MoveReturnType(false, MoveDetails.BORDER_REACHED);
         }
         
         Optional<Entity> obstacle = this.getSection().getEntityAt(this.position.moveTowards(direction));
         
         if(obstacle.isPresent() && obstacle.get() instanceof Collidable c &&
         (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {
-            return MoveDetails.STATIC_COLLISION;
+            return new MoveReturnType(false, MoveDetails.STATIC_COLLISION);
         }
         
         if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.getRigidness() == Rigidness.SOFT) {
-            return MoveDetails.MOVED_BUT_COLLIDED;
+            return new MoveReturnType(true, MoveDetails.MOVED_BUT_COLLIDED);
         }
         
-        return MoveDetails.MOVED_SUCCESSFULLY;
+        return new MoveReturnType(true, MoveDetails.MOVED_SUCCESSFULLY);
     }
     
     @Override
@@ -113,33 +121,6 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public Direction getDirection() {
         return this.currDirection;
-    }
-    
-    private void moveStep(final Direction direction) {
-        Position nextPosition = this.position.moveTowards(direction);
-        Collidable obstacle = (Collidable) this.getSection().getEntityAt(nextPosition).get();
-    
-        switch (canMove(direction)) {
-            case MOVED_SUCCESSFULLY:
-                this.position = nextPosition;
-                break;
-    
-            case ROTATED:
-                rotate(direction);
-                break;
-    
-            case STATIC_COLLISION:
-                this.collideWith(obstacle);
-                break;
-    
-            case MOVED_BUT_COLLIDED:
-                this.collideWith(obstacle);
-                this.position = nextPosition;
-                break;
-    
-            default:
-                break;
-        }
     }
 
     private void rotate(final Direction direction) {
