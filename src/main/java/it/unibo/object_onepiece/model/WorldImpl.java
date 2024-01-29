@@ -9,7 +9,7 @@ public class WorldImpl implements World {
     private Section currentSection;
 
     public WorldImpl() {
-        this.currentSection = generateSection();
+        generateSection();
     }
 
     @Override
@@ -30,7 +30,7 @@ public class WorldImpl implements World {
     }
 
     @Override
-    public Section generateSection() {
-        return new SectionImpl();
+    public void generateSection() {
+        currentSection = new SectionImpl();
     }
 }
