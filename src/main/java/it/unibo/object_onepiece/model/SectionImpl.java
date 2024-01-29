@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 
 public class SectionImpl implements Section {
 
-    List<Entity> entities;
+    private final List<Entity> entities = new LinkedList<>();
 
     public SectionImpl() {
         entities.add(new PlayerImpl(this, new Position(0, 0), Direction.UP, null, null, null, 0));
@@ -49,8 +50,7 @@ public class SectionImpl implements Section {
 
     @Override
     public List<Entity> getEntities() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEntities'");
+        return entities;
     }
     
 }

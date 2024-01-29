@@ -3,7 +3,10 @@ package it.unibo.object_onepiece.view;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.controlsfx.control.spreadsheet.SpreadsheetView;
@@ -12,8 +15,7 @@ import org.controlsfx.control.tableview2.TableView2;
 
 import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
-import it.unibo.object_onepiece.model.World;
-import it.unibo.object_onepiece.model.WorldImpl;
+import it.unibo.object_onepiece.model.*;
 import javafx.application.Application;
 import javafx.event.EventType;
 import javafx.scene.Scene;
@@ -48,7 +50,23 @@ public final class ObjectOnePieceApp extends Application {
         WATER;
     }
 
-    //private static final Map<EntityType, Predicate<Entity, >> m = new HashMap<>();
+    private static final Map<EntityType, Predicate<Entity>> isInstanceOfEntity = Map.of(
+        EntityType.PLAYER, e -> e instanceof Player,
+        EntityType.BARREL, e -> e instanceof Barrel,
+        EntityType.ISLAND, e -> e instanceof Island
+    ); 
+
+    private static final Function<Entity, EntityType> getEntityType = new Function<>() {
+        @Override
+        public EntityType apply(Entity t) {
+            var typeList = Stream.of(EntityType.values()).filter(e -> isInstanceOfEntity.containsKey(e) && isInstanceOfEntity.get(e).test(t)).toList();
+            if (typeList.size() != 1) {
+                throw new IllegalArgumentException("Could not find an EntityType for passed Entity");
+            }
+
+            return typeList.get(0);
+        }
+    };
 
     public enum Direction {
         UP,
@@ -65,12 +83,12 @@ public final class ObjectOnePieceApp extends Application {
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
         gridSetUp();
-        world.getCurrentSection().getEntities();
+        world.getCurrentSection().getEntities().forEach(e -> {
+            EntityType et = getEntityType.apply(e);
+                drawEntity(e.getPosition().row(), e.getPosition().column(), et, Optional.of(Direction.UP));
+        });
 
         BorderPane borderPane = new BorderPane();
-
-        drawEntity(0, 1, EntityType.ENEMY, Optional.of(Direction.DOWN));
-        drawEntity(0, 2, EntityType.ISLAND, Optional.empty());
         
         Canvas health = new Canvas(100, 100);
         GraphicsContext healthGC = health.getGraphicsContext2D();

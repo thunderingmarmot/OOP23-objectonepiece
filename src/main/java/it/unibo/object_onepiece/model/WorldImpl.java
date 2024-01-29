@@ -25,8 +25,7 @@ public class WorldImpl implements World {
 
     @Override
     public Section getCurrentSection() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCurrentSection'");
+        return currentSection;
     }
 
     @Override
