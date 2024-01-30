@@ -16,7 +16,10 @@ import org.controlsfx.control.tableview2.TableView2;
 import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
 import it.unibo.object_onepiece.model.*;
+import it.unibo.object_onepiece.model.Ship.Ship;
+import it.unibo.object_onepiece.model.Utils.Direction;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -24,6 +27,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -50,6 +54,16 @@ public final class ObjectOnePieceApp extends Application {
         WATER;
     }
 
+    private static final Function<Entity, Pair<EntityType, Optional<Direction>>> fun = new Function<>() {
+
+        @Override
+        public Pair<EntityType, Optional<Direction>> apply(Entity t) {
+            
+
+            return null;
+        }
+    };
+
     private static final Map<EntityType, Predicate<Entity>> isInstanceOfEntity = Map.of(
         EntityType.PLAYER, e -> e instanceof Player,
         EntityType.BARREL, e -> e instanceof Barrel,
@@ -68,13 +82,6 @@ public final class ObjectOnePieceApp extends Application {
         }
     };
 
-    public enum Direction {
-        UP,
-        RIGHT,
-        DOWN,
-        LEFT;
-    }
-
     private final GridModel<Pair<EntityType, Optional<Direction>>> gridModel = new GridModel<>();
     private final GridView<Pair<EntityType, Optional<Direction>>> gridView = new GridView<>();
     private final World world = new WorldImpl();
@@ -87,7 +94,6 @@ public final class ObjectOnePieceApp extends Application {
             EntityType et = getEntityType.apply(e);
                 drawEntity(e.getPosition().row(), e.getPosition().column(), et, Optional.of(Direction.UP));
         });
-
         BorderPane borderPane = new BorderPane();
         
         Canvas health = new Canvas(100, 100);
