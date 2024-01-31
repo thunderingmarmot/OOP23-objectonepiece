@@ -11,8 +11,8 @@ public interface EventArgs {
         return new ValueChanged<T>(oldValue, newValue);
     }
 
-    public record ObjectChanged<T>(T object) implements EventArgs {}
-    public static <T> ObjectChanged<T> objectChanged(T object) {
-        return new ObjectChanged<T>(object);
+    public record ObjectCreation<T>(T object) implements EventArgs {}
+    public static <T> ObjectCreation<T> objectCreation(T object) {
+        return new ObjectCreation<T>(object);
     }
 }
