@@ -1,4 +1,4 @@
-package it.unibo.object_onepiece.model.enemy.EnemyState;
+package it.unibo.object_onepiece.model.enemy.enemy_state;
 
 import java.util.function.Supplier;
 
