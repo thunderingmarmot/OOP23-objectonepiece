@@ -7,7 +7,7 @@ public class BarrelImpl extends EntityImpl implements Barrel {
 
     private final int experienceGiven;
 
-    public BarrelImpl(Section section, Position position, int experienceGiven) {
+    protected BarrelImpl(Section section, Position position, int experienceGiven) {
         super(section, position);
         this.experienceGiven = experienceGiven;
     }
