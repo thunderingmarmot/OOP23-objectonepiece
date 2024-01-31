@@ -3,7 +3,7 @@ package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.ship.Ship;
 
-public class NavalMineImpl extends EntityImpl implements Collidable {
+public class NavalMineImpl extends EntityImpl implements NavalMine {
 
     private final int damage;
 
@@ -18,10 +18,5 @@ public class NavalMineImpl extends EntityImpl implements Collidable {
             ship.takeDamage(this.damage, ship.getBow());
         }
         this.remove();
-    }
-
-    @Override
-    public Rigidness getRigidness() {
-        return Rigidness.SOFT;
     }
 }
