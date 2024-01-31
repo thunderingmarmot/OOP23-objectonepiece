@@ -15,9 +15,11 @@ import org.controlsfx.control.tableview2.TableView2;
 
 import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
+import it.unibo.object_onepiece.controller.Controller;
 import it.unibo.object_onepiece.model.*;
 import it.unibo.object_onepiece.model.Ship.Ship;
 import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.Position;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -60,6 +62,7 @@ public final class ObjectOnePieceApp extends Application {
 
     private final GridModel<State> gridModel = new GridModel<>();
     private final GridView<State> gridView = new GridView<>();
+    private Controller controller;
     private final World world = new WorldImpl();
 
     @Override
@@ -97,7 +100,15 @@ public final class ObjectOnePieceApp extends Application {
         gridModel.setNumberOfColumns(MAP_COLUMNS);
         gridModel.setNumberOfRows(MAP_ROWS);
         gridView.setGridModel(gridModel);
-        gridModel.getCells().forEach(i -> gridView.addColorMapping(State.WATER, DEFAULT_COLOR));
+        gridModel.getCells().forEach(c -> {
+            gridView.addColorMapping(State.WATER, DEFAULT_COLOR);
+            c.setOnClick(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    controller.action(new Position(c.getRow(), c.getColumn()));
+                }
+            });
+        });
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
     }
 
@@ -124,7 +135,6 @@ public final class ObjectOnePieceApp extends Application {
             System.out.println(ex.getMessage());
             gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(new Label(entityName));
         }
-        
     }
 
     private void drawHealthBar(GraphicsContext gc,Rectangle rect) {
