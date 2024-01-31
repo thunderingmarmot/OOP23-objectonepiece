@@ -6,7 +6,6 @@ import it.unibo.object_onepiece.model.Enemy.Enemy;
 import it.unibo.object_onepiece.model.Enemy.Enemy.States;
 import it.unibo.object_onepiece.model.Movable.MoveDetails;
 import it.unibo.object_onepiece.model.Utils.Direction;
-import it.unibo.object_onepiece.model.Utils.Position;
 
 public class ObstacleAvoidance  implements EnemyState {
     private Enemy ship;
@@ -156,9 +155,5 @@ public class ObstacleAvoidance  implements EnemyState {
         
     }
 
-    private Position nextPos(Direction direction){
-        return Position.directionPositions
-                .get(direction).apply(ship.getPosition());
-    }
 }
 
