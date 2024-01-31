@@ -29,6 +29,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -46,56 +47,32 @@ public final class ObjectOnePieceApp extends Application {
     private static final Color DEFAULT_COLOR = Color.rgb(2, 127, 222);
     private static final int RIGHT_ANGLE = 90;
 
-    public enum EntityType {
-        ENEMY,
-        PLAYER,
-        BARREL,
-        ISLAND,
+    private static final Function<String, String> PATH_FUNC = new Function<String,String>() {
+        @Override
+        public String apply(String t) {
+            return "/img/sprites/" + t + "/" + t + ".png";
+        }
+    };
+
+    private enum State {
         WATER;
     }
 
-    private static final Function<Entity, Pair<EntityType, Optional<Direction>>> fun = new Function<>() {
-
-        @Override
-        public Pair<EntityType, Optional<Direction>> apply(Entity t) {
-            
-
-            return null;
-        }
-    };
-
-    private static final Map<EntityType, Predicate<Entity>> isInstanceOfEntity = Map.of(
-        EntityType.PLAYER, e -> e instanceof Player,
-        EntityType.BARREL, e -> e instanceof Barrel,
-        EntityType.ISLAND, e -> e instanceof Island
-    ); 
-
-    private static final Function<Entity, EntityType> getEntityType = new Function<>() {
-        @Override
-        public EntityType apply(Entity t) {
-            var typeList = Stream.of(EntityType.values()).filter(e -> isInstanceOfEntity.containsKey(e) && isInstanceOfEntity.get(e).test(t)).toList();
-            if (typeList.size() != 1) {
-                throw new IllegalArgumentException("Could not find an EntityType for passed Entity");
-            }
-
-            return typeList.get(0);
-        }
-    };
-
-    private final GridModel<Pair<EntityType, Optional<Direction>>> gridModel = new GridModel<>();
-    private final GridView<Pair<EntityType, Optional<Direction>>> gridView = new GridView<>();
+    private final GridModel<State> gridModel = new GridModel<>();
+    private final GridView<State> gridView = new GridView<>();
     private final World world = new WorldImpl();
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
         gridSetUp();
-        world.getCurrentSection().getEntities().forEach(e -> {
-            EntityType et = getEntityType.apply(e);
-                drawEntity(e.getPosition().row(), e.getPosition().column(), et, Optional.of(Direction.UP));
+        world.getCurrentSection().getViewables().forEach(v -> {
+            drawEntity(v);
         });
+
+
         BorderPane borderPane = new BorderPane();
-        
+
         Canvas health = new Canvas(100, 100);
         GraphicsContext healthGC = health.getGraphicsContext2D();
         Rectangle healthBar = new Rectangle(20, 100);
@@ -116,41 +93,38 @@ public final class ObjectOnePieceApp extends Application {
     }
 
     private void gridSetUp() {
-        gridModel.setDefaultState(new Pair<>(EntityType.WATER, Optional.empty()));
+        gridModel.setDefaultState(State.WATER);
         gridModel.setNumberOfColumns(MAP_COLUMNS);
         gridModel.setNumberOfRows(MAP_ROWS);
         gridView.setGridModel(gridModel);
-        gridModel.getCells().forEach(i -> gridView.addColorMapping(new Pair<>(EntityType.WATER, Optional.empty()), DEFAULT_COLOR));
+        gridModel.getCells().forEach(i -> gridView.addColorMapping(State.WATER, DEFAULT_COLOR));
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
-
-        Stream.of(EntityType.values()).forEach(i -> {
-            final String entityName = i.toString().toLowerCase();
-            final URL imgPath = getClass().getResource("/img/sprites/" + entityName + "/" + entityName + ".png");
-            if (imgPath != null) {
-                LinkedList<Optional<Direction>> od = new LinkedList<>();
-                Stream.of(Direction.values()).forEach(d -> od.add(Optional.of(d)));
-                od.add(Optional.empty());
-                od.forEach(j -> {
-                    gridView.addNodeMapping(new Pair<>(i, j), cell -> {
-                        final Image img = new Image(imgPath.toString());
-                        final ImageView entityImage = new ImageView(img);
-                        if (cell.getState().getY().isPresent()) {
-                            var direction = cell.getState().getY().get();
-                            entityImage.setRotate(RIGHT_ANGLE * direction.ordinal());
-                        }
-                        entityImage.setPreserveRatio(true);
-                        entityImage.fitWidthProperty().bind(gridView.cellSizeProperty());
-                        entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
-                        return entityImage;
-                    });
-                    gridView.addColorMapping(new Pair<>(i, j), DEFAULT_COLOR);
-                });
-            }
-        });
     }
 
-    private void drawEntity(int row, int col, EntityType e, Optional<Direction> d) {
-        gridModel.getCell(col, row).changeState(new Pair<>(e, d));
+    private void drawEntity(Viewable v) {
+        final String entityName = v.getViewType().name().toLowerCase();
+        final int col = v.getPosition().column();
+        final int row = v.getPosition().row();
+
+        final URL imgPath = getClass().getResource(PATH_FUNC.apply(entityName));
+        try {
+            final Image img = new Image(imgPath.toString());
+            final ImageView entityImage = new ImageView(img);
+            if (v.getViewDirection().isPresent()) {
+                entityImage.setRotate(RIGHT_ANGLE * v.getViewDirection().get().ordinal());
+            }
+            entityImage.setPreserveRatio(true);
+            entityImage.fitWidthProperty().bind(gridView.cellSizeProperty());
+            entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
+            if (gridView.getCellPane(gridModel.getCell(col, row)).getChildren().size() > 0) {
+                throw new IllegalStateException("Cell where entity should be drawn already has another entity");
+            }
+            gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(entityImage);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(new Label(entityName));
+        }
+        
     }
 
     private void drawHealthBar(GraphicsContext gc,Rectangle rect) {

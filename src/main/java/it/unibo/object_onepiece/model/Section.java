@@ -17,6 +17,7 @@ public interface Section {
 
     public Optional<Entity> getEntityAt(Position position);
     public List<Entity> getEntities();
+    public List<Viewable> getViewables();
 
     public void removeEntityAt(Position position);
 
