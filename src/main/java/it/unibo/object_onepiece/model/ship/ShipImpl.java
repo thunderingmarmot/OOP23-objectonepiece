@@ -10,7 +10,6 @@ import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs;
 import it.unibo.object_onepiece.model.events.EventImpl;
 import it.unibo.object_onepiece.model.events.EventArgs.ValueChanged;
 
@@ -132,7 +131,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     protected void setDirection(final Direction newDirection) {
-        onDirectionChanged.invoke(EventArgs.valueChanged(this.currDirection, newDirection));
+        onDirectionChanged.invoke(new ValueChanged<Direction>(this.currDirection, newDirection));
         this.currDirection = newDirection;
     }
 

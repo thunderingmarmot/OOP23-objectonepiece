@@ -2,7 +2,6 @@ package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs;
 import it.unibo.object_onepiece.model.events.EventImpl;
 import it.unibo.object_onepiece.model.events.EventArgs.ValueChanged;
 import it.unibo.object_onepiece.model.ship.Bow;
@@ -28,7 +27,7 @@ public class PlayerImpl extends ShipImpl implements Player {
 
     @Override
     public void addExperience(int experience) {
-        onExperienceAdded.invoke(EventArgs.valueChanged(this.experience, experience));
+        onExperienceAdded.invoke(new ValueChanged<Integer>(this.experience, experience));
         this.experience += experience;
     }
 }
