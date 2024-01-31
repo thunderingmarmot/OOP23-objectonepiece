@@ -1,12 +1,10 @@
 package it.unibo.object_onepiece.model;
 
-import it.unibo.object_onepiece.model.ship.Ship;
-
 /**
  * The barrels are collectable entities for the user
  */
 public interface Barrel extends Viewable, Collidable {
-    public void take(Ship ship);
+    public void take(Player player);
 
     @Override
     public default Type getViewType() {

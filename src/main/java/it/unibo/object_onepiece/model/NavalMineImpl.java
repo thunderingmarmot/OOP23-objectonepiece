@@ -3,7 +3,7 @@ package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.ship.Ship;
 
-public class NavalMineImpl extends EntityImpl implements Barrel {
+public class NavalMineImpl extends EntityImpl implements Collidable {
 
     private final int damage;
 
@@ -13,14 +13,9 @@ public class NavalMineImpl extends EntityImpl implements Barrel {
     }
 
     @Override
-    public void take(Ship ship) {
-        ship.takeDamage(this.damage, ship.getBow());
-    }
-
-    @Override
     public void onCollisionWith(Collider collider) {
         if(collider instanceof Ship ship) {
-            take(ship);
+            ship.takeDamage(this.damage, ship.getBow());
         }
         this.remove();
     }
