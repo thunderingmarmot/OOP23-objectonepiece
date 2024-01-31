@@ -18,7 +18,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     protected ShipImpl(final Section s, final Position p, final Direction direction, final Weapon weapon, final Sail sail, final Bow bow) {
         super(s, p);
-        this.currDirection = direction;
+        this.setDirection(direction);
         this.setWeapon(weapon);
         this.setSail(sail);
         this.setBow(bow);
@@ -30,11 +30,11 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         Collidable obstacle = (Collidable) this.getSection().getEntityAt(nextPosition).get();
 
         Map<MoveDetails, Runnable> moveCondition = Map.of(
-            MoveDetails.MOVED_SUCCESSFULLY, () -> this.position = nextPosition,
+            MoveDetails.MOVED_SUCCESSFULLY, () -> this.setPosition(nextPosition),
             MoveDetails.ROTATED, () -> rotate(direction),
             MoveDetails.STATIC_COLLISION, () -> this.collideWith(obstacle),
             MoveDetails.MOVED_BUT_COLLIDED, () -> { this.collideWith(obstacle);
-                                                    this.position = nextPosition; }
+                                                    this.setPosition(nextPosition); }
         );
 
         MoveReturnType nextStep = canMove(direction);
@@ -125,8 +125,12 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         return this.currDirection;
     }
 
+    protected void setDirection(final Direction newDirection) {
+        this.currDirection = newDirection;
+    }
+
     private void rotate(final Direction direction) {
-        this.currDirection = direction;
+        setDirection(direction);
     }
     
     @Override
