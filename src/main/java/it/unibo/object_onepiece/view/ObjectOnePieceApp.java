@@ -29,6 +29,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -65,8 +66,8 @@ public final class ObjectOnePieceApp extends Application {
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
         gridSetUp();
-        world.getCurrentSection().getEntities().forEach(e -> {
-            drawEntity(0, 0, e, Optional.of(Direction.DOWN));
+        world.getCurrentSection().getViewables().forEach(v -> {
+            drawEntity(v);
         });
 
 
@@ -100,18 +101,30 @@ public final class ObjectOnePieceApp extends Application {
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
     }
 
-    private void drawEntity(int row, int col, Entity e, Optional<Direction> d) {
-        final String entityName = "player";
+    private void drawEntity(Viewable v) {
+        final String entityName = v.getViewType().name().toLowerCase();
+        final int col = v.getPosition().column();
+        final int row = v.getPosition().row();
+
         final URL imgPath = getClass().getResource(PATH_FUNC.apply(entityName));
-        final Image img = new Image(imgPath.toString());
-        final ImageView entityImage = new ImageView(img);
-        if (d.isPresent()) {
-            entityImage.setRotate(RIGHT_ANGLE * d.get().ordinal());
+        try {
+            final Image img = new Image(imgPath.toString());
+            final ImageView entityImage = new ImageView(img);
+            if (v.getViewDirection().isPresent()) {
+                entityImage.setRotate(RIGHT_ANGLE * v.getViewDirection().get().ordinal());
+            }
+            entityImage.setPreserveRatio(true);
+            entityImage.fitWidthProperty().bind(gridView.cellSizeProperty());
+            entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
+            if (gridView.getCellPane(gridModel.getCell(col, row)).getChildren().size() > 0) {
+                throw new IllegalStateException("Cell where entity should be drawn already has another entity");
+            }
+            gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(entityImage);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(new Label(entityName));
         }
-        entityImage.setPreserveRatio(true);
-        entityImage.fitWidthProperty().bind(gridView.cellSizeProperty());
-        entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
-        gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(entityImage);
+        
     }
 
     private void drawHealthBar(GraphicsContext gc,Rectangle rect) {
