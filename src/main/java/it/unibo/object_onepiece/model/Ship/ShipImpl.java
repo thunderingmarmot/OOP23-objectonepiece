@@ -16,7 +16,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     private Sail sail;
     private Bow bow;
 
-    public ShipImpl(final Section s, final Position p, final Direction direction, final Weapon weapon, final Sail sail, final Bow bow) {
+    protected ShipImpl(final Section s, final Position p, final Direction direction, final Weapon weapon, final Sail sail, final Bow bow) {
         super(s, p);
         this.currDirection = direction;
         this.setWeapon(weapon);

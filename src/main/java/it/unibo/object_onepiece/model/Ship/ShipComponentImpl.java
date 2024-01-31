@@ -5,7 +5,7 @@ public abstract class ShipComponentImpl implements ShipComponent {
     private final int maxHealth;
     private int health;
 
-    public ShipComponentImpl(final int health) {
+    protected ShipComponentImpl(final int health) {
         this.maxHealth = health;
         this.health = health;
     }
