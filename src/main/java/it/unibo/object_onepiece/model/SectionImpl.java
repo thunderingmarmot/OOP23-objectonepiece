@@ -50,5 +50,10 @@ public class SectionImpl implements Section {
     public List<Entity> getEntities() {
         return entities;
     }
+
+    @Override
+    public List<Viewable> getViewables() {
+        return entities.stream().filter(e -> e instanceof Viewable).map(e -> (Viewable) e).toList();
+    }
     
 }
