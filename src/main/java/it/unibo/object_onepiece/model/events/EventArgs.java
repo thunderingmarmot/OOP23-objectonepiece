@@ -1,9 +1,9 @@
 package it.unibo.object_onepiece.model.events;
 
 public interface EventArgs {
-    public record NoArgs() implements EventArgs {}
-    public static NoArgs noArgs() {
-        return new NoArgs();
+    public record Generic() implements EventArgs {}
+    public static Generic generic() {
+        return new Generic();
     }
 
     public record ValueChanged<T>(T oldValue, T newValue) implements EventArgs {}

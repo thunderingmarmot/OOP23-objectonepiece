@@ -10,7 +10,7 @@ public abstract class EntityImpl implements Entity {
     protected Position position;
 
     public final Event<ValueChanged<Position>> onPositionChanged = new EventImpl<>();
-    public final Event<NoArgs> onEntityRemoved = new EventImpl<>();
+    public final Event<Generic> onEntityRemoved = new EventImpl<>();
 
     protected EntityImpl(final Section s, final Position p) {
         this.section = s;
@@ -33,7 +33,7 @@ public abstract class EntityImpl implements Entity {
     }
 
     protected void remove() {
-        onEntityRemoved.invoke(EventArgs.noArgs());
+        onEntityRemoved.invoke(EventArgs.generic());
         this.getSection().removeEntityAt(this.position);
     }
 }
