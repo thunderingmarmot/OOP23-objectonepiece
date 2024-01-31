@@ -21,5 +21,4 @@ public class EventImpl<T extends EventArgs> implements Event<T> {
     public void invoke(T args) {
         listeners.forEach((listener) -> listener.accept(args));
     }
-    
 }

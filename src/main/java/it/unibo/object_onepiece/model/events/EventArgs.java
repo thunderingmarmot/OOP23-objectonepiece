@@ -5,4 +5,9 @@ public interface EventArgs {
     public static <T> ValueChanged<T> valueChanged(T oldValue, T newValue) {
         return new ValueChanged<T>(oldValue, newValue);
     }
+
+    public record ObjectChanged<T>(T object) implements EventArgs {}
+    public static <T> ObjectChanged<T> objectChanged(T object) {
+        return new ObjectChanged<T>(object);
+    }
 }
