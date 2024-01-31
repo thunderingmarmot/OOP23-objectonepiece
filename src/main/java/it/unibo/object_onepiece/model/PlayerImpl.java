@@ -10,7 +10,7 @@ public class PlayerImpl extends ShipImpl implements Player {
 
     private int experience;
 
-    public PlayerImpl(Section section, Position position, Direction direction, Weapon weapon, Sail sail, Bow bow, int experience) {
+    protected PlayerImpl(Section section, Position position, Direction direction, Weapon weapon, Sail sail, Bow bow, int experience) {
         super(section, position, direction, weapon, sail, bow);
         this.experience = experience;
     }
@@ -23,5 +23,10 @@ public class PlayerImpl extends ShipImpl implements Player {
     @Override
     public void addExperience(int experience) {
         this.experience += experience;
+    }
+
+    @Override
+    public Type getViewType() {
+        return Type.PLAYER;
     }
 }

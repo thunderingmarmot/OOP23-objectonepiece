@@ -4,7 +4,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 
 public class IslandImpl extends EntityImpl implements Island {
 
-    public IslandImpl(Section section, Position position) {
+    protected IslandImpl(Section section, Position position) {
         super(section, position);
     }
 
@@ -31,5 +31,10 @@ public class IslandImpl extends EntityImpl implements Island {
     @Override
     public Rigidness getRigidness() {
         return Rigidness.HARD;
+    }
+
+    @Override
+    public Type getViewType() {
+        return Type.ISLAND;
     }
 }

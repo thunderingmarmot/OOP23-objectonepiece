@@ -12,8 +12,8 @@ public class WeaponImpl extends ShipComponentImpl implements Weapon {
     private final int minDamage;
     private final int attackRange;
 
-    public WeaponImpl(final int max, final int min, final int range, final Ship ship, final int health) {
-        super(ship, health);
+    protected WeaponImpl(final int max, final int min, final int range, final int health) {
+        super(health);
         this.maxDamage = max;
         this.minDamage = min;
         this.attackRange = range;

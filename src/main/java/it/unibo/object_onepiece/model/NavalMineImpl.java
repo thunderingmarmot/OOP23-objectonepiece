@@ -3,26 +3,24 @@ package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Ship.Ship;
 import it.unibo.object_onepiece.model.Utils.Position;
 
-public class BarrelImpl extends EntityImpl implements Barrel {
+public class NavalMineImpl extends EntityImpl implements Barrel {
 
-    private final int experienceGiven;
+    private final int damage;
 
-    protected BarrelImpl(Section section, Position position, int experienceGiven) {
+    protected NavalMineImpl(Section section, Position position, int damage) {
         super(section, position);
-        this.experienceGiven = experienceGiven;
+        this.damage = damage;
     }
 
     @Override
     public void take(Ship ship) {
-        if(ship instanceof Player player) {
-            player.addExperience(experienceGiven);
-        }
+        ship.takeDamage(this.damage, ship.getBow());
     }
 
     @Override
     public void onCollisionWith(Collider collider) {
-        if(collider instanceof Player player) {
-            take(player);
+        if(collider instanceof Ship ship) {
+            take(ship);
         }
         this.remove();
     }

@@ -16,12 +16,12 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     private Sail sail;
     private Bow bow;
 
-    public ShipImpl(final Section s, final Position p, final Direction direction, final Weapon weapon, final Sail sail, final Bow bow) {
+    protected ShipImpl(final Section s, final Position p, final Direction direction, final Weapon weapon, final Sail sail, final Bow bow) {
         super(s, p);
         this.currDirection = direction;
-        this.weapon = weapon;
-        this.sail = sail;
-        this.bow = bow;
+        this.setWeapon(weapon);
+        this.setSail(sail);
+        this.setBow(bow);
     }
 
     @Override
@@ -46,7 +46,6 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
             return move(direction, steps-1);
         }
     }
-
 
     public MoveReturnType move(final Direction direction) {
         return move(direction, 1);
@@ -91,16 +90,19 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void setWeapon(final Weapon weapon) {
         this.weapon = weapon;
+        this.weapon.setShip(this);
     }
     
     @Override
     public void setSail(final Sail sail) {
         this.sail = sail;
+        this.sail.setShip(this);
     }
     
     @Override
     public void setBow(final Bow bow) {
         this.bow = bow;
+        this.bow.setShip(this);
     }
     
     @Override

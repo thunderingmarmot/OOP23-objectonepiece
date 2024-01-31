@@ -1,11 +1,12 @@
 package it.unibo.object_onepiece.model.Enemy;
 
+import it.unibo.object_onepiece.model.Viewable;
 import it.unibo.object_onepiece.model.Ship.Ship;
 
 /**
  * The enemy interface models a ship controlled by the CPU
  */
-public interface Enemy extends Ship {
+public interface Enemy extends Viewable, Ship {
     /**
      * Patrolling state is when the enemy wanders the map in hope to see the player
      * Following state is when the enemy sees the player and wants to close in to attack

@@ -5,8 +5,8 @@ public class SailImpl extends ShipComponentImpl implements Sail {
     private final int minSpeed;
     private final int rotationPower;
 
-    public SailImpl(final int max, final int min, final int rotation, final Ship ship, final int health) {
-        super(ship, health);
+    protected SailImpl(final int max, final int min, final int rotation, final int health) {
+        super(health);
         this.maxSpeed = max;
         this.minSpeed = min;
         this.rotationPower = rotation;
