@@ -23,4 +23,9 @@ public interface Enemy extends Viewable, Ship {
     public void goNext();
     public States getCurrentState();
     public void changeState(States state);
+
+    @Override
+    public default Type getViewType() {
+        return Type.ENEMY;
+    }
 }

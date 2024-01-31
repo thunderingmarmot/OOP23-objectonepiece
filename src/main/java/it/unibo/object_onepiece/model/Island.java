@@ -6,4 +6,9 @@ package it.unibo.object_onepiece.model;
 public interface Island extends Viewable, Collidable {
     public void save();
     public void heal(Player player);
+
+    @Override
+    public default Type getViewType() {
+        return Type.ISLAND;
+    }
 }

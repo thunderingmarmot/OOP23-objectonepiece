@@ -15,4 +15,9 @@ public interface Player extends Viewable, Ship {
 
     public int getExperience();
     public void addExperience(int experience);
+
+    @Override
+    public default Type getViewType() {
+        return Type.PLAYER;
+    }
 }

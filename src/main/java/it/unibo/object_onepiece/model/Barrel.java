@@ -7,4 +7,9 @@ import it.unibo.object_onepiece.model.ship.Ship;
  */
 public interface Barrel extends Viewable, Collidable {
     public void take(Ship ship);
+
+    @Override
+    public default Type getViewType() {
+        return Type.BARREL;
+    }
 }
