@@ -7,15 +7,15 @@ public interface Sail extends ShipComponent {
     public int getMinSpeed();
     public int getRotationPower();
 
-    public static Sail sloop(Ship ship) {
-        return new SailImpl(1, 1, 0, ship, 100);
+    public static Sail sloop() {
+        return new SailImpl(1, 1, 0, 100);
     }
 
-    public static Sail spinnaker(Ship ship) {
-        return new SailImpl(3, 1, 3, ship, 80);
+    public static Sail spinnaker() {
+        return new SailImpl(3, 1, 3, 80);
     }
 
-    public static Sail schooner(Ship ship) {
-        return new SailImpl(5, 4, 1, ship, 200);
+    public static Sail schooner() {
+        return new SailImpl(5, 4, 1, 200);
     }
 }
