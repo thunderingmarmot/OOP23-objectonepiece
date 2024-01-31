@@ -29,4 +29,9 @@ public class NavalMineImpl extends EntityImpl implements Barrel {
     public Rigidness getRigidness() {
         return Rigidness.SOFT;
     }
+
+    @Override
+    public Type getViewType() {
+        return Type.BARREL;
+    }
 }
