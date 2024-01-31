@@ -47,4 +47,9 @@ public class EnemyImpl extends ShipImpl implements Enemy {
     private EnemyState findState(States stato){
         return enemyStates.stream().filter(x -> x.getState().equals(States.PATROLLING)).findFirst().get();
     }
+
+    @Override
+    public Type getViewType() {
+        return Type.ENEMY;
+    }
 }
