@@ -7,7 +7,7 @@ public class NavalMineImpl extends EntityImpl implements Barrel {
 
     private final int damage;
 
-    public NavalMineImpl(Section section, Position position, int damage) {
+    protected NavalMineImpl(Section section, Position position, int damage) {
         super(section, position);
         this.damage = damage;
     }
