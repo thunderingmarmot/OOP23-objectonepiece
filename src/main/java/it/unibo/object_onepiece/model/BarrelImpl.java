@@ -23,9 +23,4 @@ public class BarrelImpl extends EntityImpl implements Barrel {
         }
         this.remove();
     }
-
-    @Override
-    public Rigidness getRigidness() {
-        return Rigidness.SOFT;
-    }
 }

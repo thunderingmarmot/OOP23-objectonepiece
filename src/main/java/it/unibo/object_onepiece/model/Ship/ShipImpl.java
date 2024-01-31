@@ -130,11 +130,6 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
     
     @Override
-    public Rigidness getRigidness() {
-        return Rigidness.MEDIUM;
-    }
-    
-    @Override
     public void onCollisionWith(final Collider collider) {
         if(collider.getRigidness() == Rigidness.MEDIUM) {
             this.takeDamage(this.bow.getCrashDamage(), this.bow);

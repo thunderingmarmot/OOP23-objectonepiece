@@ -27,9 +27,4 @@ public class IslandImpl extends EntityImpl implements Island {
             save();
         }
     }
-
-    @Override
-    public Rigidness getRigidness() {
-        return Rigidness.HARD;
-    }
 }

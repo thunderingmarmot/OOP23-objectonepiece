@@ -16,4 +16,9 @@ public interface Ship extends Collider {
     public Sail getSail();
     public Bow getBow();
     public Direction getDirection();
+
+    @Override
+    public default Rigidness getRigidness() {
+        return Rigidness.MEDIUM;
+    }
 }

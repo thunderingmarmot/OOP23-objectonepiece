@@ -8,6 +8,11 @@ public interface Island extends Viewable, Collidable {
     public void heal(Player player);
 
     @Override
+    public default Rigidness getRigidness() {
+        return Rigidness.HARD;
+    }
+
+    @Override
     public default Type getViewType() {
         return Type.ISLAND;
     }

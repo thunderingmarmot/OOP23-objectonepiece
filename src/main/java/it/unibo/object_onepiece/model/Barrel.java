@@ -7,6 +7,11 @@ public interface Barrel extends Viewable, Collidable {
     public void take(Player player);
 
     @Override
+    public default Rigidness getRigidness() {
+        return Rigidness.SOFT;
+    }
+
+    @Override
     public default Type getViewType() {
         return Type.BARREL;
     }
