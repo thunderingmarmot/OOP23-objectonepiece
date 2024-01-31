@@ -16,6 +16,7 @@ import org.controlsfx.control.tableview2.TableView2;
 import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
 import it.unibo.object_onepiece.controller.Controller;
+import it.unibo.object_onepiece.controller.ControllerImpl;
 import it.unibo.object_onepiece.model.*;
 import it.unibo.object_onepiece.model.Ship.Ship;
 import it.unibo.object_onepiece.model.Utils.Direction;
@@ -62,7 +63,7 @@ public final class ObjectOnePieceApp extends Application {
 
     private final GridModel<State> gridModel = new GridModel<>();
     private final GridView<State> gridView = new GridView<>();
-    private Controller controller;
+    private Controller controller = new ControllerImpl();
     private final World world = new WorldImpl();
 
     @Override
@@ -105,7 +106,7 @@ public final class ObjectOnePieceApp extends Application {
             c.setOnClick(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    controller.action(new Position(c.getRow(), c.getColumn()));
+                    controller.action(new Position(c.getRow(), c.getColumn()), world);
                 }
             });
         });
