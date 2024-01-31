@@ -13,7 +13,8 @@ public class SectionImpl implements Section {
     private final List<Entity> entities = new LinkedList<>();
 
     public SectionImpl() {
-        entities.add(new PlayerImpl(this, new Position(0, 0), Direction.UP, null, null, null, 0));
+        Player p = Player.getDefault(this, new Position(4, 4));
+        entities.add(p);
     }
 
     @Override
