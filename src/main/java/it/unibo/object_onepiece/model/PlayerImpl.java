@@ -3,7 +3,6 @@ import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs;
-import it.unibo.object_onepiece.model.events.EventImpl;
 import it.unibo.object_onepiece.model.events.EventArgs.ValueChanged;
 import it.unibo.object_onepiece.model.ship.Bow;
 import it.unibo.object_onepiece.model.ship.Sail;
@@ -14,7 +13,7 @@ public class PlayerImpl extends ShipImpl implements Player {
 
     private int experience;
 
-    public final Event<ValueChanged<Integer>> onExperienceAdded = new EventImpl<>();
+    public final Event<ValueChanged<Integer>> onExperienceAdded = Event.get();
 
     protected PlayerImpl(Section section, Position position, Direction direction, Weapon weapon, Sail sail, Bow bow, int experience) {
         super(section, position, direction, weapon, sail, bow);

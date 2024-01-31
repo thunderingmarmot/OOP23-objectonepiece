@@ -8,6 +8,8 @@ public class EventImpl<T extends EventArgs> implements Event<T> {
 
     private List<Consumer<T>> listeners = new ArrayList<>();
 
+    protected EventImpl() {}
+
     @Override
     public void subscribe(Consumer<T> listener) {
         listeners.add(listener);
