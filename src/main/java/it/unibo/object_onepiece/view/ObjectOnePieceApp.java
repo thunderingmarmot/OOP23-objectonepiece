@@ -46,6 +46,13 @@ public final class ObjectOnePieceApp extends Application {
     private static final Color DEFAULT_COLOR = Color.rgb(2, 127, 222);
     private static final int RIGHT_ANGLE = 90;
 
+    private static final Function<String, String> PATH_FUNC = new Function<String,String>() {
+        @Override
+        public String apply(String t) {
+            return "/img/sprites/" + t + "/" + t + ".png";
+        }
+    };
+
     private enum State {
         WATER;
     }
@@ -95,7 +102,7 @@ public final class ObjectOnePieceApp extends Application {
 
     private void drawEntity(int row, int col, Entity e, Optional<Direction> d) {
         final String entityName = "player";
-        final URL imgPath = getClass().getResource("/img/sprites/" + entityName + "/" + entityName + ".png");
+        final URL imgPath = getClass().getResource(PATH_FUNC.apply(entityName));
         final Image img = new Image(imgPath.toString());
         final ImageView entityImage = new ImageView(img);
         if (d.isPresent()) {
