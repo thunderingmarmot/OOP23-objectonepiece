@@ -9,12 +9,18 @@ import it.unibo.object_onepiece.model.EntityImpl;
 import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.events.Event;
+import it.unibo.object_onepiece.model.events.EventArgs;
+import it.unibo.object_onepiece.model.events.EventImpl;
+import it.unibo.object_onepiece.model.events.EventArgs.ValueChanged;
 
 public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
     private Weapon weapon;
     private Sail sail;
     private Bow bow;
+
+    public Event<ValueChanged<Direction>> onDirectionChanged = new EventImpl<>();
 
     protected ShipImpl(final Section s, final Position p, final Direction direction, final Weapon weapon, final Sail sail, final Bow bow) {
         super(s, p);
@@ -126,6 +132,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     protected void setDirection(final Direction newDirection) {
+        onDirectionChanged.invoke(EventArgs.valueChanged(this.currDirection, newDirection));
         this.currDirection = newDirection;
     }
 
