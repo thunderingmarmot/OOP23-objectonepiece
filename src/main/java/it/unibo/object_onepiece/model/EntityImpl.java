@@ -3,7 +3,6 @@ import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs;
 import it.unibo.object_onepiece.model.events.EventImpl;
-import it.unibo.object_onepiece.model.events.EventArgs.NoArgs;
 import it.unibo.object_onepiece.model.events.EventArgs.ObjectChanged;
 import it.unibo.object_onepiece.model.events.EventArgs.ValueChanged;
 
