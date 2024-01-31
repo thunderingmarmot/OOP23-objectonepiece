@@ -1,4 +1,4 @@
-package it.unibo.object_onepiece.model.Ship;
+package it.unibo.object_onepiece.model.ship;
 
 public interface Bow extends ShipComponent {
     public int getCrashDamage();

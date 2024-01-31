@@ -1,4 +1,4 @@
-package it.unibo.object_onepiece.model.Ship;
+package it.unibo.object_onepiece.model.ship;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package it.unibo.object_onepiece.model.Ship;
+package it.unibo.object_onepiece.model.ship;
 import it.unibo.object_onepiece.model.Collider;
 import it.unibo.object_onepiece.model.Utils.Direction;
 

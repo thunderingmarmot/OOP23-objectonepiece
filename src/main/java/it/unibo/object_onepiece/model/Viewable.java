@@ -2,8 +2,8 @@ package it.unibo.object_onepiece.model;
 
 import java.util.Optional;
 
-import it.unibo.object_onepiece.model.Ship.Ship;
 import it.unibo.object_onepiece.model.Utils.*;
+import it.unibo.object_onepiece.model.ship.Ship;
 
 public interface Viewable extends Entity {
     public static enum Type {

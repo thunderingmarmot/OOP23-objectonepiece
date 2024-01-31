@@ -1,4 +1,4 @@
-package it.unibo.object_onepiece.model.Ship;
+package it.unibo.object_onepiece.model.ship;
 
 public class SailImpl extends ShipComponentImpl implements Sail {
     private final int maxSpeed;

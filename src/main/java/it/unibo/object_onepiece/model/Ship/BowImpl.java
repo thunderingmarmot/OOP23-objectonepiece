@@ -1,4 +1,4 @@
-package it.unibo.object_onepiece.model.Ship;
+package it.unibo.object_onepiece.model.ship;
 
 public class BowImpl extends ShipComponentImpl implements Bow {
     private final int crashDamage;

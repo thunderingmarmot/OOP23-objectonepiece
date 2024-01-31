@@ -1,7 +1,7 @@
-package it.unibo.object_onepiece.model.Enemy;
+package it.unibo.object_onepiece.model.enemy;
 
 import it.unibo.object_onepiece.model.Viewable;
-import it.unibo.object_onepiece.model.Ship.Ship;
+import it.unibo.object_onepiece.model.ship.Ship;
 
 /**
  * The enemy interface models a ship controlled by the CPU

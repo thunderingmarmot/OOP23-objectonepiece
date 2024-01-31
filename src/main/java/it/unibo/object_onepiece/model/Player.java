@@ -1,10 +1,10 @@
 package it.unibo.object_onepiece.model;
 
-import it.unibo.object_onepiece.model.Ship.Bow;
-import it.unibo.object_onepiece.model.Ship.Sail;
-import it.unibo.object_onepiece.model.Ship.Ship;
-import it.unibo.object_onepiece.model.Ship.Weapon;
 import it.unibo.object_onepiece.model.Utils.*;
+import it.unibo.object_onepiece.model.ship.Bow;
+import it.unibo.object_onepiece.model.ship.Sail;
+import it.unibo.object_onepiece.model.ship.Ship;
+import it.unibo.object_onepiece.model.ship.Weapon;
 
 //Interface that models the player's ship
 

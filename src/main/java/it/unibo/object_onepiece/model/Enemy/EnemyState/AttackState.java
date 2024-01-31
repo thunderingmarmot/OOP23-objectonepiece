@@ -1,9 +1,9 @@
-package it.unibo.object_onepiece.model.Enemy.EnemyState;
+package it.unibo.object_onepiece.model.enemy.EnemyState;
 
-import it.unibo.object_onepiece.model.Enemy.Enemy;
-import it.unibo.object_onepiece.model.Enemy.Enemy.States;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.enemy.Enemy;
+import it.unibo.object_onepiece.model.enemy.Enemy.States;
 
 public class AttackState implements EnemyState {
     Boolean alligned = false;

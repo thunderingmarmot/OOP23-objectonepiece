@@ -1,4 +1,4 @@
-package it.unibo.object_onepiece.model.Ship;
+package it.unibo.object_onepiece.model.ship;
 
 public interface Sail extends ShipComponent {
     public boolean isInSpeedRange(int steps);

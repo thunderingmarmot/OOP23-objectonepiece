@@ -1,11 +1,11 @@
-package it.unibo.object_onepiece.model.Enemy.EnemyState;
+package it.unibo.object_onepiece.model.enemy.EnemyState;
 
 import java.util.function.Supplier;
 
-import it.unibo.object_onepiece.model.Enemy.Enemy;
-import it.unibo.object_onepiece.model.Enemy.Enemy.States;
 import it.unibo.object_onepiece.model.Movable.MoveDetails;
 import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.enemy.Enemy;
+import it.unibo.object_onepiece.model.enemy.Enemy.States;
 
 public class ObstacleAvoidance  implements EnemyState {
     private Enemy ship;
