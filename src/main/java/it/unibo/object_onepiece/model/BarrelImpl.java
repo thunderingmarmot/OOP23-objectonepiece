@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model;
 
+import it.unibo.object_onepiece.model.Ship.Ship;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 public class BarrelImpl extends EntityImpl implements Barrel {
@@ -12,9 +13,10 @@ public class BarrelImpl extends EntityImpl implements Barrel {
     }
 
     @Override
-    public void take(Player player) {
-        player.addExperience(experienceGiven);
-        this.remove();
+    public void take(Ship ship) {
+        if(ship instanceof Player player) {
+            player.addExperience(experienceGiven);
+        }
     }
 
     @Override
@@ -22,6 +24,7 @@ public class BarrelImpl extends EntityImpl implements Barrel {
         if(collider instanceof Player player) {
             take(player);
         }
+        this.remove();
     }
 
     @Override
