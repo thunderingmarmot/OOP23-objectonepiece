@@ -60,7 +60,7 @@ public class SectionImpl implements Section {
     }
 
     @Override
-    public void addEntityAt(Position position) {
+    public void addEntity(Entity e) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addEntityAt'");
     }    
