@@ -10,7 +10,11 @@ import it.unibo.object_onepiece.model.Utils.Position;
 
 public class SectionImpl implements Section {
 
+    private static final int ROWS = World.SECTION_ROWS;
+    private static final int COLUMNS = World.SECTION_COLUMNS;
+
     private final List<Entity> entities = new LinkedList<>();
+    private final Bound bound = new Bound(0, 0, ROWS, COLUMNS);
 
     public SectionImpl() {
         Player p = Player.getDefault(this, new Position(4, 4));
@@ -25,14 +29,12 @@ public class SectionImpl implements Section {
 
     @Override
     public Bound getBounds() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBounds'");
+        return this.bound;
     }
 
     @Override
     public void removeEntityAt(Position position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeEntityAt'");
+        entities.removeIf(e -> e.getPosition() == position);
     }
 
     @Override
@@ -55,6 +57,5 @@ public class SectionImpl implements Section {
     @Override
     public List<Viewable> getViewables() {
         return entities.stream().filter(e -> e instanceof Viewable).map(e -> (Viewable) e).toList();
-    }
-    
+    }    
 }
