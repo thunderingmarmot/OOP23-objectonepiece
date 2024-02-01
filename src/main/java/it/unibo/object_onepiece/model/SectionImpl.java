@@ -7,6 +7,8 @@ import java.util.Optional;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.events.Event;
+import it.unibo.object_onepiece.model.events.EventArgs.BiArguments;
 
 public class SectionImpl implements Section {
 
@@ -15,6 +17,8 @@ public class SectionImpl implements Section {
 
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound = new Bound(0, 0, ROWS, COLUMNS);
+
+    public final Event<BiArguments<Viewable.Type, Position>> onEntityCreated = Event.get();
 
     public SectionImpl() {
         Player p = Player.getDefault(this, new Position(4, 4));
@@ -61,7 +65,9 @@ public class SectionImpl implements Section {
 
     @Override
     public void addEntity(Entity e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addEntityAt'");
+        if(e instanceof Viewable viewable) {
+            onEntityCreated.invoke(new BiArguments<>(viewable.getViewType(), viewable.getViewPosition()));
+        }
+        // Continue addEntity implementation
     }    
 }
