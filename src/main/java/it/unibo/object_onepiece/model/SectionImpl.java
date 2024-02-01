@@ -18,7 +18,7 @@ public class SectionImpl implements Section {
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound = new Bound(0, 0, ROWS, COLUMNS);
 
-    public final Event<BiArguments<Viewable.Type, Position>> onEntityCreated = Event.get();
+    public final Event<BiArguments<Class<? extends Entity>, Position>> onEntityCreated = Event.get();
 
     public SectionImpl() {
         Player p = Player.getDefault(this, new Position(4, 4));
@@ -65,9 +65,7 @@ public class SectionImpl implements Section {
 
     @Override
     public void addEntity(Entity e) {
-        if(e instanceof Viewable viewable) {
-            onEntityCreated.invoke(new BiArguments<>(viewable.getViewType(), viewable.getViewPosition()));
-        }
+        onEntityCreated.invoke(new BiArguments<>(e.getClass(), e.getPosition()));
         // Continue addEntity implementation
     }    
 }
