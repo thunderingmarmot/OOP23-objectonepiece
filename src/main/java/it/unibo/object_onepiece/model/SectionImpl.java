@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import it.unibo.object_onepiece.model.Utils.Bound;
-import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.BiArguments;
