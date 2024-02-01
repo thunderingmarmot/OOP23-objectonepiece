@@ -57,5 +57,11 @@ public class SectionImpl implements Section {
     @Override
     public List<Viewable> getViewables() {
         return entities.stream().filter(e -> e instanceof Viewable).map(e -> (Viewable) e).toList();
+    }
+
+    @Override
+    public void addEntityAt(Position position) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addEntityAt'");
     }    
 }

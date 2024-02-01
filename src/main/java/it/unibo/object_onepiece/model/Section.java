@@ -19,6 +19,7 @@ public interface Section {
     public List<Entity> getEntities();
     public List<Viewable> getViewables();
 
+    public void addEntityAt(Position position);
     public void removeEntityAt(Position position);
 
     public Player getPlayer();
