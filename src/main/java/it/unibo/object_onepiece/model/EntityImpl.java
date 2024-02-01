@@ -1,15 +1,14 @@
 package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs;
 import it.unibo.object_onepiece.model.events.EventArgs.*;
 
 public abstract class EntityImpl implements Entity {
     final protected Section section;
     protected Position position;
 
-    public final Event<ValueChanged<Position>> onPositionChanged = Event.get();
-    public final Event<Generic> onEntityRemoved = Event.get();
+    public final Event<BiArgument<Position>> onPositionChanged = Event.get();
+    public final Event<Argument<Position>> onEntityRemoved = Event.get();
 
     protected EntityImpl(final Section s, final Position p) {
         this.section = s;
@@ -27,12 +26,12 @@ public abstract class EntityImpl implements Entity {
     }
 
     protected void setPosition(Position newPosition) {
-        onPositionChanged.invoke(EventArgs.valueChanged(this.position, newPosition));
+        onPositionChanged.invoke(new BiArgument<>(this.position, newPosition));
         this.position = newPosition;
     }
 
     protected void remove() {
-        onEntityRemoved.invoke(EventArgs.generic());
+        onEntityRemoved.invoke(new Argument<>(this.position));
         this.getSection().removeEntityAt(this.position);
     }
 }

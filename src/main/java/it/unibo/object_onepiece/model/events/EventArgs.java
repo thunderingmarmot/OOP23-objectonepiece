@@ -1,18 +1,8 @@
 package it.unibo.object_onepiece.model.events;
 
 public interface EventArgs {
-    public record Generic() implements EventArgs {}
-    public static Generic generic() {
-        return new Generic();
-    }
-
-    public record ValueChanged<T>(T oldValue, T newValue) implements EventArgs {}
-    public static <T> ValueChanged<T> valueChanged(T oldValue, T newValue) {
-        return new ValueChanged<T>(oldValue, newValue);
-    }
-
-    public record ObjectCreated<T>(T object) implements EventArgs {}
-    public static <T> ObjectCreated<T> objectCreated(T object) {
-        return new ObjectCreated<T>(object);
-    }
+    public record NoArgument() implements EventArgs {}
+    public record Argument<T>(T arg) implements EventArgs {}
+    public record BiArgument<T>(T arg1, T arg2) implements EventArgs {}
+    public record BiArguments<T1, T2>(T1 arg1, T2 arg2) implements EventArgs {}
 }
