@@ -4,10 +4,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import de.articdive.jnoise.pipeline.JNoise;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.BiArguments;
+
+import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.HashSet;
 
 public class SectionImpl implements Section {
 
@@ -20,8 +26,31 @@ public class SectionImpl implements Section {
     public final Event<BiArguments<Class<? extends Entity>, Position>> onEntityCreated = Event.get();
 
     public SectionImpl() {
-        Player p = Player.getDefault(this, new Position(4, 4));
-        entities.add(p);
+        var whiteNoise = JNoise.newBuilder().white(325080).scale(1 / 2.0).addModifier(v -> (v + 1) / 2.0).build();
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLUMNS; j++) {
+                Position p = new Position(i, j);
+                double noise = whiteNoise.evaluateNoise(i, j);
+                //System.out.println(noise + "Floored: " + Math.floor(noise * 4));
+                int floored = (int)Math.floor(noise * 4);
+                switch (floored) {
+                    case 1:
+                        entities.add(Island.getDefault(this, p));
+                        break;
+                    case 2:
+                        entities.add(Barrel.getDefault(this, p));
+                    case 3:
+                        entities.add(Player.getDefault(this, p));
+                    default:
+                        break;
+                }
+            }
+        }
+
+        Set<Position> items = new HashSet<>();
+        entities.stream().filter(n -> !items.add(n.getPosition()))
+        .collect(Collectors.toSet())
+        .forEach(e -> System.out.println(e.getPosition()));
     }
 
     @Override
