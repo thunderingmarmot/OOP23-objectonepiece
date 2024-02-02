@@ -41,6 +41,8 @@ dependencies {
 
     implementation("eu.lestard:grid:0.2.0");
 
+    // https://mvnrepository.com/artifact/de.articdive/jnoise-pipeline
+    implementation("de.articdive:jnoise-pipeline:4.1.0")
 
     // JavaFX: comment out if you do not need them
     val javaFxVersion = 15
