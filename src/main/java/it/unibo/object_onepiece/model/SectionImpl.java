@@ -39,8 +39,10 @@ public class SectionImpl implements Section {
                         break;
                     case 2:
                         entities.add(Barrel.getDefault(this, p));
+                        break;
                     case 3:
                         entities.add(Player.getDefault(this, p));
+                        break;
                     default:
                         break;
                 }
