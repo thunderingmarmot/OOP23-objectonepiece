@@ -74,7 +74,6 @@ public final class ObjectOnePieceApp extends Application {
             drawEntity(v);
         });
 
-
         BorderPane borderPane = new BorderPane();
 
         Canvas health = new Canvas(100, 100);
@@ -86,8 +85,6 @@ public final class ObjectOnePieceApp extends Application {
 
         VBox healthContainer = new VBox();
         healthContainer.getChildren().addAll(health, healthPoints);
-
-
         borderPane.setCenter(gridView);
         borderPane.setRight(healthContainer);
         Scene scene = new Scene(borderPane, 600, 600);
@@ -124,7 +121,7 @@ public final class ObjectOnePieceApp extends Application {
             final ImageView entityImage = new ImageView(img);
             if (v.getViewDirection().isPresent()) {
                 entityImage.setRotate(RIGHT_ANGLE * v.getViewDirection().get().ordinal());
-            }
+            } 
             entityImage.setPreserveRatio(true);
             entityImage.fitWidthProperty().bind(gridView.cellSizeProperty());
             entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
