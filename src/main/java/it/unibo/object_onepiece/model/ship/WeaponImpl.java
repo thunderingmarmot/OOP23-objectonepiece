@@ -20,9 +20,9 @@ public class WeaponImpl extends ShipComponentImpl implements Weapon {
     }
 
     @Override
-    public ShootDetails shoot(final Position position) {
+    public ShootReturnType shoot(final Position position) {
         if(this.getHealth() <= 0) {
-            return ShootDetails.WEAPON_BROKEN;
+            return new ShootReturnType(false, ShootDetails.WEAPON_BROKEN);
         }
 
         if((this.getShip().getPosition().isInlineWith(position, this.getShip().getDirection())) && 
@@ -30,10 +30,10 @@ public class WeaponImpl extends ShipComponentImpl implements Weapon {
             hitTarget(position, this.maxDamage);
             Position.directionPositions.values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
             Position.diagonalPositions.values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
-            return ShootDetails.SHOOTED_SUCCESSFULLY;
+            return new ShootReturnType(true, ShootDetails.SHOOTED_SUCCESSFULLY);
         }
 
-        return ShootDetails.OUT_OF_SHOOTING_RANGE;
+        return new ShootReturnType(false, ShootDetails.OUT_OF_SHOOTING_RANGE);
     }
 
     @Override

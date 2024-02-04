@@ -11,7 +11,7 @@ public interface Weapon extends ShipComponent {
 
     public record ShootReturnType(boolean hasShooted, ShootDetails details){}; 
 
-    public ShootDetails shoot(Position position);
+    public ShootReturnType shoot(Position position);
 
     public int getMaxDamage();
     public int getMinDamage();
