@@ -1,20 +1,48 @@
 package it.unibo.object_onepiece.controller;
 
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.ship.Weapon.ShootDetails;
+
+import java.util.List;
+import java.util.Map;
+
+import it.unibo.object_onepiece.controller.Controller_states.InputState;
+import it.unibo.object_onepiece.controller.Controller_states.ShootState;
+import it.unibo.object_onepiece.model.Player;
+import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.World;
 
 public class ControllerImpl implements Controller{
+    Position pPosition;
+    Section currentSec;
+    Player player;
+    InputState currentState;
+    Boolean toggle = false;
+    Map<States,InputState> states = Map.of(States.SHOOTING,new ShootState(player));
 
     @Override
     public void action(Position position, World world) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'initialize'");
+        pPosition = world.getCurrentSection().getPlayer().getPosition();
+        currentSec = world.getCurrentSection();
+        player = currentSec.getPlayer();
+        
+        toggleMode(position, pPosition);
+
+        if(currentState.perform(position)){
+            //the AI performs
+        }
     }
 
     @Override
     public void initialize(World world) {
        world.generateSection();
-       
+    }
+
+    private void toggleMode(Position position,Position player){
+        if(player.equals(position)){
+            toggle = !toggle;
+        }
+        if(toggle){currentState = states.get(States.SHOOTING);} else { states.get(States.MOVING);}
     }
     
 }
