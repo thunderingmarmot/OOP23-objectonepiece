@@ -15,9 +15,9 @@ public class ShootState implements InputState{
     
     @Override
     public Boolean perform(Position pos) {
-       player.getWeapon().shoot(pos);
-       return true;
-       //needs a method for converting shootdetails to boolean
+       var details = player.getWeapon().shoot(pos);
+       if(details.hasShooted() == false){ /* we need to send the appropriate message to the GUI */}
+       return details.hasShooted();
     }
 
     @Override

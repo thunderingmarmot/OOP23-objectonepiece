@@ -46,7 +46,10 @@ public final class Utils {
         }
 
         public Integer distanceFrom(final Position position){
-            return Math.abs((this.row - position.row) + (this.column - position.column));
+            return Double.valueOf(
+                Math.sqrt(Math.pow(this.row - position.row,2) + 
+                Math.pow(this.column - position.column,2)))
+                .intValue();
         }
 
         public boolean isInlineWith(final Position position, final Direction direction) {
