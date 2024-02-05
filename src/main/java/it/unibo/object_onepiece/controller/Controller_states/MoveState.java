@@ -14,7 +14,7 @@ public class MoveState implements InputState{
     @Override
     public Boolean perform(Position pos) {
        var moveState = player.move(move(pos,player.getPosition()), player.getPosition().distanceFrom(pos));
-       if(!moveState.canStep()){/* notify the GUI */}
+       if(!moveState.canStep()){ /* notify the GUI */}
        return moveState.canStep();
     }
 
