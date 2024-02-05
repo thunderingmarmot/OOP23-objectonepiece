@@ -110,6 +110,14 @@ public final class ObjectOnePieceApp extends Application {
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
     }
 
+    private void drawEntity(Position oldPos, Entity e) {
+        var oldCell = gridView.getCellPane(gridModel.getCell(oldPos.column(), oldPos.row()));
+        if (oldCell.getChildren().size() < 1) {
+            throw new IllegalStateException("Old cell didnt have any images but still removed them");
+        }
+        oldCell.getChildren().clear();
+    }
+
     private void drawEntity(Viewable v) {
         final String entityName = v.getViewType().name().toLowerCase();
         final int col = v.getPosition().column();
