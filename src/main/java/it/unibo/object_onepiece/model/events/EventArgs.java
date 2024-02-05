@@ -5,4 +5,5 @@ public interface EventArgs {
     public record Argument<T>(T arg) implements EventArgs {}
     public record BiArgument<T>(T arg1, T arg2) implements EventArgs {}
     public record BiArguments<T1, T2>(T1 arg1, T2 arg2) implements EventArgs {}
+    public record TriArguments<T1, T2, T3>(T1 arg1, T2 arg2, T3 arg3) implements EventArgs {}
 }

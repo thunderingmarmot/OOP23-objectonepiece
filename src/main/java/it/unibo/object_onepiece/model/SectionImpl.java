@@ -8,10 +8,13 @@ import java.util.Random;
 import de.articdive.jnoise.modules.octavation.OctavationModule;
 import de.articdive.jnoise.pipeline.JNoise;
 import it.unibo.object_onepiece.model.Utils.Bound;
+import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.BiArguments;
+import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
+import it.unibo.object_onepiece.model.ship.Ship;
 
+import java.lang.constant.DirectMethodHandleDesc;
 import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -29,7 +32,7 @@ public class SectionImpl implements Section {
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound = new Bound(0, 0, ROWS, COLUMNS);
 
-    private final Event<BiArguments<Class<? extends Entity>, Position>> onEntityCreated = Event.get();
+    private final Event<TriArguments<Class<? extends Entity>, Position, Optional<Direction>>> onEntityCreated = Event.get();
 
     private void generateEntities() {
         Random m = new Random();
@@ -105,11 +108,12 @@ public class SectionImpl implements Section {
 
     @Override
     public void addEntity(Entity e) {
-        onEntityCreated.invoke(new BiArguments<>(e.getClass(), e.getPosition()));
+        Optional<Direction> direction = e instanceof Ship s ? Optional.of(s.getDirection()) : Optional.empty();
+        onEntityCreated.invoke(new TriArguments<>(e.getClass(), e.getPosition(), direction));
         entities.add(e);
     }  
     
-    public Event<BiArguments<Class<? extends Entity>, Position>> getEntityCreatedEvent() {
+    public Event<TriArguments<Class<? extends Entity>, Position, Optional<Direction>>> getEntityCreatedEvent() {
         return onEntityCreated;
     }
 }
