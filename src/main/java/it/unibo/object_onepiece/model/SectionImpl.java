@@ -39,7 +39,6 @@ public class SectionImpl implements Section {
                 Position p = new Position(i, j);
                 double noise = whiteNoise.evaluateNoise(i, j);
                 int floored = (int)Math.floor(noise * 50);
-                System.out.println(noise + " floored: " + floored);
                 switch (floored) {
                     case 0:
                         /* Don't do anything because water */
