@@ -32,7 +32,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     @Override
     public MoveReturnType move(final Direction direction, final int steps) {
-        Position nextPosition = this.position.moveTowards(direction);
+        Position nextPosition = this.getPosition().moveTowards(direction);
         Collidable obstacle = (Collidable) this.getSection().getEntityAt(nextPosition).get();
 
         Map<MoveDetails, Runnable> moveCondition = Map.of(
@@ -67,11 +67,11 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
             return new MoveReturnType(false, MoveDetails.ROTATED);
         }
         
-        if(!this.getSection().getBounds().isInside(position)) {
+        if(!this.getSection().getBounds().isInside(this.getPosition())) {
             return new MoveReturnType(false, MoveDetails.BORDER_REACHED);
         }
         
-        Optional<Entity> obstacle = this.getSection().getEntityAt(this.position.moveTowards(direction));
+        Optional<Entity> obstacle = this.getSection().getEntityAt(this.getPosition().moveTowards(direction));
         
         if(obstacle.isPresent() && obstacle.get() instanceof Collidable c &&
         (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {
