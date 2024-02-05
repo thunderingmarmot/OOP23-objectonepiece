@@ -4,8 +4,8 @@ import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.*;
 
 public abstract class EntityImpl implements Entity {
-    final protected Section section;
-    protected Position position;
+    final private Section section;
+    private Position position;
 
     public final Event<BiArgument<Position>> onPositionChanged = Event.get();
     public final Event<Argument<Position>> onEntityRemoved = Event.get();
