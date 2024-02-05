@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import de.articdive.jnoise.modules.octavation.OctavationModule;
 import de.articdive.jnoise.pipeline.JNoise;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.Position;
@@ -19,29 +20,32 @@ public class SectionImpl implements Section {
 
     private static final int ROWS = World.SECTION_ROWS;
     private static final int COLUMNS = World.SECTION_COLUMNS;
-
+    private static final int ROW_INSET = ROWS / 7;
+    private static final int COL_INSET = COLUMNS / 7;
+    private static final int GEN_AREA_COLS = ROWS - ROW_INSET;
+    private static final int GEN_AREA_ROWS = COLUMNS - COL_INSET;
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound = new Bound(0, 0, ROWS, COLUMNS);
 
     public final Event<BiArguments<Class<? extends Entity>, Position>> onEntityCreated = Event.get();
 
     public SectionImpl() {
-        var whiteNoise = JNoise.newBuilder().white(325080).scale(1 / 2.0).addModifier(v -> (v + 1) / 2.0).build();
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLUMNS; j++) {
+        var whiteNoise = JNoise.newBuilder().white(19680).addModifier(v -> (v + 1) / 2.0).build();
+        //var octavatedWhite = OctavationModule.newBuilder().setNoiseSource(whiteNoise).setOctaves(1).setGain(0.1).build();
+        for (int i = ROW_INSET; i < GEN_AREA_ROWS; i++) {
+            for (int j = COL_INSET; j < GEN_AREA_COLS; j++) {
                 Position p = new Position(i, j);
                 double noise = whiteNoise.evaluateNoise(i, j);
-                //System.out.println(noise + "Floored: " + Math.floor(noise * 4));
-                int floored = (int)Math.floor(noise * 4);
+                int floored = (int)Math.floor(noise * 3);
                 switch (floored) {
+                    case 0:
+                        /* Don't do anything because water */
+                        break;
                     case 1:
                         entities.add(Island.getDefault(this, p));
                         break;
                     case 2:
                         entities.add(Barrel.getDefault(this, p));
-                        break;
-                    case 3:
-                        entities.add(Player.getDefault(this, p));
                         break;
                     default:
                         break;
@@ -49,6 +53,7 @@ public class SectionImpl implements Section {
             }
         }
 
+        /** Prints duplicate positions in entities list*/
         Set<Position> items = new HashSet<>();
         entities.stream().filter(n -> !items.add(n.getPosition()))
         .collect(Collectors.toSet())
