@@ -3,6 +3,7 @@ package it.unibo.object_onepiece.model;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import de.articdive.jnoise.modules.octavation.OctavationModule;
 import de.articdive.jnoise.pipeline.JNoise;
@@ -30,13 +31,15 @@ public class SectionImpl implements Section {
     public final Event<BiArguments<Class<? extends Entity>, Position>> onEntityCreated = Event.get();
 
     public SectionImpl() {
-        var whiteNoise = JNoise.newBuilder().white(19680).addModifier(v -> (v + 1) / 2.0).build();
-        //var octavatedWhite = OctavationModule.newBuilder().setNoiseSource(whiteNoise).setOctaves(1).setGain(0.1).build();
+        Random m = new Random();
+        var whiteNoise = JNoise.newBuilder().white(m.nextInt()).addModifier(v -> (v + 1) / 2.0).scale(50.5).build();
+        //var octavatedWhite = OctavationModule.newBuilder().setNoiseSource(whiteNoise).setOctaves(1).setGain(0.9).build();
         for (int i = ROW_INSET; i < GEN_AREA_ROWS; i++) {
             for (int j = COL_INSET; j < GEN_AREA_COLS; j++) {
                 Position p = new Position(i, j);
                 double noise = whiteNoise.evaluateNoise(i, j);
-                int floored = (int)Math.floor(noise * 3);
+                int floored = (int)Math.floor(noise * 50);
+                System.out.println(noise + " floored: " + floored);
                 switch (floored) {
                     case 0:
                         /* Don't do anything because water */
@@ -47,6 +50,8 @@ public class SectionImpl implements Section {
                     case 2:
                         entities.add(Barrel.getDefault(this, p));
                         break;
+                    case 3:
+                        entities.add(NavalMine.getDefault(this, p));
                     default:
                         break;
                 }
