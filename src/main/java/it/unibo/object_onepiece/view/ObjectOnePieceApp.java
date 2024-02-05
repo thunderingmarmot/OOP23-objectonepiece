@@ -24,15 +24,22 @@ import it.unibo.object_onepiece.model.ship.Ship;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -76,17 +83,51 @@ public final class ObjectOnePieceApp extends Application {
 
         BorderPane borderPane = new BorderPane();
 
-        Canvas health = new Canvas(100, 100);
-        GraphicsContext healthGC = health.getGraphicsContext2D();
-        Rectangle healthBar = new Rectangle(20, 100);
-        drawHealthBar(healthGC, healthBar);
 
+
+        Label pirateInfo = new Label("Pirate info!");
+        pirateInfo.setAlignment(Pos.CENTER);
+
+        
+        
+       
+
+        
+
+        StackPane healthPane = new StackPane();
+        healthPane.setPrefHeight(100);
+        healthPane.setMaxWidth(20);
+
+        Rectangle redBar = new Rectangle();
+        redBar.setFill(Color.RED);
+        redBar.widthProperty().bind(healthPane.widthProperty());
+        redBar.heightProperty().bind(healthPane.heightProperty());
+
+        Rectangle healthBar = new Rectangle();
+        healthBar.widthProperty().bind(redBar.widthProperty());
+        healthBar.setFill(Color.GREEN);
+
+        healthPane.getChildren().addAll(redBar, healthBar);
+        StackPane.setAlignment(healthBar, Pos.BOTTOM_CENTER);
+        
         Label healthPoints = new Label("100");
-
         VBox healthContainer = new VBox();
-        healthContainer.getChildren().addAll(health, healthPoints);
+
+        healthContainer.getChildren().addAll(healthPane, healthPoints);
+
+
+
+        BorderPane rightPane = new BorderPane();
+        rightPane.setTop(pirateInfo);
+        rightPane.setCenter(healthContainer);
+
+
+        
+
+        
+        
         borderPane.setCenter(gridView);
-        borderPane.setRight(healthContainer);
+        borderPane.setRight(rightPane);
         Scene scene = new Scene(borderPane, 600, 600);
         scene.getStylesheets().add("/css/ObjectOnePieceApp.css");
         primaryStage.setScene(scene);
