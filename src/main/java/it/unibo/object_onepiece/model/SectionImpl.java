@@ -25,12 +25,13 @@ public class SectionImpl implements Section {
     private static final int COL_INSET = COLUMNS / 7;
     private static final int GEN_AREA_COLS = ROWS - ROW_INSET;
     private static final int GEN_AREA_ROWS = COLUMNS - COL_INSET;
+
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound = new Bound(0, 0, ROWS, COLUMNS);
 
-    public final Event<BiArguments<Class<? extends Entity>, Position>> onEntityCreated = Event.get();
+    private final Event<BiArguments<Class<? extends Entity>, Position>> onEntityCreated = Event.get();
 
-    public SectionImpl() {
+    private void generateEntities() {
         Random m = new Random();
         var whiteNoise = JNoise.newBuilder().white(m.nextInt()).addModifier(v -> (v + 1) / 2.0).scale(50.5).build();
         //var octavatedWhite = OctavationModule.newBuilder().setNoiseSource(whiteNoise).setOctaves(1).setGain(0.9).build();
@@ -44,13 +45,13 @@ public class SectionImpl implements Section {
                         /* Don't do anything because water */
                         break;
                     case 1:
-                        entities.add(Island.getDefault(this, p));
+                        this.addEntity(Island.getDefault(this, p));
                         break;
                     case 2:
-                        entities.add(Barrel.getDefault(this, p));
+                        this.addEntity(Barrel.getDefault(this, p));
                         break;
                     case 3:
-                        entities.add(NavalMine.getDefault(this, p));
+                        this.addEntity(NavalMine.getDefault(this, p));
                     default:
                         break;
                 }
@@ -105,6 +106,10 @@ public class SectionImpl implements Section {
     @Override
     public void addEntity(Entity e) {
         onEntityCreated.invoke(new BiArguments<>(e.getClass(), e.getPosition()));
-        // Continue addEntity implementation
-    }    
+        entities.add(e);
+    }  
+    
+    public Event<BiArguments<Class<? extends Entity>, Position>> getEntityCreatedEvent() {
+        return onEntityCreated;
+    }
 }
