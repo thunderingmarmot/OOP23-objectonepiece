@@ -1,17 +1,26 @@
 package it.unibo.object_onepiece.model.ship;
 
 public interface Bow extends ShipComponent {
-    public int getCrashDamage();
+    int getCrashDamage();
 
-    public static Bow standard() {
-        return new BowImpl(20, 100);
+    static Bow standard() {
+        final int crashDamage = 20;
+        final int health = 100;
+
+        return new BowImpl(crashDamage, health);
     }
 
-    public static Bow heavy() {
-        return new BowImpl(40, 200);
+    static Bow heavy() {
+        final int crashDamage = 40;
+        final int health = 200;
+
+        return new BowImpl(crashDamage, health);
     }
-    
-    public static Bow light() {
-        return new BowImpl(5, 75);
+
+    static Bow light() {
+        final int crashDamage = 5;
+        final int health = 75;
+
+        return new BowImpl(crashDamage, health);
     }
 }

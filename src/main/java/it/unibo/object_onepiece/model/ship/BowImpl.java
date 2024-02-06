@@ -7,7 +7,7 @@ public final class BowImpl extends ShipComponentImpl implements Bow {
         super(health);
         this.crashDamage = crashDamage;
     }
-    
+
     @Override
     public int getCrashDamage() {
         return this.crashDamage;
