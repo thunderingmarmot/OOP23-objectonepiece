@@ -18,29 +18,29 @@ public interface Weapon extends ShipComponent {
     int getRange();
 
     static Weapon cannon() {
-        final int MAX_DAMAGE = 20;
-        final int MIN_DAMAGE = 10;
-        final int RANGE = 3;
-        final int HEALTH = 100;
+        final int maxDamage = 20;
+        final int minDamage = 10;
+        final int range = 3;
+        final int health = 100;
 
-        return new WeaponImpl(MAX_DAMAGE, MIN_DAMAGE, RANGE, HEALTH);
+        return new WeaponImpl(maxDamage, minDamage, range, health);
     }
 
     static Weapon railgun() {
-        final int MAX_DAMAGE = 50;
-        final int MIN_DAMAGE = 0;
-        final int RANGE = 5;
-        final int HEALTH = 70;
+        final int maxDamage = 50;
+        final int minDamage = 0;
+        final int range = 5;
+        final int health = 70;
 
-        return new WeaponImpl(MAX_DAMAGE, MIN_DAMAGE, RANGE, HEALTH);
+        return new WeaponImpl(maxDamage, minDamage, range, health);
     }
 
     static Weapon heavycannon() {
-        final int MAX_DAMAGE = 80;
-        final int MIN_DAMAGE = 40;
-        final int RANGE = 1;
-        final int HEALTH = 120;
+        final int maxDamage = 80;
+        final int minDamage = 40;
+        final int range = 1;
+        final int health = 120;
 
-        return new WeaponImpl(MAX_DAMAGE, MIN_DAMAGE, RANGE, HEALTH);
+        return new WeaponImpl(maxDamage, minDamage, range, health);
     }
 }
