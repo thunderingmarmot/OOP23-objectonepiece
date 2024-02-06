@@ -27,9 +27,9 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     private final Event<BiArgument<Direction>> onDirectionChanged = Event.get();
     private final Event<Argument<Integer>> onTookDamage = Event.get();
 
-    protected ShipImpl(final Section s, final Position p, final Direction direction, final Weapon weapon, final Sail sail, final Bow bow) {
+    protected ShipImpl(final Section s, final Position p, final Direction d, final Weapon weapon, final Sail sail, final Bow bow) {
         super(s, p);
-        this.setDirection(direction);
+        this.setDirection(d);
         this.setWeapon(weapon);
         this.setSail(sail);
         this.setBow(bow);
