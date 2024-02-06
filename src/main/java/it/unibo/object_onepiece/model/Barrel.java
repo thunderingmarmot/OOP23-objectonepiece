@@ -15,8 +15,8 @@ public interface Barrel extends Viewable, Collidable {
      * @param experienceGiven the experience value this Barrel gives the Player when taken
      * @return the newly created Barrel object
      */
-    static Barrel getDefault(Section spawnSection, Position spawnPosition, int experienceGiven) {
-        return new BarrelImpl(spawnSection, spawnPosition, experienceGiven);
+    static Barrel getDefault(Section spawnSection, Position spawnPosition) {
+        return new BarrelImpl(spawnSection, spawnPosition, 50);
     }
 
     /**
