@@ -53,7 +53,7 @@ public final class Utils {
         return positionsInlineConditions;
     }
 
-    private static Map<Position, CardinalDirection> vectorToCardinalDirectionMap = Map.of(
+    private static Map<Position, CardinalDirection> distanceVectorToCardinalDirectionMap = Map.of(
         new Position(-1, -1), CardinalDirection.SOUTH,
         new Position(1, -1), CardinalDirection.SOUTH,
         new Position(-1, 1), CardinalDirection.NORTH,
@@ -64,8 +64,8 @@ public final class Utils {
         new Position(1, 0), CardinalDirection.WEST
     );
 
-    public static Map<Position, CardinalDirection> getVectorToCardinalDirectionMap() {
-        return vectorToCardinalDirectionMap;
+    public static Map<Position, CardinalDirection> getDistanceVectorToCardinalDirectionMap() {
+        return distanceVectorToCardinalDirectionMap;
     }
 
     private static List<BiPredicate<Bound, Position>> insideBoundsConditions = List.of(
@@ -91,6 +91,12 @@ public final class Utils {
                 .intValue();
         }
 
+        public Position distanceVectorFrom(final Position position) {
+            var deltaRow = position.row - this.row;
+            var deltaColumn = position.column - this.column;
+            return new Position(deltaRow / Math.abs(deltaRow), deltaColumn / Math.abs(deltaColumn));
+        }
+
         public boolean isInlineWith(final Position position, final CardinalDirection direction) {
             return positionsInlineConditions.get(direction).test(this, position);
         }
@@ -99,14 +105,13 @@ public final class Utils {
             return new Position(this.row + position.row, this.column + position.column);
         }
 
-        public Position vectorialDirection(final Position position) {
-            var deltaRow = position.row - this.row;
-            var deltaColumn = position.column - this.column;
-            return new Position(deltaRow / Math.abs(deltaRow), deltaColumn / Math.abs(deltaColumn));
+        public CardinalDirection whereTo(final Position position) {
+            var distanceVector = this.distanceVectorFrom(position);
+            return distanceVectorToCardinalDirectionMap.get(distanceVector);
         }
     }
 
-    public record Bound(int upLimit, int leftLimit, int downLimit, int rightLimit) {
+    public record Bound(int rows, int columns) {
         public boolean isInside(final Position position) {
             return insideBoundsConditions.stream().allMatch((condition) -> condition.test(this, position));
         }
@@ -124,10 +129,5 @@ public final class Utils {
         NORTHEAST,
         SOUTHEAST,
         SOUTHWEST,
-    }
-
-    public static CardinalDirection posToDir(final Position objectivePosition, final Position currentPosition) {
-        var direction = currentPosition.vectorialDirection(objectivePosition);
-        return vectorToCardinalDirectionMap.get(direction);
     }
 }
