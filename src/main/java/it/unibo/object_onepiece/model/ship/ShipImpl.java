@@ -46,10 +46,19 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     /**
+     * This method define the actual ship movement by checking the next position
+     * using canMove() and move the Ship based on the MoveReturnType returned.
      * 
+     * @param direction is the direction where the ship should move
+     * @param steps is the number of steps that the ship should do to reach the final position
+     * @return a MoveDetails that contains the result of the last movement made by the Ship
+     * 
+     * This is a recursive method that calls himself steps times.
+     * Every call the method try to move the Ship to the next position up to the final position.
+     * If along the path there are immovable obstacles the Ship stops right before them.
      */
     @Override
-    public MoveReturnType move(final Direction direction, final int steps) {
+    public MoveDetails move(final Direction direction, final int steps) {
         Position nextPosition = this.getPosition().moveTowards(direction);
         Collidable obstacle = (Collidable) this.getSection().getEntityAt(nextPosition).get();
 
@@ -64,13 +73,13 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         moveCondition.get(nextStep.details()).run();
 
         if (steps == 0) {
-            return nextStep;
+            return nextStep.details();
         } else {
             return move(direction, steps - 1);
         }
     }
 
-    public MoveReturnType move(final Direction direction) {
+    public MoveDetails move(final Direction direction) {
         return move(direction, 1);
     }
 
