@@ -16,22 +16,18 @@ public final class Utils {
      */
     public record State(Section section, Position playerPosition, int playerExperience) { }
 
-    private static Map<CardinalDirection, Function<Position, Position>> cardinalDirectionsTranslation = Map.of(
+    private static Map<CardinalDirection, Function<Position, Position>> cardinalDirectionsTranslations = Map.of(
         CardinalDirection.NORTH, (p) -> new Position(p.row + 1, p.column),
         CardinalDirection.SOUTH, (p) -> new Position(p.row - 1, p.column),
         CardinalDirection.EAST, (p) -> new Position(p.row, p.column + 1),
         CardinalDirection.WEST, (p) -> new Position(p.row, p.column - 1)
     );
 
-    /**
-     * 
-     * @return
-     */
     public static Map<CardinalDirection, Function<Position, Position>> getCardinalDirectionsTranslationMap() {
-        return cardinalDirectionsTranslation;
+        return cardinalDirectionsTranslations;
     }
 
-    private static Map<OrdinalDirection, Function<Position, Position>> ordinalDirectionsTranslation = Map.of(
+    private static Map<OrdinalDirection, Function<Position, Position>> ordinalDirectionsTranslations = Map.of(
         OrdinalDirection.NORTHEAST, (p) -> new Position(p.row + 1, p.column + 1),
         OrdinalDirection.SOUTHWEST, (p) -> new Position(p.row - 1, p.column - 1),
         OrdinalDirection.NORTHWEST, (p) -> new Position(p.row + 1, p.column - 1),
@@ -39,7 +35,7 @@ public final class Utils {
     );
 
     public static Map<OrdinalDirection, Function<Position, Position>> getOrdinalDirectionsTranslationMap() {
-        return ordinalDirectionsTranslation;
+        return ordinalDirectionsTranslations;
     }
 
     private static Map<CardinalDirection, BiPredicate<Position, Position>> positionsInlineConditions = Map.of(
@@ -53,7 +49,7 @@ public final class Utils {
         return positionsInlineConditions;
     }
 
-    private static Map<Position, CardinalDirection> distanceVectorToCardinalDirectionMap = Map.of(
+    private static Map<Position, CardinalDirection> distanceVectorToCardinalDirections = Map.of(
         new Position(-1, -1), CardinalDirection.SOUTH,
         new Position(1, -1), CardinalDirection.SOUTH,
         new Position(-1, 1), CardinalDirection.NORTH,
@@ -65,7 +61,7 @@ public final class Utils {
     );
 
     public static Map<Position, CardinalDirection> getDistanceVectorToCardinalDirectionMap() {
-        return distanceVectorToCardinalDirectionMap;
+        return distanceVectorToCardinalDirections;
     }
 
     private static List<BiPredicate<Bound, Position>> insideBoundsConditions = List.of(
@@ -81,7 +77,7 @@ public final class Utils {
 
     public record Position(int row, int column) {
         public Position moveTowards(final CardinalDirection direction) {
-            return cardinalDirectionsTranslation.get(direction).apply(this);
+            return cardinalDirectionsTranslations.get(direction).apply(this);
         }
 
         public Integer distanceFrom(final Position position) {
@@ -107,7 +103,7 @@ public final class Utils {
 
         public CardinalDirection whereTo(final Position position) {
             var distanceVector = this.distanceVectorFrom(position);
-            return distanceVectorToCardinalDirectionMap.get(distanceVector);
+            return distanceVectorToCardinalDirections.get(distanceVector);
         }
     }
 
