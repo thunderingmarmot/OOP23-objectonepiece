@@ -10,21 +10,21 @@ import java.util.function.Consumer;
 public interface Event<T extends EventArgs> {
     /**
      * Subscribe a Consumer<T> to the Event.
-     * @param listener
+     * @param listener the Consumer to be executed when Event is invoked
      * @see Consumer
      */
     void subscribe(Consumer<T> listener);
 
     /**
      * Unsubscribe a Consumer<T> to the Event.
-     * @param listener
+     * @param listener the Consumer to be executed when Event is invoked
      * @see Consumer
      */
     void unsubscribe(Consumer<T> listener);
 
     /**
      * Invoke the Event with some arguments.
-     * @param args
+     * @param args the arguments passed to the subscribed Consumers
      * @see EventArgs
      */
     void invoke(T args);
