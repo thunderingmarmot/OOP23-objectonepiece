@@ -13,6 +13,11 @@ import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
 
+/**
+ * An abstract class to define the methods implementation of Ship.
+ * In particular move() and canMove() to move a Ship
+ * and check if a Ship can move to the next position.
+ */
 public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
     private Weapon weapon;
