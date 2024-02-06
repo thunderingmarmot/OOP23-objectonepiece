@@ -59,14 +59,16 @@ public final class SectionImpl implements Section {
                         break;
                     case 3:
                         this.addEntity(NavalMine.getDefault(this, p));
+                        break;
                     case 4:
                         this.addEntity(Enemy.getDefault(this, p));
+                        break;
                     default:
                         break;
                 }
             }
         }
-        this.addEntity(Player.getDefault(this, new Position(0, 0)));
+        this.addEntity(Player.getDefault(this, new Position(1, 1)));
 
         /** Prints duplicate positions in entities list*/
         Set<Position> items = new HashSet<>();
