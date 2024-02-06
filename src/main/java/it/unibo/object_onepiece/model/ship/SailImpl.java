@@ -1,7 +1,7 @@
 package it.unibo.object_onepiece.model.ship;
 
 /**
- * Class that defines the implementation of the Sail interface
+ * Class that defines the implementation of the Sail interface.
  */
 public final class SailImpl extends ShipComponentImpl implements Sail {
     private final int maxSpeed;
@@ -9,7 +9,7 @@ public final class SailImpl extends ShipComponentImpl implements Sail {
     private final int rotationPower;
 
     /**
-     * Constructor for class SailImpl
+     * Constructor for class SailImpl.
      * 
      * @param  max      the maximum speed of the sail
      * @param  min      the minimum speed of the sail

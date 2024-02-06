@@ -40,7 +40,7 @@ public final class SectionImpl implements Section {
      */
     public void generateEntities() {
         Random m = new Random();
-        int seed = 1077;
+        int seed = 120350;
         var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR).build();
         for (int i = ROW_INSET; i < GEN_AREA_ROWS; i++) {
             for (int j = COL_INSET; j < GEN_AREA_COLS; j++) {
@@ -59,14 +59,16 @@ public final class SectionImpl implements Section {
                         break;
                     case 3:
                         this.addEntity(NavalMine.getDefault(this, p));
+                        break;
                     case 4:
                         this.addEntity(Enemy.getDefault(this, p));
+                        break;
                     default:
                         break;
                 }
             }
         }
-        this.addEntity(Player.getDefault(this, new Position(0, 0)));
+        this.addEntity(Player.getDefault(this, new Position(1, 1)));
 
         /** Prints duplicate positions in entities list*/
         Set<Position> items = new HashSet<>();
