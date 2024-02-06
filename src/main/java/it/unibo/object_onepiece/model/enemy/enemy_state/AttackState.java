@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model.enemy.enemy_state;
 
+import it.unibo.object_onepiece.model.Utils;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.enemy.Enemy;
@@ -16,17 +17,17 @@ public class AttackState implements EnemyState {
             prevDirection = ship.getDirection();
 
             switch (prevDirection) {
-                case UP:
-                    ship.move(CardinalDirection.RIGHT,1);
+                case NORTH:
+                    ship.move(CardinalDirection.EAST,1);
                     break;
-                case LEFT:
-                    ship.move(CardinalDirection.UP,1);
+                case EAST:
+                    ship.move(CardinalDirection.NORTH,1);
                     break;
-                case RIGHT:
-                    ship.move(CardinalDirection.DOWN,1);
+                case WEST:
+                    ship.move(CardinalDirection.SOUTH,1);
                     break;
-                case DOWN:
-                    ship.move(CardinalDirection.LEFT,1);
+                case SOUTH:
+                    ship.move(CardinalDirection.WEST,1);
                     break;
                 default:
                     break;
@@ -46,7 +47,7 @@ public class AttackState implements EnemyState {
     }
 
     private Position nextPos(CardinalDirection direction){
-        return Position.directionPositions
+        return Utils.getCardinalDirectionsTranslationMap()
                 .get(direction).apply(ship.getPosition());
     }
     

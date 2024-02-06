@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model.enemy.enemy_state;
 
+import it.unibo.object_onepiece.model.Utils;
 import it.unibo.object_onepiece.model.Movable.MoveDetails;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
@@ -51,7 +52,7 @@ public class Patrol implements EnemyState{
     }
 
     private Position nextPos(CardinalDirection direction){
-        return Position.directionPositions
+        return Utils.getCardinalDirectionsTranslationMap()
                 .get(direction).apply(ship.getPosition());
     }
 
