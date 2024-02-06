@@ -21,12 +21,12 @@ public class WeaponImpl extends ShipComponentImpl implements Weapon {
 
     @Override
     public ShootReturnType shoot(final Position position) {
-        if(this.getHealth() <= 0) {
+        if (this.getHealth() <= 0) {
             return new ShootReturnType(false, ShootDetails.WEAPON_BROKEN);
         }
 
-        if((this.getShip().getPosition().isInlineWith(position, this.getShip().getDirection())) && 
-        (this.getShip().getPosition().distanceFrom(position) <= this.attackRange)) {
+        if ((this.getShip().getPosition().isInlineWith(position, this.getShip().getDirection())) 
+        && (this.getShip().getPosition().distanceFrom(position) <= this.attackRange)) {
             hitTarget(position, this.maxDamage);
             Position.directionPositions.values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
             Position.diagonalPositions.values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
@@ -50,10 +50,10 @@ public class WeaponImpl extends ShipComponentImpl implements Weapon {
     public int getRange() {
         return this.attackRange;
     }
-    
+
     private void hitTarget(final Position position, final int damage) {
         Optional<Entity> ship = this.getShip().getSection().getEntityAt(position);
-        if(ship.get() instanceof Ship s) {
+        if (ship.get() instanceof Ship s) {
             List<ShipComponent> sc = List.of(this, this.getShip().getSail(), this.getShip().getBow());
             s.takeDamage(damage, sc.stream()
                                    .skip(new Random().nextInt(sc.size()))

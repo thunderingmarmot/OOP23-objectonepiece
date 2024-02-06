@@ -3,29 +3,44 @@ package it.unibo.object_onepiece.model.ship;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 public interface Weapon extends ShipComponent {
-    public enum ShootDetails {
+    enum ShootDetails {
         SHOOTED_SUCCESSFULLY,
         OUT_OF_SHOOTING_RANGE,
         WEAPON_BROKEN
     };
 
-    public record ShootReturnType(boolean hasShooted, ShootDetails details){}; 
+    record ShootReturnType(boolean hasShooted, ShootDetails details) { }; 
 
-    public ShootReturnType shoot(Position position);
+    ShootReturnType shoot(Position position);
 
-    public int getMaxDamage();
-    public int getMinDamage();
-    public int getRange();
+    int getMaxDamage();
+    int getMinDamage();
+    int getRange();
 
-    public static Weapon cannon() {
-        return new WeaponImpl(20, 10, 3, 100);
+    static Weapon cannon() {
+        final int maxDamage = 20;
+        final int minDamage = 10;
+        final int range = 3;
+        final int health = 100;
+
+        return new WeaponImpl(maxDamage, minDamage, range, health);
     }
 
-    public static Weapon railgun() {
-        return new WeaponImpl(50, 0, 5, 70);
+    static Weapon railgun() {
+        final int maxDamage = 50;
+        final int minDamage = 0;
+        final int range = 5;
+        final int health = 70;
+
+        return new WeaponImpl(maxDamage, minDamage, range, health);
     }
 
-    public static Weapon heavycannon() {
-        return new WeaponImpl(80, 40, 1, 120);
+    static Weapon heavycannon() {
+        final int maxDamage = 80;
+        final int minDamage = 40;
+        final int range = 1;
+        final int health = 120;
+
+        return new WeaponImpl(maxDamage, minDamage, range, health);
     }
 }
