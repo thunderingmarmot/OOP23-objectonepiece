@@ -95,5 +95,10 @@ public final class Utils {
         LOWERLEFT,
     };
 
+    public static Direction posToDir(Position objectivePosition,Position currentPosition) {
+        var direction = currentPosition.vectorialDirection(objectivePosition);
+        return Position.vectorToDirectionMap.get(direction);
+    }
+
 
 }

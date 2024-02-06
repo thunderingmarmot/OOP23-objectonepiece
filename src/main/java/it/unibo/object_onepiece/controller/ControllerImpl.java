@@ -1,9 +1,8 @@
 package it.unibo.object_onepiece.controller;
 
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.ship.Weapon.ShootDetails;
+import it.unibo.object_onepiece.model.enemy.Enemy;
 
-import java.util.List;
 import java.util.Map;
 
 import it.unibo.object_onepiece.controller.Controller_states.InputState;
@@ -29,7 +28,11 @@ public class ControllerImpl implements Controller{
         toggleMode(position, pPosition);
 
         if(currentState.perform(position)){
-            //the AI performs
+            currentSec.getEntities()
+                .stream()
+                .filter(x -> x instanceof Enemy)
+                .toList()
+                .forEach(e  ->((Enemy)e).goNext());
         }
     }
 

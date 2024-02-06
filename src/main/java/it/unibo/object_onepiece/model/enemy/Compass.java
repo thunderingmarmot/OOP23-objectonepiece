@@ -2,6 +2,7 @@ package it.unibo.object_onepiece.model.enemy;
 
 import java.util.Random;
 
+import it.unibo.object_onepiece.model.Utils;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 
@@ -16,8 +17,7 @@ class Compass implements NavigationSystem {
 
     @Override
     public Direction move(Position objectivePosition,Position currentPosition) {
-        var direction = currentPosition.vectorialDirection(objectivePosition);
-        return Position.vectorToDirectionMap.get(direction);
+        return Utils.posToDir(objectivePosition,currentPosition);
     }
 
     public Direction move(Position currentPosition){
