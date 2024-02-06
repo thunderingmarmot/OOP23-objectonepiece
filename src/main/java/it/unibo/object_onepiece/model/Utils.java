@@ -98,7 +98,7 @@ public final class Utils {
 
     public record Bound(int upLimit, int leftLimit, int downLimit, int rightLimit) {
         public boolean isInside(final Position position) {
-            return position .allMatch((condition) -> condition.test(this, position));
+            return insideBoundsConditions.stream().allMatch((condition) -> condition.test(this, position));
         }
     }
 
