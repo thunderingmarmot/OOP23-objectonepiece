@@ -5,9 +5,15 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.BiPredicate;
 
+/**
+ * An Utility class that contains useful common enums, records and maps.
+ */
 public final class Utils {
     private Utils() { }
 
+    /**
+     * A record that keeps track of the main data to save 
+     */
     public record State(Section section, Position playerPosition, int playerExperience) { }
 
     private static Map<CardinalDirection, Function<Position, Position>> cardinalDirectionsTranslation = Map.of(
@@ -65,7 +71,7 @@ public final class Utils {
         (b, p) -> p.column > b.leftLimit
     );
 
-    public static List<BiPredicate<Bound, Position>> getInsideBoundsConditionsMap() {
+    public static List<BiPredicate<Bound, Position>> getInsideBoundsConditionsList() {
         return insideBoundsConditions;
     }
 

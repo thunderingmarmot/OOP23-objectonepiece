@@ -189,6 +189,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     /**
      * Get method for the Weapon component of the Ship.
+     * 
+     * @return the current Weapon mounted on the Ship.
      */
     @Override
     public Weapon getWeapon() {

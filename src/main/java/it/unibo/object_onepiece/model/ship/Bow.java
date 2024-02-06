@@ -16,7 +16,7 @@ public interface Bow extends ShipComponent {
 
         return new BowImpl(crashDamage, health);
     }
-    
+
     static Bow light() {
         final int crashDamage = 5;
         final int health = 75;
