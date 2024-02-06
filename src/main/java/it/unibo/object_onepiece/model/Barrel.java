@@ -8,6 +8,8 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * @see Collidable
  */
 public interface Barrel extends Viewable, Collidable {
+    public static final int DEFAULT_EXPERIENCE_GIVEN = 50;
+
     /**
      * Creates a default Barrel.
      * @param spawnSection the reference to the Section containing this Barrel
@@ -16,7 +18,7 @@ public interface Barrel extends Viewable, Collidable {
      * @return the newly created Barrel object
      */
     static Barrel getDefault(Section spawnSection, Position spawnPosition) {
-        return new BarrelImpl(spawnSection, spawnPosition, 50);
+        return new BarrelImpl(spawnSection, spawnPosition, DEFAULT_EXPERIENCE_GIVEN);
     }
 
     /**
