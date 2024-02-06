@@ -8,7 +8,8 @@ import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
 import it.unibo.object_onepiece.controller.Controller;
 import it.unibo.object_onepiece.controller.ControllerImpl;
-import it.unibo.object_onepiece.model.*;
+import it.unibo.object_onepiece.model.World;
+import it.unibo.object_onepiece.model.WorldImpl;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 import javafx.application.Application;
@@ -93,7 +94,7 @@ public final class ObjectOnePieceApp extends Application {
         BorderPane rightPane = new BorderPane();
         rightPane.setTop(pirateInfo);
         rightPane.setCenter(healthContainer);
-        
+
         borderPane.setCenter(gridView);
         borderPane.setRight(rightPane);
         Scene scene = new Scene(borderPane, 600, 600);
