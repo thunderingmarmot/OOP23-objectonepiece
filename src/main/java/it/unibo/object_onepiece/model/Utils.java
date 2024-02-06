@@ -6,8 +6,11 @@ import java.util.function.Function;
 import java.util.function.BiPredicate;
 
 public final class Utils {
-    public static record State(Section section, Position playerPosition, int playerExperience) {}
-    public static record Position(int row, int column) {
+    private Utils() { }
+
+    public record State(Section section, Position playerPosition, int playerExperience) { }
+
+    public record Position(int row, int column) {
         public static Map<Direction, Function<Position, Position>> directionPositions = Map.of(
             Direction.UP, (p) -> new Position(p.row + 1, p.column),
             Direction.DOWN, (p) -> new Position(p.row - 1, p.column),
@@ -34,21 +37,20 @@ public final class Utils {
             new Position(1, -1), Direction.DOWN,
             new Position(-1, 1), Direction.UP,
             new Position(1, 1), Direction.UP,
-            
-            new Position(0, 1), Direction.UP,    
-            new Position(-1,0),   Direction.LEFT,  
-            new Position(0,-1),   Direction.DOWN,  
-            new Position(1,0),  Direction.RIGHT
+            new Position(0, 1), Direction.UP,
+            new Position(-1, 0),   Direction.LEFT,
+            new Position(0, -1),   Direction.DOWN,
+            new Position(1, 0),  Direction.RIGHT
         );
 
         public Position moveTowards(final Direction direction) {
             return Position.directionPositions.get(direction).apply(this);
         }
 
-        public Integer distanceFrom(final Position position){
+        public Integer distanceFrom(final Position position) {
             return Double.valueOf(
-                Math.sqrt(Math.pow(this.row - position.row,2) + 
-                Math.pow(this.column - position.column,2)))
+                Math.sqrt(Math.pow(this.row - position.row, 2)
+                + Math.pow(this.column - position.column, 2)))
                 .intValue();
         }
 
@@ -56,19 +58,18 @@ public final class Utils {
             return Position.inlineConditions.get(direction).test(this, position);
         }
 
-        public Position translate(final Position position){
+        public Position translate(final Position position) {
             return new Position(this.row + position.row, this.column + position.column);
         }
 
-        public Position vectorialDirection(final Position position){
+        public Position vectorialDirection(final Position position) {
             var deltaRow = position.row - this.row;
             var deltaColumn = position.column - this.column;
-            return new Position(deltaRow/Math.abs(deltaRow), deltaColumn/Math.abs(deltaColumn));
+            return new Position(deltaRow / Math.abs(deltaRow), deltaColumn / Math.abs(deltaColumn));
         }
-    };
+    }
 
-    public static record Bound(int upLimit, int leftLimit, int downLimit, int rightLimit) {
-
+    public record Bound(int upLimit, int leftLimit, int downLimit, int rightLimit) {
         public static List<BiPredicate<Bound, Position>> insideConditions = List.of(
             (b, p) -> p.row < b.upLimit,
             (b, p) -> p.row > b.downLimit,
@@ -81,24 +82,22 @@ public final class Utils {
         }
     }
 
-    public static enum Direction {
+    public enum Direction {
         UP,
         RIGHT,
         DOWN,
         LEFT,
-    };
-    
-    public static enum Diagonal {
+    }
+
+    public enum Diagonal {
         UPPERLEFT,
         UPPERRIGHT,
         LOWERRIGHT,
         LOWERLEFT,
-    };
+    }
 
-    public static Direction posToDir(Position objectivePosition,Position currentPosition) {
+    public static Direction posToDir(final Position objectivePosition, final Position currentPosition) {
         var direction = currentPosition.vectorialDirection(objectivePosition);
         return Position.vectorToDirectionMap.get(direction);
     }
-
-
 }

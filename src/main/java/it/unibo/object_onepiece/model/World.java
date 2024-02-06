@@ -2,35 +2,35 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.State;
 
-/**Interface that models the factory of Sections while also keeping track
-* of the Section where the player saved the game.
-*/
+/**
+ * Represents World of the game, with the current section and the saved ones.
+ */
 public interface World {
     /**
-     * Grid rows
+     * Grid rows.
      */
-    static final int SECTION_ROWS = 10;
+    int SECTION_ROWS = 10;
     /**
-     * Grid columns
+     * Grid columns.
      */
-    static final int SECTION_COLUMNS = 10;
+    int SECTION_COLUMNS = 10;
 
     /**
      * 
-     * @return State last saved section
+     * @return State last saved section.
      */
-    public State getSavedState();
+    State getSavedState();
     /**
-     * Save current section
+     * Save current section.
      */
-    public void setSavedState();
+    void setSavedState();
     /**
      * 
      * @return Section current section where player resides.
      */
-    public Section getCurrentSection();
+    Section getCurrentSection();
     /**
      * Sets World's section to a new section (used before we generate a secion).
      */
-    public void instantiateSection();
+    void instantiateSection();
 }

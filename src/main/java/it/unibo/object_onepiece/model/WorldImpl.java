@@ -2,14 +2,20 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.State;
 
-public class WorldImpl implements World {
+/**
+ * Implementation of World interface.
+ */
+public final class WorldImpl implements World {
 
+    /**
+     * Saved State of game when player saved his state on an Island.
+     */
     private State savedState;
 
+    /**
+     * Current playing section.
+     */
     private Section currentSection = new SectionImpl();
-
-    public WorldImpl() {
-    }
 
     @Override
     public State getSavedState() {
