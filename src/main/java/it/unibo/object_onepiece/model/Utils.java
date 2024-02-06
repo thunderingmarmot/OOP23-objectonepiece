@@ -23,6 +23,10 @@ public final class Utils {
         CardinalDirection.WEST, (p) -> new Position(p.row, p.column - 1)
     );
 
+    /**
+     * 
+     * @return
+     */
     public static Map<CardinalDirection, Function<Position, Position>> getCardinalDirectionsTranslationMap() {
         return cardinalDirectionsTranslation;
     }
@@ -55,9 +59,9 @@ public final class Utils {
         new Position(-1, 1), CardinalDirection.NORTH,
         new Position(1, 1), CardinalDirection.NORTH,
         new Position(0, 1), CardinalDirection.NORTH,
-        new Position(-1, 0),   CardinalDirection.EAST,
-        new Position(0, -1),   CardinalDirection.SOUTH,
-        new Position(1, 0),  CardinalDirection.WEST
+        new Position(-1, 0), CardinalDirection.EAST,
+        new Position(0, -1), CardinalDirection.SOUTH,
+        new Position(1, 0), CardinalDirection.WEST
     );
 
     public static Map<Position, CardinalDirection> getVectorToCardinalDirectionMap() {
