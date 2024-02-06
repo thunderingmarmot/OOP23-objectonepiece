@@ -6,25 +6,27 @@ import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 
 /**
- * An animated entity, it can be the player or an enemy
+ * This interface represents a ship entity that extends the Collider interface.
+ * It defines methods for taking damage, setting and retrieving weapons, sails, bows, and direction.
+ * It also provides access to events related to changes in direction and damage taken.
  */
 public interface Ship extends Collider {
-    public void takeDamage(int damage, ShipComponent s);
+    void takeDamage(int damage, ShipComponent s);
 
-    public void setWeapon(Weapon weapon);
-    public void setSail(Sail sail);
-    public void setBow(Bow bow);
+    void setWeapon(Weapon weapon);
+    void setSail(Sail sail);
+    void setBow(Bow bow);
 
-    public Weapon getWeapon();
-    public Sail getSail();
-    public Bow getBow();
-    public Direction getDirection();
+    Weapon getWeapon();
+    Sail getSail();
+    Bow getBow();
+    Direction getDirection();
     
-    public Event<BiArgument<Direction>> getDirectionChangedEvent();
-    public Event<Argument<Integer>> getTookDamageEvent();
+    Event<BiArgument<Direction>> getDirectionChangedEvent();
+    Event<Argument<Integer>> getTookDamageEvent();
 
     @Override
-    public default Rigidness getRigidness() {
+    default Rigidness getRigidness() {
         return Rigidness.MEDIUM;
     }
 }
