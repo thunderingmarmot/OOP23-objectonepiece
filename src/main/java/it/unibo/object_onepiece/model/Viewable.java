@@ -15,7 +15,7 @@ public interface Viewable extends Entity {
 
     public Type getViewType();
 
-    public default Optional<Direction> getViewDirection() {
+    public default Optional<CardinalDirection> getViewDirection() {
         return this instanceof Ship ship ? Optional.of(ship.getDirection()) : Optional.empty();
     };
 

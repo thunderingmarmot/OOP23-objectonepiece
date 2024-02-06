@@ -7,7 +7,7 @@ import it.unibo.object_onepiece.model.Collider;
 import it.unibo.object_onepiece.model.Entity;
 import it.unibo.object_onepiece.model.EntityImpl;
 import it.unibo.object_onepiece.model.Section;
-import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
@@ -20,12 +20,12 @@ import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
  * Can be extended by specific types of Ship like Player and Enemy
  */
 public abstract class ShipImpl extends EntityImpl implements Ship {
-    private Direction currDirection;
+    private CardinalDirection currDirection;
     private Weapon weapon;
     private Sail sail;
     private Bow bow;
 
-    private final Event<BiArgument<Direction>> onDirectionChanged = Event.get();
+    private final Event<BiArgument<CardinalDirection>> onDirectionChanged = Event.get();
     private final Event<Argument<Integer>> onTookDamage = Event.get();
 
     /**
@@ -37,9 +37,14 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     * @param  sail   is the sail of the ship
     * @param  bow    is the bow of the ship
     */
-    protected ShipImpl(final Section s, final Position p, final Direction d, final Weapon weapon, final Sail sail, final Bow bow) {
+    protected ShipImpl(final Section s, 
+                       final Position p, 
+                       final CardinalDirection d, 
+                       final Weapon weapon, 
+                       final Sail sail, 
+                       final Bow bow) {
         super(s, p);
-        this.setDirection(d);
+        this.rotate(d);
         this.setWeapon(weapon);
         this.setSail(sail);
         this.setBow(bow);
@@ -58,7 +63,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      * If along the path there are immovable obstacles the Ship stops right before them.
      */
     @Override
-    public MoveDetails move(final Direction direction, final int steps) {
+    public MoveDetails move(final CardinalDirection direction, final int steps) {
         Position nextPosition = this.getPosition().moveTowards(direction);
         Collidable obstacle = (Collidable) this.getSection().getEntityAt(nextPosition).get();
 
@@ -94,7 +99,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      * @param  direction is the direction where the ship should move to
      * @return           a MoveDetails that contains the result of the last movement made by the Ship.
      */
-    public MoveDetails move(final Direction direction) {
+    public MoveDetails move(final CardinalDirection direction) {
         return move(direction, 1);
     }
 
@@ -106,7 +111,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      * if the Ship can move and a MoveDetails field for a more detailed feedback on the movement.
      */
     @Override
-    public MoveReturnType canMove(final Direction direction) {
+    public MoveReturnType canMove(final CardinalDirection direction) {
         if (this.sail.getHealth() <= 0) {
             return new MoveReturnType(false, MoveDetails.SAIL_BROKEN);
         }
@@ -137,8 +142,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      * This method is used to cause the ship to take damage from enemy attacks or collisions.
      * Since the ship have multiple component, this method is called on one ShipComponent
      * 
-     * @param  damage is the actual damage that the ship should take
-     * @param  s      is the ShipComponent that should be damaged by the attack
+     * @param  damage the amout of damage to be inflicted
+     * @param  s      the ShipComponent that needs to be hit
      */
     @Override
     public void takeDamage(final int damage, final ShipComponent s) {
@@ -210,23 +215,24 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      * Get method for the current direction of the Ship.
      */
     @Override
-    public Direction getDirection() {
+    public CardinalDirection getDirection() {
         return this.currDirection;
     }
 
+    /**
+     * Get method for the onDirectionChanged Event.
+     */
     @Override
-    public Event<BiArgument<Direction>> getDirectionChangedEvent() {
+    public Event<BiArgument<CardinalDirection>> getDirectionChangedEvent() {
         return this.onDirectionChanged;
     }
 
+    /**
+     * Get method for the onTookDamage Event.
+     */
     @Override
     public Event<Argument<Integer>> getTookDamageEvent() {
         return this.onTookDamage;
-    }
-
-    protected void setDirection(final Direction newDirection) {
-        onDirectionChanged.invoke(new BiArgument<>(this.currDirection, newDirection));
-        this.currDirection = newDirection;
     }
 
     /**
@@ -234,8 +240,9 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      * 
      * @param  direction the direction in which the ship must rotate
      */
-    private void rotate(final Direction direction) {
-        setDirection(direction);
+    protected void rotate(final CardinalDirection direction) {
+        onDirectionChanged.invoke(new BiArgument<>(this.currDirection, direction));
+        this.currDirection = direction;
     }
 
     @Override

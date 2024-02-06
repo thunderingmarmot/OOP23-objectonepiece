@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import it.unibo.object_onepiece.model.Utils.Bound;
-import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
@@ -38,7 +38,7 @@ public interface Section {
      * 
      * @return Event for signalling the creation of entities in view
      */
-    Event<TriArguments<Class<? extends Entity>, Position, Optional<Direction>>> getEntityCreatedEvent();
+    Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> getEntityCreatedEvent();
     /**
      * Calls the algorithm of entity generation and fills list of entities.
      */

@@ -1,6 +1,6 @@
 package it.unibo.object_onepiece.model.ship;
 
-public class SailImpl extends ShipComponentImpl implements Sail {
+public final class SailImpl extends ShipComponentImpl implements Sail {
     private final int maxSpeed;
     private final int minSpeed;
     private final int rotationPower;
