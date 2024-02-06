@@ -1,6 +1,6 @@
 package it.unibo.object_onepiece.model.enemy.enemy_state;
 
-import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.enemy.Enemy;
 import it.unibo.object_onepiece.model.enemy.Enemy.States;
@@ -8,7 +8,7 @@ import it.unibo.object_onepiece.model.enemy.Enemy.States;
 public class AttackState implements EnemyState {
     Boolean alligned = false;
     Enemy ship;
-    Direction prevDirection;
+    CardinalDirection prevDirection;
 
     @Override
     public Boolean perform() {
@@ -17,16 +17,16 @@ public class AttackState implements EnemyState {
 
             switch (prevDirection) {
                 case UP:
-                    ship.move(Direction.RIGHT,1);
+                    ship.move(CardinalDirection.RIGHT,1);
                     break;
                 case LEFT:
-                    ship.move(Direction.UP,1);
+                    ship.move(CardinalDirection.UP,1);
                     break;
                 case RIGHT:
-                    ship.move(Direction.DOWN,1);
+                    ship.move(CardinalDirection.DOWN,1);
                     break;
                 case DOWN:
-                    ship.move(Direction.LEFT,1);
+                    ship.move(CardinalDirection.LEFT,1);
                     break;
                 default:
                     break;
@@ -45,7 +45,7 @@ public class AttackState implements EnemyState {
         return States.ATTACKING;
     }
 
-    private Position nextPos(Direction direction){
+    private Position nextPos(CardinalDirection direction){
         return Position.directionPositions
                 .get(direction).apply(ship.getPosition());
     }

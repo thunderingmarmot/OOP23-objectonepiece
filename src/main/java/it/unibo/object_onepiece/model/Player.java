@@ -1,6 +1,6 @@
 package it.unibo.object_onepiece.model;
 
-import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
@@ -23,7 +23,7 @@ public interface Player extends Viewable, Ship {
      * @return the newly created Player object
      */
     static Player getDefault(Section spawnSection, Position spawnPosition) {
-        return new PlayerImpl(spawnSection, spawnPosition, Direction.UP, Weapon.cannon(), Sail.sloop(), Bow.standard(), 0);
+        return new PlayerImpl(spawnSection, spawnPosition, CardinalDirection.UP, Weapon.cannon(), Sail.sloop(), Bow.standard(), 0);
     }
 
     /**

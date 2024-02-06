@@ -1,5 +1,5 @@
 package it.unibo.object_onepiece.model;
-import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
@@ -33,7 +33,7 @@ public class PlayerImpl extends ShipImpl implements Player {
      */
     protected PlayerImpl(final Section section,
                          final Position position,
-                         final Direction direction,
+                         final CardinalDirection direction,
                          final Weapon weapon,
                          final Sail sail,
                          final Bow bow,

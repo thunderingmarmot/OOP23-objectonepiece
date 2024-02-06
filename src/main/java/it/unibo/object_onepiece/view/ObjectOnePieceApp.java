@@ -11,7 +11,7 @@ import it.unibo.object_onepiece.controller.ControllerImpl;
 import it.unibo.object_onepiece.model.Entity;
 import it.unibo.object_onepiece.model.World;
 import it.unibo.object_onepiece.model.WorldImpl;
-import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -121,7 +121,7 @@ public final class ObjectOnePieceApp extends Application {
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
     }
 
-    private void drawEntity(Class<? extends Entity> c, Position p, Optional<Direction> d) {
+    private void drawEntity(Class<? extends Entity> c, Position p, Optional<CardinalDirection> d) {
         var interfaces = c.getInterfaces();
         if (interfaces.length == 0) {
             throw new IllegalStateException("Entity doesnt have interfaces and can't get calculate entityName from it");

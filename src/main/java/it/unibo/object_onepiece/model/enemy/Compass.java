@@ -4,7 +4,7 @@ import java.util.Random;
 
 import it.unibo.object_onepiece.model.Utils;
 import it.unibo.object_onepiece.model.Utils.Bound;
-import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 class Compass implements NavigationSystem {
@@ -21,11 +21,11 @@ class Compass implements NavigationSystem {
     }
 
     @Override
-    public Direction move(Position objectivePosition,Position currentPosition) {
+    public CardinalDirection move(Position objectivePosition,Position currentPosition) {
         return Utils.posToDir(objectivePosition,currentPosition);
     }
 
-    public Direction move(Position currentPosition){
+    public CardinalDirection move(Position currentPosition){
         if(objectiveReached(objective)){
             defineRandomObjective(currentPosition);
         } 
