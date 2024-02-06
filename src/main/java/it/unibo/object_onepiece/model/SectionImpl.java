@@ -10,6 +10,7 @@ import de.articdive.jnoise.pipeline.JNoise;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.enemy.Enemy;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
 import it.unibo.object_onepiece.model.ship.Ship;
@@ -55,11 +56,14 @@ public class SectionImpl implements Section {
                         break;
                     case 3:
                         this.addEntity(NavalMine.getDefault(this, p));
+                    case 4:
+                        this.addEntity(Enemy.baseEnemy(this, p));
                     default:
                         break;
                 }
             }
         }
+        this.addEntity(Player.getDefault(this, new Position(0, 0)));
 
         /** Prints duplicate positions in entities list*/
         Set<Position> items = new HashSet<>();
