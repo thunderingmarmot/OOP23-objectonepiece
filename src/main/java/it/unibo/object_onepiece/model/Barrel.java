@@ -7,7 +7,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * @see Viewable
  * @see Collidable
  */
-public interface Barrel extends Viewable, Collidable {
+public interface Barrel extends Collidable {
     public static final int DEFAULT_EXPERIENCE_GIVEN = 50;
 
     /**
@@ -34,13 +34,5 @@ public interface Barrel extends Viewable, Collidable {
     @Override
     default Rigidness getRigidness() {
         return Rigidness.SOFT;
-    }
-
-    /**
-     * @see Viewable
-     */
-    @Override
-    default Type getViewType() {
-        return Type.BARREL;
     }
 }

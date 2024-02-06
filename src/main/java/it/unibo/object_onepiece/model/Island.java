@@ -7,7 +7,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * @see Viewable
  * @see Collidable
  */
-public interface Island extends Viewable, Collidable {
+public interface Island extends Collidable {
     /**
      * Creates a default Island.
      * @param spawnSection the reference to the Section containing this Island
@@ -35,13 +35,5 @@ public interface Island extends Viewable, Collidable {
     @Override
     default Rigidness getRigidness() {
         return Rigidness.HARD;
-    }
-
-    /**
-     * @see Viewable
-     */
-    @Override
-    default Type getViewType() {
-        return Type.ISLAND;
     }
 }
