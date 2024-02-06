@@ -24,6 +24,8 @@ public interface Section {
 
     public Event<TriArguments<Class<? extends Entity>, Position, Optional<Direction>>> getEntityCreatedEvent();
 
+    public void generateEntities();
+
     public void addEntity(Entity e);
     public void removeEntityAt(Position position);
 

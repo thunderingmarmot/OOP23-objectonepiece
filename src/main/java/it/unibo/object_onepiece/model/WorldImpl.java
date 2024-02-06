@@ -6,7 +6,7 @@ public class WorldImpl implements World {
 
     private State savedState;
 
-    private Section currentSection;
+    private Section currentSection = new SectionImpl();
 
     public WorldImpl() {
         generateSection();

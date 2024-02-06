@@ -34,7 +34,7 @@ public class SectionImpl implements Section {
 
     private final Event<TriArguments<Class<? extends Entity>, Position, Optional<Direction>>> onEntityCreated = Event.get();
 
-    private void generateEntities() {
+    public void generateEntities() {
         Random m = new Random();
         var whiteNoise = JNoise.newBuilder().white(m.nextInt()).addModifier(v -> (v + 1) / 2.0).scale(50.5).build();
         //var octavatedWhite = OctavationModule.newBuilder().setNoiseSource(whiteNoise).setOctaves(1).setGain(0.9).build();
