@@ -15,7 +15,7 @@ import it.unibo.object_onepiece.model.ship.Weapon;
  * @see Ship
  * @see Viewable
  */
-public interface Player extends Viewable, Ship {
+public interface Player extends Ship {
     /**
      * Creates a default Player.
      * @param spawnSection the reference to the Section containing this Player
@@ -44,12 +44,4 @@ public interface Player extends Viewable, Ship {
      * @see Event
      */
     Event<Argument<Integer>> getExperienceAddedEvent();
-
-    /**
-     * @see Viewable
-     */
-    @Override
-    default Type getViewType() {
-        return Type.PLAYER;
-    }
 }
