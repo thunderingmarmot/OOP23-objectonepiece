@@ -27,9 +27,11 @@ public final class SectionImpl implements Section {
     private static final int COL_INSET = COLUMNS / 7;
     private static final int GEN_AREA_COLS = ROWS - ROW_INSET;
     private static final int GEN_AREA_ROWS = COLUMNS - COL_INSET;
+    private static final double SCALING_FACTOR = 50.5;
+    private static final int NOISE_DISPERSION = 50;
 
     private final List<Entity> entities = new LinkedList<>();
-    private final Bound bound = new Bound(0, 0, ROWS, COLUMNS);
+    private final Bound bound = new Bound(ROWS, COLUMNS);
 
     private final Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> 
     onEntityCreated = Event.get();
@@ -38,12 +40,13 @@ public final class SectionImpl implements Section {
      */
     public void generateEntities() {
         Random m = new Random();
-        var whiteNoise = JNoise.newBuilder().white(1077).addModifier(v -> (v + 1) / 2.0).scale(50.5).build();
+        int seed = 1077;
+        var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR).build();
         for (int i = ROW_INSET; i < GEN_AREA_ROWS; i++) {
             for (int j = COL_INSET; j < GEN_AREA_COLS; j++) {
                 Position p = new Position(i, j);
                 double noise = whiteNoise.evaluateNoise(i, j);
-                int floored = (int) Math.floor(noise * 50);
+                int floored = (int) Math.floor(noise * NOISE_DISPERSION);
                 switch (floored) {
                     case 0:
                         /* Don't do anything because water */
