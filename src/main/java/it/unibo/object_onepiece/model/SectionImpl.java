@@ -31,8 +31,11 @@ public final class SectionImpl implements Section {
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound = new Bound(0, 0, ROWS, COLUMNS);
 
-    private final Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> onEntityCreated = Event.get();
-
+    private final Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> 
+    onEntityCreated = Event.get();
+    /**
+     * Populates entities list using white noise algorithm from JNoise.
+     */
     public void generateEntities() {
         Random m = new Random();
         var whiteNoise = JNoise.newBuilder().white(1077).addModifier(v -> (v + 1) / 2.0).scale(50.5).build();
@@ -40,7 +43,7 @@ public final class SectionImpl implements Section {
             for (int j = COL_INSET; j < GEN_AREA_COLS; j++) {
                 Position p = new Position(i, j);
                 double noise = whiteNoise.evaluateNoise(i, j);
-                int floored = (int)Math.floor(noise * 50);
+                int floored = (int) Math.floor(noise * 50);
                 switch (floored) {
                     case 0:
                         /* Don't do anything because water */
@@ -49,7 +52,7 @@ public final class SectionImpl implements Section {
                         this.addEntity(Island.getDefault(this, p));
                         break;
                     case 2:
-                        this.addEntity(Barrel.getDefault(this, p, 50));
+                        this.addEntity(Barrel.getDefault(this, p));
                         break;
                     case 3:
                         this.addEntity(NavalMine.getDefault(this, p));
@@ -81,7 +84,7 @@ public final class SectionImpl implements Section {
     }
 
     @Override
-    public void removeEntityAt(Position position) {
+    public void removeEntityAt(final Position position) {
         entities.removeIf(e -> e.getPosition() == position);
     }
 
@@ -92,7 +95,7 @@ public final class SectionImpl implements Section {
     }
 
     @Override
-    public Optional<Entity> getEntityAt(Position position) {
+    public Optional<Entity> getEntityAt(final Position position) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getEntityAt'");
     }
@@ -103,12 +106,15 @@ public final class SectionImpl implements Section {
     }
 
     @Override
-    public void addEntity(Entity e) {
+    public void addEntity(final Entity e) {
         Optional<CardinalDirection> direction = e instanceof Ship s ? Optional.of(s.getDirection()) : Optional.empty();
         onEntityCreated.invoke(new TriArguments<>(e.getClass(), e.getPosition(), direction));
         entities.add(e);
-    }  
-    
+    }
+
+    /**
+     * @return event to generate entities in view
+     */
     public Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> getEntityCreatedEvent() {
         return onEntityCreated;
     }

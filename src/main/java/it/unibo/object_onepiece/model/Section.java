@@ -10,7 +10,7 @@ import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
 
 /**
- * Section of the world which contains a list of entities present in it
+ * Section of the world which contains a list of entities present in it.
  */
 public interface Section {
     /**
