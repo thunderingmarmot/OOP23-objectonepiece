@@ -28,8 +28,8 @@ public final class WeaponImpl extends ShipComponentImpl implements Weapon {
         if ((this.getShip().getPosition().isInlineWith(position, this.getShip().getDirection())) 
         && (this.getShip().getPosition().distanceFrom(position) <= this.attackRange)) {
             hitTarget(position, this.maxDamage);
-            cardinalDirectionsTranslation.values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
-            ordinalDirectionsTranslation.values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
+            getCardinalDirectionsTranslation().values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
+            getOrdinalDirectionsTranslation().values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
             return new ShootReturnType(true, ShootDetails.SHOOTED_SUCCESSFULLY);
         }
 

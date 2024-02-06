@@ -10,48 +10,68 @@ public final class Utils {
 
     public record State(Section section, Position playerPosition, int playerExperience) { }
 
-    public static Map<CardinalDirection, Function<Position, Position>> cardinalDirectionsTranslation = Map.of(
-        CardinalDirection.UP, (p) -> new Position(p.row + 1, p.column),
-        CardinalDirection.DOWN, (p) -> new Position(p.row - 1, p.column),
-        CardinalDirection.RIGHT, (p) -> new Position(p.row, p.column + 1),
-        CardinalDirection.LEFT, (p) -> new Position(p.row, p.column - 1)
+    private static Map<CardinalDirection, Function<Position, Position>> cardinalDirectionsTranslation = Map.of(
+        CardinalDirection.NORTH, (p) -> new Position(p.row + 1, p.column),
+        CardinalDirection.SOUTH, (p) -> new Position(p.row - 1, p.column),
+        CardinalDirection.EAST, (p) -> new Position(p.row, p.column + 1),
+        CardinalDirection.WEST, (p) -> new Position(p.row, p.column - 1)
     );
 
-    public static Map<OrdinalDirection, Function<Position, Position>> ordinalDirectionsTranslation = Map.of(
-        OrdinalDirection.UPPERRIGHT, (p) -> new Position(p.row + 1, p.column + 1),
-        OrdinalDirection.LOWERLEFT, (p) -> new Position(p.row - 1, p.column - 1),
-        OrdinalDirection.UPPERLEFT, (p) -> new Position(p.row + 1, p.column - 1),
-        OrdinalDirection.LOWERRIGHT, (p) -> new Position(p.row - 1, p.column + 1)
+    public static Map<CardinalDirection, Function<Position, Position>> getCardinalDirectionsTranslationMap() {
+        return cardinalDirectionsTranslation;
+    }
+
+    private static Map<OrdinalDirection, Function<Position, Position>> ordinalDirectionsTranslation = Map.of(
+        OrdinalDirection.NORTHEAST, (p) -> new Position(p.row + 1, p.column + 1),
+        OrdinalDirection.SOUTHWEST, (p) -> new Position(p.row - 1, p.column - 1),
+        OrdinalDirection.NORTHWEST, (p) -> new Position(p.row + 1, p.column - 1),
+        OrdinalDirection.SOUTHEAST, (p) -> new Position(p.row - 1, p.column + 1)
     );
 
-    public static Map<CardinalDirection, BiPredicate<Position, Position>> positionsInlineConditions = Map.of(
-        CardinalDirection.UP, (p1, p2) -> p1.row == p2.row && p1.column != p2.column,
-        CardinalDirection.DOWN, (p1, p2) -> p1.row == p2.row && p1.column != p2.column,
-        CardinalDirection.LEFT, (p1, p2) -> p1.column == p2.column && p1.row != p2.row,
-        CardinalDirection.RIGHT, (p1, p2) -> p1.column == p2.column && p1.row != p2.row
+    public static Map<OrdinalDirection, Function<Position, Position>> getOrdinalDirectionsTranslationMap() {
+        return ordinalDirectionsTranslation;
+    }
+
+    private static Map<CardinalDirection, BiPredicate<Position, Position>> positionsInlineConditions = Map.of(
+        CardinalDirection.NORTH, (p1, p2) -> p1.row == p2.row && p1.column != p2.column,
+        CardinalDirection.SOUTH, (p1, p2) -> p1.row == p2.row && p1.column != p2.column,
+        CardinalDirection.WEST, (p1, p2) -> p1.column == p2.column && p1.row != p2.row,
+        CardinalDirection.EAST, (p1, p2) -> p1.column == p2.column && p1.row != p2.row
     );
 
-    public static Map<Position, CardinalDirection> vectorToCardinalDirectionMap = Map.of(
-        new Position(-1, -1), CardinalDirection.DOWN,
-        new Position(1, -1), CardinalDirection.DOWN,
-        new Position(-1, 1), CardinalDirection.UP,
-        new Position(1, 1), CardinalDirection.UP,
-        new Position(0, 1), CardinalDirection.UP,
-        new Position(-1, 0),   CardinalDirection.LEFT,
-        new Position(0, -1),   CardinalDirection.DOWN,
-        new Position(1, 0),  CardinalDirection.RIGHT
+    public static Map<CardinalDirection, BiPredicate<Position, Position>> getPositionsInlineConditionsMap() {
+        return positionsInlineConditions;
+    }
+
+    private static Map<Position, CardinalDirection> vectorToCardinalDirectionMap = Map.of(
+        new Position(-1, -1), CardinalDirection.SOUTH,
+        new Position(1, -1), CardinalDirection.SOUTH,
+        new Position(-1, 1), CardinalDirection.NORTH,
+        new Position(1, 1), CardinalDirection.NORTH,
+        new Position(0, 1), CardinalDirection.NORTH,
+        new Position(-1, 0),   CardinalDirection.EAST,
+        new Position(0, -1),   CardinalDirection.SOUTH,
+        new Position(1, 0),  CardinalDirection.WEST
     );
 
-    public static List<BiPredicate<Bound, Position>> insideBoundsConditions = List.of(
+    public static Map<Position, CardinalDirection> getVectorToCardinalDirectionMap() {
+        return vectorToCardinalDirectionMap;
+    }
+
+    private static List<BiPredicate<Bound, Position>> insideBoundsConditions = List.of(
         (b, p) -> p.row < b.upLimit,
         (b, p) -> p.row > b.downLimit,
         (b, p) -> p.column < b.rightLimit,
         (b, p) -> p.column > b.leftLimit
     );
 
+    public static List<BiPredicate<Bound, Position>> getInsideBoundsConditionsMap() {
+        return insideBoundsConditions;
+    }
+
     public record Position(int row, int column) {
         public Position moveTowards(final CardinalDirection direction) {
-            return positionDirectionTranslate.get(direction).apply(this);
+            return cardinalDirectionsTranslation.get(direction).apply(this);
         }
 
         public Integer distanceFrom(final Position position) {
@@ -62,7 +82,7 @@ public final class Utils {
         }
 
         public boolean isInlineWith(final Position position, final CardinalDirection direction) {
-            return positionInlineConditions.get(direction).test(this, position);
+            return positionsInlineConditions.get(direction).test(this, position);
         }
 
         public Position translate(final Position position) {
@@ -78,7 +98,7 @@ public final class Utils {
 
     public record Bound(int upLimit, int leftLimit, int downLimit, int rightLimit) {
         public boolean isInside(final Position position) {
-            return insideConditions.stream().allMatch((condition) -> condition.test(this, position));
+            return position .allMatch((condition) -> condition.test(this, position));
         }
     }
 
@@ -98,6 +118,6 @@ public final class Utils {
 
     public static CardinalDirection posToDir(final Position objectivePosition, final Position currentPosition) {
         var direction = currentPosition.vectorialDirection(objectivePosition);
-        return Position.vectorToDirectionMap.get(direction);
+        return vectorToCardinalDirectionMap.get(direction);
     }
 }
