@@ -35,7 +35,7 @@ public class ControllerImpl implements Controller{
 
     @Override
     public void initialize(World world) {
-       world.generateSection();
+       world.instantiateSection();
     }
 
     private void toggleMode(Position position,Position player){
