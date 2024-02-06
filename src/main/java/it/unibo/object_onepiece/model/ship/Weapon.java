@@ -18,8 +18,20 @@ public interface Weapon extends ShipComponent {
         WEAPON_BROKEN
     };
 
+    /**
+     * Record returned by shoot
+     * 
+     * @param  hasShooted result of the shooting
+     * @param  details    details about the shooting result
+     */
     record ShootReturnType(boolean hasShooted, ShootDetails details) { }; 
 
+    /**
+     * This method make the Ship shoots with his weapon
+     * 
+     * @param  position the position of the cell that you want to hit
+     * @return          a ShootReturnType that contains the result of the shooting and the details.
+     */
     ShootReturnType shoot(Position position);
 
     int getMaxDamage();
