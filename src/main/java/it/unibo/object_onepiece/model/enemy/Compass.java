@@ -2,7 +2,6 @@ package it.unibo.object_onepiece.model.enemy;
 
 import java.util.Random;
 
-import it.unibo.object_onepiece.model.Utils;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
@@ -22,7 +21,7 @@ class Compass implements NavigationSystem {
 
     @Override
     public CardinalDirection move(Position objectivePosition,Position currentPosition) {
-        return Utils.posToDir(objectivePosition,currentPosition);
+        return currentPosition.whereTo(objectivePosition);
     }
 
     public CardinalDirection move(Position currentPosition){
