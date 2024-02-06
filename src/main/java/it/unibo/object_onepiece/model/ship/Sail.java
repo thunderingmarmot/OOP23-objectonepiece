@@ -5,7 +5,7 @@ package it.unibo.object_onepiece.model.ship;
  * It defines a method for determining if the Ship can make a certain
  * number of steps according to its sail stats.
  * It also defines methods to retrieving maximum speed, minimum speed
- * and rotation power of the sail.
+ * and rotation power of the sail, and builder methods for the available sails.
  */
 public interface Sail extends ShipComponent {
     /**
