@@ -28,7 +28,7 @@ public class WorldImpl implements World {
     }
 
     @Override
-    public void generateSection() {
+    public void instantiateSection() {
         currentSection = new SectionImpl();
     }
 }
