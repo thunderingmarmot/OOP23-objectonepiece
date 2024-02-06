@@ -137,6 +137,16 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         return this.currDirection;
     }
 
+    @Override
+    public Event<BiArgument<Direction>> getDirectionChangedEvent() {
+        return this.onDirectionChanged;
+    }
+
+    @Override
+    public Event<Argument<Integer>> getTookDamageEvent() {
+        return this.onTookDamage;
+    }
+
     protected void setDirection(final Direction newDirection) {
         onDirectionChanged.invoke(new BiArgument<>(this.currDirection, newDirection));
         this.currDirection = newDirection;

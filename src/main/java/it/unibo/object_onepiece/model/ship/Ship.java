@@ -1,6 +1,9 @@
 package it.unibo.object_onepiece.model.ship;
 import it.unibo.object_onepiece.model.Collider;
 import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.events.Event;
+import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
+import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 
 /**
  * An animated entity, it can be the player or an enemy
@@ -16,6 +19,9 @@ public interface Ship extends Collider {
     public Sail getSail();
     public Bow getBow();
     public Direction getDirection();
+    
+    public Event<BiArgument<Direction>> getDirectionChangedEvent();
+    public Event<Argument<Integer>> getTookDamageEvent();
 
     @Override
     public default Rigidness getRigidness() {
