@@ -61,7 +61,6 @@ public final class SectionImpl implements Section {
                         this.addEntity(NavalMine.getDefault(this, p));
                         break;
                     case 4:
-                        System.out.println("enemy added");
                         this.addEntity(Enemy.getDefault(this, p));
                         break;
                     default:
