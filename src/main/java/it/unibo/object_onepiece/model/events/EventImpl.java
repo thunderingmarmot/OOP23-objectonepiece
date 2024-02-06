@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 /**
  * Implementation of the Event interface.
  * @param <T> the generic type implementing EventArgs defining the Event arguments
+ * @see Event
  */
 public final class EventImpl<T extends EventArgs> implements Event<T> {
 
