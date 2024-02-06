@@ -21,16 +21,16 @@ public class ObstacleAvoidance  implements EnemyState {
 
         if(avoidanceDirection == null){
             switch (primaryDirection) {
-                case UP:
+                case NORTH:
                     chooseDirection(() -> up());
                     break;
-                case LEFT:
+                case WEST:
                     chooseDirection(() -> left());
                     break;
-                case RIGHT:
+                case EAST:
                     chooseDirection(() -> right());
                     break;
-                case DOWN:
+                case SOUTH:
                     chooseDirection(() -> down());
                     break;
     
@@ -64,16 +64,16 @@ public class ObstacleAvoidance  implements EnemyState {
         switch (attempt) {
             case 0:
                 attempt++;
-                return CardinalDirection.UP;
+                return CardinalDirection.NORTH;
             case 1:
                 attempt++;
-                return CardinalDirection.LEFT;
+                return CardinalDirection.WEST;
             case 2:
                 attempt++;
-                return CardinalDirection.RIGHT;
+                return CardinalDirection.EAST;
             case 3:
                 attempt++;
-                return CardinalDirection.DOWN;
+                return CardinalDirection.SOUTH;
     
             default:
                 throw new IllegalStateException();
@@ -84,16 +84,16 @@ public class ObstacleAvoidance  implements EnemyState {
         switch (attempt) {
             case 0:
                 attempt++;
-                return CardinalDirection.LEFT;
+                return CardinalDirection.WEST;
             case 1:
                 attempt++;
-                return CardinalDirection.UP;
+                return CardinalDirection.NORTH;
             case 2:
                 attempt++;
-                return CardinalDirection.DOWN;
+                return CardinalDirection.SOUTH;
             case 3:
                 attempt++;
-                return CardinalDirection.DOWN;
+                return CardinalDirection.SOUTH;
     
             default:
                 throw new IllegalStateException();
@@ -103,16 +103,16 @@ public class ObstacleAvoidance  implements EnemyState {
         switch (attempt) {
             case 0:
             attempt++;
-                return CardinalDirection.RIGHT;
+                return CardinalDirection.EAST;
             case 1:
             attempt++;
-                return CardinalDirection.DOWN;
+                return CardinalDirection.SOUTH;
             case 2:
             attempt++;
-                return CardinalDirection.UP;
+                return CardinalDirection.NORTH;
             case 3:
             attempt++;
-                return CardinalDirection.LEFT;
+                return CardinalDirection.WEST;
     
             default:
                 throw new IllegalStateException();
@@ -122,16 +122,16 @@ public class ObstacleAvoidance  implements EnemyState {
         switch (attempt) {
             case 0:
             attempt++;
-                return CardinalDirection.DOWN;
+                return CardinalDirection.SOUTH;
             case 1:
             attempt++;
-                return CardinalDirection.LEFT;
+                return CardinalDirection.WEST;
             case 2:
             attempt++;
-                return CardinalDirection.RIGHT;
+                return CardinalDirection.EAST;
             case 3:
             attempt++;
-                return CardinalDirection.UP;
+                return CardinalDirection.NORTH;
     
             default:
                 throw new IllegalStateException();
