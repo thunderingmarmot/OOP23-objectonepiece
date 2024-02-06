@@ -15,7 +15,7 @@ public interface Movable extends Entity {
 
     public record MoveReturnType(boolean canStep, MoveDetails details){}; 
 
-    public MoveReturnType move(Direction direction, int steps);
+    public MoveDetails move(Direction direction, int steps);
 
     public MoveReturnType canMove(Direction direction);
 }
