@@ -4,8 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-
-import de.articdive.jnoise.modules.octavation.OctavationModule;
 import de.articdive.jnoise.pipeline.JNoise;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
@@ -14,14 +12,14 @@ import it.unibo.object_onepiece.model.enemy.Enemy;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
 import it.unibo.object_onepiece.model.ship.Ship;
-
-import java.lang.constant.DirectMethodHandleDesc;
-import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.HashSet;
 
-public class SectionImpl implements Section {
+/**
+ * Implementation of Section interface.
+ */
+public final class SectionImpl implements Section {
 
     private static final int ROWS = World.SECTION_ROWS;
     private static final int COLUMNS = World.SECTION_COLUMNS;
@@ -38,7 +36,6 @@ public class SectionImpl implements Section {
     public void generateEntities() {
         Random m = new Random();
         var whiteNoise = JNoise.newBuilder().white(1077).addModifier(v -> (v + 1) / 2.0).scale(50.5).build();
-        //var octavatedWhite = OctavationModule.newBuilder().setNoiseSource(whiteNoise).setOctaves(1).setGain(0.9).build();
         for (int i = ROW_INSET; i < GEN_AREA_ROWS; i++) {
             for (int j = COL_INSET; j < GEN_AREA_COLS; j++) {
                 Position p = new Position(i, j);
