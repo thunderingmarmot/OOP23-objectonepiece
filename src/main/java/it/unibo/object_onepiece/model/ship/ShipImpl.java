@@ -37,9 +37,14 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     * @param  sail   is the sail of the ship
     * @param  bow    is the bow of the ship
     */
-    protected ShipImpl(final Section s, final Position p, final CardinalDirection d, final Weapon weapon, final Sail sail, final Bow bow) {
+    protected ShipImpl(final Section s, 
+                       final Position p, 
+                       final CardinalDirection d, 
+                       final Weapon weapon, 
+                       final Sail sail, 
+                       final Bow bow) {
         super(s, p);
-        this.setDirection(d);
+        this.rotate(d);
         this.setWeapon(weapon);
         this.setSail(sail);
         this.setBow(bow);
@@ -137,8 +142,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      * This method is used to cause the ship to take damage from enemy attacks or collisions.
      * Since the ship have multiple component, this method is called on one ShipComponent
      * 
-     * @param  damage is the actual damage that the ship should take
-     * @param  s      is the ShipComponent that should be damaged by the attack
+     * @param  damage the amout of damage to be inflicted
+     * @param  s      the ShipComponent that needs to be hit
      */
     @Override
     public void takeDamage(final int damage, final ShipComponent s) {
@@ -214,19 +219,20 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         return this.currDirection;
     }
 
+    /**
+     * Get method for the onDirectionChanged Event.
+     */
     @Override
     public Event<BiArgument<CardinalDirection>> getDirectionChangedEvent() {
         return this.onDirectionChanged;
     }
 
+    /**
+     * Get method for the onTookDamage Event.
+     */
     @Override
     public Event<Argument<Integer>> getTookDamageEvent() {
         return this.onTookDamage;
-    }
-
-    protected void setDirection(final CardinalDirection newDirection) {
-        onDirectionChanged.invoke(new BiArgument<>(this.currDirection, newDirection));
-        this.currDirection = newDirection;
     }
 
     /**
@@ -234,8 +240,9 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      * 
      * @param  direction the direction in which the ship must rotate
      */
-    private void rotate(final CardinalDirection direction) {
-        setDirection(direction);
+    protected void rotate(final CardinalDirection direction) {
+        onDirectionChanged.invoke(new BiArgument<>(this.currDirection, direction));
+        this.currDirection = direction;
     }
 
     @Override
