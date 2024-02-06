@@ -34,10 +34,32 @@ public interface Weapon extends ShipComponent {
      */
     ShootReturnType shoot(Position position);
 
+    /**
+     * Get method for the maximum damage of the ship weapon.
+     * 
+     * @return weapon maximum damage.
+     */
     int getMaxDamage();
+    
+    /**
+     * Get method for the minimum damage of the ship weapon.
+     * 
+     * @return weapon minimum damage.
+     */
     int getMinDamage();
+
+    /**
+     * Get method for the range of the ship weapon.
+     * 
+     * @return weapon range.
+     */
     int getRange();
 
+    /**
+     * Builder for the cannon, the standard type of weapon.
+     * 
+     * @return weapon with his standard stats.
+     */
     static Weapon cannon() {
         final int maxDamage = 20;
         final int minDamage = 10;
@@ -47,6 +69,12 @@ public interface Weapon extends ShipComponent {
         return new WeaponImpl(maxDamage, minDamage, range, health);
     }
 
+    /**
+     * Builder for the railgun, the most powerful weapon for damage and range,
+     * but more fragile.
+     * 
+     * @return weapon with his standard stats.
+     */
     static Weapon railgun() {
         final int maxDamage = 50;
         final int minDamage = 0;
@@ -56,6 +84,12 @@ public interface Weapon extends ShipComponent {
         return new WeaponImpl(maxDamage, minDamage, range, health);
     }
 
+    /**
+     * Builder for the heavycannon, the best weapon for damage and health,
+     * but with very short range.
+     * 
+     * @return weapon with his standard stats.
+     */
     static Weapon heavycannon() {
         final int maxDamage = 80;
         final int minDamage = 40;
