@@ -1,44 +1,27 @@
 package it.unibo.object_onepiece.view;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
-import org.controlsfx.control.spreadsheet.SpreadsheetView;
-import org.controlsfx.control.tableview2.TableColumn2;
-import org.controlsfx.control.tableview2.TableView2;
 
 import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
 import it.unibo.object_onepiece.controller.Controller;
 import it.unibo.object_onepiece.controller.ControllerImpl;
-import it.unibo.object_onepiece.model.*;
+import it.unibo.object_onepiece.model.World;
+import it.unibo.object_onepiece.model.WorldImpl;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.ship.Ship;
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -77,22 +60,13 @@ public final class ObjectOnePieceApp extends Application {
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
         gridSetUp();
-        world.getCurrentSection().getViewables().forEach(v -> {
-            drawEntity(v);
-        });
-
+        world.getCurrentSection();
+        world.getCurrentSection().getEntityCreatedEvent().subscribe(e -> drawEntity(e.arg1(), e.arg2(), e.arg3()));
+        world.getCurrentSection().generateEntities();
         BorderPane borderPane = new BorderPane();
-
-
 
         Label pirateInfo = new Label("Pirate info!");
         pirateInfo.setAlignment(Pos.CENTER);
-
-        
-        
-       
-
-        
 
         StackPane healthPane = new StackPane();
         healthPane.setPrefHeight(100);
@@ -121,11 +95,6 @@ public final class ObjectOnePieceApp extends Application {
         rightPane.setTop(pirateInfo);
         rightPane.setCenter(healthContainer);
 
-
-        
-
-        
-        
         borderPane.setCenter(gridView);
         borderPane.setRight(rightPane);
         Scene scene = new Scene(borderPane, 600, 600);
@@ -149,6 +118,36 @@ public final class ObjectOnePieceApp extends Application {
             });
         });
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
+    }
+
+    private void drawEntity(Class<? extends Entity> c, Position p, Optional<Direction> d) {
+        var interfaces = c.getInterfaces();
+        if (interfaces.length == 0) {
+            throw new IllegalStateException("Entity doesnt have interfaces and can't get calculate entityName from it");
+        }
+        final String entityName = interfaces[0].getSimpleName();
+        System.out.println(entityName);
+        final int col = p.column();
+        final int row = p.row();
+
+        final URL imgPath = getClass().getResource(PATH_FUNC.apply(entityName));
+        try {
+            final Image img = new Image(imgPath.toString());
+            final ImageView entityImage = new ImageView(img);
+            if (d.isPresent()) {
+                entityImage.setRotate(RIGHT_ANGLE * d.get().ordinal());
+            } 
+            entityImage.setPreserveRatio(true);
+            entityImage.fitWidthProperty().bind(gridView.cellSizeProperty());
+            entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
+            if (gridView.getCellPane(gridModel.getCell(col, row)).getChildren().size() > 0) {
+                throw new IllegalStateException("Cell where entity should be drawn already has another entity");
+            }
+            gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(entityImage);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(new Label(entityName));
+        }
     }
 
     private void drawEntity(Position oldPos, Entity e) {
