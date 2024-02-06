@@ -3,22 +3,42 @@ package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
- * The barrels are collectable entities for the user
+ * Models a special Collidable that gets taken when collided with.
+ * @see Viewable
+ * @see Collidable
  */
 public interface Barrel extends Viewable, Collidable {
-    public static Barrel getDefault(Section spawnSection, Position spawnPosition) {
-        return new BarrelImpl(spawnSection, spawnPosition, 50);
+    /**
+     * Creates a default Barrel.
+     * @param spawnSection the reference to the Section containing this Barrel
+     * @param spawnPosition the position to place this Barrel at
+     * @param experienceGiven the experience value this Barrel gives the Player when taken
+     * @return the newly created Barrel object
+     */
+    static Barrel getDefault(Section spawnSection, Position spawnPosition, int experienceGiven) {
+        return new BarrelImpl(spawnSection, spawnPosition, experienceGiven);
     }
 
-    public void take(Player player);
+    /**
+     * Defines the behaviour of getting taken by a Player.
+     * @param player the Player that is taking this Barrel
+     * @see Player
+     */
+    void take(Player player);
 
+    /**
+     * @see Collidable
+     */
     @Override
-    public default Rigidness getRigidness() {
+    default Rigidness getRigidness() {
         return Rigidness.SOFT;
     }
 
+    /**
+     * @see Viewable
+     */
     @Override
-    public default Type getViewType() {
+    default Type getViewType() {
         return Type.BARREL;
     }
 }
