@@ -40,14 +40,39 @@ public interface Ship extends Collider {
     */
     void setBow(Bow bow);
 
+    /**
+     * Get method for the Weapon component of the Ship.
+     */
     Weapon getWeapon();
+
+    /**
+     * Get method for the Sail component of the Ship.
+     */
     Sail getSail();
+
+    /**
+     * Get method for the Bow component of the Ship.
+     */
     Bow getBow();
+
+    /**
+     * Get method for the current direction of the Ship.
+     */
     CardinalDirection getDirection();
-    
+
+    /**
+     * Get method for the Event on direction changed.
+     */
     Event<BiArgument<CardinalDirection>> getDirectionChangedEvent();
+
+    /**
+     * Get method for the Event on took damage.
+     */
     Event<Argument<Integer>> getTookDamageEvent();
 
+    /**
+     * Get method for the Rigidness of the Entity.
+     */
     @Override
     default Rigidness getRigidness() {
         return Rigidness.MEDIUM;
