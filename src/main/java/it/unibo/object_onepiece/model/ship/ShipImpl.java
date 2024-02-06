@@ -66,7 +66,10 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
             MoveDetails.MOVED_SUCCESSFULLY, () -> this.setPosition(nextPosition),
             MoveDetails.ROTATED, () -> rotate(direction),
             MoveDetails.STATIC_COLLISION, () -> this.collideWith(obstacle),
-            MoveDetails.MOVED_BUT_COLLIDED, () -> { this.collideWith(obstacle); this.setPosition(nextPosition); }
+            MoveDetails.MOVED_BUT_COLLIDED, () -> { 
+                this.collideWith(obstacle); 
+                this.setPosition(nextPosition); 
+            }
         );
 
         MoveReturnType nextStep = canMove(direction);
@@ -79,6 +82,18 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         }
     }
 
+    /**
+     * Overloading of the default move method.
+     * This only accept the direction as a parameter 
+     * because it calls the move method by passing only 1 step.
+     * 
+     * This is made to simplify the calls to this method by Enemy ships
+     * because they can't pick up power ups for their ships, so by default
+     * they can move by only one cell per turn.
+     * 
+     * @param direction is the direction where the ship should move to
+     * @return a MoveDetails that contains the result of the last movement made by the Ship
+     */
     public MoveDetails move(final Direction direction) {
         return move(direction, 1);
     }
