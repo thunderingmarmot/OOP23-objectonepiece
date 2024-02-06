@@ -3,7 +3,7 @@ package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
- * Implementation of the Island interface which extends Entity.
+ * Implementation of the Island interface.
  * @see Island
  */
 public class IslandImpl extends EntityImpl implements Island {
