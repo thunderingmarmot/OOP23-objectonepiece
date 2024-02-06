@@ -1,6 +1,6 @@
 package it.unibo.object_onepiece.model.ship;
 
-public class BowImpl extends ShipComponentImpl implements Bow {
+public final class BowImpl extends ShipComponentImpl implements Bow {
     private final int crashDamage;
 
     protected BowImpl(final int crashDamage, final int health) {

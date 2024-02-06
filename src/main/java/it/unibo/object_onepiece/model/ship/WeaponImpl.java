@@ -7,7 +7,7 @@ import java.util.Random;
 import it.unibo.object_onepiece.model.Entity;
 import it.unibo.object_onepiece.model.Utils.Position;
 
-public class WeaponImpl extends ShipComponentImpl implements Weapon {
+public final class WeaponImpl extends ShipComponentImpl implements Weapon {
     private final int maxDamage;
     private final int minDamage;
     private final int attackRange;
