@@ -9,7 +9,6 @@ public class WorldImpl implements World {
     private Section currentSection = new SectionImpl();
 
     public WorldImpl() {
-        generateSection();
     }
 
     @Override
