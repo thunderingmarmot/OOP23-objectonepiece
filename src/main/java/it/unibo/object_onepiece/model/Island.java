@@ -3,7 +3,7 @@ package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
- * Models an Island which works as the healing and saving point for the player.
+ * Models a special Collidable which works as the healing and saving point for the player.
  * @see Viewable
  * @see Collidable
  */
