@@ -13,5 +13,5 @@ public interface World {
     public void setSavedState();
 
     public Section getCurrentSection();
-    public void generateSection();
+    public void instantiateSection();
 }
