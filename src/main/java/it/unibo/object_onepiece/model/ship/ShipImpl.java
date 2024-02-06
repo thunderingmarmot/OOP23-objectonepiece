@@ -51,7 +51,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      * 
      * @param direction is the direction where the ship should move
      * @param steps is the number of steps that the ship should do to reach the final position
-     * @return a MoveDetails that contains the result of the last movement made by the Ship
+     * @return a MoveDetails that contains the result of the last movement made by the Ship.
      * 
      * This is a recursive method that calls himself steps times.
      * Every call the method try to move the Ship to the next position up to the final position.
@@ -87,17 +87,24 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      * This only accept the direction as a parameter 
      * because it calls the move method by passing only 1 step.
      * 
-     * This is made to simplify the calls to this method by Enemy ships
+     * This is made to simplify the calls to this method by Enemy ships,
      * because they can't pick up power ups for their ships, so by default
      * they can move by only one cell per turn.
      * 
      * @param direction is the direction where the ship should move to
-     * @return a MoveDetails that contains the result of the last movement made by the Ship
+     * @return a MoveDetails that contains the result of the last movement made by the Ship.
      */
     public MoveDetails move(final Direction direction) {
         return move(direction, 1);
     }
 
+    /**
+     * This method is used to check if the Ship can move to the next cell.
+     * 
+     * @param direction is the direction where the ship should move to
+     * @return a MoveReturnType that contains a boolean field canStep which indicates 
+     * if the Ship can move and a MoveDetails field for a more detailed feedback on the movement.
+     */
     @Override
     public MoveReturnType canMove(final Direction direction) {
         if (this.sail.getHealth() <= 0) {
