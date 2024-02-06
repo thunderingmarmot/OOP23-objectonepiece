@@ -30,12 +30,12 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     /**
     * Constructor for class ShipImpl.
-    * @param s is the section where the ship is located
-    * @param p is the position of the entity
-    * @param d is the direction of the ship
-    * @param weapon is the weapon of the ship
-    * @param sail is the sail of the ship
-    * @param bow is the bow of the ship
+    * @param  s      is the section where the ship is located
+    * @param  p      is the position of the entity
+    * @param  d      is the direction of the ship
+    * @param  weapon is the weapon of the ship
+    * @param  sail   is the sail of the ship
+    * @param  bow    is the bow of the ship
     */
     protected ShipImpl(final Section s, final Position p, final Direction d, final Weapon weapon, final Sail sail, final Bow bow) {
         super(s, p);
@@ -49,9 +49,9 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      * This method define the actual ship movement by checking the next position
      * using canMove() and move the Ship based on the MoveReturnType returned.
      * 
-     * @param direction is the direction where the ship should move
-     * @param steps is the number of steps that the ship should do to reach the final position
-     * @return a MoveDetails that contains the result of the last movement made by the Ship.
+     * @param  direction is the direction where the ship should move
+     * @param  steps     is the number of steps that the ship should do to reach the final position
+     * @return           a MoveDetails that contains the result of the last movement made by the Ship.
      * 
      * This is a recursive method that calls himself steps times.
      * Every call the method try to move the Ship to the next position up to the final position.
@@ -91,8 +91,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      * because they can't pick up power ups for their ships, so by default
      * they can move by only one cell per turn.
      * 
-     * @param direction is the direction where the ship should move to
-     * @return a MoveDetails that contains the result of the last movement made by the Ship.
+     * @param  direction is the direction where the ship should move to
+     * @return           a MoveDetails that contains the result of the last movement made by the Ship.
      */
     public MoveDetails move(final Direction direction) {
         return move(direction, 1);
@@ -101,7 +101,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     /**
      * This method is used to check if the Ship can move to the next cell.
      * 
-     * @param direction is the direction where the ship should move to
+     * @param  direction is the direction where the ship should move to
      * @return a MoveReturnType that contains a boolean field canStep which indicates 
      * if the Ship can move and a MoveDetails field for a more detailed feedback on the movement.
      */
@@ -132,49 +132,83 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
         return new MoveReturnType(true, MoveDetails.MOVED_SUCCESSFULLY);
     }
-    
+
+    /**
+     * This method is used to cause the ship to take damage from enemy attacks or collisions.
+     * Since the ship have multiple component, this method is called on one ShipComponent
+     * 
+     * @param  damage is the actual damage that the ship should take
+     * @param  s      is the ShipComponent that should be damaged by the attack
+     */
     @Override
     public void takeDamage(final int damage, final ShipComponent s) {
         onTookDamage.invoke(new Argument<>(damage));
         s.setHealth(s.getHealth() - damage);
-        if(this.bow.getHealth() <= 0) {
+        if (this.bow.getHealth() <= 0) {
             this.remove();
         }
     }
-    
+
+    /**
+     * Set method for the Weapon component of the Ship.
+     * 
+     * @param  weapon is the weapon to set
+     */
     @Override
     public void setWeapon(final Weapon weapon) {
         this.weapon = weapon;
         this.weapon.setShip(this);
     }
-    
+
+    /**
+     * Set method for the Sail component of the Ship.
+     * 
+     * @param  sail is the sail to set
+     */
     @Override
     public void setSail(final Sail sail) {
         this.sail = sail;
         this.sail.setShip(this);
     }
-    
+
+    /**
+     * Set method for the Bow component of the Ship.
+     * 
+     * @param  bow is the bow to set
+     */
     @Override
     public void setBow(final Bow bow) {
         this.bow = bow;
         this.bow.setShip(this);
     }
-    
+
+    /**
+     * Get method for the Weapon component of the Ship.
+     */
     @Override
     public Weapon getWeapon() {
         return this.weapon;
     }
-    
+
+    /**
+     * Get method for the Sail component of the Ship.
+     */
     @Override
     public Sail getSail() {
         return this.sail;
     }
-    
+
+    /**
+     * Get method for the Bow component of the Ship.
+     */
     @Override
     public Bow getBow() {
         return this.bow;
     }
-    
+
+    /**
+     * Get method for the current direction of the Ship.
+     */
     @Override
     public Direction getDirection() {
         return this.currDirection;
@@ -195,21 +229,26 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         this.currDirection = newDirection;
     }
 
+    /**
+     * This method rotates the Ship to the given direction.
+     * 
+     * @param  direction the direction in which the ship must rotate
+     */
     private void rotate(final Direction direction) {
         setDirection(direction);
     }
-    
+
     @Override
     public void onCollisionWith(final Collider collider) {
-        if(collider.getRigidness() == Rigidness.MEDIUM) {
+        if (collider.getRigidness() == Rigidness.MEDIUM) {
             this.takeDamage(this.bow.getCrashDamage(), this.bow);
         }
     }
-    
+
     @Override
     public void collideWith(final Collidable collidable) {
         collidable.onCollisionWith(this);
-        if(collidable.getRigidness() == Rigidness.MEDIUM) {
+        if (collidable.getRigidness() == Rigidness.MEDIUM) {
             this.takeDamage(this.bow.getCrashDamage(), this.bow);
         }
     }
