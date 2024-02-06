@@ -38,7 +38,11 @@ public interface Sail extends ShipComponent {
      */
     int getRotationPower();
 
-    
+    /**
+     * Builder for the sloop sail, the standard type of sail.
+     * 
+     * @return sail with his standard stats.
+     */
     static Sail sloop() {
         final int maxSpeed = 1;
         final int minSpeed = 1;
@@ -48,6 +52,12 @@ public interface Sail extends ShipComponent {
         return new SailImpl(maxSpeed, minSpeed, rotationPower, health);
     }
 
+    /**
+     * Builder for the spinnaker sail, a very fast and agile sail 
+     * but more fragile than the standard one.
+     * 
+     * @return sail with his standard stats.
+     */
     static Sail spinnaker() {
         final int maxSpeed = 3;
         final int minSpeed = 1;
@@ -57,6 +67,11 @@ public interface Sail extends ShipComponent {
         return new SailImpl(maxSpeed, minSpeed, rotationPower, health);
     }
 
+    /**
+     * Builder for the schooner sail, the best sail for speed and health.
+     * 
+     * @return sail with his standard stats.
+     */
     static Sail schooner() {
         final int maxSpeed = 5;
         final int minSpeed = 4;
