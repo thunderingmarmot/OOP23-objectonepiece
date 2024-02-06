@@ -52,7 +52,7 @@ public final class SectionImpl implements Section {
                         this.addEntity(Island.getDefault(this, p));
                         break;
                     case 2:
-                        this.addEntity(Barrel.getDefault(this, p, 50));
+                        this.addEntity(Barrel.getDefault(this, p));
                         break;
                     case 3:
                         this.addEntity(NavalMine.getDefault(this, p));
