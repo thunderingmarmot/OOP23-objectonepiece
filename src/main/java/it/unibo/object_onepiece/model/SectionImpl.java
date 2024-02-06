@@ -106,11 +106,6 @@ public class SectionImpl implements Section {
     }
 
     @Override
-    public List<Viewable> getViewables() {
-        return entities.stream().filter(e -> e instanceof Viewable).map(e -> (Viewable) e).toList();
-    }
-
-    @Override
     public void addEntity(Entity e) {
         Optional<Direction> direction = e instanceof Ship s ? Optional.of(s.getDirection()) : Optional.empty();
         onEntityCreated.invoke(new TriArguments<>(e.getClass(), e.getPosition(), direction));
