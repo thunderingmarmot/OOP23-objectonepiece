@@ -8,6 +8,7 @@ import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
 import it.unibo.object_onepiece.controller.Controller;
 import it.unibo.object_onepiece.controller.ControllerImpl;
+import it.unibo.object_onepiece.model.Entity;
 import it.unibo.object_onepiece.model.World;
 import it.unibo.object_onepiece.model.WorldImpl;
 import it.unibo.object_onepiece.model.Utils.Direction;
@@ -40,9 +41,9 @@ public final class ObjectOnePieceApp extends Application {
     private static final Color DEFAULT_COLOR = Color.rgb(2, 127, 222);
     private static final int RIGHT_ANGLE = 90;
 
-    private static final Function<String, String> PATH_FUNC = new Function<String,String>() {
+    private static final Function<String, String> PATH_FUNC = new Function<String, String>() {
         @Override
-        public String apply(String t) {
+        public String apply(final String t) {
             return "/img/sprites/" + t + "/" + t + ".png";
         }
     };
@@ -156,31 +157,6 @@ public final class ObjectOnePieceApp extends Application {
             throw new IllegalStateException("Old cell didnt have any images but still removed them");
         }
         oldCell.getChildren().clear();
-    }
-
-    private void drawEntity(Viewable v) {
-        final String entityName = v.getViewType().name().toLowerCase();
-        final int col = v.getPosition().column();
-        final int row = v.getPosition().row();
-
-        final URL imgPath = getClass().getResource(PATH_FUNC.apply(entityName));
-        try {
-            final Image img = new Image(imgPath.toString());
-            final ImageView entityImage = new ImageView(img);
-            if (v.getViewDirection().isPresent()) {
-                entityImage.setRotate(RIGHT_ANGLE * v.getViewDirection().get().ordinal());
-            } 
-            entityImage.setPreserveRatio(true);
-            entityImage.fitWidthProperty().bind(gridView.cellSizeProperty());
-            entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
-            if (gridView.getCellPane(gridModel.getCell(col, row)).getChildren().size() > 0) {
-                throw new IllegalStateException("Cell where entity should be drawn already has another entity");
-            }
-            gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(entityImage);
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(new Label(entityName));
-        }
     }
 
     private void drawHealthBar(GraphicsContext gc,Rectangle rect) {
