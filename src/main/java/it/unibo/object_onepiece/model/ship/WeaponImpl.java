@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import it.unibo.object_onepiece.model.Entity;
+import it.unibo.object_onepiece.model.Utils;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 public final class WeaponImpl extends ShipComponentImpl implements Weapon {
@@ -28,8 +29,8 @@ public final class WeaponImpl extends ShipComponentImpl implements Weapon {
         if ((this.getShip().getPosition().isInlineWith(position, this.getShip().getDirection())) 
         && (this.getShip().getPosition().distanceFrom(position) <= this.attackRange)) {
             hitTarget(position, this.maxDamage);
-            cardinalDirectionsTranslation.values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
-            ordinalDirectionsTranslation.values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
+            Utils.getCardinalDirectionsTranslationMap().values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
+            Utils.getOrdinalDirectionsTranslationMap().values().stream().forEach((f) -> hitTarget(f.apply(position), this.minDamage));
             return new ShootReturnType(true, ShootDetails.SHOOTED_SUCCESSFULLY);
         }
 
