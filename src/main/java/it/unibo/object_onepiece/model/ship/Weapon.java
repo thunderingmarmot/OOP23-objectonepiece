@@ -13,13 +13,16 @@ public interface Weapon extends ShipComponent {
      * Enum to define various type of result returned by shoot.
      */
     enum ShootDetails {
+        /** The weapon has shooted succesfully. */
         SHOOTED_SUCCESSFULLY,
+        /** The position where you want to shoot is out of range. */
         OUT_OF_SHOOTING_RANGE,
+        /** The weapon is broken. */
         WEAPON_BROKEN
     };
 
     /**
-     * Record returned by shoot
+     * Record returned by shoot.
      * 
      * @param  hasShooted result of the shooting
      * @param  details    details about the shooting result
@@ -27,7 +30,7 @@ public interface Weapon extends ShipComponent {
     record ShootReturnType(boolean hasShooted, ShootDetails details) { }; 
 
     /**
-     * This method make the Ship shoots with his weapon
+     * This method make the Ship shoots with his weapon.
      * 
      * @param  position the position of the cell that you want to hit
      * @return          a ShootReturnType that contains the result of the shooting and the details.
@@ -40,7 +43,7 @@ public interface Weapon extends ShipComponent {
      * @return weapon maximum damage.
      */
     int getMaxDamage();
-    
+
     /**
      * Get method for the minimum damage of the ship weapon.
      * 
