@@ -1,6 +1,6 @@
 package it.unibo.object_onepiece.model.enemy;
 
-import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 /**
  * The navigation system provides a direction to follow
@@ -17,6 +17,6 @@ public interface NavigationSystem {
      * @return The direction to reach the objective
      *
      */
-    public Direction move(Position objectivePosition,Position currentPosition);
-    public Direction move(Position currentPosition);
+    public CardinalDirection move(Position objectivePosition,Position currentPosition);
+    public CardinalDirection move(Position currentPosition);
 }

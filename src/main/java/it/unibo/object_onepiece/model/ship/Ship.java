@@ -1,6 +1,6 @@
 package it.unibo.object_onepiece.model.ship;
 import it.unibo.object_onepiece.model.Collider;
-import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
@@ -20,9 +20,9 @@ public interface Ship extends Collider {
     Weapon getWeapon();
     Sail getSail();
     Bow getBow();
-    Direction getDirection();
+    CardinalDirection getDirection();
     
-    Event<BiArgument<Direction>> getDirectionChangedEvent();
+    Event<BiArgument<CardinalDirection>> getDirectionChangedEvent();
     Event<Argument<Integer>> getTookDamageEvent();
 
     @Override

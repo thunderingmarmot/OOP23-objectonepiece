@@ -1,7 +1,7 @@
 package it.unibo.object_onepiece.model.enemy.enemy_state;
 
 import it.unibo.object_onepiece.model.Movable.MoveDetails;
-import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.enemy.Enemy;
 import it.unibo.object_onepiece.model.enemy.NavigationSystem;
@@ -21,7 +21,7 @@ public class Patrol implements EnemyState{
 
     @Override
     public Boolean perform() {
-        Direction suggestedDir = compass.move(ship.getPosition());
+        CardinalDirection suggestedDir = compass.move(ship.getPosition());
         MoveDetails result = ship.canMove(suggestedDir).details();
 
         if(result != MoveDetails.ROTATED || result != MoveDetails.MOVED_SUCCESSFULLY || 
@@ -50,7 +50,7 @@ public class Patrol implements EnemyState{
         return this.ship.getSection().getPlayer().getPosition();
     }
 
-    private Position nextPos(Direction direction){
+    private Position nextPos(CardinalDirection direction){
         return Position.directionPositions
                 .get(direction).apply(ship.getPosition());
     }

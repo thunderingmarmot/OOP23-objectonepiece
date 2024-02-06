@@ -1,6 +1,6 @@
 package it.unibo.object_onepiece.model;
 
-import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 
 /**
  * Models a special Entity which can move and therefore change its position.
@@ -57,12 +57,12 @@ public interface Movable extends Entity {
      * @param steps an int that specifies how many times to move in that direction
      * @return a MoveDetails object that explains in detail what happened
      */
-    MoveDetails move(Direction direction, int steps);
+    MoveDetails move(CardinalDirection direction, int steps);
 
     /**
      * A dry move method, it just verififies if this Movable can move.
      * @param direction a Direction which specifies where to check if a movement is possible
      * @return a MoveReturnType object which tells the caller if moving is possible and the reason
      */
-    MoveReturnType canMove(Direction direction);
+    MoveReturnType canMove(CardinalDirection direction);
 }

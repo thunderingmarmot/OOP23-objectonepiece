@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import it.unibo.object_onepiece.model.Utils.Bound;
-import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
@@ -22,7 +22,7 @@ public interface Section {
     public List<Entity> getEntities();
     public List<Viewable> getViewables();
 
-    public Event<TriArguments<Class<? extends Entity>, Position, Optional<Direction>>> getEntityCreatedEvent();
+    public Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> getEntityCreatedEvent();
 
     public void generateEntities();
 

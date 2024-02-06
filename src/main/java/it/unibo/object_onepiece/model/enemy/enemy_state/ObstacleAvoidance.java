@@ -3,15 +3,15 @@ package it.unibo.object_onepiece.model.enemy.enemy_state;
 import java.util.function.Supplier;
 
 import it.unibo.object_onepiece.model.Movable.MoveDetails;
-import it.unibo.object_onepiece.model.Utils.Direction;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.enemy.Enemy;
 import it.unibo.object_onepiece.model.enemy.Enemy.States;
 
 public class ObstacleAvoidance  implements EnemyState {
     private Enemy ship;
     private int attempt = 0;
-    private Direction primaryDirection;
-    private Direction avoidanceDirection;
+    private CardinalDirection primaryDirection;
+    private CardinalDirection avoidanceDirection;
     @Override
     public Boolean perform() {
 
@@ -60,85 +60,85 @@ public class ObstacleAvoidance  implements EnemyState {
        return States.AVOIDING;
     }
 
-    private Direction up(){
+    private CardinalDirection up(){
         switch (attempt) {
             case 0:
                 attempt++;
-                return Direction.UP;
+                return CardinalDirection.UP;
             case 1:
                 attempt++;
-                return Direction.LEFT;
+                return CardinalDirection.LEFT;
             case 2:
                 attempt++;
-                return Direction.RIGHT;
+                return CardinalDirection.RIGHT;
             case 3:
                 attempt++;
-                return Direction.DOWN;
+                return CardinalDirection.DOWN;
     
             default:
                 throw new IllegalStateException();
         }
         
     }
-    private Direction left(){
+    private CardinalDirection left(){
         switch (attempt) {
             case 0:
                 attempt++;
-                return Direction.LEFT;
+                return CardinalDirection.LEFT;
             case 1:
                 attempt++;
-                return Direction.UP;
+                return CardinalDirection.UP;
             case 2:
                 attempt++;
-                return Direction.DOWN;
+                return CardinalDirection.DOWN;
             case 3:
                 attempt++;
-                return Direction.DOWN;
+                return CardinalDirection.DOWN;
     
             default:
                 throw new IllegalStateException();
         }
     }
-    private Direction right(){
+    private CardinalDirection right(){
         switch (attempt) {
             case 0:
             attempt++;
-                return Direction.RIGHT;
+                return CardinalDirection.RIGHT;
             case 1:
             attempt++;
-                return Direction.DOWN;
+                return CardinalDirection.DOWN;
             case 2:
             attempt++;
-                return Direction.UP;
+                return CardinalDirection.UP;
             case 3:
             attempt++;
-                return Direction.LEFT;
+                return CardinalDirection.LEFT;
     
             default:
                 throw new IllegalStateException();
         }
     }
-    private Direction down(){
+    private CardinalDirection down(){
         switch (attempt) {
             case 0:
             attempt++;
-                return Direction.DOWN;
+                return CardinalDirection.DOWN;
             case 1:
             attempt++;
-                return Direction.LEFT;
+                return CardinalDirection.LEFT;
             case 2:
             attempt++;
-                return Direction.RIGHT;
+                return CardinalDirection.RIGHT;
             case 3:
             attempt++;
-                return Direction.UP;
+                return CardinalDirection.UP;
     
             default:
                 throw new IllegalStateException();
         }
     }
 
-    private void chooseDirection(Supplier<Direction> supplier){
+    private void chooseDirection(Supplier<CardinalDirection> supplier){
         while (attempt < 5) {
             avoidanceDirection = supplier.get();
             MoveDetails result = ship.canMove(avoidanceDirection).details();
