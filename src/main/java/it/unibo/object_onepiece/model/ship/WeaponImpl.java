@@ -37,7 +37,7 @@ public final class WeaponImpl extends ShipComponentImpl implements Weapon {
             Utils.getOrdinalDirectionsTranslationMap().values()
                                                       .stream()
                                                       .forEach((f) -> hitTarget(f.apply(position), this.minDamage));
-                                
+            
             return new ShootReturnType(true, ShootDetails.SHOOTED_SUCCESSFULLY);
         }
 
