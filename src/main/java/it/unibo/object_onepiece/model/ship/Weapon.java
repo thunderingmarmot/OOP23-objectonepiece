@@ -32,7 +32,7 @@ public interface Weapon extends ShipComponent {
     /**
      * This method make the Ship shoots with his weapon.
      * 
-     * @param  position the position of the cell that you want to hit
+     * @param  position the cell position where the weapon should shoot
      * @return          a ShootReturnType that contains the result of the shooting and the details.
      */
     ShootReturnType shoot(Position position);
