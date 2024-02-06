@@ -13,11 +13,11 @@ public interface Weapon extends ShipComponent {
      * Enum to define various type of result returned by shoot.
      */
     enum ShootDetails {
-        /** The weapon has shooted succesfully */
+        /** The weapon has shooted succesfully. */
         SHOOTED_SUCCESSFULLY,
-        /** The position where you want to shoot is out of range */
+        /** The position where you want to shoot is out of range. */
         OUT_OF_SHOOTING_RANGE,
-        /** The weapon is broken */
+        /** The weapon is broken. */
         WEAPON_BROKEN
     };
 
