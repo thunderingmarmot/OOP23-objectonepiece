@@ -42,31 +42,43 @@ public interface Ship extends Collider {
 
     /**
      * Get method for the Weapon component of the Ship.
+     * 
+     * @return the current Weapon mounted on the Ship.
      */
     Weapon getWeapon();
 
     /**
      * Get method for the Sail component of the Ship.
+     * 
+     * @return the current Sail mounted on the Ship.
      */
     Sail getSail();
 
     /**
      * Get method for the Bow component of the Ship.
+     * 
+     * @return the current Bow mounted on the Ship.
      */
     Bow getBow();
 
     /**
      * Get method for the current direction of the Ship.
+     * 
+     * @return the current dirrection on the Ship.
      */
     CardinalDirection getDirection();
 
     /**
      * Get method for the Event on direction changed.
+     * 
+     * @return Event of direction changed.
      */
     Event<BiArgument<CardinalDirection>> getDirectionChangedEvent();
 
     /**
      * Get method for the Event on took damage.
+     * 
+     * @return Event of took damage.
      */
     Event<Argument<Integer>> getTookDamageEvent();
 
