@@ -10,9 +10,9 @@ class Compass implements NavigationSystem {
     
     final Random rand = new Random(); 
     Position objective;
-    
-    public Compass(){
-        defineRandomObjective();
+
+    public Compass(Position currentPosition){
+        defineRandomObjective(currentPosition);
     }
 
     @Override
@@ -22,19 +22,20 @@ class Compass implements NavigationSystem {
 
     public Direction move(Position currentPosition){
         if(objectiveReached(objective)){
-            defineRandomObjective();
+            defineRandomObjective(currentPosition);
         } 
         return this.move(objective, currentPosition);
     }
 
-    private void defineRandomObjective(){
-        final int maxDistance = 5;
+    private void defineRandomObjective(Position currentPosition){
+        /* final int maxDistance = 5;
         final int minDistance = 2;
 
         int x = minDistance + rand.nextInt(maxDistance - minDistance);
         int y = minDistance + rand.nextInt(maxDistance - minDistance);
 
-        objective = objective.translate(new Position(x, y));
+        objective = currentPosition.translate(new Position(x, y)); */
+        objective = currentPosition;
     }
 
     private Boolean objectiveReached(Position position){
