@@ -1,7 +1,7 @@
 package it.unibo.object_onepiece.model.ship;
 
 /**
- * This interface represents bow, which is a type of ShipComponent.
+ * This interface represents a bow, which is a type of ShipComponent.
  * It defines a method to retrieving crash damage of the bow.
  * It also defines builder methods and builder methods for the available bows.
  */

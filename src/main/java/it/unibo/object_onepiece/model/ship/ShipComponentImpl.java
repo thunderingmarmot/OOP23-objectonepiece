@@ -30,8 +30,7 @@ public abstract class ShipComponentImpl implements ShipComponent {
         return this.health;
     }
 
-    @Override
-    public Ship getShip() {
+    protected Ship getShip() {
         return this.ship;
     }
 }

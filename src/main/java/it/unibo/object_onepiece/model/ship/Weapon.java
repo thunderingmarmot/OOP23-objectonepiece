@@ -2,7 +2,16 @@ package it.unibo.object_onepiece.model.ship;
 
 import it.unibo.object_onepiece.model.Utils.Position;
 
+/**
+ * This interface represents a weapon, which is a type of ShipComponent.
+ * It defines a method to shoot with the weapon and retrieving maximum damage, 
+ * minimum damage and range.
+ * It also defines builder methods and builder methods for the available weapons.
+ */
 public interface Weapon extends ShipComponent {
+    /**
+     * Enum to define various type of result returned by shoot.
+     */
     enum ShootDetails {
         SHOOTED_SUCCESSFULLY,
         OUT_OF_SHOOTING_RANGE,
