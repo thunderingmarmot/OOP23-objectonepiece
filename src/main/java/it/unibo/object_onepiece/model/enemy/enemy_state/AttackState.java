@@ -11,6 +11,10 @@ public class AttackState implements EnemyState {
     Enemy ship;
     CardinalDirection prevDirection;
 
+    public AttackState(Enemy ship){
+        this.ship = ship;
+    }
+
     @Override
     public Boolean perform() {
         if(alligned == false){

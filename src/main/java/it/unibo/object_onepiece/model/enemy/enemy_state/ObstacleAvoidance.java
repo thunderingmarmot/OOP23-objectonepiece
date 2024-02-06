@@ -12,6 +12,11 @@ public class ObstacleAvoidance  implements EnemyState {
     private int attempt = 0;
     private CardinalDirection primaryDirection;
     private CardinalDirection avoidanceDirection;
+
+    public ObstacleAvoidance(Enemy ship){
+        this.ship = ship;
+    }
+    
     @Override
     public Boolean perform() {
 

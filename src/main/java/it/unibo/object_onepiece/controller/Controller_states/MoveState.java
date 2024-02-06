@@ -13,9 +13,9 @@ public class MoveState implements InputState{
     }
     @Override
     public Boolean perform(Position pos) {
-        var moveS = player.canMove(Utils.vectorToDirection(pos,player.getPosition()));
+        var moveS = player.canMove(player.getPosition().whereTo(pos));
         if(moveS.canStep()){
-            player.move(Utils.vectorToDirection(pos,player.getPosition()), player.getPosition().distanceFrom(pos));
+            player.move(player.getPosition().whereTo(pos), player.getPosition().distanceFrom(pos));
             return true;
         }
         return false;
