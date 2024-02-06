@@ -25,7 +25,7 @@ public interface Ship extends Collider {
      * @param  weapon the Weapon object to set
     */
     void setWeapon(Weapon weapon);
-    
+
     /**
      * Set method for the Sail component of the Ship.
      * 
