@@ -24,8 +24,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     private Sail sail;
     private Bow bow;
 
-    public final Event<BiArgument<Direction>> onDirectionChanged = Event.get();
-    public final Event<Argument<Integer>> onTookDamage = Event.get();
+    private final Event<BiArgument<Direction>> onDirectionChanged = Event.get();
+    private final Event<Argument<Integer>> onTookDamage = Event.get();
 
     protected ShipImpl(final Section s, final Position p, final Direction direction, final Weapon weapon, final Sail sail, final Bow bow) {
         super(s, p);
@@ -50,11 +50,11 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
         MoveReturnType nextStep = canMove(direction);
         moveCondition.get(nextStep.details()).run();
-                
-        if(steps==0) {
+
+        if (steps == 0) {
             return nextStep;
         } else {
-            return move(direction, steps-1);
+            return move(direction, steps - 1);
         }
     }
 
@@ -64,29 +64,29 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     @Override
     public MoveReturnType canMove(final Direction direction) {
-        if(this.sail.getHealth() <= 0) {
+        if (this.sail.getHealth() <= 0) {
             return new MoveReturnType(false, MoveDetails.SAIL_BROKEN);
         }
-        
-        if(!direction.equals(this.currDirection)) {
+
+        if (!direction.equals(this.currDirection)) {
             return new MoveReturnType(false, MoveDetails.ROTATED);
         }
-        
-        if(!this.getSection().getBounds().isInside(this.getPosition())) {
+
+        if (!this.getSection().getBounds().isInside(this.getPosition())) {
             return new MoveReturnType(false, MoveDetails.BORDER_REACHED);
         }
-        
+
         Optional<Entity> obstacle = this.getSection().getEntityAt(this.getPosition().moveTowards(direction));
-        
-        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c &&
-        (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {
+
+        if (obstacle.isPresent() && obstacle.get() instanceof Collidable c 
+        && (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {
             return new MoveReturnType(false, MoveDetails.STATIC_COLLISION);
         }
-        
-        if(obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.getRigidness() == Rigidness.SOFT) {
+
+        if (obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.getRigidness() == Rigidness.SOFT) {
             return new MoveReturnType(true, MoveDetails.MOVED_BUT_COLLIDED);
         }
-        
+
         return new MoveReturnType(true, MoveDetails.MOVED_SUCCESSFULLY);
     }
     
