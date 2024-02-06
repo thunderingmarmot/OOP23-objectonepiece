@@ -19,7 +19,7 @@ public abstract class ShipComponentImpl implements ShipComponent {
     public void setShip(Ship ship) {
         this.ship = ship;
     }
-    
+
     @Override
     public int getMaxHealth() {
         return this.maxHealth;
@@ -29,7 +29,6 @@ public abstract class ShipComponentImpl implements ShipComponent {
     public int getHealth() {
         return this.health;
     }
-
 
     @Override
     public Ship getShip() {

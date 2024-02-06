@@ -30,12 +30,12 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     /**
     * Constructor for class ShipImpl.
-    * @param  s      is the section where the ship is located
-    * @param  p      is the position of the entity
-    * @param  d      is the direction of the ship
-    * @param  weapon is the weapon of the ship
-    * @param  sail   is the sail of the ship
-    * @param  bow    is the bow of the ship
+    * @param  s      the section where the ship is located
+    * @param  p      the position of the entity
+    * @param  d      the direction of the ship
+    * @param  weapon the weapon of the ship
+    * @param  sail   the sail of the ship
+    * @param  bow    the bow of the ship
     */
     protected ShipImpl(final Section s, 
                        final Position p, 
