@@ -20,21 +20,21 @@ public interface Ship extends Collider {
     void takeDamage(int damage, ShipComponent s);
 
     /**
-     * Sets the Weapon of the Ship.
+     * Set method for the Weapon component of the Ship.
      * 
      * @param  weapon the Weapon object to set
     */
     void setWeapon(Weapon weapon);
     
     /**
-     * Sets the Sail of the Ship.
+     * Set method for the Sail component of the Ship.
      * 
      * @param  sail the Sail object to set
     */
     void setSail(Sail sail);
 
     /**
-     * Sets the Bow of the Ship.
+     * Set method for the Bow component of the Ship.
      * 
      * @param  bow the Bow object to set
     */
