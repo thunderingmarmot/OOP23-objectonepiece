@@ -3,23 +3,45 @@ package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
- * The healing and saving point for the player
+ * Models an Island which works as the healing and saving point for the player.
+ * @see Viewable
+ * @see Collidable
  */
 public interface Island extends Viewable, Collidable {
-    public static Island getDefault(Section spawnSection, Position spawnPosition) {
+    /**
+     * Creates a default Island.
+     * @param spawnSection the reference to the Section containing this Island
+     * @param spawnPosition the position to place this Island at
+     * @return the newly created Island object
+     */
+    static Island getDefault(Section spawnSection, Position spawnPosition) {
         return new IslandImpl(spawnSection, spawnPosition);
     }
 
-    public void save();
-    public void heal(Player player);
+    /**
+     * Saves the current game state.
+     */
+    void save();
 
+    /**
+     * Heals the Player that interacted with the Island.
+     * @param player the Player
+     */
+    void heal(Player player);
+
+    /**
+     * @see Collidable
+     */
     @Override
-    public default Rigidness getRigidness() {
+    default Rigidness getRigidness() {
         return Rigidness.HARD;
     }
 
+    /**
+     * @see Viewable
+     */
     @Override
-    public default Type getViewType() {
+    default Type getViewType() {
         return Type.ISLAND;
     }
 }

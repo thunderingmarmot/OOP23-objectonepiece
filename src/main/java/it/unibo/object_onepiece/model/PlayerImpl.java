@@ -12,7 +12,7 @@ public class PlayerImpl extends ShipImpl implements Player {
 
     private int experience;
 
-    public final Event<Argument<Integer>> onExperienceAdded = Event.get();
+    private final Event<Argument<Integer>> onExperienceAdded = Event.get();
 
     protected PlayerImpl(Section section, Position position, Direction direction, Weapon weapon, Sail sail, Bow bow, int experience) {
         super(section, position, direction, weapon, sail, bow);
@@ -28,5 +28,10 @@ public class PlayerImpl extends ShipImpl implements Player {
     public void addExperience(int experience) {
         this.experience += experience;
         onExperienceAdded.invoke(new Argument<>(this.experience));
+    }
+
+    @Override
+    public Event<Argument<Integer>> getExperienceAddedEvent() {
+        return onExperienceAdded;
     }
 }

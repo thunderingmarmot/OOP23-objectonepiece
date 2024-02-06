@@ -1,6 +1,8 @@
 package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.*;
+import it.unibo.object_onepiece.model.events.Event;
+import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 import it.unibo.object_onepiece.model.ship.Bow;
 import it.unibo.object_onepiece.model.ship.Sail;
 import it.unibo.object_onepiece.model.ship.Ship;
@@ -15,6 +17,7 @@ public interface Player extends Viewable, Ship {
 
     public int getExperience();
     public void addExperience(int experience);
+    public Event<Argument<Integer>> getExperienceAddedEvent();
 
     @Override
     public default Type getViewType() {
