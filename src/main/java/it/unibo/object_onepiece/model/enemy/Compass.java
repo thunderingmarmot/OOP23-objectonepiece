@@ -3,16 +3,20 @@ package it.unibo.object_onepiece.model.enemy;
 import java.util.Random;
 
 import it.unibo.object_onepiece.model.Utils;
+import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 class Compass implements NavigationSystem {
     
-    final Random rand = new Random(); 
-    Position objective;
+    private final Random rand = new Random(); 
+    private Position objective;
+    private final Bound bound;
 
-    public Compass(Position currentPosition){
+
+    public Compass(Position currentPosition,Bound bound){
         defineRandomObjective(currentPosition);
+        this.bound = bound;
     }
 
     @Override
@@ -28,14 +32,15 @@ class Compass implements NavigationSystem {
     }
 
     private void defineRandomObjective(Position currentPosition){
-        /* final int maxDistance = 5;
-        final int minDistance = 2;
+        final int maxDistance = 5;
 
-        int x = minDistance + rand.nextInt(maxDistance - minDistance);
-        int y = minDistance + rand.nextInt(maxDistance - minDistance);
-
-        objective = currentPosition.translate(new Position(x, y)); */
-        objective = currentPosition;
+        do{
+            int x = rand.nextInt(maxDistance);
+            int y = rand.nextInt(maxDistance);
+    
+            objective = currentPosition.translate(new Position(x, y));
+        }while(!bound.isInside(objective));
+       
     }
 
     private Boolean objectiveReached(Position position){

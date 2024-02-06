@@ -2,6 +2,7 @@ package it.unibo.object_onepiece.model.enemy;
 
 import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.Viewable;
+import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.Direction;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.ship.Bow;
@@ -30,8 +31,8 @@ public interface Enemy extends Viewable, Ship {
     public void goNext();
     public States getCurrentState();
     public void changeState(States state);
-    public static Enemy baseEnemy(Section spawnSection, Position spawnPosition){
-        return new EnemyImpl(null, null, Direction.UP, Weapon.cannon(), Sail.schooner(), Bow.standard());
+    public static Enemy getDefault(Section spawnSection, Position spawnPosition,Bound bound){
+        return new EnemyImpl(spawnSection, spawnPosition, Direction.UP, Weapon.cannon(), Sail.schooner(), Bow.standard(),spawnSection.getBounds());
     }
 
     @Override
