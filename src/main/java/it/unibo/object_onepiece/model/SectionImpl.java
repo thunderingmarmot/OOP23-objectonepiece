@@ -37,7 +37,7 @@ public class SectionImpl implements Section {
 
     public void generateEntities() {
         Random m = new Random();
-        var whiteNoise = JNoise.newBuilder().white(m.nextInt()).addModifier(v -> (v + 1) / 2.0).scale(50.5).build();
+        var whiteNoise = JNoise.newBuilder().white(1077).addModifier(v -> (v + 1) / 2.0).scale(50.5).build();
         //var octavatedWhite = OctavationModule.newBuilder().setNoiseSource(whiteNoise).setOctaves(1).setGain(0.9).build();
         for (int i = ROW_INSET; i < GEN_AREA_ROWS; i++) {
             for (int j = COL_INSET; j < GEN_AREA_COLS; j++) {
