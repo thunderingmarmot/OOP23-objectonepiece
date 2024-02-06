@@ -15,8 +15,9 @@ class Compass implements NavigationSystem {
 
 
     public Compass(Position currentPosition,Bound bound){
-        defineRandomObjective(currentPosition);
         this.bound = bound;
+        defineRandomObjective(currentPosition);
+        
     }
 
     @Override

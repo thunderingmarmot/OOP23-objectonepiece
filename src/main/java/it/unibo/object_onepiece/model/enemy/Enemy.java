@@ -31,8 +31,9 @@ public interface Enemy extends Viewable, Ship {
     public void goNext();
     public States getCurrentState();
     public void changeState(States state);
+    
     public static Enemy getDefault(Section spawnSection, Position spawnPosition){
-        return new EnemyImpl(spawnSection, spawnPosition, Direction.UP, Weapon.cannon(), Sail.schooner(), Bow.standard(),spawnSection.getBounds());
+        return new EnemyImpl(spawnSection, spawnPosition, Direction.UP, Weapon.cannon(), Sail.schooner(), Bow.standard());
     }
 
     @Override
