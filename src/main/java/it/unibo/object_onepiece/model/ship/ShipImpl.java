@@ -247,6 +247,10 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         this.currDirection = direction;
     }
 
+    /**
+     * This method calls takeDamage on the collider's 
+     * bow if its Rigidness is MEDIUM.
+     */
     @Override
     public void onCollisionWith(final Collider collider) {
         if (collider.getRigidness() == Rigidness.MEDIUM) {
@@ -254,6 +258,11 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         }
     }
 
+    /**
+     * This method calls onCollisionWith() on the collidable
+     * and if the Rigidness of the collidable is MEDIUM it calls
+     * takeDamage() on himself.
+     */
     @Override
     public void collideWith(final Collidable collidable) {
         collidable.onCollisionWith(this);
