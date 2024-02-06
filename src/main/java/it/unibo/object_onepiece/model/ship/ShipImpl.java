@@ -15,8 +15,9 @@ import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
 
 /**
  * An abstract class to define the methods implementation of Ship.
- * In particular move() and canMove() to move a Ship
- * and check if a Ship can move to the next position.
+ * It also extends EntityImpl because a Ship is an Entity.
+ * 
+ * Can be extended by specific types of Ship like Player and Enemy
  */
 public abstract class ShipImpl extends EntityImpl implements Ship {
     private Direction currDirection;
@@ -27,6 +28,15 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     private final Event<BiArgument<Direction>> onDirectionChanged = Event.get();
     private final Event<Argument<Integer>> onTookDamage = Event.get();
 
+    /**
+    * Constructor for class ShipImpl.
+    * @param s is the section where the ship is located
+    * @param p is the position of the entity
+    * @param d is the direction of the ship
+    * @param weapon is the weapon of the ship
+    * @param sail is the sail of the ship
+    * @param bow is the bow of the ship
+    */
     protected ShipImpl(final Section s, final Position p, final Direction d, final Weapon weapon, final Sail sail, final Bow bow) {
         super(s, p);
         this.setDirection(d);
@@ -35,6 +45,9 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         this.setBow(bow);
     }
 
+    /**
+     * 
+     */
     @Override
     public MoveReturnType move(final Direction direction, final int steps) {
         Position nextPosition = this.getPosition().moveTowards(direction);
@@ -44,8 +57,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
             MoveDetails.MOVED_SUCCESSFULLY, () -> this.setPosition(nextPosition),
             MoveDetails.ROTATED, () -> rotate(direction),
             MoveDetails.STATIC_COLLISION, () -> this.collideWith(obstacle),
-            MoveDetails.MOVED_BUT_COLLIDED, () -> { this.collideWith(obstacle);
-                                                    this.setPosition(nextPosition); }
+            MoveDetails.MOVED_BUT_COLLIDED, () -> { this.collideWith(obstacle); this.setPosition(nextPosition); }
         );
 
         MoveReturnType nextStep = canMove(direction);
