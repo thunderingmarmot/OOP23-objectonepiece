@@ -133,7 +133,16 @@ public final class Utils {
         public Position distanceVectorFrom(final Position position) {
             final var deltaRow = position.row - this.row;
             final var deltaColumn = position.column - this.column;
-            return new Position(deltaRow / Math.abs(deltaRow), deltaColumn / Math.abs(deltaColumn));
+            int row = 0;
+            int column = 0;
+
+            if(deltaRow > 0) {
+                row = (deltaRow / Math.abs(deltaRow));
+            }
+            if(column > 0) {
+                column = deltaColumn / Math.abs(deltaColumn);
+            }
+            return new Position(row, column);
         }
 
         /**
