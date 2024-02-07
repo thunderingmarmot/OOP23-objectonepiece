@@ -32,7 +32,7 @@ public interface Enemy extends Ship {
     public void changeState(States state);
     
     public static Enemy getDefault(Section spawnSection, Position spawnPosition){
-        Enemy enemy = new EnemyImpl(spawnSection, spawnPosition, CardinalDirection.NORTH);
+        EnemyImpl enemy = new EnemyImpl(spawnSection, spawnPosition, CardinalDirection.NORTH);
         enemy.setWeapon(Weapon.cannon(enemy));
         enemy.setBow(Bow.standard(enemy));
         enemy.setSail(Sail.schooner(enemy));

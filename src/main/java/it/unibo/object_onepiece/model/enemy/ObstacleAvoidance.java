@@ -1,10 +1,9 @@
-package it.unibo.object_onepiece.model.enemy.enemy_state;
+package it.unibo.object_onepiece.model.enemy;
 
 import java.util.function.Supplier;
 
 import it.unibo.object_onepiece.model.Movable.MoveDetails;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
-import it.unibo.object_onepiece.model.enemy.Enemy;
 import it.unibo.object_onepiece.model.enemy.Enemy.States;
 
 /**

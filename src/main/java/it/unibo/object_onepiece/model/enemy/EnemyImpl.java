@@ -5,10 +5,6 @@ import java.util.List;
 
 import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.Utils.*;
-import it.unibo.object_onepiece.model.enemy.enemy_state.AttackState;
-import it.unibo.object_onepiece.model.enemy.enemy_state.EnemyState;
-import it.unibo.object_onepiece.model.enemy.enemy_state.ObstacleAvoidance;
-import it.unibo.object_onepiece.model.enemy.enemy_state.Patrol;
 import it.unibo.object_onepiece.model.ship.ShipImpl;
 
 public class EnemyImpl extends ShipImpl implements Enemy {
@@ -23,6 +19,10 @@ public class EnemyImpl extends ShipImpl implements Enemy {
             new AttackState(this)
         ));
         currentState = findState(States.PATROLLING);
+    }
+
+    protected Section getSection() {
+        return super.getSection();
     }
 
     @Override

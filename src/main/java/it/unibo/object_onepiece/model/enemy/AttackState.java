@@ -1,9 +1,8 @@
-package it.unibo.object_onepiece.model.enemy.enemy_state;
+package it.unibo.object_onepiece.model.enemy;
 
 import it.unibo.object_onepiece.model.Utils;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.enemy.Enemy;
 import it.unibo.object_onepiece.model.enemy.Enemy.States;
 
 public class AttackState implements EnemyState {
