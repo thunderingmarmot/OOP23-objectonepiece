@@ -9,19 +9,16 @@ import it.unibo.object_onepiece.model.ship.Ship;
  * The input is interpreted as a direction to move the player to.
  */
 public final class MoveState implements InputState {
-    private Ship player;
     /**
      * The constructor of MoveState.
-     * @param player , the ship that rappresents the player
      */
-    public MoveState(final Ship player) {
-        this.player = player;
-    }
+    public MoveState() {}
+    
     @Override
-    public Boolean perform(final Position pos) {
-        var moveS = player.canMove(player.getPosition().whereTo(pos));
+    public Boolean perform(final Position pos, final Ship ship) {
+        var moveS = ship.canMove(ship.getPosition().whereTo(pos));
         if (moveS.canStep()) {
-            player.move(player.getPosition().whereTo(pos), player.getPosition().distanceFrom(pos));
+            ship.move(ship.getPosition().whereTo(pos), ship.getPosition().distanceFrom(pos));
             return true;
         }
         return false;

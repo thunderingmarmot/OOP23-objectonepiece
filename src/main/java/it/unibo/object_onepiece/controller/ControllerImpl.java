@@ -23,8 +23,8 @@ public final class ControllerImpl implements Controller {
     private Boolean toggle = false;
 
     private Map<States, InputState> states = Map.of(
-        States.SHOOTING, new ShootState(player),
-        States.MOVING, new MoveState(player));
+        States.SHOOTING, new ShootState(),
+        States.MOVING, new MoveState());
 
     @Override
     public void action(final Position position, final World world) {
@@ -34,7 +34,7 @@ public final class ControllerImpl implements Controller {
 
         toggleMode(position, pPosition);
 
-        if (currentState.perform(position)) {
+        if (currentState.perform(position,player)) {
             currentSec.getEntities()
                 .stream()
                 .filter(x -> x instanceof Enemy)
