@@ -6,6 +6,7 @@ import it.unibo.object_onepiece.model.enemy.Enemy;
 import java.util.Map;
 
 import it.unibo.object_onepiece.controller.Controller_states.InputState;
+import it.unibo.object_onepiece.controller.Controller_states.MoveState;
 import it.unibo.object_onepiece.controller.Controller_states.ShootState;
 import it.unibo.object_onepiece.model.Player;
 import it.unibo.object_onepiece.model.Section;
@@ -20,7 +21,10 @@ public final class ControllerImpl implements Controller {
     private Player player;
     private InputState currentState;
     private Boolean toggle = false;
-    private Map<States, InputState> states = Map.of(States.SHOOTING, new ShootState(player));
+
+    private Map<States, InputState> states = Map.of(
+        States.SHOOTING, new ShootState(player),
+        States.MOVING, new MoveState(player));
 
     @Override
     public void action(final Position position, final World world) {
@@ -52,7 +56,7 @@ public final class ControllerImpl implements Controller {
         if (toggle) {
             currentState = states.get(States.SHOOTING);
         } else { 
-            states.get(States.MOVING);
+            currentState = states.get(States.MOVING);
         }
     }
 
