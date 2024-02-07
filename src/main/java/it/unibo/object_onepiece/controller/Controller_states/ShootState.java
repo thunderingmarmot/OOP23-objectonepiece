@@ -4,10 +4,16 @@ import it.unibo.object_onepiece.controller.Controller.States;
 import it.unibo.object_onepiece.model.Player;
 import it.unibo.object_onepiece.model.Utils.Position;
 
-public final class ShootState implements InputState{
+/**
+ * The implementation of "Shoot" state of the controller.
+ */
+public final class ShootState implements InputState {
     private Player player;
-
-    public ShootState(final Player player){
+    /**
+     * The contructor of ShootState.
+     * @param player is required to perform the actual "shooting"
+     */
+    public ShootState(final Player player) {
         this.player = player;
     }
 
