@@ -7,7 +7,7 @@ package it.unibo.object_onepiece.model.ship;
  */
 public interface Bow extends ShipComponent {
     /**
-     * Get method for the crash damage of the ship bow.
+     * Getter for the crash damage of the ship bow.
      * 
      * @return bow crash damage.
      */

@@ -30,11 +30,20 @@ public final class SectionImpl implements Section {
     private static final double SCALING_FACTOR = 50.5;
     private static final int NOISE_DISPERSION = 50;
 
+    private final World world;
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound = new Bound(ROWS, COLUMNS);
 
     private final Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> 
     onEntityCreated = Event.get();
+    /**
+     * 
+     * @param world reference to World object (used to consent islands to save game state)
+     */
+    public SectionImpl(final World world) {
+        this.world = world;
+    }
+
     /**
      * Populates entities list using white noise algorithm from JNoise.
      */
@@ -79,8 +88,7 @@ public final class SectionImpl implements Section {
 
     @Override
     public World getWorld() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getWorld'");
+        return this.world;
     }
 
     @Override
@@ -95,14 +103,20 @@ public final class SectionImpl implements Section {
 
     @Override
     public Player getPlayer() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPlayer'");
+        if (entities.stream().filter(e -> e instanceof Player).count() != 1) {
+            throw new IllegalStateException("There is no player in section or there's more than one player");
+        }
+        Optional<Player> p = entities.stream().filter(e -> e instanceof Player).map(e -> (Player)e).findFirst();
+        if (!p.isPresent()) {
+            throw new IllegalStateException("No player found");
+        }
+
+        return p.get();
     }
 
     @Override
     public Optional<Entity> getEntityAt(final Position position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEntityAt'");
+        return entities.stream().filter(e -> e.getPosition() == position).findFirst();
     }
 
     @Override
@@ -116,7 +130,7 @@ public final class SectionImpl implements Section {
         onEntityCreated.invoke(new TriArguments<>(e.getClass(), e.getPosition(), direction));
         entities.add(e);
     }
-
+    
     /**
      * @return event to generate entities in view
      */

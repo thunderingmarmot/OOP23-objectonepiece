@@ -40,7 +40,7 @@ public final class SailImpl extends ShipComponentImpl implements Sail {
     }
 
     /**
-     * Get method for the max speed of the ship sail.
+     * Getter for the max speed of the ship sail.
      * 
      * @return sail max speed.
      */
@@ -50,7 +50,7 @@ public final class SailImpl extends ShipComponentImpl implements Sail {
     }
 
     /**
-     * Get method for the min speed of the ship sail.
+     * Getter for the min speed of the ship sail.
      * 
      * @return sail min speed.
      */
@@ -60,7 +60,7 @@ public final class SailImpl extends ShipComponentImpl implements Sail {
     }
 
     /**
-     * Get method for the rotation power of the ship sail.
+     * Getter for the rotation power of the ship sail.
      * 
      * @return sail rotation power.
      */
