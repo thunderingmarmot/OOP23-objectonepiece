@@ -5,8 +5,8 @@ package it.unibo.object_onepiece.model.ship;
  */
 public abstract class ShipComponentImpl implements ShipComponent {
     private final Ship ship;
-    private int health;
     private final int maxHealth;
+    private int health;
 
     /**
      * Constructor for class ShipComponentImpl.
@@ -15,8 +15,8 @@ public abstract class ShipComponentImpl implements ShipComponent {
      */
     protected ShipComponentImpl(final Ship ship, final int health) {
         this.ship = ship;
-        this.health = health;
         this.maxHealth = health;
+        this.health = health;
     }
 
     /**
@@ -25,7 +25,7 @@ public abstract class ShipComponentImpl implements ShipComponent {
      * @param  health the health to set
     */
     @Override
-    public void setHealth(int health) {
+    public void setHealth(final int health) {
         this.health = health;
     }
 

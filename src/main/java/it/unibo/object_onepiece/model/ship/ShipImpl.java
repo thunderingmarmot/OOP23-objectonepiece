@@ -147,6 +147,11 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
         }
     }
 
+    @Override
+    public boolean isShipValid() {
+        return true;
+    }
+
     /**
      * Setter for the Weapon component of the Ship.
      * 
