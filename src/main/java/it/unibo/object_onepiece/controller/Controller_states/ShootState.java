@@ -4,15 +4,15 @@ import it.unibo.object_onepiece.controller.Controller.States;
 import it.unibo.object_onepiece.model.Player;
 import it.unibo.object_onepiece.model.Utils.Position;
 
-public class ShootState implements InputState{
+public final class ShootState implements InputState{
     private Player player;
 
-    public ShootState(Player player){
+    public ShootState(final Player player){
         this.player = player;
     }
-    
+
     @Override
-    public Boolean perform(Position pos) {
+    public Boolean perform(final Position pos) {
        var details = player.getWeapon().shoot(pos);
        return details.hasShooted();
     }
@@ -21,5 +21,5 @@ public class ShootState implements InputState{
     public States getState() {
         return States.SHOOTING;
     }
-  
+
 }
