@@ -30,9 +30,9 @@ public abstract class ShipImpl extends Entity implements Ship {
     /**
     * Constructor for class ShipImpl.
     *
-    * @param  s      the section where the ship is located
-    * @param  p      the position of the entity
-    * @param  d      the direction of the ship
+    * @param  s the section where the ship is located
+    * @param  p the position of the entity
+    * @param  d the direction of the ship
     */
     protected ShipImpl(final Section s, final Position p, final CardinalDirection d) {
         super(s, p);
