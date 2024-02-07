@@ -11,6 +11,7 @@ public abstract class ShipComponentImpl implements ShipComponent {
     /**
      * Constructor for class ShipComponentImpl.
      * 
+     * @param  ship   the ship assigned to the component
      * @param  health the initial and maximum health of the component
      */
     protected ShipComponentImpl(final Ship ship, final int health) {

@@ -35,9 +35,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     * @param  p      the position of the entity
     * @param  d      the direction of the ship
     */
-    protected ShipImpl(final Section s,
-                       final Position p,
-                       final CardinalDirection d) {
+    protected ShipImpl(final Section s, final Position p, final CardinalDirection d) {
         super(s, p);
         this.currDirection = d;
     }
@@ -155,7 +153,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      */
     @Override
     public boolean isShipValid() {
-        if(this.weapon != null && this.sail != null && this.bow != null) {
+        if (this.weapon != null && this.sail != null && this.bow != null) {
             return true;
         }
         return false;
