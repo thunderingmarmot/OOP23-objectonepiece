@@ -19,7 +19,7 @@ public interface Barrel extends Collidable {
      * @param spawnPosition the position to place this Barrel at
      * @return the newly created Barrel object
      */
-    static Barrel getDefault(Section spawnSection, Position spawnPosition) {
+    static BarrelImpl getDefault(Section spawnSection, Position spawnPosition) {
         return new BarrelImpl(spawnSection, spawnPosition, DEFAULT_EXPERIENCE_GIVEN);
     }
 

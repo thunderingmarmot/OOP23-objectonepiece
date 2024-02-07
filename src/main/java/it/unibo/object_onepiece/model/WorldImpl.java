@@ -24,7 +24,7 @@ public final class WorldImpl implements World {
 
     @Override
     public void setSavedState() {
-        Player player = getCurrentSection().getPlayer();
+        PlayerImpl player = getCurrentSection().getPlayer();
         savedState = new State(getCurrentSection(), player.getPosition(), player.getExperience());
     }
 

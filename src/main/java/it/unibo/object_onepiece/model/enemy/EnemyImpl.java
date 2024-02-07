@@ -25,6 +25,7 @@ public class EnemyImpl extends ShipImpl implements Enemy {
         return super.getSection();
     }
 
+
     @Override
     public void goNext() {
         while (!currentState.perform());

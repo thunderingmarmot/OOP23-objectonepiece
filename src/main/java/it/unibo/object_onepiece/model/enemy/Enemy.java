@@ -31,7 +31,7 @@ public interface Enemy extends Ship {
     public States getCurrentState();
     public void changeState(States state);
     
-    public static Enemy getDefault(Section spawnSection, Position spawnPosition){
+    public static EnemyImpl getDefault(Section spawnSection, Position spawnPosition){
         EnemyImpl enemy = new EnemyImpl(spawnSection, spawnPosition, CardinalDirection.NORTH);
         enemy.setWeapon(Weapon.cannon(enemy));
         enemy.setBow(Bow.standard(enemy));

@@ -7,10 +7,10 @@ import it.unibo.object_onepiece.model.enemy.Enemy.States;
 
 public class AttackState implements EnemyState {
     Boolean alligned = false;
-    Enemy ship;
+    EnemyImpl ship;
     CardinalDirection prevDirection;
 
-    public AttackState(Enemy ship) {
+    public AttackState(EnemyImpl ship) {
         this.ship = ship;
     }
 

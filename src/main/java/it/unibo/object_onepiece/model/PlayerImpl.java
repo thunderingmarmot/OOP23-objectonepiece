@@ -54,7 +54,7 @@ public class PlayerImpl extends ShipImpl implements Player {
         this.experience += experience;
         onExperienceAdded.invoke(new Argument<>(this.experience));
     }
-
+    
     /**
      * Getter for the onExperienceAdded Event.
      * @return an Event object that gets invoked when experience is added to the Player.
