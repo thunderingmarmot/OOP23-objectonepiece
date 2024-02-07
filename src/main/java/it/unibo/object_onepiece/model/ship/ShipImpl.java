@@ -5,7 +5,6 @@ import java.util.Optional;
 import it.unibo.object_onepiece.model.Collidable;
 import it.unibo.object_onepiece.model.Collider;
 import it.unibo.object_onepiece.model.Entity;
-import it.unibo.object_onepiece.model.EntityImpl;
 import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
@@ -19,7 +18,7 @@ import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
  * 
  * Can be extended by specific types of Ship like Player and Enemy
  */
-public abstract class ShipImpl extends EntityImpl implements Ship {
+public abstract class ShipImpl extends Entity implements Ship {
     private CardinalDirection currDirection;
     private Weapon weapon;
     private Sail sail;
@@ -251,6 +250,17 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     protected Section getSection() {
         return super.getSection();
     }
+
+    /**
+     * Getter for the current position of the entity.
+     * 
+     * @return the position of the entity in the section.
+     */
+    @Override
+    protected Position getPosition() {
+        return super.getPosition();
+    }
+
 
     /**
      * This method rotates the Ship to the given direction and

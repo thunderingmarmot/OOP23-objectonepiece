@@ -5,27 +5,77 @@ import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
 
 /**
- * Models everything physically present in the game.
+ * Abstract class that defines the implementation of the Entity interface.
  */
-public interface Entity {
-    /**
-     * Getter for the Position this Entity is at.
-     * 
-     * @return the Position of this Entity
-     */
-    Position getPosition();
+public abstract class Entity {
+    private final Section section;
+    private Position position;
+
+    private final Event<BiArgument<Position>> onPositionChanged = Event.get();
+    private final Event<Argument<Position>> onEntityRemoved = Event.get();
 
     /**
-     * Getter for the Event on position changed.
+     * Constructor for class EntityImpl.
      * 
-     * @return Event of position changed.
+     * @param  s section where the entity should be located
+     * @param  p position of the entity in the section
      */
-    Event<BiArgument<Position>> getPositionChangedEvent();
+    protected Entity(final Section s, final Position p) {
+        this.section = s;
+        this.setPosition(p);
+    }
 
     /**
-     * Getter for the Event on entity removed.
+     * Getter for the current section of the entity.
      * 
-     * @return Event of removed entity.
+     * @return the section where the entity is located.
      */
-    Event<Argument<Position>> getEntityRemovedEvent();
+    protected Section getSection() {
+       return this.section;
+    }
+
+    /**
+     * Getter for the current position of the entity.
+     * 
+     * @return the position of the entity in the section.
+     */
+    protected Position getPosition() {
+        return this.position;
+    }
+
+    /**
+     * Getter for the onPositionChanged Event.
+     */
+    public Event<BiArgument<Position>> getPositionChangedEvent() {
+        return this.onPositionChanged;
+    }
+
+    /**
+     * Getter for the onEntityRemoved Event.
+     */
+    public Event<Argument<Position>> getEntityRemovedEvent() {
+        return this.onEntityRemoved;
+    }
+
+    /**
+     * Setter for the position of the entity.
+     * This method invoke an Event onPositionChanged
+     * and changes the current position of the Entity
+     * to the new position.
+     * 
+     * @param  newPosition the new position of the entity
+     */
+    protected void setPosition(final Position newPosition) {
+        onPositionChanged.invoke(new BiArgument<>(this.position, newPosition));
+        this.position = newPosition;
+    }
+
+    /**
+     * This method invoke an Event onEntityRemoved
+     * and remove the entity from the current section.
+     */
+    protected void remove() {
+        onEntityRemoved.invoke(new Argument<>(this.position));
+        this.getSection().removeEntityAt(this.position);
+    }
 }

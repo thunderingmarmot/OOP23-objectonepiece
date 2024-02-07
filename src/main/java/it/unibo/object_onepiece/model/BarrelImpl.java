@@ -6,7 +6,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * Implementation of the Barrel interface.
  * @see Barrel
  */
-public class BarrelImpl extends EntityImpl implements Barrel {
+public class BarrelImpl extends Entity implements Barrel {
 
     private final int experienceGiven;
 

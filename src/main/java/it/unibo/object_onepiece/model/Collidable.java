@@ -4,10 +4,9 @@ package it.unibo.object_onepiece.model;
 
 /**
  * Models an Entity which a Collider can collide with.
- * @see Entity
  * @see Collider
  */
-public interface Collidable extends Entity {
+public interface Collidable {
     /**
      * Defines the possible values of Rigidness.
      */

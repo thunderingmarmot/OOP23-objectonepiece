@@ -6,7 +6,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * Implementation of the Island interface.
  * @see Island
  */
-public class IslandImpl extends EntityImpl implements Island {
+public class IslandImpl extends Entity implements Island {
 
     /**
      * Constructor for IslandImpl.

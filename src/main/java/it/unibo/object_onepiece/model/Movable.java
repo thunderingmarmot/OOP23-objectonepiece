@@ -3,10 +3,9 @@ package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 
 /**
- * Models a special Entity which can move and therefore change its position.
- * @see Entity
+ * Models a something which can move and therefore change its position.
  */
-public interface Movable extends Entity {
+public interface Movable {
 
     /**
      * Defines the possible values of MoveDetails which explains what happened while moving.
