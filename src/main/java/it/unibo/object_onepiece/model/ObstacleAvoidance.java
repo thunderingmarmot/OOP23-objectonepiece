@@ -1,10 +1,10 @@
-package it.unibo.object_onepiece.model.enemy;
+package it.unibo.object_onepiece.model;
 
 import java.util.function.Supplier;
 
+import it.unibo.object_onepiece.model.Enemy.States;
 import it.unibo.object_onepiece.model.Movable.MoveDetails;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
-import it.unibo.object_onepiece.model.enemy.Enemy.States;
 
 /**
  * ObstacleAvoidance implements the Avoidance state of Enemy.

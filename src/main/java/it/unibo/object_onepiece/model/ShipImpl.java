@@ -1,11 +1,7 @@
-package it.unibo.object_onepiece.model.ship;
+package it.unibo.object_onepiece.model;
 import java.util.Map;
 import java.util.Optional;
 
-import it.unibo.object_onepiece.model.Collidable;
-import it.unibo.object_onepiece.model.Collider;
-import it.unibo.object_onepiece.model.Entity;
-import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;

@@ -4,10 +4,6 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
-import it.unibo.object_onepiece.model.ship.Bow;
-import it.unibo.object_onepiece.model.ship.Sail;
-import it.unibo.object_onepiece.model.ship.Ship;
-import it.unibo.object_onepiece.model.ship.Weapon;
 
 /**
  * Models a particular Ship which is the Player of the game.

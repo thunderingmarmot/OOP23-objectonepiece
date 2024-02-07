@@ -1,5 +1,5 @@
-package it.unibo.object_onepiece.model.enemy;
-import it.unibo.object_onepiece.model.enemy.Enemy.States;
+package it.unibo.object_onepiece.model;
+import it.unibo.object_onepiece.model.Enemy.States;
 
 public interface EnemyState {
     /**

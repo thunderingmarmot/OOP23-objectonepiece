@@ -1,4 +1,4 @@
-package it.unibo.object_onepiece.model.ship;
+package it.unibo.object_onepiece.model;
 
 /**
  * This class is extended by all the ship components.

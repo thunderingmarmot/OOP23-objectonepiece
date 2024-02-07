@@ -1,11 +1,9 @@
-package it.unibo.object_onepiece.model.ship;
+package it.unibo.object_onepiece.model;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import it.unibo.object_onepiece.model.Entity;
-import it.unibo.object_onepiece.model.Utils;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**

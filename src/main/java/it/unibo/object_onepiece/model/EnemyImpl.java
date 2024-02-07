@@ -1,11 +1,9 @@
-package it.unibo.object_onepiece.model.enemy;
+package it.unibo.object_onepiece.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.Utils.*;
-import it.unibo.object_onepiece.model.ship.ShipImpl;
 
 public class EnemyImpl extends ShipImpl implements Enemy {
     private final List<EnemyState> enemyStates;

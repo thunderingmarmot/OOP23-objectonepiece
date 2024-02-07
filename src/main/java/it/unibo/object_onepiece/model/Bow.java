@@ -1,4 +1,4 @@
-package it.unibo.object_onepiece.model.ship;
+package it.unibo.object_onepiece.model;
 
 /**
  * This class represents a bow, which is a type of ShipComponent.

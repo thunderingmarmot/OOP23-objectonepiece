@@ -1,7 +1,7 @@
 package it.unibo.object_onepiece.controller.Controller_states;
 import it.unibo.object_onepiece.controller.Controller.States;
+import it.unibo.object_onepiece.model.ShipImpl;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.ship.ShipImpl;
 
 /**The interface that models the statesof the input of the controller.
  */

@@ -1,5 +1,4 @@
-package it.unibo.object_onepiece.model.ship;
-import it.unibo.object_onepiece.model.Collider;
+package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;

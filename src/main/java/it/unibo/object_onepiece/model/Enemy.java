@@ -1,13 +1,8 @@
-package it.unibo.object_onepiece.model.enemy;
+package it.unibo.object_onepiece.model;
 
-import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.ship.Bow;
-import it.unibo.object_onepiece.model.ship.Sail;
-import it.unibo.object_onepiece.model.ship.Ship;
-import it.unibo.object_onepiece.model.ship.Weapon;
 import javafx.geometry.Pos;
 
 /**

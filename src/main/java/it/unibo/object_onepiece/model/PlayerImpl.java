@@ -3,7 +3,6 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
-import it.unibo.object_onepiece.model.ship.ShipImpl;
 
 /**
  * Implementation of the Player interface.

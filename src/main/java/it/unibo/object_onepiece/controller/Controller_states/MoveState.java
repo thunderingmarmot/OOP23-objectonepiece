@@ -1,8 +1,8 @@
 package it.unibo.object_onepiece.controller.Controller_states;
 
 import it.unibo.object_onepiece.controller.Controller.States;
+import it.unibo.object_onepiece.model.ShipImpl;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.ship.ShipImpl;
 
 /**
  * The implementation of the Moving state of the controller.
