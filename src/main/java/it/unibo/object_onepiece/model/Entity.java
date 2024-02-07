@@ -45,6 +45,8 @@ public abstract class Entity {
 
     /**
      * Getter for the onPositionChanged Event.
+     * 
+     * @return an Event of position changed.
      */
     public Event<BiArgument<Position>> getPositionChangedEvent() {
         return this.onPositionChanged;
@@ -52,6 +54,8 @@ public abstract class Entity {
 
     /**
      * Getter for the onEntityRemoved Event.
+     * 
+     * @return an Event of entity removed.
      */
     public Event<Argument<Position>> getEntityRemovedEvent() {
         return this.onEntityRemoved;

@@ -21,9 +21,6 @@ public class PlayerImpl extends ShipImpl implements Player {
      * @param section the reference to the Section containing this Player 
      * @param position the position to place this Player at
      * @param direction the starting direction of the Player's ship
-     * @param weapon the starting weapon of the Player's ship
-     * @param sail the starting sail of the Player's ship
-     * @param bow the starting bow of the Player's ship
      * @param experience the starting experience value of the Player
      * @see Player
      */
@@ -53,7 +50,7 @@ public class PlayerImpl extends ShipImpl implements Player {
         this.experience += experience;
         onExperienceAdded.invoke(new Argument<>(this.experience));
     }
-    
+
     /**
      * Getter for the onExperienceAdded Event.
      * @return an Event object that gets invoked when experience is added to the Player.

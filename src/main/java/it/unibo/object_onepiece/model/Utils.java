@@ -22,14 +22,14 @@ public final class Utils {
         OrdinalDirection.NORTHWEST, (p) -> new Position(p.row + 1, p.column - 1),
         OrdinalDirection.SOUTHEAST, (p) -> new Position(p.row - 1, p.column + 1)
     );
-    
+
     private static Map<CardinalDirection, BiPredicate<Position, Position>> positionsInlineConditions = Map.of(
         CardinalDirection.NORTH, (p1, p2) -> p1.row == p2.row && p1.column != p2.column,
         CardinalDirection.SOUTH, (p1, p2) -> p1.row == p2.row && p1.column != p2.column,
         CardinalDirection.WEST, (p1, p2) -> p1.column == p2.column && p1.row != p2.row,
         CardinalDirection.EAST, (p1, p2) -> p1.column == p2.column && p1.row != p2.row
     );
-    
+
     private static Map<Position, CardinalDirection> distanceVectorToCardinalDirections = Map.of(
         new Position(-1, -1), CardinalDirection.SOUTH,
         new Position(1, -1), CardinalDirection.SOUTH,
@@ -136,10 +136,10 @@ public final class Utils {
             int row = 0;
             int column = 0;
 
-            if(deltaRow > 0) {
+            if (deltaRow > 0) {
                 row = (deltaRow / Math.abs(deltaRow));
             }
-            if(column > 0) {
+            if (column > 0) {
                 column = deltaColumn / Math.abs(deltaColumn);
             }
             return new Position(row, column);
