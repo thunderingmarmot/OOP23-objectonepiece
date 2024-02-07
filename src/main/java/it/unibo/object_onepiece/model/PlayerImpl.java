@@ -3,10 +3,7 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
-import it.unibo.object_onepiece.model.ship.Bow;
-import it.unibo.object_onepiece.model.ship.Sail;
 import it.unibo.object_onepiece.model.ship.ShipImpl;
-import it.unibo.object_onepiece.model.ship.Weapon;
 
 /**
  * Implementation of the Player interface.
@@ -34,11 +31,8 @@ public class PlayerImpl extends ShipImpl implements Player {
     protected PlayerImpl(final Section section,
                          final Position position,
                          final CardinalDirection direction,
-                         final Weapon weapon,
-                         final Sail sail,
-                         final Bow bow,
                          final int experience) {
-        super(section, position, direction, weapon, sail, bow);
+        super(section, position, direction);
         this.experience = experience;
     }
 
