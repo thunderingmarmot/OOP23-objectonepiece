@@ -23,10 +23,7 @@ public interface Player extends Ship {
      * @return the newly created Player object
      */
     static Player getDefault(Section spawnSection, Position spawnPosition) {
-        Player player = new PlayerImpl(spawnSection,
-                                       spawnPosition,
-                                       CardinalDirection.NORTH,
-                                       0);
+        Player player = new PlayerImpl(spawnSection, spawnPosition, CardinalDirection.NORTH, 0);
         player.setWeapon(Weapon.cannon(player));
         player.setBow(Bow.standard(player));
         player.setSail(Sail.sloop(player));

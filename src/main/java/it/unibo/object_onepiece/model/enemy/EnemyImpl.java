@@ -9,17 +9,14 @@ import it.unibo.object_onepiece.model.enemy.enemy_state.AttackState;
 import it.unibo.object_onepiece.model.enemy.enemy_state.EnemyState;
 import it.unibo.object_onepiece.model.enemy.enemy_state.ObstacleAvoidance;
 import it.unibo.object_onepiece.model.enemy.enemy_state.Patrol;
-import it.unibo.object_onepiece.model.ship.Bow;
-import it.unibo.object_onepiece.model.ship.Sail;
 import it.unibo.object_onepiece.model.ship.ShipImpl;
-import it.unibo.object_onepiece.model.ship.Weapon;
 
 public class EnemyImpl extends ShipImpl implements Enemy {
     private final List<EnemyState> enemyStates;
     private EnemyState currentState;
     
-    protected EnemyImpl(Section section, Position position, CardinalDirection direction, Weapon weapon, Sail sail, Bow bow) {
-        super(section, position, direction, weapon, sail, bow);
+    protected EnemyImpl(Section section, Position position, CardinalDirection direction) {
+        super(section, position, direction);
         enemyStates = new ArrayList<>(List.of(
             new Patrol(this, new Compass(this.getPosition(),section.getBounds())),
             new ObstacleAvoidance(this),
