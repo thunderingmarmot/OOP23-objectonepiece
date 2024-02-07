@@ -30,6 +30,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     /**
     * Constructor for class ShipImpl.
+    *
     * @param  s      the section where the ship is located
     * @param  p      the position of the entity
     * @param  d      the direction of the ship
@@ -140,7 +141,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     /**
      * This method is used to cause the ship to take damage from enemy attacks or collisions.
-     * Since the ship have multiple component, this method is called on one ShipComponent
+     * Since the ship have multiple component, this method is called on one ShipComponent.
+     * It also invoke an Event onTookDamage.
      * 
      * @param  damage the amout of damage to be inflicted
      * @param  s      the ShipComponent that needs to be hit
@@ -199,6 +201,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     /**
      * Getter for the Sail component of the Ship.
+     * 
+     * @return the current Sail mounted on the Ship.
      */
     @Override
     public Sail getSail() {
@@ -207,6 +211,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     /**
      * Getter for the Bow component of the Ship.
+     * 
+     * @return the current Bow mounted on the Ship.
      */
     @Override
     public Bow getBow() {
@@ -215,6 +221,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
 
     /**
      * Getter for the current direction of the Ship.
+     * 
+     * @return the current direction of the Ship.
      */
     @Override
     public CardinalDirection getDirection() {
@@ -238,7 +246,8 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     /**
-     * This method rotates the Ship to the given direction.
+     * This method rotates the Ship to the given direction and
+     * invoke an Event onDirectionChanged.
      * 
      * @param  direction the direction in which the ship must rotate
      */
