@@ -86,6 +86,7 @@ public final class ObjectOnePieceApp extends Application {
         StackPane.setAlignment(healthBar, Pos.BOTTOM_CENTER);
         
         Label healthPoints = new Label("100");
+        healthPoints.setAlignment(Pos.CENTER);
         VBox healthContainer = new VBox();
 
         healthContainer.getChildren().addAll(healthPane, healthPoints);
@@ -157,16 +158,6 @@ public final class ObjectOnePieceApp extends Application {
             throw new IllegalStateException("Old cell didnt have any images but still removed them");
         }
         oldCell.getChildren().clear();
-    }
-
-    private void drawHealthBar(GraphicsContext gc,Rectangle rect) {
-        gc.setFill(Color.GREEN);
-        gc.fillRect(rect.getX(),      
-               rect.getY(), 
-               rect.getWidth(), 
-               rect.getHeight());
-        gc.setFill(Color.GREEN);
-        gc.setStroke(Color.BLUE);
     }
 
     /**
