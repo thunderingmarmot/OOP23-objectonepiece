@@ -56,7 +56,7 @@ public final class Utils {
      * @param playerPosition the Position where the Player was when the State was saved
      * @param playerExperience the experience value of the Player when the State was saved
      */
-    public record State(Section section, Position playerPosition, int playerExperience) { }
+    protected record State(Section section, Position playerPosition, int playerExperience) { }
 
     /**
      * Getter for the map that translates a Position towards a CardinalDirection.
