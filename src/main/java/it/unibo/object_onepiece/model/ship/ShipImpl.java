@@ -65,10 +65,10 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      */
     @Override
     public MoveDetails move(final CardinalDirection direction, final int steps) {
-        Position nextPosition = this.getPosition().moveTowards(direction);
-        Collidable obstacle = (Collidable) this.getSection().getEntityAt(nextPosition).get();
+        final Position nextPosition = this.getPosition().moveTowards(direction);
+        final Collidable obstacle = (Collidable) this.getSection().getEntityAt(nextPosition).get();
 
-        Map<MoveDetails, Runnable> moveCondition = Map.of(
+        final Map<MoveDetails, Runnable> moveCondition = Map.of(
             MoveDetails.MOVED_SUCCESSFULLY, () -> this.setPosition(nextPosition),
             MoveDetails.ROTATED, () -> rotate(direction),
             MoveDetails.STATIC_COLLISION, () -> this.collideWith(obstacle),
@@ -78,7 +78,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
             }
         );
 
-        MoveReturnType nextStep = canMove(direction);
+        final MoveReturnType nextStep = canMove(direction);
         moveCondition.get(nextStep.details()).run();
 
         if (steps == 0) {
@@ -125,7 +125,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
             return new MoveReturnType(false, MoveDetails.BORDER_REACHED);
         }
 
-        Optional<Entity> obstacle = this.getSection().getEntityAt(this.getPosition().moveTowards(direction));
+        final Optional<Entity> obstacle = this.getSection().getEntityAt(this.getPosition().moveTowards(direction));
 
         if (obstacle.isPresent() && obstacle.get() instanceof Collidable c 
         && (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {

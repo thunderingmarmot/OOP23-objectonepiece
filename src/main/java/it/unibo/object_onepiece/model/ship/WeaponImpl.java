@@ -55,8 +55,8 @@ public final class WeaponImpl extends ShipComponentImpl implements Weapon {
             return new ShootReturnType(false, ShootDetails.WEAPON_BROKEN);
         }
 
-        if ((this.getShip().getPosition().isInlineWith(position, this.getShip().getDirection())) 
-        && (this.getShip().getPosition().distanceFrom(position) <= this.attackRange)) {
+        if (this.getShip().getPosition().isInlineWith(position, this.getShip().getDirection()) 
+        && this.getShip().getPosition().distanceFrom(position) <= this.attackRange) {
             hitTarget(position, this.maxDamage);
 
             Utils.getCardinalDirectionsTranslationMap().values()
@@ -110,9 +110,9 @@ public final class WeaponImpl extends ShipComponentImpl implements Weapon {
      * @param  damage   the damage to deal to the target
      */
     private void hitTarget(final Position position, final int damage) {
-        Optional<Entity> ship = this.getShip().getSection().getEntityAt(position);
+        final Optional<Entity> ship = this.getShip().getSection().getEntityAt(position);
         if (ship.get() instanceof Ship s) {
-            List<ShipComponent> sc = List.of(this, this.getShip().getSail(), this.getShip().getBow());
+            final List<ShipComponent> sc = List.of(this, this.getShip().getSail(), this.getShip().getBow());
             s.takeDamage(damage, sc.stream()
                                    .skip(new Random().nextInt(sc.size()))
                                    .findFirst()
