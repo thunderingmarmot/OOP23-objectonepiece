@@ -34,21 +34,12 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     * @param  s      the section where the ship is located
     * @param  p      the position of the entity
     * @param  d      the direction of the ship
-    * @param  weapon the weapon of the ship
-    * @param  sail   the sail of the ship
-    * @param  bow    the bow of the ship
     */
     protected ShipImpl(final Section s, 
                        final Position p, 
-                       final CardinalDirection d, 
-                       final Weapon weapon, 
-                       final Sail sail, 
-                       final Bow bow) {
+                       final CardinalDirection d) {
         super(s, p);
-        this.rotate(d);
-        this.setWeapon(weapon);
-        this.setSail(sail);
-        this.setBow(bow);
+        this.currDirection = d;
     }
 
     /**
@@ -164,7 +155,6 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void setWeapon(final Weapon weapon) {
         this.weapon = weapon;
-        this.weapon.setShip(this);
     }
 
     /**
@@ -175,7 +165,6 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void setSail(final Sail sail) {
         this.sail = sail;
-        this.sail.setShip(this);
     }
 
     /**
@@ -186,7 +175,6 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     @Override
     public void setBow(final Bow bow) {
         this.bow = bow;
-        this.bow.setShip(this);
     }
 
     /**

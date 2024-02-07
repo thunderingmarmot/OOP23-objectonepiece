@@ -41,43 +41,46 @@ public interface Sail extends ShipComponent {
     /**
      * Builder for the sloop sail, the standard type of sail.
      * 
-     * @return sail with his standard stats.
+     * @param  ship the ship that should be assigned to the sail
+     * @return      sail with his standard stats.
      */
-    static Sail sloop() {
+    static Sail sloop(final Ship ship) {
         final int maxSpeed = 1;
         final int minSpeed = 1;
         final int rotationPower = 0;
         final int health = 100;
 
-        return new SailImpl(maxSpeed, minSpeed, rotationPower, health);
+        return new SailImpl(maxSpeed, minSpeed, rotationPower, ship, health);
     }
 
     /**
      * Builder for the spinnaker sail, a very fast and agile sail 
      * but more fragile than the standard one.
      * 
-     * @return sail with his standard stats.
+     * @param  ship the ship that should be assigned to the sail
+     * @return      sail with his standard stats.
      */
-    static Sail spinnaker() {
+    static Sail spinnaker(final Ship ship) {
         final int maxSpeed = 3;
         final int minSpeed = 1;
         final int rotationPower = 3;
         final int health = 80;
 
-        return new SailImpl(maxSpeed, minSpeed, rotationPower, health);
+        return new SailImpl(maxSpeed, minSpeed, rotationPower, ship, health);
     }
 
     /**
      * Builder for the schooner sail, the best sail for speed and health.
      * 
-     * @return sail with his standard stats.
+     * @param  ship the ship that should be assigned to the sail
+     * @return      sail with his standard stats.
      */
-    static Sail schooner() {
+    static Sail schooner(final Ship ship) {
         final int maxSpeed = 5;
         final int minSpeed = 4;
         final int rotationPower = 1;
         final int health = 200;
 
-        return new SailImpl(maxSpeed, minSpeed, rotationPower, health);
+        return new SailImpl(maxSpeed, minSpeed, rotationPower, ship, health);
     }
 }

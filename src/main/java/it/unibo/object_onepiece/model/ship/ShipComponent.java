@@ -14,13 +14,6 @@ public interface ShipComponent {
     void setHealth(int health);
 
     /**
-     * Setter for the Ship of the ShipComponent.
-     * 
-     * @param  ship the Ship to set
-    */
-    void setShip(Ship ship);
-
-    /**
      * Getter for the health of the ShipComponent.
      * 
      * @return the current health of the ShipComponent.

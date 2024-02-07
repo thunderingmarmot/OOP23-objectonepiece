@@ -16,38 +16,41 @@ public interface Bow extends ShipComponent {
     /**
      * Builder for the standard bow.
      * 
-     * @return bow with his standard stats.
+     * @param  ship the ship that should be assigned to the bow
+     * @return      bow with his standard stats.
      */
-    static Bow standard() {
+    static Bow standard(final Ship ship) {
         final int crashDamage = 20;
         final int health = 100;
 
-        return new BowImpl(crashDamage, health);
+        return new BowImpl(crashDamage, ship, health);
     }
 
     /**
      * Builder for the heavy bow, a really strong bow
      * for crash damage and health.
      * 
-     * @return bow with his standard stats.
+     * @param  ship the ship that should be assigned to the bow
+     * @return      bow with his standard stats.
      */
-    static Bow heavy() {
+    static Bow heavy(final Ship ship) {
         final int crashDamage = 40;
         final int health = 200;
 
-        return new BowImpl(crashDamage, health);
+        return new BowImpl(crashDamage, ship, health);
     }
 
     /**
      * Builder for the light bow, a really weak bow
      * for crash damage and health.
      * 
-     * @return bow with his standard stats.
+     * @param  ship the ship that should be assigned to the bow
+     * @return      bow with his standard stats.
      */
-    static Bow light() {
+    static Bow light(final Ship ship) {
         final int crashDamage = 5;
         final int health = 75;
 
-        return new BowImpl(crashDamage, health);
+        return new BowImpl(crashDamage, ship, health);
     }
 }

@@ -19,6 +19,8 @@ public interface Ship extends Collider {
      */
     void takeDamage(int damage, ShipComponent s);
 
+    boolean isShipValid();
+
     /**
      * Setter for the Weapon component of the Ship.
      * 

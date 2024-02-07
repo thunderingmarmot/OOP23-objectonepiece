@@ -14,10 +14,11 @@ public final class SailImpl extends ShipComponentImpl implements Sail {
      * @param  max      the maximum speed of the sail
      * @param  min      the minimum speed of the sail
      * @param  rotation the rotation power of the sail
+     * @param  ship     the ship where the sail is mounted
      * @param  health   the health of the sail
      */
-    protected SailImpl(final int max, final int min, final int rotation, final int health) {
-        super(health);
+    protected SailImpl(final int max, final int min, final int rotation, final Ship ship, final int health) {
+        super(ship, health);
         this.maxSpeed = max;
         this.minSpeed = min;
         this.rotationPower = rotation;

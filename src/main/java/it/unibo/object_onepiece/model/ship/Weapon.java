@@ -61,44 +61,47 @@ public interface Weapon extends ShipComponent {
     /**
      * Builder for the cannon, the standard type of weapon.
      * 
-     * @return weapon with his standard stats.
+     * @param  ship the ship that should be assigned to the weapon
+     * @return      weapon with his standard stats.
      */
-    static Weapon cannon() {
+    static Weapon cannon(final Ship ship) {
         final int maxDamage = 20;
         final int minDamage = 10;
         final int range = 3;
         final int health = 100;
 
-        return new WeaponImpl(maxDamage, minDamage, range, health);
+        return new WeaponImpl(maxDamage, minDamage, range, ship, health);
     }
 
     /**
      * Builder for the railgun, the most powerful weapon for damage and range,
      * but more fragile.
      * 
-     * @return weapon with his standard stats.
+     * @param  ship the ship that should be assigned to the weapon
+     * @return      weapon with his standard stats.
      */
-    static Weapon railgun() {
+    static Weapon railgun(final Ship ship) {
         final int maxDamage = 50;
         final int minDamage = 0;
         final int range = 5;
         final int health = 70;
 
-        return new WeaponImpl(maxDamage, minDamage, range, health);
+        return new WeaponImpl(maxDamage, minDamage, range, ship, health);
     }
 
     /**
      * Builder for the heavycannon, the best weapon for damage and health,
      * but with very short range.
      * 
-     * @return weapon with his standard stats.
+     * @param  ship the ship that should be assigned to the weapon
+     * @return      weapon with his standard stats.
      */
-    static Weapon heavycannon() {
+    static Weapon heavycannon(final Ship ship) {
         final int maxDamage = 80;
         final int minDamage = 40;
         final int range = 1;
         final int health = 120;
 
-        return new WeaponImpl(maxDamage, minDamage, range, health);
+        return new WeaponImpl(maxDamage, minDamage, range, ship, health);
     }
 }
