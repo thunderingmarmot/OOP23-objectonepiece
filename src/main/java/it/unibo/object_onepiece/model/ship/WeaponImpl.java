@@ -74,7 +74,7 @@ public final class WeaponImpl extends ShipComponentImpl implements Weapon {
     }
 
     /**
-     * Get method for the maximum damage of the ship weapon.
+     * Getter for the maximum damage of the ship weapon.
      * 
      * @return weapon maximum damage.
      */
@@ -84,7 +84,7 @@ public final class WeaponImpl extends ShipComponentImpl implements Weapon {
     }
 
     /**
-     * Get method for the minimum damage of the ship weapon.
+     * Getter for the minimum damage of the ship weapon.
      * 
      * @return weapon minimum damage.
      */
@@ -94,7 +94,7 @@ public final class WeaponImpl extends ShipComponentImpl implements Weapon {
     }
 
     /**
-     * Get method for the range of the ship weapon.
+     * Getter for the range of the ship weapon.
      * 
      * @return weapon range.
      */

@@ -18,7 +18,7 @@ public final class BowImpl extends ShipComponentImpl implements Bow {
     }
 
     /**
-     * Get method for the crash damage of the ship bow.
+     * Getter for the crash damage of the ship bow.
      * 
      * @return bow crash damage.
      */

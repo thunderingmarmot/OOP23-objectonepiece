@@ -155,7 +155,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     /**
-     * Set method for the Weapon component of the Ship.
+     * Setter for the Weapon component of the Ship.
      * 
      * @param  weapon is the weapon to set
      */
@@ -166,7 +166,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     /**
-     * Set method for the Sail component of the Ship.
+     * Setter for the Sail component of the Ship.
      * 
      * @param  sail is the sail to set
      */
@@ -177,7 +177,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     /**
-     * Set method for the Bow component of the Ship.
+     * Setter for the Bow component of the Ship.
      * 
      * @param  bow is the bow to set
      */
@@ -188,7 +188,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     /**
-     * Get method for the Weapon component of the Ship.
+     * Getter for the Weapon component of the Ship.
      * 
      * @return the current Weapon mounted on the Ship.
      */
@@ -198,7 +198,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     /**
-     * Get method for the Sail component of the Ship.
+     * Getter for the Sail component of the Ship.
      */
     @Override
     public Sail getSail() {
@@ -206,7 +206,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     /**
-     * Get method for the Bow component of the Ship.
+     * Getter for the Bow component of the Ship.
      */
     @Override
     public Bow getBow() {
@@ -214,7 +214,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     /**
-     * Get method for the current direction of the Ship.
+     * Getter for the current direction of the Ship.
      */
     @Override
     public CardinalDirection getDirection() {
@@ -222,7 +222,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     /**
-     * Get method for the onDirectionChanged Event.
+     * Getter for the onDirectionChanged Event.
      */
     @Override
     public Event<BiArgument<CardinalDirection>> getDirectionChangedEvent() {
@@ -230,7 +230,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
     }
 
     /**
-     * Get method for the onTookDamage Event.
+     * Getter for the onTookDamage Event.
      */
     @Override
     public Event<Argument<Integer>> getTookDamageEvent() {

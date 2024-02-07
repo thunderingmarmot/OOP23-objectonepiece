@@ -38,21 +38,21 @@ public interface Weapon extends ShipComponent {
     ShootReturnType shoot(Position position);
 
     /**
-     * Get method for the maximum damage of the ship weapon.
+     * Getter for the maximum damage of the ship weapon.
      * 
      * @return weapon maximum damage.
      */
     int getMaxDamage();
 
     /**
-     * Get method for the minimum damage of the ship weapon.
+     * Getter for the minimum damage of the ship weapon.
      * 
      * @return weapon minimum damage.
      */
     int getMinDamage();
 
     /**
-     * Get method for the range of the ship weapon.
+     * Getter for the range of the ship weapon.
      * 
      * @return weapon range.
      */

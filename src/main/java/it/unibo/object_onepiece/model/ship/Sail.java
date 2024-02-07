@@ -18,21 +18,21 @@ public interface Sail extends ShipComponent {
     boolean isInSpeedRange(int steps);
 
     /**
-     * Get method for the max speed of the ship sail.
+     * Getter for the max speed of the ship sail.
      * 
      * @return sail max speed.
      */
     int getMaxSpeed();
 
     /**
-     * Get method for the min speed of the ship sail.
+     * Getter for the min speed of the ship sail.
      * 
      * @return sail min speed.
      */
     int getMinSpeed();
 
     /**
-     * Get method for the rotation power of the ship sail.
+     * Getter for the rotation power of the ship sail.
      * 
      * @return sail rotation speed.
      */
