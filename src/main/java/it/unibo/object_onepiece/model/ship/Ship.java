@@ -19,6 +19,11 @@ public interface Ship extends Collider {
      */
     void takeDamage(int damage, ShipComponent s);
 
+    /**
+     * Method to check if the ship has all the shipcomponent.
+     * 
+     * @return the result of the check.
+     */
     boolean isShipValid();
 
     /**
