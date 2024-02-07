@@ -15,7 +15,7 @@ public final class WorldImpl implements World {
     /**
      * Current playing section.
      */
-    private Section currentSection = new SectionImpl();
+    private Section currentSection = new SectionImpl(this);
 
     @Override
     public State getSavedState() {
@@ -35,6 +35,6 @@ public final class WorldImpl implements World {
 
     @Override
     public void instantiateSection() {
-        currentSection = new SectionImpl();
+        currentSection = new SectionImpl(this);
     }
 }
