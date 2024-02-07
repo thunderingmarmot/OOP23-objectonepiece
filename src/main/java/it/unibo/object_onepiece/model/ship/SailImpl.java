@@ -33,10 +33,7 @@ public final class SailImpl extends ShipComponentImpl implements Sail {
      */
     @Override
     public boolean isInSpeedRange(final int steps) {
-        if (steps > this.maxSpeed || steps < this.minSpeed) {
-            return false;
-        }
-        return true;
+        return steps > this.maxSpeed || steps < this.minSpeed;
     }
 
     /**

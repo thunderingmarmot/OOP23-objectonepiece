@@ -153,10 +153,7 @@ public abstract class ShipImpl extends EntityImpl implements Ship {
      */
     @Override
     public boolean isShipValid() {
-        if (this.weapon != null && this.sail != null && this.bow != null) {
-            return true;
-        }
-        return false;
+        return this.weapon != null && this.sail != null && this.bow != null;
     }
 
     /**

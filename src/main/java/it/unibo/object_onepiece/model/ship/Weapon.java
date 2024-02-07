@@ -19,7 +19,7 @@ public interface Weapon extends ShipComponent {
         OUT_OF_SHOOTING_RANGE,
         /** The weapon is broken. */
         WEAPON_BROKEN
-    };
+    }
 
     /**
      * Record returned by shoot.
@@ -27,7 +27,7 @@ public interface Weapon extends ShipComponent {
      * @param  hasShooted result of the shooting
      * @param  details    details about the shooting result
      */
-    record ShootReturnType(boolean hasShooted, ShootDetails details) { }; 
+    record ShootReturnType(boolean hasShooted, ShootDetails details) { }
 
     /**
      * This method make the Ship shoots with his weapon.
