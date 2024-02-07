@@ -39,7 +39,7 @@ public class Entity {
      * 
      * @return the position of the entity in the section.
      */
-    public Position getPosition() {
+    protected Position getPosition() {
         return this.position;
     }
 
