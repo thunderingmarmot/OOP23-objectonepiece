@@ -5,7 +5,7 @@ import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
 
 /**
- * Abstract class that defines the implementation of the Entity interface.
+ * Abstract class that defines an entity present on the section.
  */
 public abstract class Entity {
     private final Section section;
@@ -15,7 +15,7 @@ public abstract class Entity {
     private final Event<Argument<Position>> onEntityRemoved = Event.get();
 
     /**
-     * Constructor for class EntityImpl.
+     * Constructor for class Entity.
      * 
      * @param  s section where the entity should be located
      * @param  p position of the entity in the section

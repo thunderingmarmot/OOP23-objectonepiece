@@ -1,29 +1,60 @@
 package it.unibo.object_onepiece.model.ship;
 
 /**
- * This interface is implemented by all the ship components.
+ * This class is extended by all the ship components.
  * It defines the ship components common methods, like setting
  * health and Ship, and getting health and maximum health.
  */
-public interface ShipComponent {
+public abstract class ShipComponent {
+    private final ShipImpl ship;
+    private final int maxHealth;
+    private int health;
+
+    /**
+     * Constructor for class ShipComponent.
+     * 
+     * @param  ship   the ship assigned to the component
+     * @param  health the initial and maximum health of the component
+     */
+    protected ShipComponent(final ShipImpl ship, final int health) {
+        this.ship = ship;
+        this.maxHealth = health;
+        this.health = health;
+    }
+
     /**
      * Setter for the health of the ShipComponent.
      * 
      * @param  health the health to set
     */
-    void setHealth(int health);
+    protected void setHealth(final int health) {
+        this.health = health;
+    }
 
     /**
      * Getter for the health of the ShipComponent.
      * 
      * @return the current health of the ShipComponent.
      */
-    int getHealth();
+    protected int getHealth() {
+        return this.health;
+    }
 
     /**
      * Getter for the maximum health of the ShipComponent.
      * 
      * @return the maximum health of the ShipComponent.
      */
-    int getMaxHealth();
+    protected int getMaxHealth() {
+        return this.maxHealth;
+    }
+
+    /**
+     * Getter for the Ship associated with the ShipComponent.
+     * 
+     * @return the Ship of the ShipComponent.
+     */
+    protected ShipImpl getShip() {
+        return this.ship;
+    }
 }

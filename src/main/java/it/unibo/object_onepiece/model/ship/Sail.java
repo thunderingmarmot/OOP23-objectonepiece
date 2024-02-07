@@ -1,42 +1,70 @@
 package it.unibo.object_onepiece.model.ship;
 
 /**
- * This interface represents a sail, which is a type of ShipComponent.
+ * This class represents a sail, which is a type of ShipComponent.
  * It defines a method for determining if the Ship can make a certain
  * number of steps according to its sail stats.
  * It also defines methods to retrieving maximum speed, minimum speed
  * and rotation power of the sail, and builder methods for the available sails.
  */
-public interface Sail extends ShipComponent {
+public final class Sail extends ShipComponent {
+    private final int maxSpeed;
+    private final int minSpeed;
+    private final int rotationPower;
+
     /**
-     * Check if the ship can make a certain number of steps 
-     * according to its sail stats.
+     * Constructor for class Sail.
+     * 
+     * @param  max      the maximum speed of the sail
+     * @param  min      the minimum speed of the sail
+     * @param  rotation the rotation power of the sail
+     * @param  ship     the ship where the sail is mounted
+     * @param  health   the health of the sail
+     */
+    protected Sail(final int max, final int min, final int rotation, final ShipImpl ship, final int health) {
+        super(ship, health);
+        this.maxSpeed = max;
+        this.minSpeed = min;
+        this.rotationPower = rotation;
+    }
+
+     /**
+     * Check if the ship can make a certain number of steps
+     * checking if steps in beetween maxSpeed and minSpeed.
      * 
      * @param  steps the number of steps that the Ship should do
      * @return       boolean with the result of the check.
      */
-    boolean isInSpeedRange(int steps);
+    protected boolean isInSpeedRange(final int steps) {
+        return steps > this.maxSpeed || steps < this.minSpeed;
+    }
 
     /**
      * Getter for the max speed of the ship sail.
      * 
      * @return sail max speed.
      */
-    int getMaxSpeed();
+    protected int getMaxSpeed() {
+        return this.maxSpeed;
+    }
 
     /**
      * Getter for the min speed of the ship sail.
      * 
      * @return sail min speed.
      */
-    int getMinSpeed();
+    protected int getMinSpeed() {
+        return this.minSpeed;
+    }
 
     /**
      * Getter for the rotation power of the ship sail.
      * 
-     * @return sail rotation speed.
+     * @return sail rotation power.
      */
-    int getRotationPower();
+    protected int getRotationPower() {
+        return this.rotationPower;
+    }
 
     /**
      * Builder for the sloop sail, the standard type of sail.
@@ -44,13 +72,13 @@ public interface Sail extends ShipComponent {
      * @param  ship the ship that should be assigned to the sail
      * @return      sail with his standard stats.
      */
-    static Sail sloop(final ShipImpl ship) {
+    protected static Sail sloop(final ShipImpl ship) {
         final int maxSpeed = 1;
         final int minSpeed = 1;
         final int rotationPower = 0;
         final int health = 100;
 
-        return new SailImpl(maxSpeed, minSpeed, rotationPower, ship, health);
+        return new Sail(maxSpeed, minSpeed, rotationPower, ship, health);
     }
 
     /**
@@ -60,13 +88,13 @@ public interface Sail extends ShipComponent {
      * @param  ship the ship that should be assigned to the sail
      * @return      sail with his standard stats.
      */
-    static Sail spinnaker(final ShipImpl ship) {
+    protected static Sail spinnaker(final ShipImpl ship) {
         final int maxSpeed = 3;
         final int minSpeed = 1;
         final int rotationPower = 3;
         final int health = 80;
 
-        return new SailImpl(maxSpeed, minSpeed, rotationPower, ship, health);
+        return new Sail(maxSpeed, minSpeed, rotationPower, ship, health);
     }
 
     /**
@@ -75,12 +103,12 @@ public interface Sail extends ShipComponent {
      * @param  ship the ship that should be assigned to the sail
      * @return      sail with his standard stats.
      */
-    static Sail schooner(final ShipImpl ship) {
+    protected static Sail schooner(final ShipImpl ship) {
         final int maxSpeed = 5;
         final int minSpeed = 4;
         final int rotationPower = 1;
         final int health = 200;
 
-        return new SailImpl(maxSpeed, minSpeed, rotationPower, ship, health);
+        return new Sail(maxSpeed, minSpeed, rotationPower, ship, health);
     }
 }
