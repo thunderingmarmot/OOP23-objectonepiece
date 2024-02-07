@@ -4,7 +4,7 @@ package it.unibo.object_onepiece.model.ship;
  * Abstract class that defines the implementation of the ShipComponent interface.
  */
 public abstract class ShipComponentImpl implements ShipComponent {
-    private final Ship ship;
+    private final ShipImpl ship;
     private final int maxHealth;
     private int health;
 
@@ -14,7 +14,7 @@ public abstract class ShipComponentImpl implements ShipComponent {
      * @param  ship   the ship assigned to the component
      * @param  health the initial and maximum health of the component
      */
-    protected ShipComponentImpl(final Ship ship, final int health) {
+    protected ShipComponentImpl(final ShipImpl ship, final int health) {
         this.ship = ship;
         this.maxHealth = health;
         this.health = health;
@@ -55,7 +55,7 @@ public abstract class ShipComponentImpl implements ShipComponent {
      * 
      * @return the Ship of the ShipComponent.
      */
-    protected Ship getShip() {
+    protected ShipImpl getShip() {
         return this.ship;
     }
 }

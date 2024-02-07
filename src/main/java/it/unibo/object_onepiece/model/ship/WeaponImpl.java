@@ -25,7 +25,7 @@ public final class WeaponImpl extends ShipComponentImpl implements Weapon {
      * @param  ship   the ship where the weapon is mounted
      * @param  health the health of the weapon
      */
-    protected WeaponImpl(final int max, final int min, final int range, final Ship ship, final int health) {
+    protected WeaponImpl(final int max, final int min, final int range, final ShipImpl ship, final int health) {
         super(ship, health);
         this.maxDamage = max;
         this.minDamage = min;
@@ -112,6 +112,7 @@ public final class WeaponImpl extends ShipComponentImpl implements Weapon {
      */
     private void hitTarget(final Position position, final int damage) {
         final Optional<Entity> ship = this.getShip().getSection().getEntityAt(position);
+
         if (ship.get() instanceof Ship s) {
             final List<ShipComponent> sc = List.of(this, this.getShip().getSail(), this.getShip().getBow());
             s.takeDamage(damage, sc.stream()

@@ -13,7 +13,7 @@ public final class BowImpl extends ShipComponentImpl implements Bow {
      * @param  ship        the ship where the bow is mounted
      * @param  health      the health of the bow
      */
-    protected BowImpl(final int crashDamage, final Ship ship, final int health) {
+    protected BowImpl(final int crashDamage, final ShipImpl ship, final int health) {
         super(ship, health);
         this.crashDamage = crashDamage;
     }

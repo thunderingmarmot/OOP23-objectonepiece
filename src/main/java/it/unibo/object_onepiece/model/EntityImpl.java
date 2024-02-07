@@ -30,8 +30,7 @@ public abstract class EntityImpl implements Entity {
      * 
      * @return the section where the entity is located.
      */
-    @Override
-    public Section getSection() {
+    protected Section getSection() {
        return this.section;
     }
 

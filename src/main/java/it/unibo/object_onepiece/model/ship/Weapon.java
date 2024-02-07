@@ -64,7 +64,7 @@ public interface Weapon extends ShipComponent {
      * @param  ship the ship that should be assigned to the weapon
      * @return      weapon with his standard stats.
      */
-    static Weapon cannon(final Ship ship) {
+    static Weapon cannon(final ShipImpl ship) {
         final int maxDamage = 20;
         final int minDamage = 10;
         final int range = 3;
@@ -80,7 +80,7 @@ public interface Weapon extends ShipComponent {
      * @param  ship the ship that should be assigned to the weapon
      * @return      weapon with his standard stats.
      */
-    static Weapon railgun(final Ship ship) {
+    static Weapon railgun(final ShipImpl ship) {
         final int maxDamage = 50;
         final int minDamage = 0;
         final int range = 5;
@@ -96,7 +96,7 @@ public interface Weapon extends ShipComponent {
      * @param  ship the ship that should be assigned to the weapon
      * @return      weapon with his standard stats.
      */
-    static Weapon heavycannon(final Ship ship) {
+    static Weapon heavycannon(final ShipImpl ship) {
         final int maxDamage = 80;
         final int minDamage = 40;
         final int range = 1;

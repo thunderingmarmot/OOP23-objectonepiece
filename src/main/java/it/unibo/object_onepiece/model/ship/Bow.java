@@ -19,7 +19,7 @@ public interface Bow extends ShipComponent {
      * @param  ship the ship that should be assigned to the bow
      * @return      bow with his standard stats.
      */
-    static Bow standard(final Ship ship) {
+    static Bow standard(final ShipImpl ship) {
         final int crashDamage = 20;
         final int health = 100;
 
@@ -33,7 +33,7 @@ public interface Bow extends ShipComponent {
      * @param  ship the ship that should be assigned to the bow
      * @return      bow with his standard stats.
      */
-    static Bow heavy(final Ship ship) {
+    static Bow heavy(final ShipImpl ship) {
         final int crashDamage = 40;
         final int health = 200;
 
@@ -47,7 +47,7 @@ public interface Bow extends ShipComponent {
      * @param  ship the ship that should be assigned to the bow
      * @return      bow with his standard stats.
      */
-    static Bow light(final Ship ship) {
+    static Bow light(final ShipImpl ship) {
         final int crashDamage = 5;
         final int health = 75;
 

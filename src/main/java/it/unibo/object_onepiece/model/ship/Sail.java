@@ -44,7 +44,7 @@ public interface Sail extends ShipComponent {
      * @param  ship the ship that should be assigned to the sail
      * @return      sail with his standard stats.
      */
-    static Sail sloop(final Ship ship) {
+    static Sail sloop(final ShipImpl ship) {
         final int maxSpeed = 1;
         final int minSpeed = 1;
         final int rotationPower = 0;
@@ -60,7 +60,7 @@ public interface Sail extends ShipComponent {
      * @param  ship the ship that should be assigned to the sail
      * @return      sail with his standard stats.
      */
-    static Sail spinnaker(final Ship ship) {
+    static Sail spinnaker(final ShipImpl ship) {
         final int maxSpeed = 3;
         final int minSpeed = 1;
         final int rotationPower = 3;
@@ -75,7 +75,7 @@ public interface Sail extends ShipComponent {
      * @param  ship the ship that should be assigned to the sail
      * @return      sail with his standard stats.
      */
-    static Sail schooner(final Ship ship) {
+    static Sail schooner(final ShipImpl ship) {
         final int maxSpeed = 5;
         final int minSpeed = 4;
         final int rotationPower = 1;
