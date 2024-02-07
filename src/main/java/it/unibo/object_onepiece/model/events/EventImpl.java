@@ -11,7 +11,7 @@ import java.util.function.Consumer;
  */
 public final class EventImpl<T extends EventArgs> implements Event<T> {
 
-    private List<Consumer<T>> listeners = new ArrayList<>();
+    private final List<Consumer<T>> listeners = new ArrayList<>();
 
     /**
      * Default constructor for EventImpl.
@@ -19,7 +19,9 @@ public final class EventImpl<T extends EventArgs> implements Event<T> {
      * Actual object creation is handled in the static method inside Event interface.
      * @see Event
      */
-    protected EventImpl() { }
+    protected EventImpl() {
+        // This constructor is intentionally empty.
+    }
 
     /**
      * Subscribe a Consumer<T> to the Event.
