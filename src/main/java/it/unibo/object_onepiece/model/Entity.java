@@ -5,9 +5,9 @@ import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
 
 /**
- * Abstract class that defines an entity present on the section.
+ * This class that defines an entity present on the section.
  */
-public abstract class Entity {
+public class Entity {
     private final Section section;
     private Position position;
 
@@ -22,7 +22,7 @@ public abstract class Entity {
      */
     protected Entity(final Section s, final Position p) {
         this.section = s;
-        this.setPosition(p);
+        this.position = p;
     }
 
     /**
@@ -39,7 +39,7 @@ public abstract class Entity {
      * 
      * @return the position of the entity in the section.
      */
-    protected Position getPosition() {
+    public Position getPosition() {
         return this.position;
     }
 

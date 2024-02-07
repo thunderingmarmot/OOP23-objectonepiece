@@ -5,7 +5,7 @@ package it.unibo.object_onepiece.model;
  * It defines the ship components common methods, like setting
  * health and Ship, and getting health and maximum health.
  */
-public abstract class ShipComponent {
+public class ShipComponent {
     private final ShipImpl ship;
     private final int maxHealth;
     private int health;

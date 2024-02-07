@@ -16,7 +16,7 @@ public final class Weapon extends ShipComponent {
     /**
      * Enum to define various type of result returned by shoot.
      */
-    enum ShootDetails {
+    private enum ShootDetails {
         /** 
          * The weapon has shooted succesfully. 
          */
@@ -37,7 +37,7 @@ public final class Weapon extends ShipComponent {
      * @param  hasShooted result of the shooting
      * @param  details    details about the shooting result
      */
-    record ShootReturnType(boolean hasShooted, ShootDetails details) { }
+    public record ShootReturnType(boolean hasShooted, ShootDetails details) { }
 
     private final int maxDamage;
     private final int minDamage;
@@ -77,7 +77,7 @@ public final class Weapon extends ShipComponent {
      * @param  position the cell position where the weapon should shoot
      * @return          a ShootReturnType that contains the result of the shooting and the details.
      */
-    protected ShootReturnType shoot(final Position position) {
+    public ShootReturnType shoot(final Position position) {
         if (this.getHealth() <= 0) {
             return new ShootReturnType(false, ShootDetails.WEAPON_BROKEN);
         }

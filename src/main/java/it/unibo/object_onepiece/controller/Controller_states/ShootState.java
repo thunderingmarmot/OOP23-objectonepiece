@@ -19,9 +19,8 @@ public final class ShootState implements InputState {
 
     @Override
     public Boolean perform(final Position pos,final ShipImpl ship) {
-       ///var details = ship.getWeapon().shoot(pos);
-       //return details.hasShooted();
-       return true;
+       var details = ship.getWeapon().shoot(pos);
+       return details.hasShooted();
     }
 
     @Override

@@ -2,7 +2,6 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.Position;
 
-
 public interface NavalMine extends Collidable {
     int DEFAULT_DAMAGE = 50;
 

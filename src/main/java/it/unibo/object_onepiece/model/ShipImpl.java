@@ -238,27 +238,6 @@ public abstract class ShipImpl extends Entity implements Ship {
     }
 
     /**
-     * Getter for the current section of the entity.
-     * 
-     * @return the section where the entity is located.
-     */
-    @Override
-    protected Section getSection() {
-        return super.getSection();
-    }
-
-    /**
-     * Getter for the current position of the entity.
-     * 
-     * @return the position of the entity in the section.
-     */
-    @Override
-    public Position getPosition() {
-        return super.getPosition();
-    }
-
-
-    /**
      * This method rotates the Ship to the given direction and
      * invoke an Event onDirectionChanged.
      * 
