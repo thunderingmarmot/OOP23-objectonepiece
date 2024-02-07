@@ -9,16 +9,6 @@ import java.util.function.BiPredicate;
  * An Utility class that contains useful common enums, records and maps.
  */
 public final class Utils {
-    private Utils() { }
-
-    /**
-     * A record that keeps track of the main data to save.
-     * @param section the reference to the current Section when the State was saved
-     * @param playerPosition the Position where the Player was when the State was saved
-     * @param playerExperience the experience value of the Player when the State was saved
-     */
-    public record State(Section section, Position playerPosition, int playerExperience) { }
-
     private static Map<CardinalDirection, Function<Position, Position>> cardinalDirectionsTranslations = Map.of(
         CardinalDirection.NORTH, (p) -> new Position(p.row + 1, p.column),
         CardinalDirection.SOUTH, (p) -> new Position(p.row - 1, p.column),
@@ -26,44 +16,20 @@ public final class Utils {
         CardinalDirection.WEST, (p) -> new Position(p.row, p.column - 1)
     );
 
-    /**
-     * Getter for the map that translates a Position towards a CardinalDirection.
-     * @return the described map
-     */
-    public static Map<CardinalDirection, Function<Position, Position>> getCardinalDirectionsTranslationMap() {
-        return cardinalDirectionsTranslations;
-    }
-
     private static Map<OrdinalDirection, Function<Position, Position>> ordinalDirectionsTranslations = Map.of(
         OrdinalDirection.NORTHEAST, (p) -> new Position(p.row + 1, p.column + 1),
         OrdinalDirection.SOUTHWEST, (p) -> new Position(p.row - 1, p.column - 1),
         OrdinalDirection.NORTHWEST, (p) -> new Position(p.row + 1, p.column - 1),
         OrdinalDirection.SOUTHEAST, (p) -> new Position(p.row - 1, p.column + 1)
     );
-
-    /**
-     * Getter for the map that translates a Position towards an OrdinalDirection.
-     * @return the described map
-     */
-    public static Map<OrdinalDirection, Function<Position, Position>> getOrdinalDirectionsTranslationMap() {
-        return ordinalDirectionsTranslations;
-    }
-
+    
     private static Map<CardinalDirection, BiPredicate<Position, Position>> positionsInlineConditions = Map.of(
         CardinalDirection.NORTH, (p1, p2) -> p1.row == p2.row && p1.column != p2.column,
         CardinalDirection.SOUTH, (p1, p2) -> p1.row == p2.row && p1.column != p2.column,
         CardinalDirection.WEST, (p1, p2) -> p1.column == p2.column && p1.row != p2.row,
         CardinalDirection.EAST, (p1, p2) -> p1.column == p2.column && p1.row != p2.row
     );
-
-    /**
-     * Getter for the map that associates to a CardinalDirection a check to see if those two positions are inline.
-     * @return the described map
-     */
-    public static Map<CardinalDirection, BiPredicate<Position, Position>> getPositionsInlineConditionsMap() {
-        return positionsInlineConditions;
-    }
-
+    
     private static Map<Position, CardinalDirection> distanceVectorToCardinalDirections = Map.of(
         new Position(-1, -1), CardinalDirection.SOUTH,
         new Position(1, -1), CardinalDirection.SOUTH,
@@ -75,6 +41,47 @@ public final class Utils {
         new Position(1, 0), CardinalDirection.WEST
     );
 
+    private static List<BiPredicate<Bound, Position>> insideBoundsConditions = List.of(
+        (b, p) -> p.row < b.rows,
+        (b, p) -> p.row > 0,
+        (b, p) -> p.column < b.columns,
+        (b, p) -> p.column > 0
+    );
+
+    private Utils() { }
+
+    /**
+     * A record that keeps track of the main data to save.
+     * @param section the reference to the current Section when the State was saved
+     * @param playerPosition the Position where the Player was when the State was saved
+     * @param playerExperience the experience value of the Player when the State was saved
+     */
+    public record State(Section section, Position playerPosition, int playerExperience) { }
+
+    /**
+     * Getter for the map that translates a Position towards a CardinalDirection.
+     * @return the described map
+     */
+    public static Map<CardinalDirection, Function<Position, Position>> getCardinalDirectionsTranslationMap() {
+        return cardinalDirectionsTranslations;
+    }
+
+    /**
+     * Getter for the map that translates a Position towards an OrdinalDirection.
+     * @return the described map
+     */
+    public static Map<OrdinalDirection, Function<Position, Position>> getOrdinalDirectionsTranslationMap() {
+        return ordinalDirectionsTranslations;
+    }
+
+    /**
+     * Getter for the map that associates to a CardinalDirection a check to see if those two positions are inline.
+     * @return the described map
+     */
+    public static Map<CardinalDirection, BiPredicate<Position, Position>> getPositionsInlineConditionsMap() {
+        return positionsInlineConditions;
+    }
+
     /**
      * Getter for the map that associates to a distance vector the corresponding CardinalDirection.
      * @return the described map
@@ -82,13 +89,6 @@ public final class Utils {
     public static Map<Position, CardinalDirection> getDistanceVectorToCardinalDirectionMap() {
         return distanceVectorToCardinalDirections;
     }
-
-    private static List<BiPredicate<Bound, Position>> insideBoundsConditions = List.of(
-        (b, p) -> p.row < b.rows,
-        (b, p) -> p.row > 0,
-        (b, p) -> p.column < b.columns,
-        (b, p) -> p.column > 0
-    );
 
     /**
      * Getter for the list of conditions that checks wether a Position is inside a Bound.
@@ -131,8 +131,8 @@ public final class Utils {
          * @return the distance vector as a Position
          */
         public Position distanceVectorFrom(final Position position) {
-            var deltaRow = position.row - this.row;
-            var deltaColumn = position.column - this.column;
+            final var deltaRow = position.row - this.row;
+            final var deltaColumn = position.column - this.column;
             return new Position(deltaRow / Math.abs(deltaRow), deltaColumn / Math.abs(deltaColumn));
         }
 
@@ -161,7 +161,7 @@ public final class Utils {
          * @return the CardinalDirection where the destination is
          */
         public CardinalDirection whereTo(final Position position) {
-            var distanceVector = this.distanceVectorFrom(position);
+            final var distanceVector = this.distanceVectorFrom(position);
             return distanceVectorToCardinalDirections.get(distanceVector);
         }
     }
