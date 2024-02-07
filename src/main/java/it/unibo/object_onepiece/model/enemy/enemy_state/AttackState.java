@@ -11,7 +11,7 @@ public class AttackState implements EnemyState {
     Enemy ship;
     CardinalDirection prevDirection;
 
-    public AttackState(Enemy ship){
+    public AttackState(Enemy ship) {
         this.ship = ship;
     }
 
@@ -22,22 +22,22 @@ public class AttackState implements EnemyState {
 
             switch (prevDirection) {
                 case NORTH:
-                    ship.move(CardinalDirection.EAST,1);
+                    ship.move(CardinalDirection.EAST, 1);
                     break;
                 case EAST:
-                    ship.move(CardinalDirection.NORTH,1);
+                    ship.move(CardinalDirection.NORTH, 1);
                     break;
                 case WEST:
-                    ship.move(CardinalDirection.SOUTH,1);
+                    ship.move(CardinalDirection.SOUTH, 1);
                     break;
                 case SOUTH:
-                    ship.move(CardinalDirection.WEST,1);
+                    ship.move(CardinalDirection.WEST, 1);
                     break;
                 default:
                     break;
             }
             return true;
-        } else{
+        } else {
             ship.getWeapon().shoot(nextPos(prevDirection));
             ship.changeState(States.PATROLLING);
             return true;
@@ -50,9 +50,9 @@ public class AttackState implements EnemyState {
         return States.ATTACKING;
     }
 
-    private Position nextPos(CardinalDirection direction){
+    private Position nextPos(final CardinalDirection direction) {
         return Utils.getCardinalDirectionsTranslationMap()
                 .get(direction).apply(ship.getPosition());
     }
-    
+ 
 }

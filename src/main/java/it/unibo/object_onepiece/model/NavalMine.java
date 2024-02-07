@@ -2,13 +2,16 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.Position;
 
+
 public interface NavalMine extends Collidable {
-    public static NavalMine getDefault(Section spawnSection, Position spawnPosition) {
-        return new NavalMineImpl(spawnSection, spawnPosition, 50);
+    int DEFAULT_DAMAGE = 50;
+
+    static NavalMine getDefault(Section spawnSection, Position spawnPosition) {
+        return new NavalMineImpl(spawnSection, spawnPosition, DEFAULT_DAMAGE);
     }
 
     @Override
-    public default Rigidness getRigidness() {
+    default Rigidness getRigidness() {
         return Rigidness.SOFT;
     }
 }
