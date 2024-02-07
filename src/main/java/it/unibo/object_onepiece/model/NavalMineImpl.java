@@ -3,7 +3,7 @@ package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.ship.Ship;
 
-public class NavalMineImpl extends EntityImpl implements NavalMine {
+public final class NavalMineImpl extends EntityImpl implements NavalMine {
 
     private final int damage;
 
