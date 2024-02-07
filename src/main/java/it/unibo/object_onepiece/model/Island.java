@@ -14,7 +14,7 @@ public interface Island extends Collidable {
      * @param spawnPosition the position to place this Island at
      * @return the newly created Island object
      */
-    static Island getDefault(Section spawnSection, Position spawnPosition) {
+    static IslandImpl getDefault(Section spawnSection, Position spawnPosition) {
         return new IslandImpl(spawnSection, spawnPosition);
     }
 

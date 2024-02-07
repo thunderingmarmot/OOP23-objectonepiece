@@ -257,7 +257,7 @@ public abstract class ShipImpl extends Entity implements Ship {
      * @return the position of the entity in the section.
      */
     @Override
-    protected Position getPosition() {
+    public Position getPosition() {
         return super.getPosition();
     }
 

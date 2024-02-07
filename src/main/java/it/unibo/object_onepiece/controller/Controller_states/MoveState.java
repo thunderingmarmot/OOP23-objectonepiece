@@ -2,7 +2,7 @@ package it.unibo.object_onepiece.controller.Controller_states;
 
 import it.unibo.object_onepiece.controller.Controller.States;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.ship.Ship;
+import it.unibo.object_onepiece.model.ship.ShipImpl;
 
 /**
  * The implementation of the Moving state of the controller.
@@ -15,7 +15,7 @@ public final class MoveState implements InputState {
     public MoveState() {}
     
     @Override
-    public Boolean perform(final Position pos, final Ship ship) {
+    public Boolean perform(final Position pos, final ShipImpl ship) {
         var moveS = ship.canMove(ship.getPosition().whereTo(pos));
         if (moveS.canStep()) {
             ship.move(ship.getPosition().whereTo(pos), ship.getPosition().distanceFrom(pos));
