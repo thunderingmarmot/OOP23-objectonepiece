@@ -4,6 +4,8 @@ package it.unibo.object_onepiece.model;
  * This class represents a bow, which is a type of ShipComponent.
  * It defines a method to retrieving crash damage of the bow.
  * It also defines builder methods and builder methods for the available bows.
+ * 
+ * @see ShipComponent
  */
 public final class Bow extends ShipComponent {
     private final int crashDamage;

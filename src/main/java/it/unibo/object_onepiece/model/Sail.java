@@ -6,6 +6,8 @@ package it.unibo.object_onepiece.model;
  * number of steps according to its sail stats.
  * It also defines methods to retrieving maximum speed, minimum speed
  * and rotation power of the sail, and builder methods for the available sails.
+ * 
+ * @see ShipComponent
  */
 public final class Sail extends ShipComponent {
     private final int maxSpeed;

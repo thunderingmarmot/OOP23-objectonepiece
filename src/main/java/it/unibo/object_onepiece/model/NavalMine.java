@@ -7,8 +7,8 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * that deals damage when a ship collide with it.
  */
 public final class NavalMine extends Collidable {
+    private static final int DEFAULT_DAMAGE = 50;
     private final int damage;
-    private final static int DEFAULT_DAMAGE = 50;
 
     /**
      * Constructor for class NavalMine.
