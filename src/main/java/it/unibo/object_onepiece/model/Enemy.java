@@ -1,34 +1,59 @@
 package it.unibo.object_onepiece.model;
 
-import it.unibo.object_onepiece.model.Utils.CardinalDirection;
-import it.unibo.object_onepiece.model.Utils.Position;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * The enemy interface models a ship controlled by the CPU
- */
-public interface Enemy extends Ship {
-    /**
-     * Patrolling state is when the enemy wanders the map in hope to see the player
-     * Following state is when the enemy sees the player and wants to close in to attack
-     * Attacking is when the enemy is sufficently close to the player and performs the attack
-     * ( shooting consists of 1 rotate to face the player at the sides 2 shoot)
-     * when the shoot state is on, the two steps will be executed without further conditions
-     */
+import it.unibo.object_onepiece.model.Utils.*;
+
+public final class Enemy extends ShipImpl {
+
     public enum States {
         PATROLLING,
         AVOIDING,
         ATTACKING
     } 
-
-    public void goNext();
-    public States getCurrentState();
-    public void changeState(States state);
-    
-    public static EnemyImpl getDefault(Section spawnSection, Position spawnPosition){
-        EnemyImpl enemy = new EnemyImpl(spawnSection, spawnPosition, CardinalDirection.NORTH);
+   
+    public static Enemy getDefault(Section spawnSection, Position spawnPosition){
+        Enemy enemy = new Enemy(spawnSection, spawnPosition, CardinalDirection.NORTH);
         enemy.setWeapon(Weapon.cannon(enemy));
         enemy.setBow(Bow.standard(enemy));
         enemy.setSail(Sail.schooner(enemy));
         return enemy;
+    }
+    private final List<EnemyState> enemyStates;
+    private EnemyState currentState;
+    
+    protected Enemy(Section section, Position position, CardinalDirection direction) {
+        super(section, position, direction);
+        enemyStates = new ArrayList<>(List.of(
+            new Patrol(this, new Compass(this.getPosition(),section.getBounds())),
+            new ObstacleAvoidance(this),
+            new AttackState(this)
+        ));
+        currentState = findState(States.PATROLLING);
+    }
+
+    protected Section getSection() {
+        return super.getSection();
+    }
+
+
+    
+    public void goNext() {
+        while (!currentState.perform());
+    }
+
+   
+    public States getCurrentState() {
+        return currentState.getState();
+    }
+
+    
+    public void changeState(States state) {
+       this.currentState = findState(state);
+    }
+
+    private EnemyState findState(States stato){
+        return enemyStates.stream().filter(x -> x.getState().equals(States.PATROLLING)).findFirst().get();
     }
 }

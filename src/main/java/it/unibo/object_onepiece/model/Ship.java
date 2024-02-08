@@ -14,7 +14,7 @@ import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
  * 
  * Can be extended by specific types of Ship like Player and Enemy.
  */
-public abstract class Ship extends Entity {
+public abstract class Ship extends Collider {
     private CardinalDirection currDirection;
     private Weapon weapon;
     private Sail sail;
@@ -22,6 +22,49 @@ public abstract class Ship extends Entity {
 
     private final Event<BiArgument<CardinalDirection>> onDirectionChanged = Event.get();
     private final Event<Argument<Integer>> onTookDamage = Event.get();
+
+    /**
+     * Defines the possible values of MoveDetails which explains what happened while moving.
+     */
+    enum MoveDetails {
+        /**
+         * Did not move, Collidable with HARD Rigidness in the way.
+         * @see Collidable
+         */
+        STATIC_COLLISION,
+        /**
+         * Did not move, reached the border of the map.
+         */
+        BORDER_REACHED,
+        /**
+         * Rotated (direction changed), position unchanged.
+         */
+        ROTATED,
+        /**
+         * Moved, but collided with a Collidable with MEDIUM or SOFT Rigidness.
+         * @see Collidable
+         */
+        MOVED_BUT_COLLIDED,
+        /**
+         * Moved without any problems.
+         */
+        MOVED_SUCCESSFULLY,
+        /**
+         * Destination too far for the Ship's current range.
+         */
+        OUT_OF_SPEED_RANGE,
+        /**
+         * Sail is broken, moving is impossible.
+         */
+        SAIL_BROKEN
+    }
+
+    /**
+     * Defines the return type of the move method.
+     * @param canStep a boolean which tells the caller of move if this Movable moved or not
+     * @param details a MoveDetails object which explains in detail what happened
+     */
+    record MoveReturnType(boolean canStep, MoveDetails details) { }
 
     /**
     * Constructor for class ShipImpl.
@@ -47,7 +90,6 @@ public abstract class Ship extends Entity {
      * Every call the method try to move the Ship to the next position up to the final position.
      * If along the path there are immovable obstacles the Ship stops right before them.
      */
-    @Override
     protected MoveDetails move(final CardinalDirection direction, final int steps) {
         final Position nextPosition = this.getPosition().moveTowards(direction);
         final Collidable obstacle = (Collidable) this.getSection().getEntityAt(nextPosition).get();
@@ -95,7 +137,6 @@ public abstract class Ship extends Entity {
      * @return a MoveReturnType that contains a boolean field canStep which indicates 
      * if the Ship can move and a MoveDetails field for a more detailed feedback on the movement.
      */
-    @Override
     protected MoveReturnType canMove(final CardinalDirection direction) {
         if (this.sail.getHealth() <= 0) {
             return new MoveReturnType(false, MoveDetails.SAIL_BROKEN);
@@ -131,7 +172,6 @@ public abstract class Ship extends Entity {
      * @param  damage the amout of damage to be inflicted
      * @param  s      the ShipComponent that needs to be hit
      */
-    @Override
     protected void takeDamage(final int damage, final ShipComponent s) {
         onTookDamage.invoke(new Argument<>(damage));
         s.setHealth(s.getHealth() - damage);
@@ -146,7 +186,6 @@ public abstract class Ship extends Entity {
      * 
      * @return the result of the check.
      */
-    @Override
     protected boolean isShipValid() {
         return this.weapon != null && this.sail != null && this.bow != null;
     }
@@ -156,7 +195,6 @@ public abstract class Ship extends Entity {
      * 
      * @param  weapon is the weapon to set
      */
-    @Override
     protected void setWeapon(final Weapon weapon) {
         this.weapon = weapon;
     }
@@ -166,7 +204,6 @@ public abstract class Ship extends Entity {
      * 
      * @param  sail is the sail to set
      */
-    @Override
     protected void setSail(final Sail sail) {
         this.sail = sail;
     }
@@ -176,7 +213,6 @@ public abstract class Ship extends Entity {
      * 
      * @param  bow is the bow to set
      */
-    @Override
     protected void setBow(final Bow bow) {
         this.bow = bow;
     }
@@ -186,7 +222,6 @@ public abstract class Ship extends Entity {
      * 
      * @return the current Weapon mounted on the Ship.
      */
-    @Override
     protected Weapon getWeapon() {
         return this.weapon;
     }
@@ -196,7 +231,6 @@ public abstract class Ship extends Entity {
      * 
      * @return the current Sail mounted on the Ship.
      */
-    @Override
     protected Sail getSail() {
         return this.sail;
     }
@@ -206,7 +240,6 @@ public abstract class Ship extends Entity {
      * 
      * @return the current Bow mounted on the Ship.
      */
-    @Override
     protected Bow getBow() {
         return this.bow;
     }
@@ -216,7 +249,6 @@ public abstract class Ship extends Entity {
      * 
      * @return the current direction of the Ship.
      */
-    @Override
     protected CardinalDirection getDirection() {
         return this.currDirection;
     }
@@ -224,7 +256,6 @@ public abstract class Ship extends Entity {
     /**
      * Getter for the onDirectionChanged Event.
      */
-    @Override
     public Event<BiArgument<CardinalDirection>> getDirectionChangedEvent() {
         return this.onDirectionChanged;
     }
@@ -232,7 +263,6 @@ public abstract class Ship extends Entity {
     /**
      * Getter for the onTookDamage Event.
      */
-    @Override
     public Event<Argument<Integer>> getTookDamageEvent() {
         return this.onTookDamage;
     }

@@ -101,11 +101,11 @@ public final class SectionImpl implements Section {
     }
 
     @Override
-    public PlayerImpl getPlayer() {
+    public Player getPlayer() {
         if (entities.stream().filter(e -> e instanceof Player).count() != 1) {
             throw new IllegalStateException("There is no player in section or there's more than one player");
         }
-        Optional<PlayerImpl> p = entities.stream().filter(e -> e instanceof Player).map(e -> (PlayerImpl)e).findFirst();
+        Optional<Player> p = entities.stream().filter(e -> e instanceof Player).map(e -> (Player)e).findFirst();
         if (!p.isPresent()) {
             throw new IllegalStateException("No player found");
         }

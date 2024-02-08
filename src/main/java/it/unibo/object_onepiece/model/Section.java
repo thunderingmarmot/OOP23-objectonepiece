@@ -57,5 +57,5 @@ public interface Section {
      * 
      * @return one and only Player that's in the section
      */
-    PlayerImpl getPlayer();
+    Player getPlayer();
 }
