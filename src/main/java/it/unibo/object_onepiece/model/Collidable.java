@@ -1,12 +1,17 @@
 package it.unibo.object_onepiece.model;
 
-// A Collidable is something that can be collided with
+import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
- * Models an Entity which a Collider can collide with.
+ * Models an Entity which can receive collisions by a Collider.
  * @see Collider
  */
-public interface Collidable {
+public abstract class Collidable extends Entity {
+
+    protected Collidable(Section s, Position p) {
+        super(s, p);
+    }
+
     /**
      * Defines the possible values of Rigidness.
      */
@@ -29,11 +34,11 @@ public interface Collidable {
      * Getter for the Rigidness value of this Collidable.
      * @return the Rigidness value
      */
-    Rigidness getRigidness();
+    protected abstract Rigidness getRigidness();
 
     /**
      * Defines the behaviour when a Collider collides with this Collidable.
      * @param collider the Collider which collided
      */
-    void onCollisionWith(Collider collider);
+    protected abstract void onCollisionWith(Collider collider);
 }

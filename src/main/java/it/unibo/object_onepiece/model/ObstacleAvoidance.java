@@ -3,7 +3,7 @@ package it.unibo.object_onepiece.model;
 import java.util.function.Supplier;
 
 import it.unibo.object_onepiece.model.Enemy.States;
-import it.unibo.object_onepiece.model.Movable.MoveDetails;
+import it.unibo.object_onepiece.model.Ship.MoveDetails;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 
 /**
@@ -11,7 +11,7 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
  * It gets triggered once an obstacle is detected, it switches to 
  * patrolling state once the primary direction is available
  */
-public final class ObstacleAvoidance implements EnemyState {
+public final class ObstacleAvoidance extends EnemyState {
     private Enemy ship;
     private int attempt = 0;
     private CardinalDirection primaryDirection;

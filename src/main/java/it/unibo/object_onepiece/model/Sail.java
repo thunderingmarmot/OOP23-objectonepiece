@@ -21,7 +21,7 @@ public final class Sail extends ShipComponent {
      * @param  ship     the ship where the sail is mounted
      * @param  health   the health of the sail
      */
-    protected Sail(final int max, final int min, final int rotation, final ShipImpl ship, final int health) {
+    protected Sail(final int max, final int min, final int rotation, final Ship ship, final int health) {
         super(ship, health);
         this.maxSpeed = max;
         this.minSpeed = min;
@@ -72,7 +72,7 @@ public final class Sail extends ShipComponent {
      * @param  ship the ship that should be assigned to the sail
      * @return      sail with his standard stats.
      */
-    protected static Sail sloop(final ShipImpl ship) {
+    protected static Sail sloop(final Ship ship) {
         final int maxSpeed = 1;
         final int minSpeed = 1;
         final int rotationPower = 0;
@@ -88,7 +88,7 @@ public final class Sail extends ShipComponent {
      * @param  ship the ship that should be assigned to the sail
      * @return      sail with his standard stats.
      */
-    protected static Sail spinnaker(final ShipImpl ship) {
+    protected static Sail spinnaker(final Ship ship) {
         final int maxSpeed = 3;
         final int minSpeed = 1;
         final int rotationPower = 3;
@@ -103,7 +103,7 @@ public final class Sail extends ShipComponent {
      * @param  ship the ship that should be assigned to the sail
      * @return      sail with his standard stats.
      */
-    protected static Sail schooner(final ShipImpl ship) {
+    protected static Sail schooner(final Ship ship) {
         final int maxSpeed = 5;
         final int minSpeed = 4;
         final int rotationPower = 1;
