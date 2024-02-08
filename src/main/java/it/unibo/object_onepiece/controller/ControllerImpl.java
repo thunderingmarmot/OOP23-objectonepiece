@@ -8,7 +8,7 @@ import it.unibo.object_onepiece.controller.Controller_states.InputState;
 import it.unibo.object_onepiece.controller.Controller_states.MoveState;
 import it.unibo.object_onepiece.controller.Controller_states.ShootState;
 import it.unibo.object_onepiece.model.Enemy;
-import it.unibo.object_onepiece.model.PlayerImpl;
+import it.unibo.object_onepiece.model.Player;
 import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.World;
 
@@ -18,7 +18,7 @@ import it.unibo.object_onepiece.model.World;
 public final class ControllerImpl implements Controller {
     private Position pPosition;
     private Section currentSec;
-    private PlayerImpl player;
+    private Player player;
     private InputState currentState;
     private Boolean toggle = false;
 
