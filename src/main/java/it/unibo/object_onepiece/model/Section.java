@@ -1,61 +1,132 @@
 package it.unibo.object_onepiece.model;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.Random;
+import de.articdive.jnoise.pipeline.JNoise;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
 
+import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.HashSet;
+
 /**
- * Section of the world which contains a list of entities present in it.
+ * Implementation of Section interface.
  */
-public interface Section {
-    /**
-     * Allows access to world (usually used to allow an Island object to save the state of the game in World).
-     * @return World 
-     */
-    World getWorld();
-    /**
-     * Gives a static class Bound which contains methods and functions useful for verifying if entities are inside grid.
-     * @return Bound
-     */
-    Bound getBounds();
-    /**
-     * 
-     * @param position of entity
-     * @return Optional<Entity> at @param position or Optional.empty if there's none
-     */
-    Optional<Entity> getEntityAt(Position position);
-    /**
-     * 
-     * @return list of entities present in section
-     */
-    List<Entity> getEntities();
+public final class Section {
+
+    private static final Random rand = new Random();
+    private static final int ROWS = World.SECTION_ROWS;
+    private static final int COLUMNS = World.SECTION_COLUMNS;
+    private static final int ROW_INSET = ROWS / 7;
+    private static final int COL_INSET = COLUMNS / 7;
+    private static final int GEN_AREA_COLS = ROWS - ROW_INSET;
+    private static final int GEN_AREA_ROWS = COLUMNS - COL_INSET;
+    private static final double SCALING_FACTOR = 50.5;
+    private static final int NOISE_DISPERSION = 50;
+
+    private final World world;
+    private final List<Entity> entities = new LinkedList<>();
+    private final Bound bound = new Bound(ROWS, COLUMNS);
+
+    private final Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> 
+    onEntityCreated = new Event<>();
     /**
      * 
-     * @return Event for signalling the creation of entities in view
+     * @param world reference to World object (used to consent islands to save game state)
      */
-    Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> getEntityCreatedEvent();
+    protected Section(final World world) {
+        this.world = world;
+    }
+
     /**
-     * Calls the algorithm of entity generation and fills list of entities.
+     * Populates entities list using white noise algorithm from JNoise.
      */
-    void generateEntities();
+    protected void generateEntities() {
+        int seed = 120350;
+        var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR).build();
+        for (int i = ROW_INSET; i < GEN_AREA_ROWS; i++) {
+            for (int j = COL_INSET; j < GEN_AREA_COLS; j++) {
+                Position p = new Position(i, j);
+                double noise = whiteNoise.evaluateNoise(i, j);
+                int floored = (int) Math.floor(noise * NOISE_DISPERSION);
+                switch (floored) {
+                    case 0:
+                        /* Don't do anything because water */
+                        break;
+                    case 1:
+                        this.addEntity(Island.getDefault(this, p));
+                        break;
+                    case 2:
+                        this.addEntity(Barrel.getDefault(this, p));
+                        break;
+                    case 3:
+                        this.addEntity(NavalMine.getDefault(this, p));
+                        break;
+                    case 4:
+                        this.addEntity(Enemy.getDefault(this, p));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        this.addEntity(Player.getDefault(this, new Position(1, 1)));
+
+        /** Prints duplicate positions in entities list*/
+        Set<Position> items = new HashSet<>();
+        entities.stream().filter(n -> !items.add(n.getPosition()))
+        .collect(Collectors.toSet())
+        .forEach(e -> System.out.println(e.getPosition()));
+    }
+
+    protected World getWorld() {
+        return this.world;
+    }
+
+    protected Bound getBounds() {
+        return this.bound;
+    }
+
+    protected void removeEntityAt(final Position position) {
+        entities.removeIf(e -> e.getPosition() == position);
+    }
+
+    protected Player getPlayer() {
+        if (entities.stream().filter(e -> e instanceof Player).count() != 1) {
+            throw new IllegalStateException("There is no player in section or there's more than one player");
+        }
+        Optional<Player> p = entities.stream().filter(e -> e instanceof Player).map(e -> (Player)e).findFirst();
+        if (!p.isPresent()) {
+            throw new IllegalStateException("No player found");
+        }
+
+        return p.get();
+    }
+
+    protected Optional<Entity> getEntityAt(final Position position) {
+        return entities.stream().filter(e -> e.getPosition() == position).findFirst();
+    }
+
+    protected List<Entity> getEntities() {
+        return entities;
+    }
+
+    protected void addEntity(final Entity e) {
+        Optional<CardinalDirection> direction = e instanceof Ship s ? Optional.of(s.getDirection()) : Optional.empty();
+        onEntityCreated.invoke(new TriArguments<>(e.getClass(), e.getPosition(), direction));
+        entities.add(e);
+    }
+    
     /**
-     * 
-     * @param e entity to be added
+     * @return event to generate entities in view
      */
-    void addEntity(Entity e);
-    /**
-     * Removes entity at @param position if it exists.
-     * @param position where to remove entity
-     */
-    void removeEntityAt(Position position);
-    /**
-     * 
-     * @return one and only Player that's in the section
-     */
-    Player getPlayer();
+    public Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> getEntityCreatedEvent() {
+        return onEntityCreated;
+    }
 }
