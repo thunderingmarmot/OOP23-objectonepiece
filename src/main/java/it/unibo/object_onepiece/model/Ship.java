@@ -22,8 +22,8 @@ public abstract class Ship extends Collider {
     private Sail sail;
     private Bow bow;
 
-    private final Event<BiArgument<CardinalDirection>> onDirectionChanged = Event.get();
-    private final Event<Argument<Integer>> onTookDamage = Event.get();
+    public final Event<BiArgument<CardinalDirection>> onDirectionChanged = new Event<>();
+    public final Event<Argument<Integer>> onTookDamage = new Event<>();
 
     /**
      * Defines the possible values of MoveDetails which explains what happened while moving.
@@ -259,24 +259,6 @@ public abstract class Ship extends Collider {
      */
     protected CardinalDirection getDirection() {
         return this.currDirection;
-    }
-
-    /**
-     * Getter for the onDirectionChanged Event.
-     * 
-     * @return the Event of the direction changed.
-     */
-    public Event<BiArgument<CardinalDirection>> getDirectionChangedEvent() {
-        return this.onDirectionChanged;
-    }
-
-    /**
-     * Getter for the onTookDamage Event.
-     * 
-     * @return the Event of the took damage.
-     */
-    public Event<Argument<Integer>> getTookDamageEvent() {
-        return this.onTookDamage;
     }
 
     /**

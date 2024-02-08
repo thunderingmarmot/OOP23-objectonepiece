@@ -11,8 +11,8 @@ public class Entity {
     private final Section section;
     private Position position;
 
-    private final Event<BiArgument<Position>> onPositionChanged = Event.get();
-    private final Event<Argument<Position>> onEntityRemoved = Event.get();
+    public final Event<BiArgument<Position>> onPositionChanged = new Event<>();
+    public final Event<Argument<Position>> onEntityRemoved = new Event<>();
 
     /**
      * Constructor for class Entity.
@@ -41,24 +41,6 @@ public class Entity {
      */
     protected Position getPosition() {
         return this.position;
-    }
-
-    /**
-     * Getter for the onPositionChanged Event.
-     * 
-     * @return an Event of position changed.
-     */
-    public Event<BiArgument<Position>> getPositionChangedEvent() {
-        return this.onPositionChanged;
-    }
-
-    /**
-     * Getter for the onEntityRemoved Event.
-     * 
-     * @return an Event of entity removed.
-     */
-    public Event<Argument<Position>> getEntityRemovedEvent() {
-        return this.onEntityRemoved;
     }
 
     /**
