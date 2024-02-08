@@ -280,7 +280,7 @@ public abstract class Ship extends Collider {
     }
 
     /**
-     * Getter for the Rigidness of the Collider.
+     * Getter for the Rigidness of the ship.
      * 
      * @return the Rigidnes of the Collider.
      * @see    Collidable

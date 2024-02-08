@@ -11,10 +11,16 @@ public final class NavalMine extends Collidable {
         this.damage = damage;
     }
 
-    protected static NavalMine getDefault(Section spawnSection, Position spawnPosition) {
+    protected static NavalMine getDefault(final Section spawnSection, final Position spawnPosition) {
         return new NavalMine(spawnSection, spawnPosition, DEFAULT_DAMAGE);
     }
 
+    /**
+     * Getter for the Rigidness of the naval mine.
+     * 
+     * @return the Rigidnes of the Collider.
+     * @see    Collidable
+     */
     @Override
     protected Rigidness getRigidness() {
         return Rigidness.SOFT;
