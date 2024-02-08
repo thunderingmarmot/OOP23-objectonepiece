@@ -12,7 +12,7 @@ public final class Player extends Ship {
 
     private int experience;
 
-    private final Event<Argument<Integer>> onExperienceAdded = Event.get();
+    public final Event<Argument<Integer>> onExperienceAdded = new Event<>();
 
     /**
      * Constructor for PlayerImpl.
@@ -38,7 +38,7 @@ public final class Player extends Ship {
      * @param spawnPosition the position to place this Player at
      * @return the newly created Player object
      */
-    protected static Player getDefault(Section spawnSection, Position spawnPosition) {
+    protected static Player getDefault(final Section spawnSection, final Position spawnPosition) {
         Player player = new Player(spawnSection, spawnPosition, CardinalDirection.NORTH, 0);
         player.setWeapon(Weapon.cannon(player));
         player.setBow(Bow.standard(player));
