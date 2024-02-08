@@ -125,12 +125,7 @@ public final class ObjectOnePieceApp extends Application {
     }
 
     private void drawEntity(Class<? extends Entity> c, Position p, Optional<CardinalDirection> d) {
-        var interfaces = c.getInterfaces();
-        if (interfaces.length == 0) {
-            throw new IllegalStateException("Entity doesnt have interfaces and can't get calculate entityName from it");
-        }
-        final String entityName = interfaces[0].getSimpleName();
-        System.out.println(entityName);
+        final String entityName = c.getSimpleName();
         final int col = p.column();
         final int row = p.row();
 
