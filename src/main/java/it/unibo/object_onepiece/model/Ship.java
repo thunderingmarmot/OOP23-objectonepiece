@@ -233,11 +233,11 @@ public abstract class Ship extends Collider {
 
         if (ship.get() instanceof Ship s) {
             final List<ShipComponent> sc = List.of(
-                this.getWeapon(),           
-                this.getSail(),                 
+                this.getWeapon(),
+                this.getSail(),
                 this.getBow()
             );
-            
+
             s.takeDamage(damage, sc.stream()
                                    .skip((long) (Math.random() * (sc.size() - 1)))
                                    .findFirst()
