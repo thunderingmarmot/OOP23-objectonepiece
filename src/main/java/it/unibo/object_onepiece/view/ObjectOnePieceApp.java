@@ -3,9 +3,6 @@ package it.unibo.object_onepiece.view;
 import java.net.URL;
 import java.util.Optional;
 import java.util.function.Function;
-
-import com.simtechdata.sceneonefx.SceneOne;
-
 import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
 import it.unibo.object_onepiece.controller.Controller;
@@ -18,6 +15,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,17 +31,11 @@ import javafx.stage.Stage;
  * Sample JavaFX application.
  */
 public final class ObjectOnePieceApp extends Application {
-
-    
-    protected static final String SCENE_ID = "Game";
-
     private static final int MAP_ROWS = 10;
     private static final int MAP_COLUMNS = 10;
     private static final Color CELL_BORDER_COLOR = Color.rgb(66, 138, 245);
     private static final Color DEFAULT_COLOR = Color.rgb(2, 127, 222);
     private static final int RIGHT_ANGLE = 90;
-
-    private final String styleSheet = "/css/ObjectOnePieceApp.css";
 
     private static final Function<String, String> PATH_FUNC = new Function<String, String>() {
         @Override
@@ -52,6 +44,7 @@ public final class ObjectOnePieceApp extends Application {
         }
     };
 
+    private final String styleSheet = "/css/ObjectOnePieceApp.css";
     private enum State {
         WATER;
     }
@@ -103,12 +96,13 @@ public final class ObjectOnePieceApp extends Application {
         BorderPane rightPane = new BorderPane();
         rightPane.setTop(pirateInfo);
         rightPane.setCenter(healthDiv);
-
+        
         borderPane.setCenter(gridView);
         borderPane.setRight(rightPane);
-        SceneOne.set(SCENE_ID, borderPane, 600, 600).build();
-        SceneOne.addStyleSheet(SCENE_ID, styleSheet);
-        SceneOne.show(SCENE_ID);
+        
+        Scene scene = new Scene(borderPane, 600, 600);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     private void gridSetUp() {
