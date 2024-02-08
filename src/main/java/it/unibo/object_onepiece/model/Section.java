@@ -47,7 +47,7 @@ public final class Section {
     /**
      * Populates entities list using white noise algorithm from JNoise.
      */
-    protected void generateEntities() {
+    public void generateEntities() {
         int seed = 120350;
         var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR).build();
         for (int i = ROW_INSET; i < GEN_AREA_ROWS; i++) {
