@@ -45,6 +45,7 @@ public final class ObjectOnePieceApp extends Application {
     };
 
     private final String styleSheet = "/css/ObjectOnePieceApp.css";
+
     private enum State {
         WATER;
     }
@@ -96,11 +97,12 @@ public final class ObjectOnePieceApp extends Application {
         BorderPane rightPane = new BorderPane();
         rightPane.setTop(pirateInfo);
         rightPane.setCenter(healthDiv);
-        
+
         borderPane.setCenter(gridView);
         borderPane.setRight(rightPane);
         
         Scene scene = new Scene(borderPane, 600, 600);
+        scene.getStylesheets().add(styleSheet);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
