@@ -20,7 +20,7 @@ public class Patrol extends EnemyState{
     @Override
     public Boolean perform() {
         CardinalDirection suggestedDir = compass.move(ship.getPosition());
-        MoveDetails result = ship.canMove(suggestedDir).details();
+        MoveDetails result = ship.checkMove(suggestedDir).details();
 
         if(result != MoveDetails.ROTATED || result != MoveDetails.MOVED_SUCCESSFULLY || 
             result != MoveDetails.SAIL_BROKEN){

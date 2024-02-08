@@ -106,7 +106,7 @@ public abstract class Ship extends Collider {
             }
         );
 
-        final MoveReturnType nextStep = canMove(direction);
+        final MoveReturnType nextStep = checkMove(direction);
         moveCondition.get(nextStep.details()).run();
 
         if (steps == 0) {
@@ -139,7 +139,7 @@ public abstract class Ship extends Collider {
      * @return a MoveReturnType that contains a boolean field canStep which indicates 
      * if the Ship can move and a MoveDetails field for a more detailed feedback on the movement.
      */
-    protected MoveReturnType canMove(final CardinalDirection direction) {
+    protected MoveReturnType checkMove(final CardinalDirection direction) {
         if (this.sail.getHealth() <= 0) {
             return new MoveReturnType(false, MoveDetails.SAIL_BROKEN);
         }
@@ -263,6 +263,8 @@ public abstract class Ship extends Collider {
 
     /**
      * Getter for the onDirectionChanged Event.
+     * 
+     * @return the Event of the direction changed.
      */
     public Event<BiArgument<CardinalDirection>> getDirectionChangedEvent() {
         return this.onDirectionChanged;
@@ -270,6 +272,8 @@ public abstract class Ship extends Collider {
 
     /**
      * Getter for the onTookDamage Event.
+     * 
+     * @return the Event of the took damage.
      */
     public Event<Argument<Integer>> getTookDamageEvent() {
         return this.onTookDamage;
