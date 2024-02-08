@@ -1,37 +1,29 @@
 package it.unibo.object_onepiece.view;
 
-import java.awt.Color;
 import java.util.stream.DoubleStream;
-
-import javax.swing.SpringLayout.Constraints;
-
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
  * Sample JavaFX application.
  */
 public final class MainMenu extends Application {
+    private final String styleSheet = "css/MainMenu.css";
+    private final String windowTitle = "Object One Piece!";
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Object One Piece!");
-
         GridPane grid = new GridPane();
         grid.getRowConstraints().addAll(DoubleStream.of(10, 20, 20, 50).mapToObj(height -> {
             RowConstraints rc = new RowConstraints();
@@ -46,17 +38,29 @@ public final class MainMenu extends Application {
         grid.add(gameName, 2, 1);
 
         Button start = new Button("Start!");
+        start.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                
+            }
+        });
         Button quit = new Button("Quit");
+        quit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                
+            }
+        });
 
         VBox labelContainer = new VBox(20);
         labelContainer.getChildren().addAll(start, quit);
         labelContainer.getChildren().forEach(i -> VBox.setMargin(i, new Insets(0, 0, 0, 50)));
-
         grid.add(labelContainer, 2, 3);
 
         Scene scene = new Scene(grid, 600, 600);
-        scene.getStylesheets().add("css/MainMenu.css");
+        scene.getStylesheets().add(styleSheet);
         primaryStage.setScene(scene);
+        primaryStage.setTitle(windowTitle);
         primaryStage.show();
     }
 

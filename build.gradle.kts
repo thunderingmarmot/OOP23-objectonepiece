@@ -44,6 +44,10 @@ dependencies {
     // https://mvnrepository.com/artifact/de.articdive/jnoise-pipeline
     implementation("de.articdive:jnoise-pipeline:4.1.0")
 
+    // https://mvnrepository.com/artifact/com.simtechdata/SceneOneFX
+    implementation("com.simtechdata:SceneOneFX:1.3.9")
+
+
     // JavaFX: comment out if you do not need them
     val javaFxVersion = 15
     for (platform in supportedPlatforms) {
