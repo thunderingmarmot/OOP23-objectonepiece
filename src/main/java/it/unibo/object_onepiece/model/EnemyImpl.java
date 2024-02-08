@@ -5,7 +5,7 @@ import java.util.List;
 
 import it.unibo.object_onepiece.model.Utils.*;
 
-public class EnemyImpl extends ShipImpl implements Enemy {
+public class EnemyImpl extends Ship implements Enemy {
     private final List<EnemyState> enemyStates;
     private EnemyState currentState;
     

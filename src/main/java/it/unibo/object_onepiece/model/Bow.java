@@ -15,7 +15,7 @@ public final class Bow extends ShipComponent {
      * @param  ship        the ship where the bow is mounted
      * @param  health      the health of the bow
      */
-    protected Bow(final int crashDamage, final ShipImpl ship, final int health) {
+    protected Bow(final int crashDamage, final Ship ship, final int health) {
         super(ship, health);
         this.crashDamage = crashDamage;
     }
@@ -35,7 +35,7 @@ public final class Bow extends ShipComponent {
      * @param  ship the ship that should be assigned to the bow
      * @return      bow with his standard stats.
      */
-    protected static Bow standard(final ShipImpl ship) {
+    protected static Bow standard(final Ship ship) {
         final int crashDamage = 20;
         final int health = 100;
 
@@ -49,7 +49,7 @@ public final class Bow extends ShipComponent {
      * @param  ship the ship that should be assigned to the bow
      * @return      bow with his standard stats.
      */
-    protected static Bow heavy(final ShipImpl ship) {
+    protected static Bow heavy(final Ship ship) {
         final int crashDamage = 40;
         final int health = 200;
 
@@ -63,7 +63,7 @@ public final class Bow extends ShipComponent {
      * @param  ship the ship that should be assigned to the bow
      * @return      bow with his standard stats.
      */
-    protected static Bow light(final ShipImpl ship) {
+    protected static Bow light(final Ship ship) {
         final int crashDamage = 5;
         final int health = 75;
 

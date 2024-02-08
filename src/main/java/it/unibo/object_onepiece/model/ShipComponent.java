@@ -6,7 +6,7 @@ package it.unibo.object_onepiece.model;
  * health and Ship, and getting health and maximum health.
  */
 public class ShipComponent {
-    private final ShipImpl ship;
+    private final Ship ship;
     private final int maxHealth;
     private int health;
 
@@ -16,7 +16,7 @@ public class ShipComponent {
      * @param  ship   the ship assigned to the component
      * @param  health the initial and maximum health of the component
      */
-    protected ShipComponent(final ShipImpl ship, final int health) {
+    protected ShipComponent(final Ship ship, final int health) {
         this.ship = ship;
         this.maxHealth = health;
         this.health = health;
@@ -54,7 +54,7 @@ public class ShipComponent {
      * 
      * @return the Ship of the ShipComponent.
      */
-    protected ShipImpl getShip() {
+    protected Ship getShip() {
         return this.ship;
     }
 }

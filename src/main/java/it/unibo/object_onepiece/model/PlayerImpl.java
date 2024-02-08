@@ -8,7 +8,7 @@ import it.unibo.object_onepiece.model.events.EventArgs.Argument;
  * Implementation of the Player interface.
  * @see Player
  */
-public class PlayerImpl extends ShipImpl implements Player {
+public class PlayerImpl extends Ship implements Player {
 
     private int experience;
 

@@ -52,7 +52,7 @@ public final class Weapon extends ShipComponent {
      * @param  ship   the ship where the weapon is mounted
      * @param  health the health of the weapon
      */
-    protected Weapon(final int max, final int min, final int range, final ShipImpl ship, final int health) {
+    protected Weapon(final int max, final int min, final int range, final Ship ship, final int health) {
         super(ship, health);
         this.maxDamage = max;
         this.minDamage = min;
@@ -151,7 +151,7 @@ public final class Weapon extends ShipComponent {
      * @param  ship the ship that should be assigned to the weapon
      * @return      weapon with his standard stats.
      */
-    protected static Weapon cannon(final ShipImpl ship) {
+    protected static Weapon cannon(final Ship ship) {
         final int maxDamage = 20;
         final int minDamage = 10;
         final int range = 3;
@@ -167,7 +167,7 @@ public final class Weapon extends ShipComponent {
      * @param  ship the ship that should be assigned to the weapon
      * @return      weapon with his standard stats.
      */
-    protected static Weapon railgun(final ShipImpl ship) {
+    protected static Weapon railgun(final Ship ship) {
         final int maxDamage = 50;
         final int minDamage = 0;
         final int range = 5;
@@ -183,7 +183,7 @@ public final class Weapon extends ShipComponent {
      * @param  ship the ship that should be assigned to the weapon
      * @return      weapon with his standard stats.
      */
-    protected static Weapon heavycannon(final ShipImpl ship) {
+    protected static Weapon heavycannon(final Ship ship) {
         final int maxDamage = 80;
         final int minDamage = 40;
         final int range = 1;
