@@ -97,7 +97,7 @@ public final class Section {
         entities.removeIf(e -> e.getPosition() == position);
     }
 
-    protected Player getPlayer() {
+    public Player getPlayer() {
         if (entities.stream().filter(e -> e instanceof Player).count() != 1) {
             throw new IllegalStateException("There is no player in section or there's more than one player");
         }
