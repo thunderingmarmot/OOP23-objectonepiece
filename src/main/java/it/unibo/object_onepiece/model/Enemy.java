@@ -5,7 +5,7 @@ import java.util.List;
 
 import it.unibo.object_onepiece.model.Utils.*;
 
-public final class Enemy extends ShipImpl {
+public final class Enemy extends Ship {
 
     public enum States {
         PATROLLING,
