@@ -6,7 +6,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * Implementation of the Island interface.
  * @see Island
  */
-public class Island extends Collidable {
+public final class Island extends Collidable {
 
     /**
      * Creates a default Island.
@@ -14,7 +14,7 @@ public class Island extends Collidable {
      * @param spawnPosition the position to place this Island at
      * @return the newly created Island object
      */
-    protected static Island getDefault(Section spawnSection, Position spawnPosition) {
+    protected static Island getDefault(final Section spawnSection, final Position spawnPosition) {
         return new Island(spawnSection, spawnPosition);
     }
 
@@ -60,6 +60,11 @@ public class Island extends Collidable {
         }
     }
 
+    /**
+     * Defines the Rigidness of the Island.
+     * @return the Rigidness value
+     * @see Collidable
+     */
     @Override
     protected Rigidness getRigidness() {
         return Rigidness.HARD;
