@@ -9,7 +9,7 @@ import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
 
 /**
- * This class represents a Ship Entity that extends the Collider class.
+ * This class represents a ship that extends the Collider class.
  * It defines methods for taking damage, setting and retrieving weapons, sails, bows, and direction.
  * 
  * Can be extended by specific types of Ship like Player and Enemy.
@@ -22,8 +22,8 @@ public abstract class Ship extends Collider {
     private Sail sail;
     private Bow bow;
 
-    public final Event<BiArgument<CardinalDirection>> onDirectionChanged = new Event<>();
-    public final Event<Argument<Integer>> onTookDamage = new Event<>();
+    private final Event<BiArgument<CardinalDirection>> onDirectionChanged = new Event<>();
+    private final Event<Argument<Integer>> onTookDamage = new Event<>();
 
     /**
      * Defines the possible values of MoveDetails which explains what happened while moving.
@@ -259,6 +259,26 @@ public abstract class Ship extends Collider {
      */
     protected CardinalDirection getDirection() {
         return this.currDirection;
+    }
+
+    /**
+     * Getter for the onDirectionChanged Event.
+     * 
+     * @return the event of the direction changed.
+     * @see    Event
+     */
+    public Event<BiArgument<CardinalDirection>> getDirectionChangedEvent() {
+        return this.onDirectionChanged;
+    }
+
+    /**
+     * Getter for the onTookDamage Event.
+     * 
+     * @return the event of the took damage.
+     * @see    Event
+     */
+    public Event<Argument<Integer>> getTookDamageEvent() {
+        return this.onTookDamage;
     }
 
     /**
