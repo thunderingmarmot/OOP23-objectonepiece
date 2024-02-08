@@ -6,7 +6,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * Implementation of the Barrel interface.
  * @see Barrel
  */
-public class Barrel extends Collidable {
+public final class Barrel extends Collidable {
 
     private static final int DEFAULT_EXPERIENCE_GIVEN = 50;
 
@@ -18,7 +18,7 @@ public class Barrel extends Collidable {
      * @param spawnPosition the position to place this Barrel at
      * @return the newly created Barrel object
      */
-    protected static Barrel getDefault(Section spawnSection, Position spawnPosition) {
+    protected static Barrel getDefault(final Section spawnSection, final Position spawnPosition) {
         return new Barrel(spawnSection, spawnPosition, DEFAULT_EXPERIENCE_GIVEN);
     }
 
