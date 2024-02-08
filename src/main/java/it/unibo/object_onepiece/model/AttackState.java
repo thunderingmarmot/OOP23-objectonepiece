@@ -4,12 +4,12 @@ import it.unibo.object_onepiece.model.Enemy.States;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 
-public class AttackState implements EnemyState {
+public class AttackState extends EnemyState {
     Boolean alligned = false;
-    EnemyImpl ship;
+    Enemy ship;
     CardinalDirection prevDirection;
 
-    public AttackState(EnemyImpl ship) {
+    public AttackState(Enemy ship) {
         this.ship = ship;
     }
 

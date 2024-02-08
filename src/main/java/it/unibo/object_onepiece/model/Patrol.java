@@ -5,14 +5,14 @@ import it.unibo.object_onepiece.model.Movable.MoveDetails;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 
-public class Patrol implements EnemyState{
+public class Patrol extends EnemyState{
 
     private final int triggerDistance = 3;
     private final NavigationSystem compass;
-    private final EnemyImpl ship;
+    private final Enemy ship;
     private final States stato = States.PATROLLING;
 
-    public Patrol(EnemyImpl ship,NavigationSystem compass){
+    public Patrol(Enemy ship,NavigationSystem compass){
         this.ship = ship;
         this.compass = compass;
     }
