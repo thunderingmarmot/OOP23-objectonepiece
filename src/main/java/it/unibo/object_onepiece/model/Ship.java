@@ -2,7 +2,6 @@ package it.unibo.object_onepiece.model;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 
 import it.unibo.object_onepiece.model.Weapon.ShootReturnType;
 import it.unibo.object_onepiece.model.Weapon.ShootDetails;
@@ -209,11 +208,13 @@ public abstract class Ship extends Collider {
 
             Utils.getCardinalDirectionsTranslationMap().values()
                                                        .stream()
-                                                       .forEach((f) -> hitTarget(f.apply(position), this.getWeapon().getMinDamage()));
+                                                       .forEach((f) -> hitTarget(f.apply(position), this.getWeapon()
+                                                                                                        .getMinDamage()));
 
             Utils.getOrdinalDirectionsTranslationMap().values()
                                                       .stream()
-                                                      .forEach((f) -> hitTarget(f.apply(position), this.getWeapon().getMinDamage()));
+                                                      .forEach((f) -> hitTarget(f.apply(position), this.getWeapon()
+                                                                                                       .getMinDamage()));
 
             return new ShootReturnType(true, ShootDetails.SHOOTED_SUCCESSFULLY);
         }
@@ -231,9 +232,11 @@ public abstract class Ship extends Collider {
         final Optional<Entity> ship = this.getSection().getEntityAt(position);
 
         if (ship.get() instanceof Ship s) {
-            final List<ShipComponent> sc = List.of(this.getWeapon(), this.getSail(), this.getBow());
+            final List<ShipComponent> sc = List.of(this.getWeapon(), 
+                                                   this.getSail(), 
+                                                   this.getBow());
             s.takeDamage(damage, sc.stream()
-                                   .skip(new Random().nextInt(sc.size()))
+                                   .skip((long) (Math.random() * (sc.size() - 1)))
                                    .findFirst()
                                    .orElse(null));
         }
