@@ -12,7 +12,7 @@ public class Patrol extends EnemyState{
     private final Enemy ship;
     private final States stato = States.PATROLLING;
 
-    public Patrol(Enemy ship,NavigationSystem compass){
+    public Patrol(Enemy ship, NavigationSystem compass){
         this.ship = ship;
         this.compass = compass;
     }
