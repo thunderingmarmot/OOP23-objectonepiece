@@ -2,10 +2,8 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.Position;
 
-// A Collidable is something that can be collided with
-
 /**
- * Models an Entity which a Collider can collide with.
+ * Models an Entity which can receive collisions by a Collider.
  * @see Collider
  */
 public abstract class Collidable extends Entity {
