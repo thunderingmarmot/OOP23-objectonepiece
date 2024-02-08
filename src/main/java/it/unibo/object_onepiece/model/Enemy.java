@@ -14,17 +14,23 @@ public final class Enemy extends Ship {
     } 
    
     public static Enemy getDefault(Section spawnSection, Position spawnPosition){
-        Enemy enemy = new Enemy(spawnSection, spawnPosition, CardinalDirection.NORTH);
-        enemy.setWeapon(Weapon.cannon(enemy));
-        enemy.setBow(Bow.standard(enemy));
-        enemy.setSail(Sail.schooner(enemy));
-        return enemy;
+        return new Enemy(spawnSection,
+                         spawnPosition,
+                         CardinalDirection.NORTH,
+                         Weapon.cannon(),
+                         Sail.schooner(),
+                         Bow.standard());
     }
     private final List<EnemyState> enemyStates;
     private EnemyState currentState;
     
-    protected Enemy(Section section, Position position, CardinalDirection direction) {
-        super(section, position, direction);
+    protected Enemy(final Section section,
+                    final Position position,
+                    final CardinalDirection direction,
+                    final Weapon weapon,
+                    final Sail sail,
+                    final Bow bow) {
+        super(section, position, direction, weapon, sail, bow);
         enemyStates = new ArrayList<>(List.of(
             new Patrol(this, new Compass(this.getPosition(),section.getBounds())),
             new ObstacleAvoidance(this),
