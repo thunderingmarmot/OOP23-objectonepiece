@@ -75,11 +75,19 @@ public abstract class Ship extends Collider {
     /**
     * Constructor for class ShipImpl.
     *
-    * @param  s the section where the ship is located
-    * @param  p the position of the entity
-    * @param  d the direction of the ship
+    * @param  s      the section where the ship is located
+    * @param  p      the position of the entity
+    * @param  d      the direction of the ship
+    * @param  weapon the weapon of the ship
+    * @param  sail   the weapon of the ship
+    * @param  bow    the weapon of the ship
     */
-    protected Ship(final Section s, final Position p, final CardinalDirection d, final Weapon weapon, final Sail sail, final Bow bow) {
+    protected Ship(final Section s, 
+                   final Position p, 
+                   final CardinalDirection d, 
+                   final Weapon weapon, 
+                   final Sail sail, 
+                   final Bow bow) {
         super(s, p);
         this.currDirection = d;
         this.weapon = weapon;
