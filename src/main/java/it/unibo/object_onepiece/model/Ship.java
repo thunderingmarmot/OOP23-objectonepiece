@@ -13,6 +13,8 @@ import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
  * It defines methods for taking damage, setting and retrieving weapons, sails, bows, and direction.
  * 
  * Can be extended by specific types of Ship like Player and Enemy.
+ * 
+ * @see Collider
  */
 public abstract class Ship extends Collider {
     private CardinalDirection currDirection;
@@ -194,6 +196,7 @@ public abstract class Ship extends Collider {
      * Setter for the Weapon component of the Ship.
      * 
      * @param  weapon is the weapon to set
+     * @see    Weapon
      */
     protected void setWeapon(final Weapon weapon) {
         this.weapon = weapon;
@@ -203,6 +206,7 @@ public abstract class Ship extends Collider {
      * Setter for the Sail component of the Ship.
      * 
      * @param  sail is the sail to set
+     * @see    Sail
      */
     protected void setSail(final Sail sail) {
         this.sail = sail;
@@ -212,6 +216,7 @@ public abstract class Ship extends Collider {
      * Setter for the Bow component of the Ship.
      * 
      * @param  bow is the bow to set
+     * @see    Bow
      */
     protected void setBow(final Bow bow) {
         this.bow = bow;
@@ -221,6 +226,7 @@ public abstract class Ship extends Collider {
      * Getter for the Weapon component of the Ship.
      * 
      * @return the current Weapon mounted on the Ship.
+     * @see    Weapon
      */
     protected Weapon getWeapon() {
         return this.weapon;
@@ -230,6 +236,7 @@ public abstract class Ship extends Collider {
      * Getter for the Sail component of the Ship.
      * 
      * @return the current Sail mounted on the Ship.
+     * @see    Sail
      */
     protected Sail getSail() {
         return this.sail;
@@ -239,6 +246,7 @@ public abstract class Ship extends Collider {
      * Getter for the Bow component of the Ship.
      * 
      * @return the current Bow mounted on the Ship.
+     * @see    Bow
      */
     protected Bow getBow() {
         return this.bow;
@@ -268,7 +276,10 @@ public abstract class Ship extends Collider {
     }
 
     /**
-     * Getter for the Rigidness of the Entity.
+     * Getter for the Rigidness of the Collider.
+     * 
+     * @return the Rigidnes of the Collider.
+     * @see    Collidable
      */
     @Override
     protected Rigidness getRigidness() {
@@ -289,6 +300,8 @@ public abstract class Ship extends Collider {
     /**
      * This method calls takeDamage on the collider's 
      * bow if its Rigidness is MEDIUM.
+     * 
+     * @see Collider
      */
     @Override
     protected void onCollisionWith(final Collider collider) {
@@ -301,6 +314,8 @@ public abstract class Ship extends Collider {
      * This method calls onCollisionWith() on the collidable
      * and if the Rigidness of the collidable is MEDIUM it calls
      * takeDamage() on himself.
+     * 
+     * @see Collidable
      */
     @Override
     protected void collideWith(final Collidable collidable) {
