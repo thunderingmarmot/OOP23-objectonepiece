@@ -16,12 +16,13 @@ public final class MoveState implements InputState {
     
     @Override
     public Boolean perform(final Position pos, final ShipImpl ship) {
-        var moveS = ship.canMove(ship.getPosition().whereTo(pos));
+        /* var moveS = ship.canMove(ship.getPosition().whereTo(pos));
         if (moveS.canStep()) {
             ship.move(ship.getPosition().whereTo(pos), ship.getPosition().distanceFrom(pos));
             return true;
         }
-        return false;
+        return false; */
+        return true;
     }
 
     @Override
