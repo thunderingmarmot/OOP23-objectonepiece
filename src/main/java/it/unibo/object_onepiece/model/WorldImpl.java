@@ -1,6 +1,10 @@
 package it.unibo.object_onepiece.model;
 
+import java.util.function.Consumer;
+
 import it.unibo.object_onepiece.model.Utils.State;
+import it.unibo.object_onepiece.model.events.Event;
+import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 
 /**
  * Implementation of World interface.
@@ -15,7 +19,28 @@ public final class WorldImpl implements World {
     /**
      * Current playing section.
      */
-    private Section currentSection = new Section(this);
+    private Section currentSection;
+
+    /**
+     * Make view subscribe to the section creation event.
+     */
+    private final Event<Argument<Section>> onSectionInstantiated = new Event<>();
+
+    public WorldImpl(Consumer<Argument<Section>> listener) {
+        onSectionInstantiated.subscribe(listener);
+        createNewSection();
+    }
+
+    protected void createNewSection() {
+        currentSection = new Section(this);
+        onSectionInstantiated.invoke(new Argument<>(currentSection));
+        currentSection.generateEntities();
+    }
+    
+
+    public Event<Argument<Section>> getSectionInstantiatedEvent() {
+        return onSectionInstantiated;
+    }
 
     @Override
     public State getSavedState() {

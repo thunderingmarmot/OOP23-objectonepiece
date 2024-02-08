@@ -8,6 +8,7 @@ import eu.lestard.grid.GridView;
 import it.unibo.object_onepiece.controller.Controller;
 import it.unibo.object_onepiece.controller.ControllerImpl;
 import it.unibo.object_onepiece.model.Entity;
+import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.World;
 import it.unibo.object_onepiece.model.WorldImpl;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
@@ -53,15 +54,13 @@ public final class ObjectOnePieceApp extends Application {
     private final GridModel<State> gridModel = new GridModel<>();
     private final GridView<State> gridView = new GridView<>();
     private Controller controller = new ControllerImpl();
-    private final World world = new WorldImpl();
+    private World world;
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
         gridSetUp();
-        world.getCurrentSection();
-        world.getCurrentSection().getEntityCreatedEvent().subscribe(e -> drawEntity(e.arg1(), e.arg2(), e.arg3()));
-        world.getCurrentSection().generateEntities();
+        world = new WorldImpl(e -> drawSection(e.arg()));
         BorderPane borderPane = new BorderPane();
 
         Label pirateInfo = new Label("Pirate info!");
@@ -124,8 +123,12 @@ public final class ObjectOnePieceApp extends Application {
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
     }
 
-    private void drawEntity(Class<? extends Entity> c, Position p, Optional<CardinalDirection> d) {
-        final String entityName = c.getSimpleName();
+    private void drawSection(final Section section) {
+        section.getEntityCreatedEvent().subscribe(e -> drawEntity(e.arg1(), e.arg2(), e.arg3()));
+    }
+
+    private void drawEntity(Entity e, Position p, Optional<CardinalDirection> d) {
+        final String entityName = e.getClass().getSimpleName();
         final int col = p.column();
         final int row = p.row();
 

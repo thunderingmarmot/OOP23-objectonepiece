@@ -34,7 +34,7 @@ public final class Section {
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound = new Bound(ROWS, COLUMNS);
 
-    private final Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> 
+    private final Event<TriArguments<Entity, Position, Optional<CardinalDirection>>> 
     onEntityCreated = new Event<>();
     /**
      * 
@@ -47,7 +47,7 @@ public final class Section {
     /**
      * Populates entities list using white noise algorithm from JNoise.
      */
-    public void generateEntities() {
+    protected void generateEntities() {
         int seed = 120350;
         var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR).build();
         for (int i = ROW_INSET; i < GEN_AREA_ROWS; i++) {
@@ -119,14 +119,14 @@ public final class Section {
 
     protected void addEntity(final Entity e) {
         Optional<CardinalDirection> direction = e instanceof Ship s ? Optional.of(s.getDirection()) : Optional.empty();
-        onEntityCreated.invoke(new TriArguments<>(e.getClass(), e.getPosition(), direction));
+        onEntityCreated.invoke(new TriArguments<>(e, e.getPosition(), direction));
         entities.add(e);
     }
     
     /**
      * @return event to generate entities in view
      */
-    public Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> getEntityCreatedEvent() {
+    public Event<TriArguments<Entity, Position, Optional<CardinalDirection>>> getEntityCreatedEvent() {
         return onEntityCreated;
     }
 }
