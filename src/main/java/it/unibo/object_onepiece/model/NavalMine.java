@@ -2,15 +2,29 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.Position;
 
-public interface NavalMine extends Collidable {
-    int DEFAULT_DAMAGE = 50;
+public final class NavalMine extends Collidable {
+    private final int damage;
+    private final static int DEFAULT_DAMAGE = 50;
 
-    static NavalMineImpl getDefault(Section spawnSection, Position spawnPosition) {
-        return new NavalMineImpl(spawnSection, spawnPosition, DEFAULT_DAMAGE);
+    protected NavalMine(final Section section, final Position position, final int damage) {
+        super(section, position);
+        this.damage = damage;
+    }
+
+    protected static NavalMine getDefault(Section spawnSection, Position spawnPosition) {
+        return new NavalMine(spawnSection, spawnPosition, DEFAULT_DAMAGE);
     }
 
     @Override
-    default Rigidness getRigidness() {
+    protected Rigidness getRigidness() {
         return Rigidness.SOFT;
+    }
+
+    @Override
+    protected void onCollisionWith(final Collider collider) {
+        if (collider instanceof Ship ship) {
+            ship.takeDamage(this.damage, ship.getBow());
+        }
+        this.remove();
     }
 }
