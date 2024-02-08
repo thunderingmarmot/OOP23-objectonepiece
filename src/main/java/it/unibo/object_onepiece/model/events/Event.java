@@ -14,16 +14,6 @@ public final class Event<T extends EventArgs> {
     private final List<Consumer<T>> listeners = new ArrayList<>();
 
     /**
-     * Default constructor for EventImpl.
-     * It's protected to only allow creating this object inside this package.
-     * Actual object creation is handled in the static method inside Event interface.
-     * @see Event
-     */
-    public Event() {
-        // This constructor is intentionally empty.
-    }
-
-    /**
      * Subscribe a Consumer<T> to the Event.
      * @param listener the Consumer to be executed when Event is invoked
      * @see Consumer
