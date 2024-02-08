@@ -1,7 +1,11 @@
 package it.unibo.object_onepiece.model;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 
+import it.unibo.object_onepiece.model.Weapon.ShootReturnType;
+import it.unibo.object_onepiece.model.Weapon.ShootDetails;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
@@ -71,13 +75,24 @@ public abstract class Ship extends Collider {
     /**
     * Constructor for class ShipImpl.
     *
-    * @param  s the section where the ship is located
-    * @param  p the position of the entity
-    * @param  d the direction of the ship
+    * @param  s      the section where the ship is located
+    * @param  p      the position of the entity
+    * @param  d      the direction of the ship
+    * @param  weapon the weapon of the ship
+    * @param  sail   the weapon of the ship
+    * @param  bow    the weapon of the ship
     */
-    protected Ship(final Section s, final Position p, final CardinalDirection d) {
+    protected Ship(final Section s, 
+                   final Position p, 
+                   final CardinalDirection d, 
+                   final Weapon weapon, 
+                   final Sail sail, 
+                   final Bow bow) {
         super(s, p);
         this.currDirection = d;
+        this.weapon = weapon;
+        this.sail = sail;
+        this.bow = bow;
     }
 
     /**
@@ -136,8 +151,7 @@ public abstract class Ship extends Collider {
      * This method is used to check if the Ship can move to the next cell.
      * 
      * @param  direction is the direction where the ship should move to
-     * @return a MoveReturnType that contains a boolean field canStep which indicates 
-     * if the Ship can move and a MoveDetails field for a more detailed feedback on the movement.
+     * @return           if the ship can move and a MoveDetails for a more detailed feedback on the movement.
      */
     protected MoveReturnType checkMove(final CardinalDirection direction) {
         if (this.sail.getHealth() <= 0) {
@@ -167,6 +181,65 @@ public abstract class Ship extends Collider {
     }
 
     /**
+     * This method defines the mechanics of the shooting.
+     * 
+     * If the weapon health is below or equal to zero, 
+     * the weapon is broken so it can't shoot.
+     * 
+     * If the given position is in range with the weapon range
+     * and is inline with the side of the ship, the weapon shoots
+     * to the position and deals damage in a 3x3 area, where the
+     * center is the maximum damage and around it is minimum damage.
+     * To deals damage it calls the hitTarget method for every cell.
+     * 
+     * Otherwise the cell position is out of range and the weapon
+     * doesn't shoot.
+     * 
+     * @param  position the cell position where the weapon should shoot
+     * @return          a ShootReturnType that contains the result of the shooting and the details.
+     */
+    protected ShootReturnType shoot(final Position position) {
+        if (this.getWeapon().getHealth() <= 0) {
+            return new ShootReturnType(false, ShootDetails.WEAPON_BROKEN);
+        }
+
+        if (this.getPosition().isInlineWith(position, this.getDirection()) 
+        && this.getPosition().distanceFrom(position) <= this.getWeapon().getRange()) {
+            hitTarget(position, this.getWeapon().getMaxDamage());
+
+            Utils.getCardinalDirectionsTranslationMap().values()
+                                                       .stream()
+                                                       .forEach((f) -> hitTarget(f.apply(position), this.getWeapon().getMinDamage()));
+
+            Utils.getOrdinalDirectionsTranslationMap().values()
+                                                      .stream()
+                                                      .forEach((f) -> hitTarget(f.apply(position), this.getWeapon().getMinDamage()));
+
+            return new ShootReturnType(true, ShootDetails.SHOOTED_SUCCESSFULLY);
+        }
+
+        return new ShootReturnType(false, ShootDetails.OUT_OF_SHOOTING_RANGE);
+    }
+
+    /**
+     * This method is used to deal damage to a random ShipComponent of as ship.
+     * 
+     * @param  position the position of the target to hit
+     * @param  damage   the damage to deal to the target
+     */
+    private void hitTarget(final Position position, final int damage) {
+        final Optional<Entity> ship = this.getSection().getEntityAt(position);
+
+        if (ship.get() instanceof Ship s) {
+            final List<ShipComponent> sc = List.of(this.getWeapon(), this.getSail(), this.getBow());
+            s.takeDamage(damage, sc.stream()
+                                   .skip(new Random().nextInt(sc.size()))
+                                   .findFirst()
+                                   .orElse(null));
+        }
+    }
+
+    /**
      * This method is used to cause the ship to take damage from enemy attacks or collisions.
      * Since the ship have multiple component, this method is called on one ShipComponent.
      * It also invoke an Event onTookDamage.
@@ -180,16 +253,6 @@ public abstract class Ship extends Collider {
         if (this.bow.getHealth() <= 0) {
             this.remove();
         }
-    }
-
-    /**
-     * Method to check if the ship has all the ship component
-     * by checking if they're not setted to null.
-     * 
-     * @return the result of the check.
-     */
-    protected boolean isShipValid() {
-        return this.weapon != null && this.sail != null && this.bow != null;
     }
 
     /**

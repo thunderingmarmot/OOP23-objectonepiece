@@ -4,9 +4,6 @@ import it.unibo.object_onepiece.model.Utils.Position;
 
 import java.util.Map;
 
-import it.unibo.object_onepiece.controller.Controller_states.InputState;
-import it.unibo.object_onepiece.controller.Controller_states.MoveState;
-import it.unibo.object_onepiece.controller.Controller_states.ShootState;
 import it.unibo.object_onepiece.model.Enemy;
 import it.unibo.object_onepiece.model.Player;
 import it.unibo.object_onepiece.model.Section;

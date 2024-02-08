@@ -1,4 +1,4 @@
-package it.unibo.object_onepiece.controller.Controller_states;
+package it.unibo.object_onepiece.controller;
 
 import it.unibo.object_onepiece.controller.Controller.States;
 import it.unibo.object_onepiece.model.Player;
@@ -8,7 +8,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 /**
  * The implementation of "Shoot" state of the controller.
  */
-public final class ShootState implements InputState {
+public final class ShootState extends InputState {
    
     /**
      * The contructor of ShootState.

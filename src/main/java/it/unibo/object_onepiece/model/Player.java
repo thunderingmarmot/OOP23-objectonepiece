@@ -25,10 +25,13 @@ public final class Player extends Ship {
      * @see Player
      */
     protected Player(final Section section,
-                         final Position position,
-                         final CardinalDirection direction,
-                         final int experience) {
-        super(section, position, direction);
+                     final Position position,
+                     final CardinalDirection direction,
+                     final int experience,
+                     final Weapon weapon,
+                     final Sail sail,
+                     final Bow bow) {
+        super(section, position, direction, weapon, sail, bow);
         this.experience = experience;
     }
 
@@ -39,11 +42,13 @@ public final class Player extends Ship {
      * @return the newly created Player object
      */
     protected static Player getDefault(final Section spawnSection, final Position spawnPosition) {
-        Player player = new Player(spawnSection, spawnPosition, CardinalDirection.NORTH, 0);
-        player.setWeapon(Weapon.cannon(player));
-        player.setBow(Bow.standard(player));
-        player.setSail(Sail.sloop(player));
-        return player;
+        return new Player(spawnSection,
+                          spawnPosition,
+                          CardinalDirection.NORTH,
+                          0,
+                          Weapon.cannon(),
+                          Sail.sloop(),
+                          Bow.standard());
     }
 
     /**

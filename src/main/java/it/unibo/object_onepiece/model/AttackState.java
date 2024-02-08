@@ -36,7 +36,7 @@ public class AttackState extends EnemyState {
             }
             return true;
         } else {
-            ship.getWeapon().shoot(nextPos(prevDirection));
+            ship.shoot(nextPos(prevDirection));
             ship.changeState(States.PATROLLING);
             return true;
         }
