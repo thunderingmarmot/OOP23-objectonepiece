@@ -11,7 +11,7 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
  * It gets triggered once an obstacle is detected, it switches to 
  * patrolling state once the primary direction is available
  */
-public final class ObstacleAvoidance implements EnemyState {
+public final class ObstacleAvoidance extends EnemyState {
     private Enemy ship;
     private int attempt = 0;
     private CardinalDirection primaryDirection;
