@@ -20,11 +20,10 @@ public final class Sail extends ShipComponent {
      * @param  max      the maximum speed of the sail
      * @param  min      the minimum speed of the sail
      * @param  rotation the rotation power of the sail
-     * @param  ship     the ship where the sail is mounted
      * @param  health   the health of the sail
      */
-    protected Sail(final int max, final int min, final int rotation, final Ship ship, final int health) {
-        super(ship, health);
+    protected Sail(final int max, final int min, final int rotation, final int health) {
+        super(health);
         this.maxSpeed = max;
         this.minSpeed = min;
         this.rotationPower = rotation;
@@ -71,46 +70,43 @@ public final class Sail extends ShipComponent {
     /**
      * Builder for the sloop sail, the standard type of sail.
      * 
-     * @param  ship the ship that should be assigned to the sail
      * @return      sail with his standard stats.
      */
-    protected static Sail sloop(final Ship ship) {
+    protected static Sail sloop() {
         final int maxSpeed = 1;
         final int minSpeed = 1;
         final int rotationPower = 0;
         final int health = 100;
 
-        return new Sail(maxSpeed, minSpeed, rotationPower, ship, health);
+        return new Sail(maxSpeed, minSpeed, rotationPower, health);
     }
 
     /**
      * Builder for the spinnaker sail, a very fast and agile sail 
      * but more fragile than the standard one.
      * 
-     * @param  ship the ship that should be assigned to the sail
      * @return      sail with his standard stats.
      */
-    protected static Sail spinnaker(final Ship ship) {
+    protected static Sail spinnaker() {
         final int maxSpeed = 3;
         final int minSpeed = 1;
         final int rotationPower = 3;
         final int health = 80;
 
-        return new Sail(maxSpeed, minSpeed, rotationPower, ship, health);
+        return new Sail(maxSpeed, minSpeed, rotationPower, health);
     }
 
     /**
      * Builder for the schooner sail, the best sail for speed and health.
      * 
-     * @param  ship the ship that should be assigned to the sail
      * @return      sail with his standard stats.
      */
-    protected static Sail schooner(final Ship ship) {
+    protected static Sail schooner() {
         final int maxSpeed = 5;
         final int minSpeed = 4;
         final int rotationPower = 1;
         final int health = 200;
 
-        return new Sail(maxSpeed, minSpeed, rotationPower, ship, health);
+        return new Sail(maxSpeed, minSpeed, rotationPower, health);
     }
 }
