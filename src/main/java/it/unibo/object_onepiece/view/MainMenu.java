@@ -5,7 +5,11 @@ import java.util.stream.DoubleStream;
 
 import javax.swing.SpringLayout.Constraints;
 
+import com.simtechdata.sceneonefx.SceneOne;
+
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -28,10 +32,13 @@ import javafx.stage.Stage;
  */
 public final class MainMenu extends Application {
 
+    protected static final String SCENE_ID = "MainMenu";
+
+    private final String styleSheet = "css/MainMenu.css";
+    private final String windowTitle = "Object One Piece!";
+
     @Override
     public void start(final Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Object One Piece!");
-
         GridPane grid = new GridPane();
         grid.getRowConstraints().addAll(DoubleStream.of(10, 20, 20, 50).mapToObj(height -> {
             RowConstraints rc = new RowConstraints();
@@ -46,18 +53,30 @@ public final class MainMenu extends Application {
         grid.add(gameName, 2, 1);
 
         Button start = new Button("Start!");
+        start.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                SceneOne.show(ObjectOnePieceApp.SCENE_ID);
+            }
+        });
         Button quit = new Button("Quit");
+        quit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                SceneOne.close(SCENE_ID);
+            }
+        });
 
         VBox labelContainer = new VBox(20);
         labelContainer.getChildren().addAll(start, quit);
         labelContainer.getChildren().forEach(i -> VBox.setMargin(i, new Insets(0, 0, 0, 50)));
 
+        
         grid.add(labelContainer, 2, 3);
-
-        Scene scene = new Scene(grid, 600, 600);
-        scene.getStylesheets().add("css/MainMenu.css");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        SceneOne.set(SCENE_ID, grid, 600, 600).build();
+        SceneOne.setTitle(SCENE_ID, windowTitle);
+        SceneOne.setStyleSheets(SCENE_ID, styleSheet);
+        SceneOne.show(SCENE_ID);
     }
 
     /**
