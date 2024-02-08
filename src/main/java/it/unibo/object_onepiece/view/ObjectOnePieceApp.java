@@ -23,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -69,33 +70,36 @@ public final class ObjectOnePieceApp extends Application {
         Label pirateInfo = new Label("Pirate info!");
         pirateInfo.setAlignment(Pos.CENTER);
 
-        StackPane healthPane = new StackPane();
-        healthPane.setPrefHeight(100);
-        healthPane.setMaxWidth(20);
+        VBox healthContainers[] = new VBox[3];
+        for (int i = 0; i < 3; i++) {
+            healthContainers[i] = new VBox();
+            StackPane healthPane = new StackPane();
+            healthPane.setPrefHeight(100);
+            healthPane.setMaxWidth(20);
+            Rectangle redBar = new Rectangle();
+            redBar.setFill(Color.RED);
+            redBar.widthProperty().bind(healthPane.widthProperty());
+            redBar.heightProperty().bind(healthPane.heightProperty());
+            Rectangle healthBar = new Rectangle();
+            healthBar.widthProperty().bind(healthPane.widthProperty());
+            healthBar.setFill(Color.GREEN);
+            healthPane.getChildren().addAll(redBar, healthBar);
+            StackPane.setAlignment(healthBar, Pos.BOTTOM_CENTER);
+            Label healthPoints = new Label("100");
+            healthPoints.setAlignment(Pos.CENTER);
+            healthContainers[i].getChildren().addAll(healthPane, healthPoints);
+        }
 
-        Rectangle redBar = new Rectangle();
-        redBar.setFill(Color.RED);
-        redBar.widthProperty().bind(healthPane.widthProperty());
-        redBar.heightProperty().bind(healthPane.heightProperty());
-
-        Rectangle healthBar = new Rectangle();
-        healthBar.widthProperty().bind(redBar.widthProperty());
-        healthBar.setFill(Color.GREEN);
-
-        healthPane.getChildren().addAll(redBar, healthBar);
-        StackPane.setAlignment(healthBar, Pos.BOTTOM_CENTER);
+        VBox healthDiv = new VBox();
         
-        Label healthPoints = new Label("100");
-        healthPoints.setAlignment(Pos.CENTER);
-        VBox healthContainer = new VBox();
-
-        healthContainer.getChildren().addAll(healthPane, healthPoints);
-
+        for (VBox vBox : healthContainers) {
+            healthDiv.getChildren().add(vBox);
+        }
 
 
         BorderPane rightPane = new BorderPane();
         rightPane.setTop(pirateInfo);
-        rightPane.setCenter(healthContainer);
+        rightPane.setCenter(healthDiv);
 
         borderPane.setCenter(gridView);
         borderPane.setRight(rightPane);
