@@ -12,7 +12,7 @@ public final class Player extends Ship {
 
     private int experience;
 
-    public final Event<Argument<Integer>> onExperienceAdded = new Event<>();
+    private final Event<Argument<Integer>> onExperienceAdded = new Event<>();
 
     /**
      * Constructor for PlayerImpl.
@@ -61,5 +61,14 @@ public final class Player extends Ship {
     protected void addExperience(final int experience) {
         this.experience += experience;
         onExperienceAdded.invoke(new Argument<>(this.experience));
+    }
+
+    /**
+     * Getter for the onExperienceAdded event.
+     * @return the Event object
+     * @see Event
+     */
+    public Event<Argument<Integer>> getExperienceAddedEvent() {
+        return onExperienceAdded;
     }
 }
