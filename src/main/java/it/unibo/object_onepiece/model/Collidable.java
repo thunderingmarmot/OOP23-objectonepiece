@@ -2,16 +2,21 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.Position;
 
-// A Collidable is something that can be collided with
-
 /**
- * Models an Entity which a Collider can collide with.
+ * Models an Entity which can receive collisions by a Collider.
+ * @see Entity
  * @see Collider
  */
 public abstract class Collidable extends Entity {
 
-    protected Collidable(Section s, Position p) {
-        super(s, p);
+    /**
+     * Same constructor as Entity.
+     * @param spawnSection the Section this Collidable is in
+     * @param spawnPosition the Position this Collidable is at
+     * @see Entity
+     */
+    protected Collidable(final Section spawnSection, final Position spawnPosition) {
+        super(spawnSection, spawnPosition);
     }
 
     /**

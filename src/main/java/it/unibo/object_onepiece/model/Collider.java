@@ -2,23 +2,26 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.Position;
 
-// A Collider is something that can collide with other Collidables,
-// that means that it must extend Movable, as only Movable things can collide
-
 /**
- * Models a Collidable that is also a Movable.
+ * Models a special Collidable that can also initiate a collision.
  * @see Collidable
- * @see Movable
  */
 public abstract class Collider extends Collidable {
 
-    protected Collider(Section s, Position p) {
-        super(s, p);
+    /**
+     * Same constructor as Collidable.
+     * @param spawnSection the Section this Collider is in
+     * @param spawnPosition the Position this Collider is at
+     * @see Collidable
+     */
+    protected Collider(final Section spawnSection, final Position spawnPosition) {
+        super(spawnSection, spawnPosition);
     }
 
     /**
      * Defines the behaviour when this Collider collides with a Collidable.
      * @param collidable the Collidable this Collider collided with
+     * @see Collidable
      */
     protected abstract void collideWith(Collidable collidable);
 }

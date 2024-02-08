@@ -12,7 +12,7 @@ public final class Player extends Ship {
 
     private int experience;
 
-    private final Event<Argument<Integer>> onExperienceAdded = Event.get();
+    private final Event<Argument<Integer>> onExperienceAdded = new Event<>();
 
     /**
      * Constructor for PlayerImpl.
@@ -25,10 +25,13 @@ public final class Player extends Ship {
      * @see Player
      */
     protected Player(final Section section,
-                         final Position position,
-                         final CardinalDirection direction,
-                         final int experience) {
-        super(section, position, direction);
+                     final Position position,
+                     final CardinalDirection direction,
+                     final int experience,
+                     final Weapon weapon,
+                     final Sail sail,
+                     final Bow bow) {
+        super(section, position, direction, weapon, sail, bow);
         this.experience = experience;
     }
 
@@ -38,12 +41,14 @@ public final class Player extends Ship {
      * @param spawnPosition the position to place this Player at
      * @return the newly created Player object
      */
-    protected static Player getDefault(Section spawnSection, Position spawnPosition) {
-        Player player = new Player(spawnSection, spawnPosition, CardinalDirection.NORTH, 0);
-        player.setWeapon(Weapon.cannon(player));
-        player.setBow(Bow.standard(player));
-        player.setSail(Sail.sloop(player));
-        return player;
+    protected static Player getDefault(final Section spawnSection, final Position spawnPosition) {
+        return new Player(spawnSection,
+                          spawnPosition,
+                          CardinalDirection.NORTH,
+                          0,
+                          Weapon.cannon(),
+                          Sail.sloop(),
+                          Bow.standard());
     }
 
     /**
@@ -61,5 +66,14 @@ public final class Player extends Ship {
     protected void addExperience(final int experience) {
         this.experience += experience;
         onExperienceAdded.invoke(new Argument<>(this.experience));
+    }
+
+    /**
+     * Getter for the onExperienceAdded event.
+     * @return the Event object
+     * @see Event
+     */
+    public Event<Argument<Integer>> getExperienceAddedEvent() {
+        return onExperienceAdded;
     }
 }

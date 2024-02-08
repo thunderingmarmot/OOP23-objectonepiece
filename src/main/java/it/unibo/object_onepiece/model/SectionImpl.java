@@ -34,7 +34,7 @@ public final class SectionImpl implements Section {
     private final Bound bound = new Bound(ROWS, COLUMNS);
 
     private final Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> 
-    onEntityCreated = Event.get();
+    onEntityCreated = new Event<>();
     /**
      * 
      * @param world reference to World object (used to consent islands to save game state)

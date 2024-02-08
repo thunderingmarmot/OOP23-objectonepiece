@@ -5,14 +5,14 @@ import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
 
 /**
- * This class that defines an entity present on the section.
+ * This class defines the common methods of every entity present on the section.
  */
 public class Entity {
     private final Section section;
     private Position position;
 
-    private final Event<BiArgument<Position>> onPositionChanged = Event.get();
-    private final Event<Argument<Position>> onEntityRemoved = Event.get();
+    private final Event<BiArgument<Position>> onPositionChanged = new Event<>();
+    private final Event<Argument<Position>> onEntityRemoved = new Event<>();
 
     /**
      * Constructor for class Entity.
@@ -29,6 +29,7 @@ public class Entity {
      * Getter for the current section of the entity.
      * 
      * @return the section where the entity is located.
+     * @see    Section
      */
     protected Section getSection() {
        return this.section;
@@ -38,6 +39,7 @@ public class Entity {
      * Getter for the current position of the entity.
      * 
      * @return the position of the entity in the section.
+     * @see    Utils
      */
     protected Position getPosition() {
         return this.position;
@@ -46,7 +48,8 @@ public class Entity {
     /**
      * Getter for the onPositionChanged Event.
      * 
-     * @return an Event of position changed.
+     * @return an event of position changed.
+     * @see    Event
      */
     public Event<BiArgument<Position>> getPositionChangedEvent() {
         return this.onPositionChanged;
@@ -55,7 +58,8 @@ public class Entity {
     /**
      * Getter for the onEntityRemoved Event.
      * 
-     * @return an Event of entity removed.
+     * @return an event of entity removed.
+     * @see    Event
      */
     public Event<Argument<Position>> getEntityRemovedEvent() {
         return this.onEntityRemoved;
@@ -68,6 +72,7 @@ public class Entity {
      * to the new position.
      * 
      * @param  newPosition the new position of the entity
+     * @see    Utils
      */
     protected void setPosition(final Position newPosition) {
         onPositionChanged.invoke(new BiArgument<>(this.position, newPosition));

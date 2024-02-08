@@ -137,7 +137,7 @@ public final class Utils {
             int column = 0;
 
             if (deltaRow > 0) {
-                row = (deltaRow / Math.abs(deltaRow));
+                row = deltaRow / Math.abs(deltaRow);
             }
             if (column > 0) {
                 column = deltaColumn / Math.abs(deltaColumn);
