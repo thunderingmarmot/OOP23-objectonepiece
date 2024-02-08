@@ -38,7 +38,7 @@ public final class Player extends Ship {
      * @param spawnPosition the position to place this Player at
      * @return the newly created Player object
      */
-    static Player getDefault(Section spawnSection, Position spawnPosition) {
+    protected static Player getDefault(Section spawnSection, Position spawnPosition) {
         Player player = new Player(spawnSection, spawnPosition, CardinalDirection.NORTH, 0);
         player.setWeapon(Weapon.cannon(player));
         player.setBow(Bow.standard(player));
@@ -50,7 +50,7 @@ public final class Player extends Ship {
      * Getter for the experience private field.
      * @return the currently owned experience value
      */
-    public int getExperience() {
+    protected int getExperience() {
         return experience;
     }
 
@@ -58,7 +58,7 @@ public final class Player extends Ship {
      * Adds experience to the Player's owned experience.
      * @param experience the experience value to add
      */
-    public void addExperience(final int experience) {
+    protected void addExperience(final int experience) {
         this.experience += experience;
         onExperienceAdded.invoke(new Argument<>(this.experience));
     }
