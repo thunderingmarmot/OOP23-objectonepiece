@@ -20,6 +20,7 @@ import java.util.HashSet;
  */
 public final class Section {
 
+    private static final Random rand = new Random();
     private static final int ROWS = World.SECTION_ROWS;
     private static final int COLUMNS = World.SECTION_COLUMNS;
     private static final int ROW_INSET = ROWS / 7;
@@ -47,7 +48,6 @@ public final class Section {
      * Populates entities list using white noise algorithm from JNoise.
      */
     protected void generateEntities() {
-        Random m = new Random();
         int seed = 120350;
         var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR).build();
         for (int i = ROW_INSET; i < GEN_AREA_ROWS; i++) {
@@ -126,7 +126,7 @@ public final class Section {
     /**
      * @return event to generate entities in view
      */
-    protected Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> getEntityCreatedEvent() {
+    public Event<TriArguments<Class<? extends Entity>, Position, Optional<CardinalDirection>>> getEntityCreatedEvent() {
         return onEntityCreated;
     }
 }
