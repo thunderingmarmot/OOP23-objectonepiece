@@ -1,9 +1,7 @@
 package it.unibo.object_onepiece.model;
 
-import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import javafx.geometry.Pos;
 
 /**
  * The enemy interface models a ship controlled by the CPU

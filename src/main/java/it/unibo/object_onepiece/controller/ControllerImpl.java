@@ -28,18 +28,18 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public void action(final Position position, final World world) {
-        pPosition = world.getCurrentSection().getPlayer().getPosition();
+        pPosition = /* world.getCurrentSection().getPlayer().getPosition(); */new Position(0, 0);
         currentSec = world.getCurrentSection();
         player = currentSec.getPlayer();
 
         toggleMode(position, pPosition);
 
         if (currentState.perform(position,player)) {
-            currentSec.getEntities()
+            /* currentSec.getEntities()
                 .stream()
                 .filter(x -> x instanceof Enemy)
                 .toList()
-                .forEach(e -> ((Enemy) e).goNext());
+                .forEach(e -> ((Enemy) e).goNext()); */
         }
     }
 
