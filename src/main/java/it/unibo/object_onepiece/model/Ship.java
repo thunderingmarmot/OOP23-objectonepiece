@@ -151,8 +151,7 @@ public abstract class Ship extends Collider {
      * This method is used to check if the Ship can move to the next cell.
      * 
      * @param  direction is the direction where the ship should move to
-     * @return a MoveReturnType that contains a boolean field canStep which indicates 
-     * if the Ship can move and a MoveDetails field for a more detailed feedback on the movement.
+     * @return           if the ship can move and a MoveDetails for a more detailed feedback on the movement.
      */
     protected MoveReturnType checkMove(final CardinalDirection direction) {
         if (this.sail.getHealth() <= 0) {
