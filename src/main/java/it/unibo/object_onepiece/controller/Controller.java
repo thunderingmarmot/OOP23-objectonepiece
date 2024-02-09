@@ -28,10 +28,4 @@ public interface Controller {
      * @param world The model on which the Controller acts.
      */
     void action(Position position, World world);
-    /**
-     * The initialization of the world as the generation of Entities and spawn of player.
-     * ( is intended that the act of generating sections is maneged by the controller )
-     * @param world
-     */
-    void initialize(World world);
 }
