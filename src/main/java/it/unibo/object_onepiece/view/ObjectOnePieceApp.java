@@ -45,13 +45,7 @@ public final class ObjectOnePieceApp extends Application {
     private static final Color DEFAULT_COLOR = Color.rgb(2, 127, 222);
     private static final int RIGHT_ANGLE = 90;
 
-    private static final Function<String, String> PATH_FUNC = new Function<String, String>() {
-        @Override
-        public String apply(final String t) {
-            return "/img/sprites/" + t + "/" + t + ".png";
-        }
-    };
-
+    private static final Function<String, String> PATH_FUNC = t -> "/img/sprites/" + t + "/" + t + ".png";
     private final String styleSheet = "/css/ObjectOnePieceApp.css";
 
     private enum State {
