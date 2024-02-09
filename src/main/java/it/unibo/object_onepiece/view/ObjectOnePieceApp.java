@@ -131,14 +131,14 @@ public final class ObjectOnePieceApp extends Application {
         final String entityName = e.getClass().getSimpleName();
         final int col = p.column();
         final int row = p.row();
-
         e.getEntityRemovedEvent().subscribe(r -> removeEntity(r.arg()));
         e.getPositionChangedEvent().subscribe(r -> drawEntity(r.arg1(), r.arg2(), e, d));
-
         drawImage(entityName, row, col, d);
+       
     }
 
     private void removeEntity(final Position p) {
+        System.out.println("remove entity called");
         final int col = p.column();
         final int row = p.row();
         
@@ -150,11 +150,7 @@ public final class ObjectOnePieceApp extends Application {
     }
 
     private void drawEntity(Position oldPos, Position newPosition, Entity e, Optional<CardinalDirection> d) {
-        var oldCell = gridView.getCellPane(gridModel.getCell(oldPos.column(), oldPos.row()));
-        if (oldCell.getChildren().size() < 1) {
-            throw new IllegalStateException("Old cell didnt have any images but still removed them");
-        }
-        oldCell.getChildren().clear();
+        removeEntity(oldPos);
         drawImage(e.getClass().getSimpleName(), newPosition.row(), newPosition.column(), d);
     }
 
