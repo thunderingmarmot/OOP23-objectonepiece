@@ -159,7 +159,6 @@ public final class ObjectOnePieceApp extends Application {
     }
 
     private void removeEntity(final Position p) {
-        System.out.println("remove entity called");
         final int col = p.column();
         final int row = p.row();
 
