@@ -14,6 +14,7 @@ import it.unibo.object_onepiece.model.WorldImpl;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import javafx.application.Application;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -21,7 +22,13 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -87,11 +94,10 @@ public final class ObjectOnePieceApp extends Application {
         }
 
         VBox healthDiv = new VBox();
-        
+
         for (VBox vBox : healthContainers) {
             healthDiv.getChildren().add(vBox);
         }
-
 
         BorderPane rightPane = new BorderPane();
         rightPane.setTop(pirateInfo);
@@ -99,7 +105,7 @@ public final class ObjectOnePieceApp extends Application {
 
         borderPane.setCenter(gridView);
         borderPane.setRight(rightPane);
-        
+
         Scene scene = new Scene(borderPane, 600, 600);
         scene.getStylesheets().add(styleSheet);
         primaryStage.setScene(scene);
@@ -119,6 +125,29 @@ public final class ObjectOnePieceApp extends Application {
                     controller.action(new Position(c.getRow(), c.getColumn()), world);
                 }
             });
+            gridView.getCellPane(c).addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<Event>() {
+
+                @Override
+                public void handle(Event event) {
+                    System.out.println("ENTRATO");
+                    Border b = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
+                        BorderWidths.DEFAULT));
+                    Pane p = new Pane();
+                    p.setBorder(b);
+                    gridView.getCellPane(c).getChildren().add(p);
+                }
+            });
+            gridView.getCellPane(c).addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<Event>() {
+
+                @Override
+                public void handle(Event event) {
+                    System.out.println("USCITO");
+                    gridView.getCellPane(c).getChildren().stream()
+                        .filter(n -> n instanceof Pane).map(n -> (Pane) n).forEach(n -> n.setBorder(null));
+                }
+            });
+
+            
         });
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
     }
@@ -134,14 +163,14 @@ public final class ObjectOnePieceApp extends Application {
         e.getEntityRemovedEvent().subscribe(r -> removeEntity(r.arg()));
         e.getPositionChangedEvent().subscribe(r -> drawEntity(r.arg1(), r.arg2(), e, d));
         drawImage(entityName, row, col, d);
-       
+
     }
 
     private void removeEntity(final Position p) {
         System.out.println("remove entity called");
         final int col = p.column();
         final int row = p.row();
-        
+
         if (gridView.getCellPane(gridModel.getCell(col, row)).getChildren().size() == 0) {
             throw new IllegalArgumentException("Trying to delete cell view where there isn't anything");
         } else {
@@ -161,7 +190,7 @@ public final class ObjectOnePieceApp extends Application {
             final ImageView entityImage = new ImageView(img);
             if (d.isPresent()) {
                 entityImage.setRotate(RIGHT_ANGLE * d.get().ordinal());
-            } 
+            }
             entityImage.setPreserveRatio(true);
             entityImage.fitWidthProperty().bind(gridView.cellSizeProperty());
             entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
@@ -177,6 +206,7 @@ public final class ObjectOnePieceApp extends Application {
 
     /**
      * Program's entry point.
+     * 
      * @param args
      */
     public static void run(final String... args) {
@@ -185,7 +215,7 @@ public final class ObjectOnePieceApp extends Application {
 
     // Defining the main methods directly within JavaFXApp may be problematic:
     // public static void main(final String[] args) {
-    //        run();
+    // run();
     // }
 
     /**
@@ -198,15 +228,17 @@ public final class ObjectOnePieceApp extends Application {
 
         /**
          * Program's entry point.
+         * 
          * @param args
          */
         public static void main(final String... args) {
             Application.launch(ObjectOnePieceApp.class, args);
-            /* 
-            The following line raises: Error: class it.unibo.samplejavafx.JavaFXApp$Main 
-            is not a subclass of javafx.application.Application
-            Because if you do not provide the Application subclass to launch() it will consider the enclosing class)
-            */
+            /*
+             * The following line raises: Error: class it.unibo.samplejavafx.JavaFXApp$Main
+             * is not a subclass of javafx.application.Application
+             * Because if you do not provide the Application subclass to launch() it will
+             * consider the enclosing class)
+             */
             // JavaFXApp.launch(args);
             // Whereas the following would do just fine:
             // JavaFXApp.run(args)
