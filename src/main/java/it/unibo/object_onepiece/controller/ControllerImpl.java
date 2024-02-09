@@ -13,23 +13,19 @@ import it.unibo.object_onepiece.model.World;
  * The implementation of the Controller Interface.
  */
 public final class ControllerImpl implements Controller {
-    private Position pPosition;
-    private Section currentSec;
-    private Player player;
-    private InputState currentState;
+    
     private Boolean toggle = false;
-
+    private InputState currentState;
     private Map<States, InputState> states = Map.of(
         States.SHOOTING, new ShootState(),
         States.MOVING, new MoveState());
 
     @Override
     public void action(final Position position, final World world) {
-        pPosition = /* world.getCurrentSection().getPlayer().getPosition(); */new Position(0, 0);
-        currentSec = world.getCurrentSection();
-        player = currentSec.getPlayer();
+        var currentSec = world.getCurrentSection();
+        var player = currentSec.getPlayer();
 
-        toggleMode(position, pPosition);
+        toggleMode(position, new Position(0, 0));
 
         if (currentState.perform(position,player)) {
             /* currentSec.getEntities()
@@ -57,4 +53,16 @@ public final class ControllerImpl implements Controller {
         }
     }
 
+    protected static abstract class InputState {
+        /**
+         * @param pos the input accepted by the controller
+         * 
+         * @return whenether it was possible to perform the action or not
+         */
+        protected abstract Boolean perform(Position pos,Player player);
+        /**
+         * @return The type of state that is implemented
+         */
+        protected abstract States getState();
+    }
 }

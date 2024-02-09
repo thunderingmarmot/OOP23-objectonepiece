@@ -3,6 +3,7 @@ package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Enemy.States;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.Enemy.EnemyState;
 
 public class AttackState extends EnemyState {
     Boolean alligned = false;
