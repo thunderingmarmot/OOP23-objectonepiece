@@ -127,10 +127,38 @@ public final class ObjectOnePieceApp extends Application {
         section.getEntityCreatedEvent().subscribe(e -> drawEntity(e.arg1(), e.arg2(), e.arg3()));
     }
 
-    private void drawEntity(Entity e, Position p, Optional<CardinalDirection> d) {
+    private void drawEntity(final Entity e, final Position p, final Optional<CardinalDirection> d) {
         final String entityName = e.getClass().getSimpleName();
         final int col = p.column();
         final int row = p.row();
+
+        e.getEntityRemovedEvent().subscribe(r -> removeEntity(r.arg()));
+        e.getPositionChangedEvent().subscribe(r -> drawEntity(r.arg1(), r.arg2(), e, d));
+
+        drawImage(entityName, row, col, d);
+    }
+
+    private void removeEntity(final Position p) {
+        final int col = p.column();
+        final int row = p.row();
+        
+        if (gridView.getCellPane(gridModel.getCell(col, row)).getChildren().size() == 0) {
+            throw new IllegalArgumentException("Trying to delete cell view where there isn't anything");
+        } else {
+            gridView.getCellPane(gridModel.getCell(col, row)).getChildren().clear();
+        }
+    }
+
+    private void drawEntity(Position oldPos, Position newPosition, Entity e, Optional<CardinalDirection> d) {
+        var oldCell = gridView.getCellPane(gridModel.getCell(oldPos.column(), oldPos.row()));
+        if (oldCell.getChildren().size() < 1) {
+            throw new IllegalStateException("Old cell didnt have any images but still removed them");
+        }
+        oldCell.getChildren().clear();
+        drawImage(e.getClass().getSimpleName(), newPosition.row(), newPosition.column(), d);
+    }
+
+    private void drawImage(String entityName, int row, int col, Optional<CardinalDirection> d) {
         try {
             final URL imgPath = getClass().getResource(PATH_FUNC.apply(entityName));
             final Image img = new Image(imgPath.toString());
@@ -149,14 +177,6 @@ public final class ObjectOnePieceApp extends Application {
             System.out.println(ex.getMessage());
             gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(new Label(entityName));
         }
-    }
-
-    private void drawEntity(Position oldPos, Entity e) {
-        var oldCell = gridView.getCellPane(gridModel.getCell(oldPos.column(), oldPos.row()));
-        if (oldCell.getChildren().size() < 1) {
-            throw new IllegalStateException("Old cell didnt have any images but still removed them");
-        }
-        oldCell.getChildren().clear();
     }
 
     /**
