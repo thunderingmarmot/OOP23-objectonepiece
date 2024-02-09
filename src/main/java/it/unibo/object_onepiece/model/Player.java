@@ -51,6 +51,10 @@ public final class Player extends Ship {
                           Bow.standard());
     }
 
+    public void move(Position destination) {
+        
+    }
+
     /**
      * Getter for the experience private field.
      * @return the currently owned experience value
