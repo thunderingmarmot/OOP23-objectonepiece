@@ -10,17 +10,17 @@ import java.util.function.BiPredicate;
  */
 public final class Utils {
     private static Map<CardinalDirection, Function<Position, Position>> cardinalDirectionsTranslations = Map.of(
-        CardinalDirection.NORTH, (p) -> new Position(p.row + 1, p.column),
-        CardinalDirection.SOUTH, (p) -> new Position(p.row - 1, p.column),
+        CardinalDirection.NORTH, (p) -> new Position(p.row - 1, p.column),
+        CardinalDirection.SOUTH, (p) -> new Position(p.row + 1, p.column),
         CardinalDirection.EAST, (p) -> new Position(p.row, p.column + 1),
         CardinalDirection.WEST, (p) -> new Position(p.row, p.column - 1)
     );
 
     private static Map<OrdinalDirection, Function<Position, Position>> ordinalDirectionsTranslations = Map.of(
-        OrdinalDirection.NORTHEAST, (p) -> new Position(p.row + 1, p.column + 1),
-        OrdinalDirection.SOUTHWEST, (p) -> new Position(p.row - 1, p.column - 1),
-        OrdinalDirection.NORTHWEST, (p) -> new Position(p.row + 1, p.column - 1),
-        OrdinalDirection.SOUTHEAST, (p) -> new Position(p.row - 1, p.column + 1)
+        OrdinalDirection.NORTHEAST, (p) -> new Position(p.row - 1, p.column + 1),
+        OrdinalDirection.SOUTHWEST, (p) -> new Position(p.row + 1, p.column - 1),
+        OrdinalDirection.NORTHWEST, (p) -> new Position(p.row - 1, p.column - 1),
+        OrdinalDirection.SOUTHEAST, (p) -> new Position(p.row + 1, p.column + 1)
     );
 
     private static Map<CardinalDirection, BiPredicate<Position, Position>> positionsInlineConditions = Map.of(
