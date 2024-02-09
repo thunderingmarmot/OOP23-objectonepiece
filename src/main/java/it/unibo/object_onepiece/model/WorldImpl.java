@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import it.unibo.object_onepiece.model.Utils.State;
@@ -39,6 +40,17 @@ public final class WorldImpl implements World {
     
     public Event<Argument<Section>> getSectionInstantiatedEvent() {
         return onSectionInstantiated;
+    }
+
+    public Player getPlayer() {
+        return getCurrentSection().getPlayer();
+    }
+
+    public List<Enemy> getEnemies() {
+        return getCurrentSection().getEntities().stream()
+                                                .filter((e) -> e instanceof Enemy)
+                                                .map((e) -> (Enemy)e)
+                                                .toList();
     }
 
     @Override
