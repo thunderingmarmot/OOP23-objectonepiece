@@ -123,10 +123,10 @@ public abstract class Ship extends Collider {
         final MoveReturnType nextStep = checkMove(direction);
         moveCondition.get(nextStep.details()).run();
 
-        if (steps == 0) {
-            return nextStep.details();
-        } else {
+        if (steps > 1) {
             return move(direction, steps - 1);
+        } else {
+            return nextStep.details();
         }
     }
 
