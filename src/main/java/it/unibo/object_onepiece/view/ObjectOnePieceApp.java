@@ -131,9 +131,8 @@ public final class ObjectOnePieceApp extends Application {
         final String entityName = e.getClass().getSimpleName();
         final int col = p.column();
         final int row = p.row();
-
-        final URL imgPath = getClass().getResource(PATH_FUNC.apply(entityName));
         try {
+            final URL imgPath = getClass().getResource(PATH_FUNC.apply(entityName));
             final Image img = new Image(imgPath.toString());
             final ImageView entityImage = new ImageView(img);
             if (d.isPresent()) {
