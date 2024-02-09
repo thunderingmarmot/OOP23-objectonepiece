@@ -30,7 +30,7 @@ public final class Utils {
         CardinalDirection.EAST, (p1, p2) -> p1.column == p2.column && p1.row != p2.row
     );
 
-    private static Map<Position, CardinalDirection> distanceVectorToCardinalDirections = Map.of(
+    private static Map<Position, CardinalDirection> versorToCardinalDirections = Map.of(
         new Position(-1, -1), CardinalDirection.SOUTH,
         new Position(1, -1), CardinalDirection.SOUTH,
         new Position(-1, 1), CardinalDirection.NORTH,
@@ -86,8 +86,8 @@ public final class Utils {
      * Getter for the map that associates to a distance vector the corresponding CardinalDirection.
      * @return the described map
      */
-    public static Map<Position, CardinalDirection> getDistanceVectorToCardinalDirectionMap() {
-        return distanceVectorToCardinalDirections;
+    public static Map<Position, CardinalDirection> getVersorToCardinalDirectionMap() {
+        return versorToCardinalDirections;
     }
 
     /**
@@ -130,19 +130,12 @@ public final class Utils {
          * @param position the Position to calculate the distance vector from
          * @return the distance vector as a Position
          */
-        public Position distanceVectorFrom(final Position position) {
+        public Position versorOf(final Position position) {
             final var deltaRow = position.row - this.row;
             final var deltaColumn = position.column - this.column;
-            int row = 0;
-            int column = 0;
-
-            if (deltaRow > 0) {
-                row = deltaRow / Math.abs(deltaRow);
-            }
-            if (column > 0) {
-                column = deltaColumn / Math.abs(deltaColumn);
-            }
-            return new Position(row, column);
+            
+            return new Position(deltaRow != 0 ? deltaRow / Math.abs(deltaRow) : 0,
+                                deltaColumn != 0 ? deltaColumn / Math.abs(deltaColumn) : 0);
         }
 
         /**
@@ -170,8 +163,8 @@ public final class Utils {
          * @return the CardinalDirection where the destination is
          */
         public CardinalDirection whereTo(final Position position) {
-            final var distanceVector = this.distanceVectorFrom(position);
-            return distanceVectorToCardinalDirections.get(distanceVector);
+            final var versor = this.versorOf(position);
+            return versorToCardinalDirections.get(versor);
         }
     }
 
