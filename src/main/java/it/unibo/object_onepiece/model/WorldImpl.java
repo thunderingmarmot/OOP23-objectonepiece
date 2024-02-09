@@ -64,13 +64,11 @@ public final class WorldImpl implements World {
         savedState = new State(getCurrentSection(), player.getPosition(), player.getExperience());
     }
 
-    @Override
-    public Section getCurrentSection() {
+    Section getCurrentSection() {
         return currentSection;
     }
 
-    @Override
-    public void instantiateSection() {
+    void instantiateSection() {
         currentSection = new Section(this);
     }
 }

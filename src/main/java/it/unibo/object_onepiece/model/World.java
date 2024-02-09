@@ -1,5 +1,7 @@
 package it.unibo.object_onepiece.model;
 
+import java.util.List;
+
 import it.unibo.object_onepiece.model.Utils.State;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
@@ -26,15 +28,9 @@ public interface World {
      * Save current section.
      */
     void setSavedState();
-    /**
-     * 
-     * @return Section current section where player resides.
-     */
-    Section getCurrentSection();
-    /**
-     * Sets World's section to a new section (used before we generate a secion).
-     */
-    void instantiateSection();
+
+    Player getPlayer();
+    List<Enemy> getEnemies();
 
     Event<Argument<Section>> getSectionInstantiatedEvent();
 }
