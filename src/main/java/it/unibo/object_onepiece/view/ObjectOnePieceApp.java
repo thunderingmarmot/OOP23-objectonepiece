@@ -129,7 +129,6 @@ public final class ObjectOnePieceApp extends Application {
 
                 @Override
                 public void handle(Event event) {
-                    System.out.println("ENTRATO");
                     Border b = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
                         BorderWidths.DEFAULT));
                     Pane p = new Pane();
@@ -141,7 +140,6 @@ public final class ObjectOnePieceApp extends Application {
 
                 @Override
                 public void handle(Event event) {
-                    System.out.println("USCITO");
                     gridView.getCellPane(c).getChildren().stream()
                         .filter(n -> n instanceof Pane).map(n -> (Pane) n).forEach(n -> n.setBorder(null));
                 }
