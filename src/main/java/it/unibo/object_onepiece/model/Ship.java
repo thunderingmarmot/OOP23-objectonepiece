@@ -120,6 +120,10 @@ public abstract class Ship extends Collider {
             }
         );
 
+        if (!this.getSail().isInSpeedRange(steps)) {
+            return MoveDetails.OUT_OF_SPEED_RANGE;
+        }
+
         final MoveReturnType nextStep = checkMove(direction);
         moveCondition.get(nextStep.details()).run();
 
@@ -167,7 +171,7 @@ public abstract class Ship extends Collider {
 
         final Optional<Entity> obstacle = this.getSection().getEntityAt(this.getPosition().moveTowards(direction));
 
-        if (obstacle.isPresent() && obstacle.get() instanceof Collidable c 
+        if (obstacle.isPresent() && obstacle.get() instanceof Collidable c
         && (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {
             return new MoveReturnType(false, MoveDetails.STATIC_COLLISION);
         }

@@ -37,7 +37,7 @@ public final class Sail extends ShipComponent {
      * @return       boolean with the result of the check.
      */
     protected boolean isInSpeedRange(final int steps) {
-        return steps > this.maxSpeed || steps < this.minSpeed;
+        return steps <= this.maxSpeed && steps >= this.minSpeed;
     }
 
     /**
