@@ -67,7 +67,8 @@ public final class Player extends Ship {
 
     public boolean move(Position destination) {
         CardinalDirection direction = this.getPosition().whereTo(destination);
-        MoveDetails moveResult = super.move(direction);
+        int distance = this.getPosition().distanceFrom(destination);
+        MoveDetails moveResult = super.move(direction, distance);
         return moveSuccessConditions.contains(moveResult);
     }
 
