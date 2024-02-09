@@ -26,18 +26,17 @@ public final class WorldImpl implements World {
      */
     private final Event<Argument<Section>> onSectionInstantiated = new Event<>();
 
-    public WorldImpl(Consumer<Argument<Section>> listener) {
+    public WorldImpl(final Consumer<Argument<Section>> listener) {
         onSectionInstantiated.subscribe(listener);
         createNewSection();
     }
 
-    protected void createNewSection() {
+    void createNewSection() {
         currentSection = new Section(this);
         onSectionInstantiated.invoke(new Argument<>(currentSection));
         currentSection.generateEntities();
     }
     
-
     public Event<Argument<Section>> getSectionInstantiatedEvent() {
         return onSectionInstantiated;
     }
@@ -49,7 +48,7 @@ public final class WorldImpl implements World {
 
     @Override
     public void setSavedState() {
-        Player player = getCurrentSection().getPlayer();
+        final Player player = getCurrentSection().getPlayer();
         savedState = new State(getCurrentSection(), player.getPosition(), player.getExperience());
     }
 

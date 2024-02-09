@@ -20,7 +20,6 @@ import java.util.HashSet;
  */
 public final class Section {
 
-    private static final Random rand = new Random();
     private static final int ROWS = World.SECTION_ROWS;
     private static final int COLUMNS = World.SECTION_COLUMNS;
     private static final int ROW_INSET = ROWS / 7;
@@ -30,6 +29,7 @@ public final class Section {
     private static final double SCALING_FACTOR = 50.5;
     private static final int NOISE_DISPERSION = 50;
 
+    private final Random rand = new Random();
     private final World world;
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound = new Bound(ROWS, COLUMNS);
@@ -40,21 +40,21 @@ public final class Section {
      * 
      * @param world reference to World object (used to consent islands to save game state)
      */
-    protected Section(final World world) {
+    Section(final World world) {
         this.world = world;
     }
 
     /**
      * Populates entities list using white noise algorithm from JNoise.
      */
-    protected void generateEntities() {
-        int seed = 120350;
-        var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR).build();
+    void generateEntities() {
+        final int seed = 120350;
+        final var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR).build();
         for (int i = ROW_INSET; i < GEN_AREA_ROWS; i++) {
             for (int j = COL_INSET; j < GEN_AREA_COLS; j++) {
-                Position p = new Position(i, j);
-                double noise = whiteNoise.evaluateNoise(i, j);
-                int floored = (int) Math.floor(noise * NOISE_DISPERSION);
+                final Position p = new Position(i, j);
+                final double noise = whiteNoise.evaluateNoise(i, j);
+                final int floored = (int) Math.floor(noise * NOISE_DISPERSION);
                 switch (floored) {
                     case 0:
                         /* Don't do anything because water */
@@ -79,21 +79,21 @@ public final class Section {
         this.addEntity(Player.getDefault(this, new Position(1, 1)));
 
         /** Prints duplicate positions in entities list*/
-        Set<Position> items = new HashSet<>();
+        final Set<Position> items = new HashSet<>();
         entities.stream().filter(n -> !items.add(n.getPosition()))
         .collect(Collectors.toSet())
         .forEach(e -> System.out.println(e.getPosition()));
     }
 
-    protected World getWorld() {
+    World getWorld() {
         return this.world;
     }
 
-    protected Bound getBounds() {
+    Bound getBounds() {
         return this.bound;
     }
 
-    protected void removeEntityAt(final Position position) {
+    void removeEntityAt(final Position position) {
         entities.removeIf(e -> e.getPosition() == position);
     }
 
@@ -101,7 +101,7 @@ public final class Section {
         if (entities.stream().filter(e -> e instanceof Player).count() != 1) {
             throw new IllegalStateException("There is no player in section or there's more than one player");
         }
-        Optional<Player> p = entities.stream().filter(e -> e instanceof Player).map(e -> (Player)e).findFirst();
+        final Optional<Player> p = entities.stream().filter(e -> e instanceof Player).map(e -> (Player)e).findFirst();
         if (!p.isPresent()) {
             throw new IllegalStateException("No player found");
         }
@@ -109,16 +109,16 @@ public final class Section {
         return p.get();
     }
 
-    protected Optional<Entity> getEntityAt(final Position position) {
+    Optional<Entity> getEntityAt(final Position position) {
         return entities.stream().filter(e -> e.getPosition() == position).findFirst();
     }
 
-    protected List<Entity> getEntities() {
+    List<Entity> getEntities() {
         return entities;
     }
 
-    protected void addEntity(final Entity e) {
-        Optional<CardinalDirection> direction = e instanceof Ship s ? Optional.of(s.getDirection()) : Optional.empty();
+    void addEntity(final Entity e) {
+        final Optional<CardinalDirection> direction = e instanceof Ship s ? Optional.of(s.getDirection()) : Optional.empty();
         onEntityCreated.invoke(new TriArguments<>(e, e.getPosition(), direction));
         entities.add(e);
     }
