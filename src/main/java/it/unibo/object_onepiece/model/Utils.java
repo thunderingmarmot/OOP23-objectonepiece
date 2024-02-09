@@ -31,14 +31,10 @@ public final class Utils {
     );
 
     private static Map<Position, CardinalDirection> versorToCardinalDirections = Map.of(
-        new Position(-1, -1), CardinalDirection.SOUTH,
-        new Position(1, -1), CardinalDirection.SOUTH,
-        new Position(-1, 1), CardinalDirection.NORTH,
-        new Position(1, 1), CardinalDirection.NORTH,
-        new Position(0, 1), CardinalDirection.NORTH,
-        new Position(-1, 0), CardinalDirection.EAST,
-        new Position(0, -1), CardinalDirection.SOUTH,
-        new Position(1, 0), CardinalDirection.WEST
+        new Position(0, 1), CardinalDirection.EAST,
+        new Position(-1, 0), CardinalDirection.NORTH,
+        new Position(0, -1), CardinalDirection.WEST,
+        new Position(1, 0), CardinalDirection.SOUTH
     );
 
     private static List<BiPredicate<Bound, Position>> insideBoundsConditions = List.of(
