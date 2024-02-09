@@ -136,10 +136,10 @@ public final class Utils {
             int row = 0;
             int column = 0;
 
-            if (deltaRow > 0) {
+            if (deltaRow != 0) {
                 row = deltaRow / Math.abs(deltaRow);
             }
-            if (column > 0) {
+            if (deltaColumn != 0) {
                 column = deltaColumn / Math.abs(deltaColumn);
             }
             return new Position(row, column);
