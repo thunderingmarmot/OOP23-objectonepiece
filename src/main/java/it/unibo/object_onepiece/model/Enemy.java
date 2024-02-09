@@ -43,17 +43,13 @@ public final class Enemy extends Ship {
         return super.getSection();
     }
 
-
-    
     public void goNext() {
         while (!currentState.perform());
     }
 
-   
     public States getCurrentState() {
         return currentState.getState();
     }
-
     
     public void changeState(States state) {
        this.currentState = findState(state);
@@ -61,5 +57,15 @@ public final class Enemy extends Ship {
 
     private EnemyState findState(States stato){
         return enemyStates.stream().filter(x -> x.getState().equals(States.PATROLLING)).findFirst().get();
+    }
+
+    protected static abstract class EnemyState {
+        /**
+         * @return true if the action was executed
+         * false if not ( is given that the state has been changed and another attempt will be performed )
+         */
+        protected abstract Boolean perform();
+    
+        protected abstract States getState();
     }
 }

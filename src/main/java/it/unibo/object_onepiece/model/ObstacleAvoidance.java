@@ -2,7 +2,7 @@ package it.unibo.object_onepiece.model;
 
 import java.util.function.Supplier;
 
-import it.unibo.object_onepiece.model.Enemy.States;
+import it.unibo.object_onepiece.model.Enemy.*;
 import it.unibo.object_onepiece.model.Ship.MoveDetails;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 

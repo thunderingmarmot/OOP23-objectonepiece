@@ -1,10 +1,9 @@
 package it.unibo.object_onepiece.controller;
 
-import it.unibo.object_onepiece.controller.Controller.States;
+import it.unibo.object_onepiece.controller.ControllerImpl.*;
 import it.unibo.object_onepiece.model.Player;
-import it.unibo.object_onepiece.model.Ship;
 import it.unibo.object_onepiece.model.Utils.Position;
-
+import it.unibo.object_onepiece.controller.Controller.*;
 /**
  * The implementation of "Shoot" state of the controller.
  */
@@ -18,7 +17,7 @@ public final class ShootState extends InputState {
     
 
     @Override
-    public Boolean perform(final Position pos,final Ship ship) {
+    public Boolean perform(final Position pos,final Player player) {
       /*  var details = ship.getWeapon().shoot(pos);
        return details.hasShooted(); */
        return true;
