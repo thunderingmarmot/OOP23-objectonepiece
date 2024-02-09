@@ -13,7 +13,7 @@ import it.unibo.object_onepiece.model.World;
  * The implementation of the Controller Interface.
  */
 public final class ControllerImpl implements Controller {
-    
+
     private Boolean toggle = false;
     private InputState currentState;
     private Map<States, InputState> states = Map.of(
@@ -22,23 +22,14 @@ public final class ControllerImpl implements Controller {
 
     @Override
     public void action(final Position position, final World world) {
-        var currentSec = world.getCurrentSection();
-        var player = currentSec.getPlayer();
+        var player = world.getPlayer();
 
         toggleMode(position, new Position(0, 0));
 
         if (currentState.perform(position,player)) {
-            /* currentSec.getEntities()
-                .stream()
-                .filter(x -> x instanceof Enemy)
-                .toList()
-                .forEach(e -> ((Enemy) e).goNext()); */
-        }
-    }
-
-    @Override
-    public void initialize(final World world) {
-       world.instantiateSection();
+            world.getEnemies()
+                .forEach(e -> ((Enemy) e).goNext());
+        }   
     }
 
     private void toggleMode(final Position position, final Position player) {

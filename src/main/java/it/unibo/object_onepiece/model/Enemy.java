@@ -47,11 +47,11 @@ public final class Enemy extends Ship {
         while (!currentState.perform());
     }
 
-    public States getCurrentState() {
+    protected States getCurrentState() {
         return currentState.getState();
     }
     
-    public void changeState(States state) {
+    protected void changeState(States state) {
        this.currentState = findState(state);
     }
 
