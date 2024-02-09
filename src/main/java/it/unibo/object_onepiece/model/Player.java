@@ -1,6 +1,10 @@
 package it.unibo.object_onepiece.model;
+import java.util.List;
+
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.Weapon.ShootDetails;
+import it.unibo.object_onepiece.model.Weapon.ShootReturnType;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 
@@ -13,6 +17,12 @@ public final class Player extends Ship {
     private int experience;
 
     private final Event<Argument<Integer>> onExperienceAdded = new Event<>();
+
+    private static final List<MoveDetails> moveSuccessConditions = List.of(
+        MoveDetails.MOVED_SUCCESSFULLY,
+        MoveDetails.MOVED_BUT_COLLIDED,
+        MoveDetails.ROTATED
+    );
 
     /**
      * Constructor for PlayerImpl.
@@ -51,8 +61,19 @@ public final class Player extends Ship {
                           Bow.standard());
     }
 
-    public void move(Position destination) {
-        
+    public boolean isInSamePositionAs(Position position) {
+        return this.getPosition() == position;
+    }
+
+    public boolean move(Position destination) {
+        CardinalDirection direction = this.getPosition().whereTo(destination);
+        MoveDetails moveResult = super.move(direction);
+        return moveSuccessConditions.contains(moveResult);
+    }
+
+    @Override
+    public ShootReturnType shoot(Position target) {
+        return super.shoot(target);
     }
 
     /**
