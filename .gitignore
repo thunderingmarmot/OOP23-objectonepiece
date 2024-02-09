@@ -16,3 +16,13 @@ bin/
 node_modules/
 package.json
 package-lock.json
+
+# latex
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+report/*.pdf
