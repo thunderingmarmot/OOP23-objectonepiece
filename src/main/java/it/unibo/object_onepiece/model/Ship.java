@@ -108,15 +108,15 @@ public abstract class Ship extends Collider {
      */
     protected MoveDetails move(final CardinalDirection direction, final int steps) {
         final Position nextPosition = this.getPosition().moveTowards(direction);
-        final Collidable obstacle = (Collidable) this.getSection().getEntityAt(nextPosition).get();
+        final Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
 
         final Map<MoveDetails, Runnable> moveCondition = Map.of(
             MoveDetails.MOVED_SUCCESSFULLY, () -> this.setPosition(nextPosition),
             MoveDetails.ROTATED, () -> rotate(direction),
-            MoveDetails.STATIC_COLLISION, () -> this.collideWith(obstacle),
-            MoveDetails.MOVED_BUT_COLLIDED, () -> { 
-                this.collideWith(obstacle); 
-                this.setPosition(nextPosition); 
+            MoveDetails.STATIC_COLLISION, () -> this.collideWith((Collidable) obstacle.get()),
+            MoveDetails.MOVED_BUT_COLLIDED, () -> {
+                this.collideWith((Collidable) obstacle.get());
+                this.setPosition(nextPosition);
             }
         );
 
