@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import it.unibo.object_onepiece.model.Utils.State;
@@ -41,6 +42,17 @@ public final class WorldImpl implements World {
         return onSectionInstantiated;
     }
 
+    public Player getPlayer() {
+        return getCurrentSection().getPlayer();
+    }
+
+    public List<Enemy> getEnemies() {
+        return getCurrentSection().getEntities().stream()
+                                                .filter((e) -> e instanceof Enemy)
+                                                .map((e) -> (Enemy)e)
+                                                .toList();
+    }
+
     @Override
     public State getSavedState() {
         return savedState;
@@ -52,13 +64,11 @@ public final class WorldImpl implements World {
         savedState = new State(getCurrentSection(), player.getPosition(), player.getExperience());
     }
 
-    @Override
-    public Section getCurrentSection() {
+    Section getCurrentSection() {
         return currentSection;
     }
 
-    @Override
-    public void instantiateSection() {
+    void instantiateSection() {
         currentSection = new Section(this);
     }
 }
