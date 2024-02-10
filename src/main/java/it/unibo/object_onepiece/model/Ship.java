@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import it.unibo.object_onepiece.model.Weapon.ShootReturnType;
@@ -57,7 +58,7 @@ public abstract class Ship extends Collider {
         /**
          * The next direction of the ship is null.
          */
-        DIRECTION_NULL
+        NO_MOVEMENT
     }
 
     /**
@@ -102,37 +103,33 @@ public abstract class Ship extends Collider {
      * If along the path there are immovable obstacles the Ship stops right before them.
      */
     protected MoveDetails move(final CardinalDirection direction, final int steps) {
-        final Position nextPosition = this.getPosition().moveTowards(direction);
-        final Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
-        final MoveReturnType nextStep = checkMove(direction, steps, obstacle);
+        if (!this.getSail().isInSpeedRange(steps)) {
+            return MoveDetails.OUT_OF_SPEED_RANGE;
+        }
 
-        switch (nextStep.details()) {
-            case MOVED_SUCCESSFULLY:
+        Position nextPosition;
+        Optional<Entity> obstacle;
+        MoveReturnType nextStep = new MoveReturnType(false, MoveDetails.NO_MOVEMENT);
+
+        for (int i = 0; i < steps && !nextStep.details().equals(MoveDetails.STATIC_COLLISION); i++) {
+            nextPosition = this.getPosition().moveTowards(direction);
+            obstacle = this.getSection().getEntityAt(nextPosition);
+            nextStep = checkMove(direction, obstacle);
+
+            if(nextStep.details().equals(MoveDetails.STATIC_COLLISION) || nextStep.details().equals(MoveDetails.MOVED_BUT_COLLIDED)) {
+                this.collideWith((Collidable) obstacle.get());
+            }
+
+            if(nextStep.details().equals(MoveDetails.MOVED_SUCCESSFULLY) || nextStep.details().equals(MoveDetails.MOVED_BUT_COLLIDED)) {
                 this.setPosition(nextPosition);
-                break;
-
-            case ROTATED:
+            }
+            
+            if(nextStep.details().equals(MoveDetails.ROTATED)) {
                 rotate(direction);
-                break;
-
-            case STATIC_COLLISION:
-                this.collideWith((Collidable) obstacle.get());
-                break;
-
-            case MOVED_BUT_COLLIDED:
-                this.collideWith((Collidable) obstacle.get());
-                this.setPosition(nextPosition);
-                break;
-
-            default:
-                break;
+            }
         }
 
-        if (steps > 1) {
-            return move(direction, steps - 1);
-        } else {
-            return nextStep.details();
-        }
+        return nextStep.details();
     }
 
     /**
@@ -155,17 +152,12 @@ public abstract class Ship extends Collider {
      * This method is used to check if the Ship can move to the next cell.
      * 
      * @param  direction the direction where the ship should move to
-     * @param  steps     the final number of steps that the ship should do
      * @param  obstacle  optional of an obstacle in front of the ship
      * @return           if the ship can move and a MoveDetails for a more detailed feedback on the movement.
      */
-    protected MoveReturnType checkMove(final CardinalDirection direction, final int steps, final Optional<Entity> obstacle) {
-        if (direction.equals(null)) {
-            return new MoveReturnType(false, MoveDetails.DIRECTION_NULL);
-        }
-
-        if (!this.getSail().isInSpeedRange(steps)) {
-            return new MoveReturnType(false, MoveDetails.OUT_OF_SPEED_RANGE);
+    protected MoveReturnType checkMove(final CardinalDirection direction, final Optional<Entity> obstacle) {
+        if (Objects.isNull(direction)) {
+            return new MoveReturnType(false, MoveDetails.NO_MOVEMENT);
         }
 
         if (this.getSail().getHealth() <= 0) {
