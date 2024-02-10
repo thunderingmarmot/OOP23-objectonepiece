@@ -3,10 +3,7 @@ import java.util.List;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.Weapon.ShootDetails;
 import it.unibo.object_onepiece.model.Weapon.ShootReturnType;
-import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 
 /**
  * Implementation of the Player interface.
@@ -15,8 +12,6 @@ import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 public final class Player extends Ship {
 
     private int experience;
-
-    private final Event<Argument<Integer>> onExperienceAdded = new Event<>();
 
     private static final List<MoveDetails> moveSuccessConditions = List.of(
         MoveDetails.MOVED_SUCCESSFULLY,
@@ -91,15 +86,5 @@ public final class Player extends Ship {
      */
     protected void addExperience(final int experience) {
         this.experience += experience;
-        onExperienceAdded.invoke(new Argument<>(this.experience));
-    }
-
-    /**
-     * Getter for the onExperienceAdded event.
-     * @return the Event object
-     * @see Event
-     */
-    public Event<Argument<Integer>> getExperienceAddedEvent() {
-        return onExperienceAdded;
     }
 }

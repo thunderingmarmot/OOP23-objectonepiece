@@ -7,9 +7,6 @@ import it.unibo.object_onepiece.model.Weapon.ShootReturnType;
 import it.unibo.object_onepiece.model.Weapon.ShootDetails;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.Argument;
-import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
 
 /**
  * This class represents a ship that extends the Collider class.
@@ -24,9 +21,6 @@ public abstract class Ship extends Collider {
     private Weapon weapon;
     private Sail sail;
     private Bow bow;
-
-    private final Event<BiArgument<CardinalDirection>> onDirectionChanged = new Event<>();
-    private final Event<Argument<Integer>> onTookDamage = new Event<>();
 
     /**
      * Defines the possible values of MoveDetails which explains what happened while moving.
@@ -258,7 +252,6 @@ public abstract class Ship extends Collider {
      * @param  s      the ShipComponent that needs to be hit
      */
     protected void takeDamage(final int damage, final ShipComponent s) {
-        onTookDamage.invoke(new Argument<>(damage));
         s.setHealth(s.getHealth() - damage);
         if (this.bow.getHealth() <= 0) {
             this.remove();
@@ -335,26 +328,6 @@ public abstract class Ship extends Collider {
     }
 
     /**
-     * Getter for the onDirectionChanged Event.
-     * 
-     * @return the event of the direction changed.
-     * @see    Event
-     */
-    public Event<BiArgument<CardinalDirection>> getDirectionChangedEvent() {
-        return this.onDirectionChanged;
-    }
-
-    /**
-     * Getter for the onTookDamage Event.
-     * 
-     * @return the event of the took damage.
-     * @see    Event
-     */
-    public Event<Argument<Integer>> getTookDamageEvent() {
-        return this.onTookDamage;
-    }
-
-    /**
      * Getter for the Rigidness of the ship.
      * 
      * @return the Rigidnes of the Collider.
@@ -372,7 +345,6 @@ public abstract class Ship extends Collider {
      * @param  direction the direction in which the ship must rotate
      */
     protected void rotate(final CardinalDirection direction) {
-        onDirectionChanged.invoke(new BiArgument<>(this.currDirection, direction));
         this.currDirection = direction;
     }
 
