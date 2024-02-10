@@ -150,8 +150,8 @@ public final class ObjectOnePieceApp extends Application {
     private void drawEntity(final String entityName, final Position p, final Optional<CardinalDirection> d) {
         final int col = p.column();
         final int row = p.row();
-        e.getEntityRemovedEvent().subscribe(r -> removeEntity(r.arg()));
-        e.getPositionChangedEvent().subscribe(r -> drawEntity(r.arg1(), r.arg2(), e, d));
+        //e.getEntityRemovedEvent().subscribe(r -> removeEntity(r.arg()));
+        //e.getPositionChangedEvent().subscribe(r -> drawEntity(r.arg1(), r.arg2(), e, d));
         drawImage(entityName, row, col, d);
 
     }
