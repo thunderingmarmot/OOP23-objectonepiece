@@ -123,7 +123,7 @@ public final class Section {
     }
 
     void removeEntityAt(final Position position) {
-        entities.removeIf(e -> e.getPosition() == position);
+        entities.removeIf(e -> e.getPosition().equals(position));
     }
 
     Player getPlayer() {
