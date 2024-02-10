@@ -121,7 +121,7 @@ public final class ObjectOnePieceApp extends Application {
                     controller.action(new Position(c.getRow(), c.getColumn()), world);
                 }
             });
-            gridView.getCellPane(c).addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<Event>() {
+            /*gridView.getCellPane(c).addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<Event>() {
 
                 @Override
                 public void handle(Event event) {
@@ -139,7 +139,7 @@ public final class ObjectOnePieceApp extends Application {
                     gridView.getCellPane(c).getChildren().stream()
                         .filter(n -> n instanceof Pane).map(n -> (Pane) n).forEach(n -> n.setBorder(null));
                 }
-            });
+            });*/
 
             
         });
@@ -176,11 +176,6 @@ public final class ObjectOnePieceApp extends Application {
         }
     }
 
-    /*private void drawEntity(Position oldPos, Position newPosition, Entity e, Optional<CardinalDirection> d) {
-        removeEntity(oldPos);
-        drawImage(e.getClass().getSimpleName(), newPosition.row(), newPosition.column(), d);
-    }*/
-
     private void drawImage(String entityName, int row, int col, Optional<CardinalDirection> d) {
         try {
             final URL imgPath = getClass().getResource(PATH_FUNC.apply(entityName));
@@ -193,6 +188,7 @@ public final class ObjectOnePieceApp extends Application {
             entityImage.fitWidthProperty().bind(gridView.cellSizeProperty());
             entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
             if (gridView.getCellPane(gridModel.getCell(col, row)).getChildren().size() > 0) {
+                gridView.getCellPane(gridModel.getCell(col, row)).getChildren().stream().forEach(System.out::println);
                 throw new IllegalStateException("Cell where entity should be drawn already has another entity");
             }
             gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(entityImage);
