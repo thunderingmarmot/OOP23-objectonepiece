@@ -131,6 +131,7 @@ public class Entity {
     public EntityUpdatedEvent getEntityUpdatedEvent() {
         return this.onEntityUpdated;
     }
+
     /**
      * Getter for the onEntityRemoved Event.
      * 
@@ -140,7 +141,6 @@ public class Entity {
     public EntityRemovedEvent getEntityRemovedEvent() {
         return this.onEntityRemoved;
     }
-
 
     /**
      * Getter for the onEntityCreated Event.
