@@ -116,12 +116,12 @@ public abstract class Ship extends Collider {
             obstacle = this.getSection().getEntityAt(nextPosition);
             nextStep = checkMove(direction, obstacle);
 
-            if(nextStep.details().equals(MoveDetails.MOVED_SUCCESSFULLY) || nextStep.details().equals(MoveDetails.MOVED_BUT_COLLIDED)) {
-                this.setPosition(nextPosition);
-            }
-
             if(nextStep.details().equals(MoveDetails.STATIC_COLLISION) || nextStep.details().equals(MoveDetails.MOVED_BUT_COLLIDED)) {
                 this.collideWith((Collidable) obstacle.get());
+            }
+
+            if(nextStep.details().equals(MoveDetails.MOVED_SUCCESSFULLY) || nextStep.details().equals(MoveDetails.MOVED_BUT_COLLIDED)) {
+                this.setPosition(nextPosition);
             }
             
             if(nextStep.details().equals(MoveDetails.ROTATED)) {
