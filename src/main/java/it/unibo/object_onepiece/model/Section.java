@@ -5,11 +5,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import de.articdive.jnoise.pipeline.JNoise;
+import it.unibo.object_onepiece.model.Events.EntityCreatedEvent;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
 
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -34,8 +33,7 @@ public final class Section {
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound = new Bound(ROWS, COLUMNS);
 
-    private final Event<TriArguments<String, Position, Optional<CardinalDirection>>> 
-    onEntityCreated = new Event<>();
+    private final EntityCreatedEvent onEntityCreated = new EntityCreatedEvent();
     /**
      * 
      * @param world reference to World object (used to consent islands to save game state)
@@ -119,14 +117,14 @@ public final class Section {
 
     void addEntity(final Entity e) {
         final Optional<CardinalDirection> direction = e instanceof Ship s ? Optional.of(s.getDirection()) : Optional.empty();
-        onEntityCreated.invoke(new TriArguments<>(e.getClass().getSimpleName(), e.getPosition(), direction));
+        onEntityCreated.invoke(e.getClass().getSimpleName(), e.getPosition(), direction);
         entities.add(e);
     }
     
     /**
      * @return event to generate entities in view
      */
-    public Event<TriArguments<String, Position, Optional<CardinalDirection>>> getEntityCreatedEvent() {
+    public EntityCreatedEvent getEntityCreatedEvent() {
         return onEntityCreated;
     }
 }

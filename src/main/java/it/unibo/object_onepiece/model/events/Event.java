@@ -9,7 +9,7 @@ import java.util.function.Consumer;
  * @param <T> the generic type implementing EventArgs defining the Event arguments
  * @see Event
  */
-public final class Event<T extends EventArgs> {
+public class Event<T extends EventArgs> {
 
     private final List<Consumer<T>> listeners = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public final class Event<T extends EventArgs> {
      * @param args the arguments passed to the subscribed Consumers
      * @see EventArgs
      */
-    public void invoke(final T args) {
+    protected void invoke(final T args) {
         listeners.forEach((listener) -> listener.accept(args));
     }
 }

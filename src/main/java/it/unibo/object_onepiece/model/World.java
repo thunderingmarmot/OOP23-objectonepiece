@@ -2,9 +2,8 @@ package it.unibo.object_onepiece.model;
 
 import java.util.List;
 
+import it.unibo.object_onepiece.model.Events.SectionInstantiatedEvent;
 import it.unibo.object_onepiece.model.Utils.State;
-import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 
 /**
  * Represents World of the game, with the current section and the saved ones.
@@ -32,5 +31,5 @@ public interface World {
     Player getPlayer();
     List<Enemy> getEnemies();
 
-    Event<Argument<Section>> getSectionInstantiatedEvent();
+    SectionInstantiatedEvent getSectionInstantiatedEvent();
 }

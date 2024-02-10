@@ -1,10 +1,9 @@
 package it.unibo.object_onepiece.model;
 import java.util.Optional;
 
-import it.unibo.object_onepiece.model.Utils.CardinalDirection;
+import it.unibo.object_onepiece.model.Events.EntityUpdatedEvent;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
 
 /**
  * This class defines the common methods of every entity present on the section.
@@ -13,7 +12,7 @@ public class Entity {
     private final Section section;
     private Position position;
 
-    private final Event<TriArguments<Optional<Position>, Optional<Position>, Optional<CardinalDirection>>> onEntityUpdated = new Event<>();
+    private final EntityUpdatedEvent onEntityUpdated = new EntityUpdatedEvent();
 
     /**
      * Constructor for class Entity.
@@ -52,7 +51,7 @@ public class Entity {
      * @return an event of entity removed.
      * @see    Event
      */
-    public Event<TriArguments<Optional<Position>, Optional<Position>, Optional<CardinalDirection>>> getEntityUpdatedEvent() {
+    public EntityUpdatedEvent getEntityUpdatedEvent() {
         return this.onEntityUpdated;
     }
 
@@ -66,9 +65,9 @@ public class Entity {
      * @see    Utils
      */
     protected void setPosition(final Position newPosition) {
-        onEntityUpdated.invoke(new TriArguments<>(Optional.of(this.position),
-                                                  Optional.of(newPosition),
-                                                  Optional.empty()));
+        onEntityUpdated.invoke(Optional.of(this.position),
+                               Optional.of(newPosition),
+                               Optional.empty());
         this.position = newPosition;
     }
 
@@ -77,9 +76,9 @@ public class Entity {
      * and remove the entity from the current section.
      */
     protected void remove() {
-        onEntityUpdated.invoke(new TriArguments<>(Optional.of(this.position),
-                                                  Optional.empty(),
-                                                  Optional.empty()));
+        onEntityUpdated.invoke(Optional.of(this.position),
+                               Optional.empty(),
+                               Optional.empty());
         this.getSection().removeEntityAt(this.position);
     }
 }

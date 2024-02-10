@@ -3,8 +3,8 @@ package it.unibo.object_onepiece.model;
 import java.util.List;
 import java.util.function.Consumer;
 
+import it.unibo.object_onepiece.model.Events.SectionInstantiatedEvent;
 import it.unibo.object_onepiece.model.Utils.State;
-import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 
 /**
@@ -25,7 +25,7 @@ public final class WorldImpl implements World {
     /**
      * Make view subscribe to the section creation event.
      */
-    private final Event<Argument<Section>> onSectionInstantiated = new Event<>();
+    private final SectionInstantiatedEvent onSectionInstantiated = new SectionInstantiatedEvent();
 
     public WorldImpl(final Consumer<Argument<Section>> listener) {
         onSectionInstantiated.subscribe(listener);
@@ -34,11 +34,11 @@ public final class WorldImpl implements World {
 
     void createNewSection() {
         currentSection = new Section(this);
-        onSectionInstantiated.invoke(new Argument<>(currentSection));
+        onSectionInstantiated.invoke(currentSection);
         currentSection.generateEntities();
     }
     
-    public Event<Argument<Section>> getSectionInstantiatedEvent() {
+    public SectionInstantiatedEvent getSectionInstantiatedEvent() {
         return onSectionInstantiated;
     }
 
