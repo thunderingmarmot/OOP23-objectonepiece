@@ -7,7 +7,6 @@ import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
 import it.unibo.object_onepiece.controller.Controller;
 import it.unibo.object_onepiece.controller.ControllerImpl;
-import it.unibo.object_onepiece.model.Entity;
 import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.World;
 import it.unibo.object_onepiece.model.WorldImpl;
@@ -169,10 +168,10 @@ public final class ObjectOnePieceApp extends Application {
         }
     }
 
-    private void drawEntity(Position oldPos, Position newPosition, Entity e, Optional<CardinalDirection> d) {
+    /*private void drawEntity(Position oldPos, Position newPosition, Entity e, Optional<CardinalDirection> d) {
         removeEntity(oldPos);
         drawImage(e.getClass().getSimpleName(), newPosition.row(), newPosition.column(), d);
-    }
+    }*/
 
     private void drawImage(String entityName, int row, int col, Optional<CardinalDirection> d) {
         try {
