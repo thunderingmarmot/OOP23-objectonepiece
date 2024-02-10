@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model;
 
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
@@ -18,8 +19,8 @@ public final class Barrel extends Collidable {
      * @param spawnPosition the position to place this Barrel at
      * @return the newly created Barrel object
      */
-    protected static Barrel getDefault(final Section spawnSection, final Position spawnPosition) {
-        return new Barrel(spawnSection, spawnPosition, DEFAULT_EXPERIENCE_GIVEN);
+    protected static Barrel getDefault(final Section spawnSection, final Position spawnPosition, final CardinalDirection spawnDirection) {
+        return new Barrel(spawnSection, spawnPosition, spawnDirection, DEFAULT_EXPERIENCE_GIVEN);
     }
 
     /**
@@ -30,8 +31,8 @@ public final class Barrel extends Collidable {
      * @param position the position to place this Island at
      * @param experienceGiven the experience value this Barrel gives the Player when taken
      */
-    protected Barrel(final Section section, final Position position, final int experienceGiven) {
-        super(section, position);
+    protected Barrel(final Section section, final Position position, final CardinalDirection direction, final int experienceGiven) {
+        super(section, position, direction);
         this.experienceGiven = experienceGiven;
     }
 
