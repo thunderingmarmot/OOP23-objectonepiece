@@ -25,6 +25,10 @@ public final class WorldImpl implements World {
      */
     private final SectionInstantiatedEvent onSectionInstantiated = new SectionInstantiatedEvent();
 
+    /**
+     * 
+     * @param listener view method to associate for section instantiation
+     */
     public WorldImpl(final Consumer<Argument<Section>> listener) {
         onSectionInstantiated.subscribe(listener);
         createNewSection();
@@ -36,19 +40,22 @@ public final class WorldImpl implements World {
         currentSection.generateEntities();
     }
 
+    @Override
     public SectionInstantiatedEvent getSectionInstantiatedEvent() {
         return onSectionInstantiated;
     }
 
+    @Override
     public Player getPlayer() {
         return getCurrentSection().getPlayer();
     }
 
+    @Override
     public List<Enemy> getEnemies() {
         return getCurrentSection().getEntities().stream()
-                                                .filter((e) -> e instanceof Enemy)
-                                                .map((e) -> (Enemy) e)
-                                                .toList();
+            .filter((e) -> e instanceof Enemy)
+            .map((e) -> (Enemy) e)
+            .toList();
     }
 
     @Override
