@@ -10,7 +10,7 @@ import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.QuadrArguments;
+import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -45,7 +45,7 @@ public final class Section {
      * @see Section
      */
     public static final class EntityCreatedEvent
-    extends Event<QuadrArguments<String, Position, Optional<CardinalDirection>, EntityUpdatedEvent>> {
+    extends Event<Argument<EntityUpdatedEvent>> {
         /**
          * A less verbose version of invoke that directly takes the Event arguments.
          * @param entityName the name of the Entity class that has been created
@@ -54,11 +54,8 @@ public final class Section {
          * @param entityUpdatedEvent the EntityUpdatedEvent of the newly created Entity
          * @see Event
          */
-        protected void invoke(final String entityName,
-                              final Position spawnPosition,
-                              final Optional<CardinalDirection> spawnDirection,
-                              final EntityUpdatedEvent entityUpdatedEvent) {
-            super.invoke(new QuadrArguments<>(entityName, spawnPosition, spawnDirection, entityUpdatedEvent));
+        protected void invoke(final EntityUpdatedEvent entityUpdatedEvent) {
+            super.invoke(new Argument<>(entityUpdatedEvent));
         }
     }
 
@@ -145,8 +142,11 @@ public final class Section {
     }
 
     void addEntity(final Entity e) {
-        final Optional<CardinalDirection> direction = e instanceof Ship s ? Optional.of(s.getDirection()) : Optional.empty();
-        onEntityCreated.invoke(e.getClass().getSimpleName(), e.getPosition(), direction, e.getEntityUpdatedEvent());
+        onEntityCreated.invoke(e.getEntityUpdatedEvent());
+        e.getEntityUpdatedEvent().invoke(e.getClass().getSimpleName(),
+                                         e.getPosition(),
+                                         Optional.of(e.getPosition()),
+                                         Optional.of(e.getDirection()));
         entities.add(e);
     }
 

@@ -5,6 +5,7 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.QuadrArguments;
+import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 
 /**
  * This class defines the common methods of every entity present on the section.
@@ -16,6 +17,7 @@ public class Entity {
     private CardinalDirection direction;
 
     private final EntityUpdatedEvent onEntityUpdated = new EntityUpdatedEvent();
+    private final EntityRemovedEvent onEntityRemoved = new EntityRemovedEvent();
 
     /**
      * An Event alias that is used when an Entity state is updated in any way.
@@ -23,10 +25,7 @@ public class Entity {
      * @see Entity
      */
     public static final class EntityUpdatedEvent
-    extends Event<QuadrArguments<String,
-                                 Position,
-                                 Optional<Position>,
-                                 Optional<CardinalDirection>>> {
+    extends Event<QuadrArguments<String, Position, Position, CardinalDirection>> {
         /**
          * A less verbose version of invoke that directly takes the Event arguments.
          * @param  oldPosition the position this Entity was before the update
@@ -36,9 +35,28 @@ public class Entity {
          */
         protected void invoke(final String entityName,
                               final Position oldPosition,
-                              final Optional<Position> newPosition,
-                              final Optional<CardinalDirection> direction) {
+                              final Position newPosition,
+                              final CardinalDirection direction) {
             super.invoke(new QuadrArguments<>(entityName, oldPosition, newPosition, direction));
+        }
+    }
+
+    /**
+     * An Event alias that is used when an Entity state is updated in any way.
+     * @see Event
+     * @see Entity
+     */
+    public static final class EntityRemovedEvent
+    extends Event<Argument<Position>> {
+        /**
+         * A less verbose version of invoke that directly takes the Event arguments.
+         * @param  oldPosition the position this Entity was before the update
+         * @param  newPosition the position this Entity is after the update
+         * @param  direction   the direction this Entity is after the update
+         * @see    Event
+         */
+        protected void invoke(final Position lastPosition) {
+            super.invoke(new Argument<>(lastPosition));
         }
     }
 
@@ -105,8 +123,8 @@ public class Entity {
     protected void setPosition(final Position newPosition) {
         onEntityUpdated.invoke(this.getClass().getSimpleName(),
                                this.position,
-                               Optional.of(newPosition),
-                               Optional.of(this.direction));
+                               newPosition,
+                               this.direction);
         this.position = newPosition;
     }
 
@@ -122,8 +140,8 @@ public class Entity {
     protected void setDirection(final CardinalDirection newDirection) {
         onEntityUpdated.invoke(this.getClass().getSimpleName(),
                                this.position,
-                               Optional.of(this.position),
-                               Optional.of(newDirection));
+                               this.position,
+                               newDirection);
         this.direction = newDirection;
     }
 
@@ -132,10 +150,7 @@ public class Entity {
      * and remove the entity from the current section.
      */
     protected void remove() {
-        onEntityUpdated.invoke(this.getClass().getSimpleName(),
-                               this.position,
-                               Optional.empty(),
-                               Optional.empty());
+        onEntityRemoved.invoke(position);
         this.getSection().removeEntityAt(this.position);
     }
 }
