@@ -3,7 +3,6 @@ package it.unibo.object_onepiece.model;
 import java.util.List;
 import java.util.function.Consumer;
 
-import it.unibo.object_onepiece.model.Events.SectionInstantiatedEvent;
 import it.unibo.object_onepiece.model.Utils.State;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 
@@ -11,7 +10,6 @@ import it.unibo.object_onepiece.model.events.EventArgs.Argument;
  * Implementation of World interface.
  */
 public final class WorldImpl implements World {
-
     /**
      * Saved State of game when player saved his state on an Island.
      */

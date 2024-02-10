@@ -10,7 +10,7 @@ import it.unibo.object_onepiece.controller.ControllerImpl;
 import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.World;
 import it.unibo.object_onepiece.model.WorldImpl;
-import it.unibo.object_onepiece.model.Events.EntityUpdatedEvent;
+import it.unibo.object_onepiece.model.Entity.EntityUpdatedEvent;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import javafx.application.Application;

@@ -1,18 +1,41 @@
 package it.unibo.object_onepiece.model;
 import java.util.Optional;
 
-import it.unibo.object_onepiece.model.Events.EntityUpdatedEvent;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
+import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
 
 /**
  * This class defines the common methods of every entity present on the section.
  */
 public class Entity {
+
     private final Section section;
     private Position position;
 
     private final EntityUpdatedEvent onEntityUpdated = new EntityUpdatedEvent();
+
+    /**
+     * An Event alias that is used when an Entity state is updated in any way.
+     * @see Event
+     * @see Entity
+     */
+    public static final class EntityUpdatedEvent
+    extends Event<TriArguments<Optional<Position>, Optional<Position>, Optional<CardinalDirection>>> {
+        /**
+         * A less verbose version of invoke that directly takes the Event arguments.
+         * @param oldPosition the position this Entity was before the update
+         * @param newPosition the position this Entity is after the update
+         * @param direction the direction this Entity is after the update
+         * @see Event
+         */
+        protected void invoke(final Optional<Position> oldPosition,
+                              final Optional<Position> newPosition,
+                              final Optional<CardinalDirection> direction) {
+            super.invoke(new TriArguments<>(oldPosition, newPosition, direction));
+        }
+    }
 
     /**
      * Constructor for class Entity.

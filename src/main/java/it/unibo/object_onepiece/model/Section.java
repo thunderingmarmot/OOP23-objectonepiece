@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import de.articdive.jnoise.pipeline.JNoise;
-import it.unibo.object_onepiece.model.Events.EntityCreatedEvent;
+import it.unibo.object_onepiece.model.Entity.EntityUpdatedEvent;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.events.Event;
+import it.unibo.object_onepiece.model.events.EventArgs.QuadrArguments;
 
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -34,6 +36,30 @@ public final class Section {
     private final Bound bound = new Bound(ROWS, COLUMNS);
 
     private final EntityCreatedEvent onEntityCreated = new EntityCreatedEvent();
+
+    /**
+     * An Event alias that is used when an Entity is created in a Section.
+     * @see Event
+     * @see Section
+     */
+    public static final class EntityCreatedEvent
+    extends Event<QuadrArguments<String, Position, Optional<CardinalDirection>, EntityUpdatedEvent>> {
+        /**
+         * A less verbose version of invoke that directly takes the Event arguments.
+         * @param entityName the name of the Entity class that has been created
+         * @param spawnPosition the position this Entity has been spawned at
+         * @param spawnDirection the direction this Entity has been spawned in
+         * @param entityUpdatedEvent the EntityUpdatedEvent of the newly created Entity
+         * @see Event
+         */
+        protected void invoke(final String entityName,
+                              final Position spawnPosition,
+                              final Optional<CardinalDirection> spawnDirection,
+                              final EntityUpdatedEvent entityUpdatedEvent) {
+            super.invoke(new QuadrArguments<>(entityName, spawnPosition, spawnDirection, entityUpdatedEvent));
+        }
+    }
+
     /**
      * 
      * @param world reference to World object (used to consent islands to save game state)
@@ -99,7 +125,7 @@ public final class Section {
         if (entities.stream().filter(e -> e instanceof Player).count() != 1) {
             throw new IllegalStateException("There is no player in section or there's more than one player");
         }
-        final Optional<Player> p = entities.stream().filter(e -> e instanceof Player).map(e -> (Player)e).findFirst();
+        final Optional<Player> p = entities.stream().filter(e -> e instanceof Player).map(e -> (Player) e).findFirst();
         if (!p.isPresent()) {
             throw new IllegalStateException("No player found");
         }
@@ -120,7 +146,7 @@ public final class Section {
         onEntityCreated.invoke(e.getClass().getSimpleName(), e.getPosition(), direction, e.getEntityUpdatedEvent());
         entities.add(e);
     }
-    
+
     /**
      * @return event to generate entities in view
      */
