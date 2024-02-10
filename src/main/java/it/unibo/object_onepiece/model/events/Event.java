@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Implementation of the Event interface.
+ * Base Event implementation.
  * @param <T> the generic type implementing EventArgs defining the Event arguments
  * @see Event
  */
