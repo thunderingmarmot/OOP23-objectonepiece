@@ -143,7 +143,7 @@ public final class Utils {
          * @return the moved Position
          */
         public Position moveTowards(final CardinalDirection direction) {
-            return cardinalDirectionsTranslations.get(direction).apply(this);
+            return direction != null ? cardinalDirectionsTranslations.get(direction).apply(this) : this;
         }
 
         /**
