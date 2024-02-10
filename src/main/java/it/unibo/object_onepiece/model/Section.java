@@ -29,6 +29,7 @@ public final class Section {
     private static final int GEN_AREA_ROWS = COLUMNS - COL_INSET;
     private static final double SCALING_FACTOR = 50.5;
     private static final int NOISE_DISPERSION = 50;
+    private static final CardinalDirection DEFAULT_DIRECTION = CardinalDirection.NORTH;
 
     private final Random rand = new Random();
     private final World world;
@@ -36,6 +37,7 @@ public final class Section {
     private final Bound bound = new Bound(ROWS, COLUMNS);
 
     private final EntityCreatedEvent onEntityCreated = new EntityCreatedEvent();
+    
 
     /**
      * An Event alias that is used when an Entity is created in a Section.
@@ -79,18 +81,19 @@ public final class Section {
                 final Position p = new Position(i, j);
                 final double noise = whiteNoise.evaluateNoise(i, j);
                 final int floored = (int) Math.floor(noise * NOISE_DISPERSION);
+                
                 switch (floored) {
                     case 0:
                         /* Don't do anything because water */
                         break;
                     case 1:
-                        this.addEntity(Island.getDefault(this, p));
+                        this.addEntity(Island.getDefault(this, p, DEFAULT_DIRECTION));
                         break;
                     case 2:
-                        this.addEntity(Barrel.getDefault(this, p));
+                        this.addEntity(Barrel.getDefault(this, p, DEFAULT_DIRECTION));
                         break;
                     case 3:
-                        this.addEntity(NavalMine.getDefault(this, p));
+                        this.addEntity(NavalMine.getDefault(this, p, DEFAULT_DIRECTION));
                         break;
                     case 4:
                         this.addEntity(Enemy.getDefault(this, p));

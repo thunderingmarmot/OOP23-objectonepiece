@@ -59,8 +59,8 @@ public abstract class Ship extends Collider {
 
     /**
      * Defines the return type of the move method.
-     * @param canStep a boolean which tells the caller of move if this Movable moved or not
-     * @param details a MoveDetails object which explains in detail what happened
+     * @param  canStep a boolean which tells the caller of move if this Movable moved or not
+     * @param  details a MoveDetails object which explains in detail what happened
      */
     record MoveReturnType(boolean canStep, MoveDetails details) { }
 
