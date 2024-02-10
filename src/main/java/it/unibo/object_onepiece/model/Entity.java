@@ -27,6 +27,7 @@ public class Entity {
     extends Event<QuadrArguments<String, Position, Position, CardinalDirection>> {
         /**
          * A less verbose version of invoke that directly takes the Event arguments.
+         * @param  entityName  the name of the Entity class
          * @param  oldPosition the position this Entity was before the update
          * @param  newPosition the position this Entity is after the update
          * @param  direction   the direction this Entity is after the update
@@ -49,9 +50,7 @@ public class Entity {
     extends Event<Argument<Position>> {
         /**
          * A less verbose version of invoke that directly takes the Event arguments.
-         * @param  oldPosition the position this Entity was before the update
-         * @param  newPosition the position this Entity is after the update
-         * @param  direction   the direction this Entity is after the update
+         * @param  lastPosition the last position this Entity was
          * @see    Event
          */
         protected void invoke(final Position lastPosition) {
@@ -64,6 +63,7 @@ public class Entity {
      * 
      * @param  s section where the entity should be located
      * @param  p position of the entity in the section
+     * @param  d direction of the entity in the section
      */
     protected Entity(final Section s, final Position p, final CardinalDirection d) {
         this.section = s;

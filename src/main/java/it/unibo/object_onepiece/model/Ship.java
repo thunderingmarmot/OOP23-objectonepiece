@@ -150,7 +150,9 @@ public abstract class Ship extends Collider {
     /**
      * This method is used to check if the Ship can move to the next cell.
      * 
-     * @param  direction is the direction where the ship should move to
+     * @param  direction the direction where the ship should move to
+     * @param  steps     the final number of steps that the ship should do
+     * @param  obstacle  optional of an obstacle in front of the ship
      * @return           if the ship can move and a MoveDetails for a more detailed feedback on the movement.
      */
     protected MoveReturnType checkMove(final CardinalDirection direction, final int steps, final Optional<Entity> obstacle) {
