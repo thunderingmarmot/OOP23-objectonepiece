@@ -2,6 +2,7 @@ package it.unibo.object_onepiece.model;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.BiPredicate;
 
@@ -143,7 +144,7 @@ public final class Utils {
          * @return the moved Position
          */
         public Position moveTowards(final CardinalDirection direction) {
-            return direction != null ? cardinalDirectionsTranslations.get(direction).apply(this) : this;
+            return Objects.isNull(direction) ? this : cardinalDirectionsTranslations.get(direction).apply(this);
         }
 
         /**
