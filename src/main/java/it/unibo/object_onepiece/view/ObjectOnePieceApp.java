@@ -10,6 +10,7 @@ import it.unibo.object_onepiece.controller.ControllerImpl;
 import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.World;
 import it.unibo.object_onepiece.model.WorldImpl;
+import it.unibo.object_onepiece.model.Events.EntityUpdatedEvent;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import javafx.application.Application;
@@ -144,12 +145,13 @@ public final class ObjectOnePieceApp extends Application {
     }
 
     private void drawSection(final Section section) {
-        section.getEntityCreatedEvent().subscribe(e -> drawEntity(e.arg1(), e.arg2(), e.arg3()));
+        section.getEntityCreatedEvent().subscribe(e -> drawEntity(e.arg1(), e.arg2(), e.arg3(), e.arg4()));
     }
 
-    private void drawEntity(final String entityName, final Position p, final Optional<CardinalDirection> d) {
+    private void drawEntity(final String entityName, final Position p, final Optional<CardinalDirection> d, EntityUpdatedEvent event) {
         final int col = p.column();
         final int row = p.row();
+        event.subscribe(null); // TODO
         //e.getEntityRemovedEvent().subscribe(r -> removeEntity(r.arg()));
         //e.getPositionChangedEvent().subscribe(r -> drawEntity(r.arg1(), r.arg2(), e, d));
         drawImage(entityName, row, col, d);
