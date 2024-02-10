@@ -29,10 +29,10 @@ public class Entity {
     extends Event<QuadrArguments<String, Position, Position, CardinalDirection>> {
         /**
          * A less verbose version of invoke that directly takes the Event arguments.
-         * @param  entityName  the name of the Entity class
-         * @param  oldPosition the position this Entity was before the update
-         * @param  newPosition the position this Entity is after the update
-         * @param  direction   the direction this Entity is after the update
+         * @param  entityName   the name of the Entity class
+         * @param  oldPosition  the position this Entity was before the update
+         * @param  newPosition  the position this Entity is after the update
+         * @param  newDirection the direction this Entity is after the update
          * @see    Event
          */
         protected void invoke(final String entityName,
