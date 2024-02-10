@@ -129,7 +129,7 @@ public final class Utils {
         public Position versorOf(final Position position) {
             final var deltaRow = position.row - this.row;
             final var deltaColumn = position.column - this.column;
-            
+
             return new Position(deltaRow != 0 ? deltaRow / Math.abs(deltaRow) : 0,
                                 deltaColumn != 0 ? deltaColumn / Math.abs(deltaColumn) : 0);
         }
