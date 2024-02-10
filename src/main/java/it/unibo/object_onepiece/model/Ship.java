@@ -62,13 +62,6 @@ public abstract class Ship extends Collider {
     }
 
     /**
-     * Defines the return type of the move method.
-     * @param  canStep a boolean which tells the caller of move if this Movable moved or not
-     * @param  details a MoveDetails object which explains in detail what happened
-     */
-    record MoveReturnType(boolean canStep, MoveDetails details) { }
-
-    /**
     * Constructor for class ShipImpl.
     *
     * @param  s      the section where the ship is located
@@ -91,61 +84,52 @@ public abstract class Ship extends Collider {
     }
 
     /**
-     * This method define the actual ship movement by checking the next position
-     * using canMove() and move the Ship based on the MoveReturnType returned.
+     * This method define the actual ship movement by calling step() steps times.
+     * Every step the method try to move the Ship to the next position up to the final position.
+     * If along the path there are static collision the Ship stops right before them.
      * 
      * @param  direction is the direction where the ship should move
      * @param  steps     is the number of steps that the ship should do to reach the final position
      * @return           a MoveDetails that contains the result of the last movement made by the Ship.
-     * 
-     * This is a recursive method that calls himself steps times.
-     * Every call the method try to move the Ship to the next position up to the final position.
-     * If along the path there are immovable obstacles the Ship stops right before them.
      */
     protected MoveDetails move(final CardinalDirection direction, final int steps) {
         if (!this.getSail().isInSpeedRange(steps)) {
             return MoveDetails.OUT_OF_SPEED_RANGE;
         }
 
-        Position nextPosition;
-        Optional<Entity> obstacle;
-        MoveReturnType nextStep = new MoveReturnType(false, MoveDetails.NO_MOVEMENT);
+        MoveDetails nextStep = MoveDetails.NO_MOVEMENT;
 
-        for (int i = 0; i < steps && !nextStep.details().equals(MoveDetails.STATIC_COLLISION); i++) {
-            nextPosition = this.getPosition().moveTowards(direction);
-            obstacle = this.getSection().getEntityAt(nextPosition);
-            nextStep = checkMove(direction, obstacle);
-
-            if(nextStep.details().equals(MoveDetails.STATIC_COLLISION) || nextStep.details().equals(MoveDetails.MOVED_BUT_COLLIDED)) {
-                this.collideWith((Collidable) obstacle.get());
-            }
-
-            if(nextStep.details().equals(MoveDetails.MOVED_SUCCESSFULLY) || nextStep.details().equals(MoveDetails.MOVED_BUT_COLLIDED)) {
-                this.setPosition(nextPosition);
-            }
-            
-            if(nextStep.details().equals(MoveDetails.ROTATED)) {
-                rotate(direction);
-            }
+        for (int i = 0; i < steps && !nextStep.equals(MoveDetails.STATIC_COLLISION); i++) {
+            nextStep = this.step(direction);
         }
 
-        return nextStep.details();
+        return nextStep;
     }
 
     /**
-     * Overloading of the default move method.
-     * This only accept the direction as a parameter 
-     * because it calls the move method by passing only 1 step.
+     * This method move the ship by one cell depending on the result of checkMove()
      * 
-     * This is made to simplify the calls to this method by Enemy ships,
-     * because they can't pick up power ups for their ships, so by default
-     * they can move by only one cell per turn.
-     * 
-     * @param  direction is the direction where the ship should move to
-     * @return           a MoveDetails that contains the result of the last movement made by the Ship.
+     * @param  direction the direction where the ship must move at
+     * @return           the MoveDetails returned by checkMove().
      */
-    protected MoveDetails move(final CardinalDirection direction) {
-        return move(direction, 1);
+    protected MoveDetails step(final CardinalDirection direction) {
+        final Position nextPosition = this.getPosition().moveTowards(direction);
+        final Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
+        final MoveDetails nextStep = checkMove(direction, obstacle);
+
+        if(nextStep.equals(MoveDetails.STATIC_COLLISION) || nextStep.equals(MoveDetails.MOVED_BUT_COLLIDED)) {
+            this.collideWith((Collidable) obstacle.get());
+        }
+
+        if(nextStep.equals(MoveDetails.MOVED_SUCCESSFULLY) || nextStep.equals(MoveDetails.MOVED_BUT_COLLIDED)) {
+            this.setPosition(nextPosition);
+        }
+
+        if(nextStep.equals(MoveDetails.ROTATED)) {
+            rotate(direction);
+        }
+
+        return nextStep;
     }
 
     /**
@@ -153,35 +137,35 @@ public abstract class Ship extends Collider {
      * 
      * @param  direction the direction where the ship should move to
      * @param  obstacle  optional of an obstacle in front of the ship
-     * @return           if the ship can move and a MoveDetails for a more detailed feedback on the movement.
+     * @return           a MoveDetails for a detailed outcome of the movement check.
      */
-    protected MoveReturnType checkMove(final CardinalDirection direction, final Optional<Entity> obstacle) {
+    protected MoveDetails checkMove(final CardinalDirection direction, final Optional<Entity> obstacle) {
         if (Objects.isNull(direction)) {
-            return new MoveReturnType(false, MoveDetails.NO_MOVEMENT);
+            return MoveDetails.NO_MOVEMENT;
         }
 
         if (this.getSail().getHealth() <= 0) {
-            return new MoveReturnType(false, MoveDetails.SAIL_BROKEN);
+            return MoveDetails.SAIL_BROKEN;
         }
 
         if (!direction.equals(this.getDirection())) {
-            return new MoveReturnType(false, MoveDetails.ROTATED);
+            return MoveDetails.ROTATED;
         }
 
         if (!this.getSection().getBounds().isInside(this.getPosition())) {
-            return new MoveReturnType(false, MoveDetails.BORDER_REACHED);
+            return MoveDetails.BORDER_REACHED;
         }
 
         if (obstacle.isPresent() && obstacle.get() instanceof Collidable c
         && (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {
-            return new MoveReturnType(false, MoveDetails.STATIC_COLLISION);
+            return MoveDetails.STATIC_COLLISION;
         }
 
         if (obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.getRigidness() == Rigidness.SOFT) {
-            return new MoveReturnType(true, MoveDetails.MOVED_BUT_COLLIDED);
+            return MoveDetails.MOVED_BUT_COLLIDED;
         }
 
-        return new MoveReturnType(true, MoveDetails.MOVED_SUCCESSFULLY);
+        return MoveDetails.MOVED_SUCCESSFULLY;
     }
 
     /**
