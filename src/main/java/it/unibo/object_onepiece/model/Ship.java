@@ -337,14 +337,17 @@ public abstract class Ship extends Collider {
     /**
      * This method calls takeDamage on the collider's 
      * bow if its Rigidness is MEDIUM.
+     * Also if the collider has opposite direction of
+     * this entity the damage is doubled.
      * 
-     * @see Collider
+     * @see  Collider
+     * @see  Utils
      */
     @Override
     protected void onCollisionWith(final Collider collider) {
         if (collider.getRigidness() == Rigidness.MEDIUM) {
             int damage = this.bow.getCrashDamage();
-            if (Utils.isEntityInOppositeDirection(this.getDirection())) {
+            if (Utils.isEntityInOppositeDirection(this, collider)) {
                 damage *= 2;
             }
             this.takeDamage(damage, this.bow);
@@ -356,7 +359,7 @@ public abstract class Ship extends Collider {
      * and if the Rigidness of the collidable is MEDIUM it calls
      * takeDamage() on himself.
      * 
-     * @see Collidable
+     * @see  Collidable
      */
     @Override
     protected void collideWith(final Collidable collidable) {
