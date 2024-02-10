@@ -4,7 +4,7 @@ import java.util.Optional;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
+import it.unibo.object_onepiece.model.events.EventArgs.QuadrArguments;
 
 /**
  * This class defines the common methods of every entity present on the section.
@@ -23,9 +23,10 @@ public class Entity {
      * @see Entity
      */
     public static final class EntityUpdatedEvent
-    extends Event<TriArguments<Position,
-                               Optional<Position>,
-                               Optional<CardinalDirection>>> {
+    extends Event<QuadrArguments<String,
+                                 Position,
+                                 Optional<Position>,
+                                 Optional<CardinalDirection>>> {
         /**
          * A less verbose version of invoke that directly takes the Event arguments.
          * @param  oldPosition the position this Entity was before the update
@@ -33,10 +34,11 @@ public class Entity {
          * @param  direction   the direction this Entity is after the update
          * @see    Event
          */
-        protected void invoke(final Position oldPosition,
+        protected void invoke(final String entityName,
+                              final Position oldPosition,
                               final Optional<Position> newPosition,
                               final Optional<CardinalDirection> direction) {
-            super.invoke(new TriArguments<>(oldPosition, newPosition, direction));
+            super.invoke(new QuadrArguments<>(entityName, oldPosition, newPosition, direction));
         }
     }
 
@@ -101,7 +103,8 @@ public class Entity {
      * @see    Utils
      */
     protected void setPosition(final Position newPosition) {
-        onEntityUpdated.invoke(this.position,
+        onEntityUpdated.invoke(this.getClass().getSimpleName(),
+                               this.position,
                                Optional.of(newPosition),
                                Optional.of(this.direction));
         this.position = newPosition;
@@ -117,7 +120,8 @@ public class Entity {
      * @see    Utils
      */
     protected void setDirection(final CardinalDirection newDirection) {
-        onEntityUpdated.invoke(this.position,
+        onEntityUpdated.invoke(this.getClass().getSimpleName(),
+                               this.position,
                                Optional.of(this.position),
                                Optional.of(newDirection));
         this.direction = newDirection;
@@ -128,7 +132,8 @@ public class Entity {
      * and remove the entity from the current section.
      */
     protected void remove() {
-        onEntityUpdated.invoke(this.position,
+        onEntityUpdated.invoke(this.getClass().getSimpleName(),
+                               this.position,
                                Optional.empty(),
                                Optional.empty());
         this.getSection().removeEntityAt(this.position);
