@@ -1,8 +1,10 @@
 package it.unibo.object_onepiece.model;
+import java.util.Optional;
+
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.Argument;
-import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
+import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
 
 /**
  * This class defines the common methods of every entity present on the section.
@@ -11,8 +13,7 @@ public class Entity {
     private final Section section;
     private Position position;
 
-    private final Event<BiArgument<Position>> onPositionChanged = new Event<>();
-    private final Event<Argument<Position>> onEntityRemoved = new Event<>();
+    private final Event<TriArguments<Optional<Position>, Optional<Position>, Optional<CardinalDirection>>> onEntityUpdated = new Event<>();
 
     /**
      * Constructor for class Entity.
@@ -46,23 +47,13 @@ public class Entity {
     }
 
     /**
-     * Getter for the onPositionChanged Event.
-     * 
-     * @return an event of position changed.
-     * @see    Event
-     */
-    public Event<BiArgument<Position>> getPositionChangedEvent() {
-        return this.onPositionChanged;
-    }
-
-    /**
-     * Getter for the onEntityRemoved Event.
+     * Getter for the onEntityUpdated Event.
      * 
      * @return an event of entity removed.
      * @see    Event
      */
-    public Event<Argument<Position>> getEntityRemovedEvent() {
-        return this.onEntityRemoved;
+    public Event<TriArguments<Optional<Position>, Optional<Position>, Optional<CardinalDirection>>> getEntityUpdatedEvent() {
+        return this.onEntityUpdated;
     }
 
     /**
@@ -75,7 +66,9 @@ public class Entity {
      * @see    Utils
      */
     protected void setPosition(final Position newPosition) {
-        onPositionChanged.invoke(new BiArgument<>(this.position, newPosition));
+        onEntityUpdated.invoke(new TriArguments<>(Optional.of(this.position),
+                                                  Optional.of(newPosition),
+                                                  Optional.empty()));
         this.position = newPosition;
     }
 
@@ -84,7 +77,9 @@ public class Entity {
      * and remove the entity from the current section.
      */
     protected void remove() {
-        onEntityRemoved.invoke(new Argument<>(this.position));
+        onEntityUpdated.invoke(new TriArguments<>(Optional.of(this.position),
+                                                  Optional.empty(),
+                                                  Optional.empty()));
         this.getSection().removeEntityAt(this.position);
     }
 }
