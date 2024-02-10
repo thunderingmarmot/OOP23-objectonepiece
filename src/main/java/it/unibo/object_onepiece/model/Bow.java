@@ -18,10 +18,10 @@ public final class Bow extends ShipComponent {
      * @param  crashDamage           the crash damage of the bow
      * @param  crashDamageMultiplier the crash damage multiplier of the bow
      */
-    protected Bow(final int health, final int crashDamage, final int damageMultiplier) {
+    protected Bow(final int health, final int crashDamage, final int crashDamageMultiplier) {
         super(health);
         this.crashDamage = crashDamage;
-        this.crashDamageMultiplier = damageMultiplier;
+        this.crashDamageMultiplier = crashDamageMultiplier;
     }
 
     /**

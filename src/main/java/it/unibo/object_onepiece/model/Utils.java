@@ -145,7 +145,7 @@ public final class Utils {
      * @return    the result of the control.
      * @see       Entity
      */
-    protected static boolean isEntityInOppositeDirection(Entity e1, Entity e2) {
+    protected static boolean isEntityInOppositeDirection(final Entity e1, final Entity e2) {
         Set<CardinalDirection> verticalDirection = Set.of(CardinalDirection.NORTH, CardinalDirection.SOUTH);
         Set<CardinalDirection> horizontalDirection = Set.of(CardinalDirection.EAST, CardinalDirection.WEST);
 

@@ -18,8 +18,11 @@ public class Keel extends ShipComponent {
     }
 
     /**
+     * This method checks if the keel is damaged.
+     * To do so it checks if the current health is minor than
+     * the maximum health divided by the damage endurance field.
      * 
-     * @return
+     * @return the result of the control.
      */
     protected boolean isKeelDamaged() {
         return this.getHealth() < (this.getMaxHealth() / this.damageEndurance);

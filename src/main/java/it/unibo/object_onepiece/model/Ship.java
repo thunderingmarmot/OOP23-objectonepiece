@@ -71,6 +71,7 @@ public abstract class Ship extends Collider {
     * @param  weapon the weapon of the ship
     * @param  sail   the weapon of the ship
     * @param  bow    the weapon of the ship
+    * @param  
     */
     protected Ship(final Section s, 
                    final Position p, 
@@ -110,7 +111,7 @@ public abstract class Ship extends Collider {
     }
 
     /**
-     * This method move the ship by one cell depending on the result of checkMove()
+     * This method move the ship by one cell depending on the result of checkMove().
      * 
      * @param  direction the direction where the ship must move at
      * @return           the MoveDetails returned by checkMove().
