@@ -13,7 +13,7 @@ public final class Player extends Ship {
 
     private int experience;
 
-    private static final List<MoveDetails> moveSuccessConditions = List.of(
+    private static final List<MoveDetails> MOVE_SUCCESS_CONDITIONS = List.of(
         MoveDetails.MOVED_SUCCESSFULLY,
         MoveDetails.MOVED_BUT_COLLIDED,
         MoveDetails.ROTATED
@@ -27,6 +27,9 @@ public final class Player extends Ship {
      * @param position the position to place this Player at
      * @param direction the starting direction of the Player's ship
      * @param experience the starting experience value of the Player
+     * @param weapon the starting weapon of the Player's ship
+     * @param sail the starting sail of the Player's ship
+     * @param bow the starting bow of the Player's ship
      * @see Player
      */
     protected Player(final Section section,
@@ -56,19 +59,36 @@ public final class Player extends Ship {
                           Bow.standard());
     }
 
-    public boolean isInSamePositionAs(Position position) {
+    /**
+     * Checks wether the Player current position is the same as the one passed as argument.
+     * @param position the position to check against
+     * @return a boolean that indicates wether the Player is in that position
+     */
+    public boolean isInSamePositionAs(final Position position) {
         return this.getPosition() == position;
     }
 
-    public boolean move(Position destination) {
+    /**
+     * Moves the Player's ship towards a specified position.
+     * @param destination the position to reach
+     * @return a boolean that indicates wether the Player has moved
+     * @see Ship
+     */
+    public boolean move(final Position destination) {
         CardinalDirection direction = this.getPosition().whereTo(destination);
         int distance = this.getPosition().distanceFrom(destination);
         MoveDetails moveResult = super.move(direction, distance);
-        return moveSuccessConditions.contains(moveResult);
+        return MOVE_SUCCESS_CONDITIONS.contains(moveResult);
     }
 
+    /**
+     * Makes the Player shoot at a target position.
+     * @param target the position to shoot at
+     * @return a ShootReturnType as it's defined in Weapon
+     * @see Weapon
+     */
     @Override
-    public ShootReturnType shoot(Position target) {
+    public ShootReturnType shoot(final Position target) {
         return super.shoot(target);
     }
 
