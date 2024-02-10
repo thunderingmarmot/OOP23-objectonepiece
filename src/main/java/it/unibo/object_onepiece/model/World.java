@@ -36,7 +36,6 @@ public interface World {
             super.invoke(new Argument<>(section));
         }
     }
-
     /**
      * 
      * @return State last saved section.
@@ -46,9 +45,19 @@ public interface World {
      * Save current section.
      */
     void setSavedState();
-
+    /**
+     * 
+     * @return Player object in the section
+     */
     Player getPlayer();
+    /**
+     * 
+     * @return enemies present in the section
+     */
     List<Enemy> getEnemies();
-
+    /**
+     * 
+     * @return event to associate view with section instantiation
+     */
     SectionInstantiatedEvent getSectionInstantiatedEvent();
 }

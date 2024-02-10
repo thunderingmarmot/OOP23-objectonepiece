@@ -51,13 +51,13 @@ public final class Section {
         /**
          * A less verbose version of invoke that directly takes the Event arguments.
          * 
-         * @param entityName         the name of the Entity class that has been created
-         * @param spawnPosition      the position this Entity has been spawned at
-         * @param spawnDirection     the direction this Entity has been spawned in
-         * @param entityUpdatedEvent the EntityUpdatedEvent of the newly created Entity
+         * @param entityCreatedEvent the EntityCreatedEvent of the newly created Entity
+         * @param entityUpdatedEvent the EntityUpdateEvent when an entity moves
+         * @param entityRemovedEvent the EntityRemovedEvent when an entity gets removed
          * @see Event
          */
-        protected void invoke(final EntityCreatedEvent entityCreatedEvent, final EntityUpdatedEvent entityUpdatedEvent, final EntityRemovedEvent entityRemovedEvent) {
+        protected void invoke(final EntityCreatedEvent entityCreatedEvent, final EntityUpdatedEvent entityUpdatedEvent,
+            final EntityRemovedEvent entityRemovedEvent) {
             super.invoke(new TriArguments<>(entityCreatedEvent, entityUpdatedEvent, entityRemovedEvent));
         }
     }
@@ -77,7 +77,7 @@ public final class Section {
     void generateEntities() {
         final int seed = 120350;
         final var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR)
-                .build();
+            .build();
         for (int i = ROW_INSET; i < GEN_AREA_ROWS; i++) {
             for (int j = COL_INSET; j < GEN_AREA_COLS; j++) {
                 final Position p = new Position(i, j);
