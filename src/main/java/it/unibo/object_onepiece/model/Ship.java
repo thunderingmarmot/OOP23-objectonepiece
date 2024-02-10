@@ -53,7 +53,11 @@ public abstract class Ship extends Collider {
         /**
          * Sail is broken, moving is impossible.
          */
-        SAIL_BROKEN
+        SAIL_BROKEN,
+        /**
+         * The next direction of the ship is null.
+         */
+        DIRECTION_NULL
     }
 
     /**
@@ -156,6 +160,10 @@ public abstract class Ship extends Collider {
      * @return           if the ship can move and a MoveDetails for a more detailed feedback on the movement.
      */
     protected MoveReturnType checkMove(final CardinalDirection direction, final int steps, final Optional<Entity> obstacle) {
+        if (direction.equals(null)) {
+            return new MoveReturnType(false, MoveDetails.DIRECTION_NULL);
+        }
+
         if (!this.getSail().isInSpeedRange(steps)) {
             return new MoveReturnType(false, MoveDetails.OUT_OF_SPEED_RANGE);
         }
