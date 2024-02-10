@@ -65,7 +65,7 @@ public final class Player extends Ship {
      * @return a boolean that indicates wether the Player is in that position
      */
     public boolean isInSamePositionAs(final Position position) {
-        return this.getPosition() == position;
+        return this.getPosition().equals(position);
     }
 
     /**
@@ -75,9 +75,9 @@ public final class Player extends Ship {
      * @see Ship
      */
     public boolean move(final Position destination) {
-        CardinalDirection direction = this.getPosition().whereTo(destination);
-        int distance = this.getPosition().distanceFrom(destination);
-        MoveDetails moveResult = super.move(direction, distance);
+        final CardinalDirection direction = this.getPosition().whereTo(destination);
+        final int distance = this.getPosition().distanceFrom(destination);
+        final MoveDetails moveResult = super.move(direction, distance);
         return MOVE_SUCCESS_CONDITIONS.contains(moveResult);
     }
 
