@@ -125,12 +125,22 @@ public class Entity {
     /**
      * Getter for the onEntityUpdated Event.
      * 
-     * @return an event of entity removed.
+     * @return an event of entity updated.
      * @see    Event
      */
     public EntityUpdatedEvent getEntityUpdatedEvent() {
         return this.onEntityUpdated;
     }
+    /**
+     * Getter for the onEntityRemoved Event.
+     * 
+     * @return an event of entity removed
+     * @see    Event
+     */
+    public EntityRemovedEvent getEntityRemovedEvent() {
+        return this.onEntityRemoved;
+    }
+
 
     /**
      * Getter for the onEntityCreated Event.

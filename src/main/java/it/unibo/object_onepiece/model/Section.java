@@ -11,7 +11,7 @@ import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.Argument;
+import it.unibo.object_onepiece.model.events.EventArgs.BiArguments;
 
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -37,9 +37,7 @@ public final class Section {
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound = new Bound(ROWS, COLUMNS);
 
-    private final EntityCreatedEvent onEntityCreated = new EntityCreatedEvent();
-    private final EntityRemovedEvent onEntityRemoved = new EntityRemovedEvent();
-    private final EntityUpdatedEvent onEntityUpdated = new EntityUpdatedEvent();
+    private final EntityAddedEvent onEntityAdded = new EntityAddedEvent();
 
     /**
      * An Event alias that is used when an Entity is created in a Section.
@@ -47,8 +45,8 @@ public final class Section {
      * @see Event
      * @see Section
      */
-    public static final class EntityCreatedEvent
-            extends Event<Argument<EntityUpdatedEvent>> {
+    public static final class EntityAddedEvent
+            extends Event<BiArguments<EntityUpdatedEvent, EntityRemovedEvent>> {
         /**
          * A less verbose version of invoke that directly takes the Event arguments.
          * 
@@ -58,8 +56,8 @@ public final class Section {
          * @param entityUpdatedEvent the EntityUpdatedEvent of the newly created Entity
          * @see Event
          */
-        protected void invoke(final EntityUpdatedEvent entityUpdatedEvent) {
-            super.invoke(new Argument<>(entityUpdatedEvent));
+        protected void invoke(final EntityUpdatedEvent entityUpdatedEvent, final EntityRemovedEvent entityRemovedEvent) {
+            super.invoke(new BiArguments<>(entityUpdatedEvent, entityRemovedEvent));
         }
     }
 
@@ -148,7 +146,7 @@ public final class Section {
     }
 
     void addEntity(final Entity e) {
-        onEntityCreated.invoke(e.getEntityUpdatedEvent());
+        onEntityAdded.invoke(e.getEntityUpdatedEvent(), e.getEntityRemovedEvent());
         e.getEntityUpdatedEvent().invoke(e.getClass().getSimpleName(),
             e.getPosition(),
             e.getPosition(),
@@ -159,15 +157,7 @@ public final class Section {
     /**
      * @return event to generate entities in view
      */
-    public EntityCreatedEvent getEntityCreatedEvent() {
-        return onEntityCreated;
-    }
-
-    public EntityRemovedEvent onEntityRemovedEvent() {
-        return onEntityRemoved;
-    }
-
-    public EntityUpdatedEvent onEntityUpdatedEvent() {
-        return onEntityUpdated;
+    public EntityAddedEvent getEntityAddedEvent() {
+        return onEntityAdded;
     }
 }
