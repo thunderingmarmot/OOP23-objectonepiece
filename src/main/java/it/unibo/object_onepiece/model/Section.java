@@ -139,7 +139,7 @@ public final class Section {
     }
 
     Optional<Entity> getEntityAt(final Position position) {
-        return entities.stream().filter(e -> e.getPosition() == position).findFirst();
+        return entities.stream().filter(e -> e.getPosition().equals(position)).findFirst();
     }
 
     List<Entity> getEntities() {
