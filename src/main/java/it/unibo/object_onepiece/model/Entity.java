@@ -5,6 +5,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.QuadrArguments;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
+import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
 
 /**
  * This class defines the common methods of every entity present on the section.
@@ -17,6 +18,7 @@ public class Entity {
 
     private final EntityUpdatedEvent onEntityUpdated = new EntityUpdatedEvent();
     private final EntityRemovedEvent onEntityRemoved = new EntityRemovedEvent();
+    private final EntityCreatedEvent onEntityCreated = new EntityCreatedEvent();
 
     /**
      * An Event alias that is used when an Entity state is updated in any way.
@@ -36,13 +38,13 @@ public class Entity {
         protected void invoke(final String entityName,
                               final Position oldPosition,
                               final Position newPosition,
-                              final CardinalDirection direction) {
-            super.invoke(new QuadrArguments<>(entityName, oldPosition, newPosition, direction));
+                              final CardinalDirection newDirection) {
+            super.invoke(new QuadrArguments<>(entityName, oldPosition, newPosition, newDirection));
         }
     }
 
     /**
-     * An Event alias that is used when an Entity state is updated in any way.
+     * An Event alias that is used when an Entity is removed.
      * @see Event
      * @see Entity
      */
@@ -55,6 +57,26 @@ public class Entity {
          */
         protected void invoke(final Position lastPosition) {
             super.invoke(new Argument<>(lastPosition));
+        }
+    }
+
+    /**
+     * An Event alias that is used when an Entity is created.
+     * @see Event
+     * @see Entity
+     */
+    public static final class EntityCreatedEvent
+    extends Event<TriArguments<String, Position, CardinalDirection>> {
+        /**
+         * A less verbose version of invoke that directly takes the Event arguments.
+         * @param entityName the name of the created Entity class
+         * @param startPosition the position this Entity is spawned at
+         * @param startDirection the direction this Entity is spawned in
+         */
+        protected void invoke(final String entityName,
+                              final Position startPosition,
+                              final CardinalDirection startDirection) {
+            super.invoke(new TriArguments<>(entityName, startPosition, startDirection));
         }
     }
 
@@ -103,11 +125,31 @@ public class Entity {
     /**
      * Getter for the onEntityUpdated Event.
      * 
-     * @return an event of entity removed.
+     * @return an event of entity updated.
      * @see    Event
      */
     public EntityUpdatedEvent getEntityUpdatedEvent() {
         return this.onEntityUpdated;
+    }
+
+    /**
+     * Getter for the onEntityRemoved Event.
+     * 
+     * @return an event of entity removed
+     * @see    Event
+     */
+    public EntityRemovedEvent getEntityRemovedEvent() {
+        return this.onEntityRemoved;
+    }
+
+    /**
+     * Getter for the onEntityCreated Event.
+     * 
+     * @return an event of entity created.
+     * @see    Event
+     */
+    public EntityCreatedEvent getEntityCreatedEvent() {
+        return this.onEntityCreated;
     }
 
     /**
