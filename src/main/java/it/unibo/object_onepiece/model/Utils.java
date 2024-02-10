@@ -48,29 +48,44 @@ public final class Utils {
 
     /**
      * A class that keeps track of the main data to save.
-     * @param section the reference to the current Section when the State was saved
-     * @param playerPosition the Position where the Player was when the State was saved
-     * @param playerExperience the experience value of the Player when the State was saved
      */
     protected static class State {
         private final Section section;
         private final Position playerPosition;
         private final int playerExperience;
 
+        /**
+         * Creates a State of the game with the main information to save.
+         * @param section the Section the Player was in when the save occurred
+         * @param playerPosition the Position of the Player when the save occurred
+         * @param playerExperience the experience of the Player when the save occurred
+         */
         protected State(final Section section, final Position playerPosition, final int playerExperience) {
             this.section = section;
             this.playerPosition = playerPosition;
             this.playerExperience = playerExperience;
         }
 
+        /**
+         * Getter for the saved Section.
+         * @return the Section the Player was in when the save occurred
+         */
         protected Section getSection() {
             return this.section;
         }
 
+        /**
+         * Getter for the Player position.
+         * @return the Position of the Player when the save occurred
+         */
         protected Position getPlayerPosition() {
             return this.playerPosition;
         }
 
+        /**
+         * Getter for the Player experience.
+         * @return the experience of the Player when the save occurred
+         */
         protected int getPlayerExperience() {
             return this.playerExperience;
         }
