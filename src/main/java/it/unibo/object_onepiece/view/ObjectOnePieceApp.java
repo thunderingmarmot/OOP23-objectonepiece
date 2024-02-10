@@ -148,8 +148,8 @@ public final class ObjectOnePieceApp extends Application {
         section.getEntityCreatedEvent().subscribe(e -> drawEntity(e.arg1(), e.arg2(), e.arg3()));
     }
 
-    private void drawEntity(final Entity e, final Position p, final Optional<CardinalDirection> d) {
-        final String entityName = e.getClass().getSimpleName();
+    private void drawEntity(final Class<? extends Entity> e, final Position p, final Optional<CardinalDirection> d) {
+        final String entityName = e.getSimpleName();
         final int col = p.column();
         final int row = p.row();
         e.getEntityRemovedEvent().subscribe(r -> removeEntity(r.arg()));
