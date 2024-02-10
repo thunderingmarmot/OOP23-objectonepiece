@@ -38,8 +38,9 @@ public final class Player extends Ship {
                      final int experience,
                      final Weapon weapon,
                      final Sail sail,
-                     final Bow bow) {
-        super(section, position, direction, weapon, sail, bow);
+                     final Bow bow,
+                     final Keel keel) {
+        super(section, position, direction, weapon, sail, bow, keel);
         this.experience = experience;
     }
 
@@ -56,7 +57,8 @@ public final class Player extends Ship {
                           0,
                           Weapon.cannon(),
                           Sail.sloop(),
-                          Bow.standard());
+                          Bow.standard(),
+                          Keel.standard());
     }
 
     /**

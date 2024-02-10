@@ -84,7 +84,7 @@ public final class Weapon extends ShipComponent {
     /**
      * Builder for the cannon, the standard type of weapon.
      * 
-     * @return      weapon with his standard stats.
+     * @return weapon with his standard stats.
      */
     protected static Weapon cannon() {
         final int health = 100;
@@ -99,7 +99,7 @@ public final class Weapon extends ShipComponent {
      * Builder for the railgun, the most powerful weapon for damage and range,
      * but more fragile.
      * 
-     * @return      weapon with his standard stats.
+     * @return weapon with his standard stats.
      */
     protected static Weapon railgun() {
         final int health = 70;
@@ -114,7 +114,7 @@ public final class Weapon extends ShipComponent {
      * Builder for the heavycannon, the best weapon for damage and health,
      * but with very short range.
      * 
-     * @return      weapon with his standard stats.
+     * @return weapon with his standard stats.
      */
     protected static Weapon heavycannon() {
         final int health = 120;

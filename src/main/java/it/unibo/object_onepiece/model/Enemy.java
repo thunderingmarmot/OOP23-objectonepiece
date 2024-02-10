@@ -19,7 +19,8 @@ public final class Enemy extends Ship {
                          CardinalDirection.NORTH,
                          Weapon.cannon(),
                          Sail.schooner(),
-                         Bow.standard());
+                         Bow.standard(),
+                         Keel.standard());
     }
     private final List<EnemyState> enemyStates;
     private EnemyState currentState;
@@ -29,8 +30,9 @@ public final class Enemy extends Ship {
                     final CardinalDirection direction,
                     final Weapon weapon,
                     final Sail sail,
-                    final Bow bow) {
-        super(section, position, direction, weapon, sail, bow);
+                    final Bow bow,
+                    final Keel keel) {
+        super(section, position, direction, weapon, sail, bow, keel);
         enemyStates = new ArrayList<>(List.of(
             new Patrol(this, new Compass(this.getPosition(),section.getBounds())),
             new ObstacleAvoidance(this),

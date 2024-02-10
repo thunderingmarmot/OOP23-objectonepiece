@@ -24,7 +24,7 @@ public class Keel extends ShipComponent {
     /**
      * Builder for the standard keel.
      * 
-     * @return      keel with his standard stats.
+     * @return keel with his standard stats.
      */
     protected static Keel standard() {
         final int health = 100;
@@ -34,10 +34,10 @@ public class Keel extends ShipComponent {
     }
 
     /**
-     * Builder for the heavy bow, a really strong bow
-     * for crash damage and health.
+     * Builder for the heavy keel, a really strong keel
+     * for damage endurance and health.
      * 
-     * @return      bow with his standard stats.
+     * @return keel with his standard stats.
      */
     protected static Keel heavy() {
         final int health = 120;
@@ -47,10 +47,10 @@ public class Keel extends ShipComponent {
     }
 
     /**
-     * Builder for the light bow, a really weak bow
-     * for crash damage and health.
+     * Builder for the light keel, a really weak keel
+     * for damage endurance and health.
      * 
-     * @return      bow with his standard stats.
+     * @return keel with his standard stats.
      */
     protected static Keel light() {
         final int health = 80;

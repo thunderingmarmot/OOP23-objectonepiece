@@ -70,7 +70,7 @@ public final class Sail extends ShipComponent {
     /**
      * Builder for the sloop sail, the standard type of sail.
      * 
-     * @return      sail with his standard stats.
+     * @return sail with his standard stats.
      */
     protected static Sail sloop() {
         final int health = 100;
@@ -85,7 +85,7 @@ public final class Sail extends ShipComponent {
      * Builder for the spinnaker sail, a very fast and agile sail 
      * but more fragile than the standard one.
      * 
-     * @return      sail with his standard stats.
+     * @return sail with his standard stats.
      */
     protected static Sail spinnaker() {
         final int health = 80;
@@ -99,7 +99,7 @@ public final class Sail extends ShipComponent {
     /**
      * Builder for the schooner sail, the best sail for speed and health.
      * 
-     * @return      sail with his standard stats.
+     * @return sail with his standard stats.
      */
     protected static Sail schooner() {
         final int health = 200;

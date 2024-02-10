@@ -45,7 +45,7 @@ public final class Bow extends ShipComponent {
     /**
      * Builder for the standard bow.
      * 
-     * @return      bow with his standard stats.
+     * @return bow with his standard stats.
      */
     protected static Bow standard() {
         final int health = 100;
@@ -57,9 +57,9 @@ public final class Bow extends ShipComponent {
 
     /**
      * Builder for the heavy bow, a really strong bow
-     * for crash damage and health.
+     * for crash damage, damage multiplier and health.
      * 
-     * @return      bow with his standard stats.
+     * @return bow with his standard stats.
      */
     protected static Bow heavy() {
         final int health = 200;
@@ -71,9 +71,9 @@ public final class Bow extends ShipComponent {
 
     /**
      * Builder for the light bow, a really weak bow
-     * for crash damage and health.
+     * for crash damage, damage multiplier and health.
      * 
-     * @return      bow with his standard stats.
+     * @return bow with his standard stats.
      */
     protected static Bow light() {
         final int health = 75;

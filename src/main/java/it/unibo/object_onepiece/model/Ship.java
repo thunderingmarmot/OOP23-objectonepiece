@@ -252,7 +252,7 @@ public abstract class Ship extends Collider {
      */
     protected void takeDamage(final int damage, final ShipComponent s) {
         s.setHealth(s.getHealth() - damage);
-        if (this.bow.getHealth() <= 0) {
+        if (this.bow.getHealth() <= 0 || this.keel.getHealth() <= 0) {
             this.remove();
         }
     }
@@ -371,7 +371,7 @@ public abstract class Ship extends Collider {
         if (collider.getRigidness() == Rigidness.MEDIUM) {
             int damage = this.bow.getCrashDamage();
             ShipComponent shipComponent = this.getBow();
-            
+
             if (Utils.isEntityInOppositeDirection(this, collider)) {
                 if (this.getKeel().isKeelDamaged() && collider instanceof Ship s) {
                     damage *= s.getBow().getDamageMultiplier();
