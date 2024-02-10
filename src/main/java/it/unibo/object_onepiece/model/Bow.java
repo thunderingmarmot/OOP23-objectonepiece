@@ -9,19 +9,19 @@ package it.unibo.object_onepiece.model;
  */
 public final class Bow extends ShipComponent {
     private final int crashDamage;
-    private final int damageMultiplier;
+    private final int crashDamageMultiplier;
 
     /**
      * Constructor for class Bow.
      * 
-     * @param  health           the health of the bow
-     * @param  crashDamage      the crash damage of the bow
-     * @param  damageMultiplier the damage multiplier of the bow
+     * @param  health                the health of the bow
+     * @param  crashDamage           the crash damage of the bow
+     * @param  crashDamageMultiplier the crash damage multiplier of the bow
      */
     protected Bow(final int health, final int crashDamage, final int damageMultiplier) {
         super(health);
         this.crashDamage = crashDamage;
-        this.damageMultiplier = damageMultiplier;
+        this.crashDamageMultiplier = damageMultiplier;
     }
 
     /**
@@ -38,8 +38,8 @@ public final class Bow extends ShipComponent {
      * 
      * @return bow damage multiplier.
      */
-    protected int getDamageMultiplier() {
-        return this.damageMultiplier;
+    protected int getCrashDamageMultiplier() {
+        return this.crashDamageMultiplier;
     }
 
     /**
@@ -50,36 +50,36 @@ public final class Bow extends ShipComponent {
     protected static Bow standard() {
         final int health = 100;
         final int crashDamage = 20;
-        final int damageMultiplier = 2;
+        final int crashDamageMultiplier = 2;
 
-        return new Bow(health, crashDamage, damageMultiplier);
+        return new Bow(health, crashDamage, crashDamageMultiplier);
     }
 
     /**
      * Builder for the heavy bow, a really strong bow
-     * for crash damage, damage multiplier and health.
+     * for crash damage, crash damage multiplier and health.
      * 
      * @return bow with his standard stats.
      */
     protected static Bow heavy() {
         final int health = 200;
         final int crashDamage = 40;
-        final int damageMultiplier = 3;
+        final int crashDamageMultiplier = 3;
 
-        return new Bow(health, crashDamage, damageMultiplier);
+        return new Bow(health, crashDamage, crashDamageMultiplier);
     }
 
     /**
      * Builder for the light bow, a really weak bow
-     * for crash damage, damage multiplier and health.
+     * for crash damage, crash damage multiplier and health.
      * 
      * @return bow with his standard stats.
      */
     protected static Bow light() {
         final int health = 75;
         final int crashDamage = 5;
-        final int damageMultiplier = 1;
+        final int crashDamageMultiplier = 1;
 
-        return new Bow(health, crashDamage, damageMultiplier);
+        return new Bow(health, crashDamage, crashDamageMultiplier);
     }
 }

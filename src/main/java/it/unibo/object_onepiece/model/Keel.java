@@ -1,13 +1,26 @@
 package it.unibo.object_onepiece.model;
 
+/**
+ * 
+ */
 public class Keel extends ShipComponent {
     private final int damageEndurance;
 
+    /**
+     * Constructor for class Keel.
+     * 
+     * @param  health          the health of the keel
+     * @param  damageEndurance the damage endurance of the keel
+     */
     protected Keel(final int health, final int damageEndurance) {
         super(health);
         this.damageEndurance = damageEndurance;
     }
 
+    /**
+     * 
+     * @return
+     */
     protected boolean isKeelDamaged() {
         return this.getHealth() < (this.getMaxHealth() / this.damageEndurance);
     }

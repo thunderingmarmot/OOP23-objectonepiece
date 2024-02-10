@@ -374,7 +374,7 @@ public abstract class Ship extends Collider {
 
             if (Utils.isEntityInOppositeDirection(this, collider)) {
                 if (this.getKeel().isKeelDamaged() && collider instanceof Ship s) {
-                    damage *= s.getBow().getDamageMultiplier();
+                    damage *= s.getBow().getCrashDamageMultiplier();
                 }
                 shipComponent = this.getKeel();
             }
