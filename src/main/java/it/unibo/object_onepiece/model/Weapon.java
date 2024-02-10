@@ -4,7 +4,7 @@ package it.unibo.object_onepiece.model;
  * This class represents a weapon, which is a type of ShipComponent.
  * It defines a method to shoot with the weapon and retrieving maximum damage, 
  * minimum damage and range.
- * It also defines builder methods and builder methods for the available weapons.
+ * It also defines builder methods for the available weapons.
  * 
  * @see ShipComponent
  */

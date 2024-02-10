@@ -1,7 +1,11 @@
 package it.unibo.object_onepiece.model;
 
 /**
- * 
+ * This class represents a keel, which is a type of ShipComponent.
+ * It defines a method to retrieving damage endurance of the keel
+ * and checking if the keel is damaged.
+ * It also defines builder methods for the available keels.
+ * The keel is the lateral structure of the ship.
  */
 public class Keel extends ShipComponent {
     private final int damageEndurance;

@@ -3,7 +3,8 @@ package it.unibo.object_onepiece.model;
 /**
  * This class represents a bow, which is a type of ShipComponent.
  * It defines a method to retrieving crash damage of the bow.
- * It also defines builder methods and builder methods for the available bows.
+ * It also defines and builder methods for the available bows.
+ * The bow is the frontal structure of the ship.
  * 
  * @see ShipComponent
  */

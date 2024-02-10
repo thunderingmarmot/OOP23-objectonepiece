@@ -71,7 +71,7 @@ public abstract class Ship extends Collider {
     * @param  weapon the weapon of the ship
     * @param  sail   the weapon of the ship
     * @param  bow    the weapon of the ship
-    * @param  
+    * @param  keel   the keel of the ship
     */
     protected Ship(final Section s, 
                    final Position p, 
