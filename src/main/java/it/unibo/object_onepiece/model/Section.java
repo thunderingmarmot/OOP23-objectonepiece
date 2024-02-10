@@ -117,7 +117,7 @@ public final class Section {
 
     void addEntity(final Entity e) {
         final Optional<CardinalDirection> direction = e instanceof Ship s ? Optional.of(s.getDirection()) : Optional.empty();
-        onEntityCreated.invoke(e.getClass().getSimpleName(), e.getPosition(), direction);
+        onEntityCreated.invoke(e.getClass().getSimpleName(), e.getPosition(), direction, e.getEntityUpdatedEvent());
         entities.add(e);
     }
     

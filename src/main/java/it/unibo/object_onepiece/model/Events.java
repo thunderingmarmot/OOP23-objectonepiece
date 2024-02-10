@@ -7,6 +7,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
+import it.unibo.object_onepiece.model.events.EventArgs.QuadrArguments;
 
 public final class Events {
     private Events() { };
@@ -19,9 +20,9 @@ public final class Events {
     }
 
     public static class EntityCreatedEvent
-    extends Event<TriArguments<String, Position, Optional<CardinalDirection>>> {
-        protected void invoke(String entityName, Position spawnPosition, Optional<CardinalDirection> spawnDirection) {
-            super.invoke(new TriArguments<>(entityName, spawnPosition, spawnDirection));
+    extends Event<QuadrArguments<String, Position, Optional<CardinalDirection>, EntityUpdatedEvent>> {
+        protected void invoke(String entityName, Position spawnPosition, Optional<CardinalDirection> spawnDirection, EntityUpdatedEvent event) {
+            super.invoke(new QuadrArguments<>(entityName, spawnPosition, spawnDirection, event));
         }
     }
 

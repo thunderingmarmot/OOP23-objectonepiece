@@ -49,4 +49,17 @@ public interface EventArgs {
      * @param arg3 the third argument of type T3
      */
     record TriArguments<T1, T2, T3>(T1 arg1, T2 arg2, T3 arg3) implements EventArgs { }
+
+    /**
+     * Defines an Event arguments container of four generic arguments.
+     * @param <T1> the generic type of the first argument
+     * @param <T2> the generic type of the second argument
+     * @param <T3> the generic type of the third argument
+     * @param <T4> the generic type of the fourth argument
+     * @param arg1 the first argument of type T1
+     * @param arg2 the second argument of type T2
+     * @param arg3 the third argument of type T3
+     * @param arg4 the fourth argument of type T4
+     */
+    record QuadrArguments<T1, T2, T3, T4>(T1 arg1, T2 arg2, T3 arg3, T4 arg4) implements EventArgs { }
 }
