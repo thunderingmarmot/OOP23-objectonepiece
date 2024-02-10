@@ -6,6 +6,8 @@ package it.unibo.object_onepiece.model;
  * and checking if the keel is damaged.
  * It also defines builder methods for the available keels.
  * The keel is the lateral structure of the ship.
+ * 
+ * @see ShipComponent
  */
 public class Keel extends ShipComponent {
     private final int damageEndurance;
