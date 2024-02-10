@@ -23,7 +23,7 @@ public class Entity {
      * @see Entity
      */
     public static final class EntityUpdatedEvent
-    extends Event<TriArguments<Optional<Position>,
+    extends Event<TriArguments<Position,
                                Optional<Position>,
                                Optional<CardinalDirection>>> {
         /**
@@ -33,7 +33,7 @@ public class Entity {
          * @param  direction   the direction this Entity is after the update
          * @see    Event
          */
-        protected void invoke(final Optional<Position> oldPosition,
+        protected void invoke(final Position oldPosition,
                               final Optional<Position> newPosition,
                               final Optional<CardinalDirection> direction) {
             super.invoke(new TriArguments<>(oldPosition, newPosition, direction));
@@ -103,7 +103,7 @@ public class Entity {
     protected void setPosition(final Position newPosition) {
         onEntityUpdated.invoke(this.position,
                                Optional.of(newPosition),
-                               Optional.empty());
+                               Optional.of(this.direction));
         this.position = newPosition;
     }
 
@@ -117,10 +117,10 @@ public class Entity {
      * @see    Utils
      */
     protected void setDirection(final CardinalDirection newDirection) {
-        this.direction = newDirection;
         onEntityUpdated.invoke(this.position,
                                Optional.of(this.position),
-                               Optional.of(this.direction));
+                               Optional.of(newDirection));
+        this.direction = newDirection;
     }
 
     /**
@@ -128,7 +128,7 @@ public class Entity {
      * and remove the entity from the current section.
      */
     protected void remove() {
-        onEntityUpdated.invoke(Optional.of(this.position),
+        onEntityUpdated.invoke(this.position,
                                Optional.empty(),
                                Optional.empty());
         this.getSection().removeEntityAt(this.position);

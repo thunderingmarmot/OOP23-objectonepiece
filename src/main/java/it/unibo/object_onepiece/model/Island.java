@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model;
 
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
@@ -14,8 +15,8 @@ public final class Island extends Collidable {
      * @param spawnPosition the position to place this Island at
      * @return the newly created Island object
      */
-    protected static Island getDefault(final Section spawnSection, final Position spawnPosition) {
-        return new Island(spawnSection, spawnPosition);
+    protected static Island getDefault(final Section spawnSection, final Position spawnPosition, final CardinalDirection spawnDirection) {
+        return new Island(spawnSection, spawnPosition, spawnDirection);
     }
 
     /**
@@ -26,8 +27,8 @@ public final class Island extends Collidable {
      * @param position the position to place this Island at
      * @see Island
      */
-    protected Island(final Section section, final Position position) {
-        super(section, position);
+    protected Island(final Section section, final Position position, final CardinalDirection direction) {
+        super(section, position, direction);
     }
 
     /**
