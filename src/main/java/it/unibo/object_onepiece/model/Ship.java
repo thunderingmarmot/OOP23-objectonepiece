@@ -117,16 +117,21 @@ public abstract class Ship extends Collider {
         final Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
         final MoveDetails nextStep = checkMove(direction, obstacle);
 
-        if(nextStep.equals(MoveDetails.STATIC_COLLISION) || nextStep.equals(MoveDetails.MOVED_BUT_COLLIDED)) {
+        if (nextStep.equals(MoveDetails.STATIC_COLLISION) 
+        || nextStep.equals(MoveDetails.MOVED_BUT_COLLIDED)) {
             this.collideWith((Collidable) obstacle.get());
         }
 
-        if(nextStep.equals(MoveDetails.MOVED_SUCCESSFULLY) || nextStep.equals(MoveDetails.MOVED_BUT_COLLIDED)) {
-            this.setPosition(nextPosition);
+        if (nextStep.equals(MoveDetails.ROTATED)) {
+            this.rotate(direction);
+            if (this.getSail().getRotationPower()) {
+                step(direction);
+            }
         }
 
-        if(nextStep.equals(MoveDetails.ROTATED)) {
-            rotate(direction);
+        if (nextStep.equals(MoveDetails.MOVED_SUCCESSFULLY)
+        || nextStep.equals(MoveDetails.MOVED_BUT_COLLIDED)) {
+            this.setPosition(nextPosition);
         }
 
         return nextStep;
@@ -338,7 +343,11 @@ public abstract class Ship extends Collider {
     @Override
     protected void onCollisionWith(final Collider collider) {
         if (collider.getRigidness() == Rigidness.MEDIUM) {
-            this.takeDamage(this.bow.getCrashDamage(), this.bow);
+            int damage = this.bow.getCrashDamage();
+            if (Utils.isEntityInOppositeDirection(this.getDirection())) {
+                damage *= 2;
+            }
+            this.takeDamage(damage, this.bow);
         }
     }
 

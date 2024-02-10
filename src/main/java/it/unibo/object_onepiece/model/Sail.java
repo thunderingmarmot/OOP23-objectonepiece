@@ -12,7 +12,7 @@ package it.unibo.object_onepiece.model;
 public final class Sail extends ShipComponent {
     private final int maxSpeed;
     private final int minSpeed;
-    private final int rotationPower;
+    private final boolean rotationPower;
 
     /**
      * Constructor for class Sail.
@@ -22,7 +22,7 @@ public final class Sail extends ShipComponent {
      * @param  rotation the rotation power of the sail
      * @param  health   the health of the sail
      */
-    protected Sail(final int max, final int min, final int rotation, final int health) {
+    protected Sail(final int max, final int min, final boolean rotation, final int health) {
         super(health);
         this.maxSpeed = max;
         this.minSpeed = min;
@@ -63,7 +63,7 @@ public final class Sail extends ShipComponent {
      * 
      * @return sail rotation power.
      */
-    protected int getRotationPower() {
+    protected boolean getRotationPower() {
         return this.rotationPower;
     }
 
@@ -75,7 +75,7 @@ public final class Sail extends ShipComponent {
     protected static Sail sloop() {
         final int maxSpeed = 1;
         final int minSpeed = 1;
-        final int rotationPower = 0;
+        final boolean rotationPower = false;
         final int health = 100;
 
         return new Sail(maxSpeed, minSpeed, rotationPower, health);
@@ -90,7 +90,7 @@ public final class Sail extends ShipComponent {
     protected static Sail spinnaker() {
         final int maxSpeed = 3;
         final int minSpeed = 1;
-        final int rotationPower = 3;
+        final boolean rotationPower = true;
         final int health = 80;
 
         return new Sail(maxSpeed, minSpeed, rotationPower, health);
@@ -104,7 +104,7 @@ public final class Sail extends ShipComponent {
     protected static Sail schooner() {
         final int maxSpeed = 5;
         final int minSpeed = 4;
-        final int rotationPower = 1;
+        final boolean rotationPower = true;
         final int health = 200;
 
         return new Sail(maxSpeed, minSpeed, rotationPower, health);
