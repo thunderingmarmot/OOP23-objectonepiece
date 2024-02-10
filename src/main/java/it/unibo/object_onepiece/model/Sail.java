@@ -63,7 +63,7 @@ public final class Sail extends ShipComponent {
      * 
      * @return sail rotation power.
      */
-    protected boolean getRotationPower() {
+    protected boolean haveRotationPower() {
         return this.rotationPower;
     }
 

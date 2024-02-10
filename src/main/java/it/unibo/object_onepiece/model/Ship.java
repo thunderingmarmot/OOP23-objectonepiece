@@ -128,7 +128,7 @@ public abstract class Ship extends Collider {
 
         if (nextStep.equals(MoveDetails.ROTATED)) {
             this.rotate(direction);
-            if (this.getSail().getRotationPower()) {
+            if (this.getSail().haveRotationPower()) {
                 step(direction);
             }
         }
@@ -394,10 +394,9 @@ public abstract class Ship extends Collider {
     @Override
     protected void collideWith(final Collidable collidable) {
         collidable.onCollisionWith(this);
-        if (collidable.getRigidness() == Rigidness.MEDIUM) {
-            if (!Utils.isEntityInOppositeDirection(collidable, this)) {
-                this.takeDamage(this.bow.getCrashDamage(), this.bow);
-            }
+        if (collidable.getRigidness() == Rigidness.MEDIUM
+        && !Utils.isEntityInOppositeDirection(collidable, this)) {
+            this.takeDamage(this.bow.getCrashDamage(), this.bow);
         }
     }
 }
