@@ -17,7 +17,6 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * @see Collider
  */
 public abstract class Ship extends Collider {
-    private CardinalDirection currDirection;
     private Weapon weapon;
     private Sail sail;
     private Bow bow;
@@ -81,8 +80,7 @@ public abstract class Ship extends Collider {
                    final Weapon weapon, 
                    final Sail sail, 
                    final Bow bow) {
-        super(s, p);
-        this.currDirection = d;
+        super(s, p, d);
         this.weapon = weapon;
         this.sail = sail;
         this.bow = bow;
@@ -155,7 +153,7 @@ public abstract class Ship extends Collider {
             return new MoveReturnType(false, MoveDetails.SAIL_BROKEN);
         }
 
-        if (!direction.equals(this.currDirection)) {
+        if (!direction.equals(this.getDirection())) {
             return new MoveReturnType(false, MoveDetails.ROTATED);
         }
 
@@ -319,15 +317,6 @@ public abstract class Ship extends Collider {
     }
 
     /**
-     * Getter for the current direction of the Ship.
-     * 
-     * @return the current direction of the Ship.
-     */
-    protected CardinalDirection getDirection() {
-        return this.currDirection;
-    }
-
-    /**
      * Getter for the Rigidness of the ship.
      * 
      * @return the Rigidnes of the Collider.
@@ -339,16 +328,12 @@ public abstract class Ship extends Collider {
     }
 
     /**
-     * This method rotates the Ship to the given direction and
-     * invoke an Event onDirectionChanged.
+     * This method rotates the Ship to the given direction.
      * 
      * @param  direction the direction in which the ship must rotate
      */
     protected void rotate(final CardinalDirection direction) {
-        getEntityUpdatedEvent().invoke(Optional.of(this.getPosition()),
-                                       Optional.empty(),
-                                       Optional.of(direction));
-        this.currDirection = direction;
+        this.setDirection(direction);
     }
 
     /**

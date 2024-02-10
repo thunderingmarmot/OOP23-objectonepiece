@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model;
 
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
@@ -11,12 +12,13 @@ public abstract class Collidable extends Entity {
 
     /**
      * Same constructor as Entity.
-     * @param spawnSection the Section this Collidable is in
-     * @param spawnPosition the Position this Collidable is at
-     * @see Entity
+     * @param  spawnSection   the Section this Collidable is in
+     * @param  spawnPosition  the Position this Collidable is at
+     * @param  spawnDirection the Direction this Collidable is at
+     * @see    Entity
      */
-    protected Collidable(final Section spawnSection, final Position spawnPosition) {
-        super(spawnSection, spawnPosition);
+    protected Collidable(final Section spawnSection, final Position spawnPosition, final CardinalDirection spawnDirection) {
+        super(spawnSection, spawnPosition, spawnDirection);
     }
 
     /**

@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model;
 
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
@@ -13,24 +14,29 @@ public final class NavalMine extends Collidable {
     /**
      * Constructor for class NavalMine.
      * 
-     * @param  section  the section of the naval mine
-     * @param  position the position of the naval mine
-     * @param  damage   the damage inflicted by the naval mine
+     * @param  section   the section of the naval mine
+     * @param  position  the position of the naval mine
+     * @param  direction the direction of the naval mine
+     * @param  damage    the damage inflicted by the naval mine
      */
-    protected NavalMine(final Section section, final Position position, final int damage) {
-        super(section, position);
+    protected NavalMine(final Section section, 
+                        final Position position, 
+                        final CardinalDirection direction, 
+                        final int damage) {
+        super(section, position, direction);
         this.damage = damage;
     }
 
     /**
      * Getter for the default naval mine.
      * 
-     * @param  spawnSection  the section where the mine should spawn
-     * @param  spawnPosition the position where the mine should spawn
-     * @return               the naval mine
+     * @param  spawnSection   the section where the mine should spawn
+     * @param  spawnPosition  the position where the mine should spawn
+     * @param  spawnDirection the spawn direction of the mine
+     * @return                the naval mine
      */
-    protected static NavalMine getDefault(final Section spawnSection, final Position spawnPosition) {
-        return new NavalMine(spawnSection, spawnPosition, DEFAULT_DAMAGE);
+    protected static NavalMine getDefault(final Section spawnSection, final Position spawnPosition, final CardinalDirection spawDirection) {
+        return new NavalMine(spawnSection, spawnPosition, spawDirection, DEFAULT_DAMAGE);
     }
 
     /**

@@ -13,6 +13,7 @@ public class Entity {
 
     private final Section section;
     private Position position;
+    private CardinalDirection direction;
 
     private final EntityUpdatedEvent onEntityUpdated = new EntityUpdatedEvent();
 
@@ -45,9 +46,10 @@ public class Entity {
      * @param  s section where the entity should be located
      * @param  p position of the entity in the section
      */
-    protected Entity(final Section s, final Position p) {
+    protected Entity(final Section s, final Position p, final CardinalDirection d) {
         this.section = s;
         this.position = p;
+        this.direction = d;
     }
 
     /**
@@ -71,6 +73,15 @@ public class Entity {
     }
 
     /**
+     * Getter for the current direction of the Entity.
+     * 
+     * @return the current direction of the Entity.
+     */
+    protected CardinalDirection getDirection() {
+        return this.direction;
+    }
+
+    /**
      * Getter for the onEntityUpdated Event.
      * 
      * @return an event of entity removed.
@@ -82,7 +93,7 @@ public class Entity {
 
     /**
      * Setter for the position of the entity.
-     * This method invoke an Event onPositionChanged
+     * This method invoke an Event onEntityUpdated
      * and changes the current position of the Entity
      * to the new position.
      * 
@@ -90,10 +101,26 @@ public class Entity {
      * @see    Utils
      */
     protected void setPosition(final Position newPosition) {
-        onEntityUpdated.invoke(Optional.of(this.position),
+        onEntityUpdated.invoke(this.position,
                                Optional.of(newPosition),
                                Optional.empty());
         this.position = newPosition;
+    }
+
+    /**
+     * Setter for the direction of the entity.
+     * This method invoke an Event onEntityUpdated
+     * and changes the current direction of the Entity
+     * to the new direction.
+     * 
+     * @param  newDirection the new direction of the entity
+     * @see    Utils
+     */
+    protected void setDirection(final CardinalDirection newDirection) {
+        this.direction = newDirection;
+        onEntityUpdated.invoke(this.position,
+                               Optional.of(this.position),
+                               Optional.of(this.direction));
     }
 
     /**

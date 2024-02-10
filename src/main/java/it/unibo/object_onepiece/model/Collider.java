@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model;
 
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
@@ -14,8 +15,8 @@ public abstract class Collider extends Collidable {
      * @param spawnPosition the Position this Collider is at
      * @see Collidable
      */
-    protected Collider(final Section spawnSection, final Position spawnPosition) {
-        super(spawnSection, spawnPosition);
+    protected Collider(final Section spawnSection, final Position spawnPosition, final CardinalDirection spawnDirection) {
+        super(spawnSection, spawnPosition, spawnDirection);
     }
 
     /**
