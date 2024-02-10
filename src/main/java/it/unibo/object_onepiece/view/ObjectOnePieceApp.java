@@ -144,18 +144,16 @@ public final class ObjectOnePieceApp extends Application {
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
     }
 
-    private void drawSection(final Section section) {
-        section.getEntityCreatedEvent().subscribe(e -> drawEntity(e.arg1(), e.arg2(), e.arg3(), e.arg4()));
+    private void initialDraw(final EntityUpdatedEvent event) {
+        event.subscribe(e -> drawEntity(e.arg1(), e.arg2(), e.arg3(), e.arg4()));
     }
 
-    private void drawEntity(final String entityName, final Position p, final Optional<CardinalDirection> d, EntityUpdatedEvent event) {
-        final int col = p.column();
-        final int row = p.row();
-        event.subscribe(null); // TODO
-        //e.getEntityRemovedEvent().subscribe(r -> removeEntity(r.arg()));
-        //e.getPositionChangedEvent().subscribe(r -> drawEntity(r.arg1(), r.arg2(), e, d));
-        drawImage(entityName, row, col, d);
+    private void drawSection(final Section section) {
+        section.getEntityCreatedEvent().subscribe(e -> initialDraw(e.arg()));
+    }
 
+    private void drawEntity(final String entityName, final Position oldPos, final Position newPos, final CardinalDirection d) {
+        
     }
 
     private void removeEntity(final Position p) {

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import de.articdive.jnoise.pipeline.JNoise;
+import it.unibo.object_onepiece.model.Entity.EntityRemovedEvent;
 import it.unibo.object_onepiece.model.Entity.EntityUpdatedEvent;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
@@ -37,20 +38,23 @@ public final class Section {
     private final Bound bound = new Bound(ROWS, COLUMNS);
 
     private final EntityCreatedEvent onEntityCreated = new EntityCreatedEvent();
-    
+    private final EntityRemovedEvent onEntityRemoved = new EntityRemovedEvent();
+    private final EntityUpdatedEvent onEntityUpdated = new EntityUpdatedEvent();
 
     /**
      * An Event alias that is used when an Entity is created in a Section.
+     * 
      * @see Event
      * @see Section
      */
     public static final class EntityCreatedEvent
-    extends Event<Argument<EntityUpdatedEvent>> {
+            extends Event<Argument<EntityUpdatedEvent>> {
         /**
          * A less verbose version of invoke that directly takes the Event arguments.
-         * @param entityName the name of the Entity class that has been created
-         * @param spawnPosition the position this Entity has been spawned at
-         * @param spawnDirection the direction this Entity has been spawned in
+         * 
+         * @param entityName         the name of the Entity class that has been created
+         * @param spawnPosition      the position this Entity has been spawned at
+         * @param spawnDirection     the direction this Entity has been spawned in
          * @param entityUpdatedEvent the EntityUpdatedEvent of the newly created Entity
          * @see Event
          */
@@ -61,7 +65,8 @@ public final class Section {
 
     /**
      * 
-     * @param world reference to World object (used to consent islands to save game state)
+     * @param world reference to World object (used to consent islands to save game
+     *              state)
      */
     Section(final World world) {
         this.world = world;
@@ -72,13 +77,14 @@ public final class Section {
      */
     void generateEntities() {
         final int seed = 120350;
-        final var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR).build();
+        final var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR)
+                .build();
         for (int i = ROW_INSET; i < GEN_AREA_ROWS; i++) {
             for (int j = COL_INSET; j < GEN_AREA_COLS; j++) {
                 final Position p = new Position(i, j);
                 final double noise = whiteNoise.evaluateNoise(i, j);
                 final int floored = (int) Math.floor(noise * NOISE_DISPERSION);
-                
+
                 switch (floored) {
                     case 0:
                         /* Don't do anything because water */
@@ -102,11 +108,11 @@ public final class Section {
         }
         this.addEntity(Player.getDefault(this, new Position(1, 1)));
 
-        /** Prints duplicate positions in entities list*/
+        /** Prints duplicate positions in entities list */
         final Set<Position> items = new HashSet<>();
         entities.stream().filter(n -> !items.add(n.getPosition()))
-        .collect(Collectors.toSet())
-        .forEach(e -> System.out.println(e.getPosition()));
+                .collect(Collectors.toSet())
+                .forEach(e -> System.out.println(e.getPosition()));
     }
 
     World getWorld() {
@@ -144,9 +150,9 @@ public final class Section {
     void addEntity(final Entity e) {
         onEntityCreated.invoke(e.getEntityUpdatedEvent());
         e.getEntityUpdatedEvent().invoke(e.getClass().getSimpleName(),
-                                         e.getPosition(),
-                                         Optional.of(e.getPosition()),
-                                         Optional.of(e.getDirection()));
+            e.getPosition(),
+            e.getPosition(),
+            e.getDirection());
         entities.add(e);
     }
 
@@ -155,5 +161,13 @@ public final class Section {
      */
     public EntityCreatedEvent getEntityCreatedEvent() {
         return onEntityCreated;
+    }
+
+    public EntityRemovedEvent onEntityRemovedEvent() {
+        return onEntityRemoved;
+    }
+
+    public EntityUpdatedEvent onEntityUpdatedEvent() {
+        return onEntityUpdated;
     }
 }
