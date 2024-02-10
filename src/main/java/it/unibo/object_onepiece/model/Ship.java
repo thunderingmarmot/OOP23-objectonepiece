@@ -160,7 +160,7 @@ public abstract class Ship extends Collider {
             return new MoveReturnType(false, MoveDetails.OUT_OF_SPEED_RANGE);
         }
 
-        if (this.sail.getHealth() <= 0) {
+        if (this.getSail().getHealth() <= 0) {
             return new MoveReturnType(false, MoveDetails.SAIL_BROKEN);
         }
 
