@@ -1,5 +1,4 @@
 package it.unibo.object_onepiece.model;
-import java.util.Optional;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;

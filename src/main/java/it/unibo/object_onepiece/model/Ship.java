@@ -1,6 +1,5 @@
 package it.unibo.object_onepiece.model;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import it.unibo.object_onepiece.model.Weapon.ShootReturnType;
@@ -101,23 +100,29 @@ public abstract class Ship extends Collider {
     protected MoveDetails move(final CardinalDirection direction, final int steps) {
         final Position nextPosition = this.getPosition().moveTowards(direction);
         final Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
+        final MoveReturnType nextStep = checkMove(direction, steps, obstacle);
 
-        final Map<MoveDetails, Runnable> moveCondition = Map.of(
-            MoveDetails.MOVED_SUCCESSFULLY, () -> this.setPosition(nextPosition),
-            MoveDetails.ROTATED, () -> rotate(direction),
-            MoveDetails.STATIC_COLLISION, () -> this.collideWith((Collidable) obstacle.get()),
-            MoveDetails.MOVED_BUT_COLLIDED, () -> {
+        switch (nextStep.details()) {
+            case MOVED_SUCCESSFULLY:
+                this.setPosition(nextPosition);
+                break;
+
+            case ROTATED:
+                rotate(direction);
+                break;
+
+            case STATIC_COLLISION:
+                this.collideWith((Collidable) obstacle.get());
+                break;
+
+            case MOVED_BUT_COLLIDED:
                 this.collideWith((Collidable) obstacle.get());
                 this.setPosition(nextPosition);
-            }
-        );
+                break;
 
-        if (!this.getSail().isInSpeedRange(steps)) {
-            return MoveDetails.OUT_OF_SPEED_RANGE;
+            default:
+                break;
         }
-
-        final MoveReturnType nextStep = checkMove(direction);
-        moveCondition.get(nextStep.details()).run();
 
         if (steps > 1) {
             return move(direction, steps - 1);
@@ -148,7 +153,11 @@ public abstract class Ship extends Collider {
      * @param  direction is the direction where the ship should move to
      * @return           if the ship can move and a MoveDetails for a more detailed feedback on the movement.
      */
-    protected MoveReturnType checkMove(final CardinalDirection direction) {
+    protected MoveReturnType checkMove(final CardinalDirection direction, final int steps, final Optional<Entity> obstacle) {
+        if (!this.getSail().isInSpeedRange(steps)) {
+            return new MoveReturnType(false, MoveDetails.OUT_OF_SPEED_RANGE);
+        }
+
         if (this.sail.getHealth() <= 0) {
             return new MoveReturnType(false, MoveDetails.SAIL_BROKEN);
         }
@@ -160,8 +169,6 @@ public abstract class Ship extends Collider {
         if (!this.getSection().getBounds().isInside(this.getPosition())) {
             return new MoveReturnType(false, MoveDetails.BORDER_REACHED);
         }
-
-        final Optional<Entity> obstacle = this.getSection().getEntityAt(this.getPosition().moveTowards(direction));
 
         if (obstacle.isPresent() && obstacle.get() instanceof Collidable c
         && (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {
