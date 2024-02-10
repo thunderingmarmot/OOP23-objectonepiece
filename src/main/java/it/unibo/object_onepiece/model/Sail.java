@@ -17,12 +17,12 @@ public final class Sail extends ShipComponent {
     /**
      * Constructor for class Sail.
      * 
+     * @param  health   the health of the sail
      * @param  max      the maximum speed of the sail
      * @param  min      the minimum speed of the sail
      * @param  rotation the rotation power of the sail
-     * @param  health   the health of the sail
      */
-    protected Sail(final int max, final int min, final boolean rotation, final int health) {
+    protected Sail(final int health, final int max, final int min, final boolean rotation) {
         super(health);
         this.maxSpeed = max;
         this.minSpeed = min;
@@ -73,12 +73,12 @@ public final class Sail extends ShipComponent {
      * @return      sail with his standard stats.
      */
     protected static Sail sloop() {
+        final int health = 100;
         final int maxSpeed = 1;
         final int minSpeed = 1;
         final boolean rotationPower = false;
-        final int health = 100;
 
-        return new Sail(maxSpeed, minSpeed, rotationPower, health);
+        return new Sail(health, maxSpeed, minSpeed, rotationPower);
     }
 
     /**
@@ -88,12 +88,12 @@ public final class Sail extends ShipComponent {
      * @return      sail with his standard stats.
      */
     protected static Sail spinnaker() {
+        final int health = 80;
         final int maxSpeed = 3;
         final int minSpeed = 1;
         final boolean rotationPower = true;
-        final int health = 80;
 
-        return new Sail(maxSpeed, minSpeed, rotationPower, health);
+        return new Sail(health, maxSpeed, minSpeed, rotationPower);
     }
 
     /**
@@ -102,11 +102,11 @@ public final class Sail extends ShipComponent {
      * @return      sail with his standard stats.
      */
     protected static Sail schooner() {
+        final int health = 200;
         final int maxSpeed = 5;
         final int minSpeed = 4;
         final boolean rotationPower = true;
-        final int health = 200;
 
-        return new Sail(maxSpeed, minSpeed, rotationPower, health);
+        return new Sail(health, maxSpeed, minSpeed, rotationPower);
     }
 }

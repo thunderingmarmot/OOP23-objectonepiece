@@ -20,6 +20,7 @@ public abstract class Ship extends Collider {
     private Weapon weapon;
     private Sail sail;
     private Bow bow;
+    private Keel keel;
 
     /**
      * Defines the possible values of MoveDetails which explains what happened while moving.
@@ -76,11 +77,13 @@ public abstract class Ship extends Collider {
                    final CardinalDirection d, 
                    final Weapon weapon, 
                    final Sail sail, 
-                   final Bow bow) {
+                   final Bow bow,
+                   final Keel keel) {
         super(s, p, d);
         this.weapon = weapon;
         this.sail = sail;
         this.bow = bow;
+        this.keel = keel;
     }
 
     /**
@@ -285,6 +288,16 @@ public abstract class Ship extends Collider {
     }
 
     /**
+     * Setter for the Keel component of the Ship.
+     * 
+     * @param  keel is the keel to set
+     * @see    Keel
+     */
+    protected void setKeel(final Keel keel) {
+        this.keel = keel;
+    }
+
+    /**
      * Getter for the Weapon component of the Ship.
      * 
      * @return the current Weapon mounted on the Ship.
@@ -312,6 +325,16 @@ public abstract class Ship extends Collider {
      */
     protected Bow getBow() {
         return this.bow;
+    }
+
+    /**
+     * Getter for the Keel component of the Ship.
+     * 
+     * @return the current Keel mounted on the Ship.
+     * @see    Keel
+     */
+    protected Keel getKeel() {
+        return this.keel;
     }
 
     /**
@@ -347,10 +370,16 @@ public abstract class Ship extends Collider {
     protected void onCollisionWith(final Collider collider) {
         if (collider.getRigidness() == Rigidness.MEDIUM) {
             int damage = this.bow.getCrashDamage();
+            ShipComponent shipComponent = this.getBow();
+            
             if (Utils.isEntityInOppositeDirection(this, collider)) {
-                damage *= 2;
+                if (this.getKeel().isKeelDamaged() && collider instanceof Ship s) {
+                    damage *= s.getBow().getDamageMultiplier();
+                }
+                shipComponent = this.getKeel();
             }
-            this.takeDamage(damage, this.bow);
+
+            this.takeDamage(damage, shipComponent);
         }
     }
 
