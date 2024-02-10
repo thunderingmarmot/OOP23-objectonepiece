@@ -35,7 +35,7 @@ public final class WorldImpl implements World {
         onSectionInstantiated.invoke(currentSection);
         currentSection.generateEntities();
     }
-    
+
     public SectionInstantiatedEvent getSectionInstantiatedEvent() {
         return onSectionInstantiated;
     }
@@ -47,7 +47,7 @@ public final class WorldImpl implements World {
     public List<Enemy> getEnemies() {
         return getCurrentSection().getEntities().stream()
                                                 .filter((e) -> e instanceof Enemy)
-                                                .map((e) -> (Enemy)e)
+                                                .map((e) -> (Enemy) e)
                                                 .toList();
     }
 

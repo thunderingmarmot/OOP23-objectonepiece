@@ -47,12 +47,34 @@ public final class Utils {
     private Utils() { }
 
     /**
-     * A record that keeps track of the main data to save.
+     * A class that keeps track of the main data to save.
      * @param section the reference to the current Section when the State was saved
      * @param playerPosition the Position where the Player was when the State was saved
      * @param playerExperience the experience value of the Player when the State was saved
      */
-    protected record State(Section section, Position playerPosition, int playerExperience) { }
+    protected static class State {
+        private final Section section;
+        private final Position playerPosition;
+        private final int playerExperience;
+
+        protected State(final Section section, final Position playerPosition, final int playerExperience) {
+            this.section = section;
+            this.playerPosition = playerPosition;
+            this.playerExperience = playerExperience;
+        }
+
+        protected Section getSection() {
+            return this.section;
+        }
+
+        protected Position getPlayerPosition() {
+            return this.playerPosition;
+        }
+
+        protected int getPlayerExperience() {
+            return this.playerExperience;
+        }
+    }
 
     /**
      * Getter for the map that translates a Position towards a CardinalDirection.

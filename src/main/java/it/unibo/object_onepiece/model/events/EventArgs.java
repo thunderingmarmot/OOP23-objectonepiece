@@ -10,12 +10,6 @@ public interface EventArgs {
     record NoArgument() implements EventArgs { }
 
     /**
-     * Defines an Event arguments container that uses varargs.
-     * @param args a varargs of arguments
-     */
-    record VarArguments(Object... args) implements EventArgs { }
-
-    /**
      * Defines an Event arguments container of one generic argument.
      * @param <T> the generic type for the only argument
      * @param arg the only argument of type T
