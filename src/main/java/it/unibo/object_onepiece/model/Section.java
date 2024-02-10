@@ -5,13 +5,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import de.articdive.jnoise.pipeline.JNoise;
+import it.unibo.object_onepiece.model.Entity.EntityCreatedEvent;
 import it.unibo.object_onepiece.model.Entity.EntityRemovedEvent;
 import it.unibo.object_onepiece.model.Entity.EntityUpdatedEvent;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.BiArguments;
+import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
 
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -46,7 +47,7 @@ public final class Section {
      * @see Section
      */
     public static final class EntityAddedEvent
-            extends Event<BiArguments<EntityUpdatedEvent, EntityRemovedEvent>> {
+            extends Event<TriArguments<EntityCreatedEvent, EntityUpdatedEvent, EntityRemovedEvent>> {
         /**
          * A less verbose version of invoke that directly takes the Event arguments.
          * 
@@ -56,8 +57,8 @@ public final class Section {
          * @param entityUpdatedEvent the EntityUpdatedEvent of the newly created Entity
          * @see Event
          */
-        protected void invoke(final EntityUpdatedEvent entityUpdatedEvent, final EntityRemovedEvent entityRemovedEvent) {
-            super.invoke(new BiArguments<>(entityUpdatedEvent, entityRemovedEvent));
+        protected void invoke(final EntityCreatedEvent entityCreatedEvent, final EntityUpdatedEvent entityUpdatedEvent, final EntityRemovedEvent entityRemovedEvent) {
+            super.invoke(new TriArguments<>(entityCreatedEvent, entityUpdatedEvent, entityRemovedEvent));
         }
     }
 
@@ -146,9 +147,8 @@ public final class Section {
     }
 
     void addEntity(final Entity e) {
-        onEntityAdded.invoke(e.getEntityUpdatedEvent(), e.getEntityRemovedEvent());
-        e.getEntityUpdatedEvent().invoke(e.getClass().getSimpleName(),
-            e.getPosition(),
+        onEntityAdded.invoke(e.getEntityCreatedEvent(), e.getEntityUpdatedEvent(), e.getEntityRemovedEvent());
+        e.getEntityCreatedEvent().invoke(e.getClass().getSimpleName(),
             e.getPosition(),
             e.getDirection());
         entities.add(e);

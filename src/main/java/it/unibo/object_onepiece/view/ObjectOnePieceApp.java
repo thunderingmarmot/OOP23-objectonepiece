@@ -10,6 +10,8 @@ import it.unibo.object_onepiece.controller.ControllerImpl;
 import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.World;
 import it.unibo.object_onepiece.model.WorldImpl;
+import it.unibo.object_onepiece.model.Entity.EntityCreatedEvent;
+import it.unibo.object_onepiece.model.Entity.EntityRemovedEvent;
 import it.unibo.object_onepiece.model.Entity.EntityUpdatedEvent;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
@@ -144,16 +146,23 @@ public final class ObjectOnePieceApp extends Application {
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
     }
 
-    private void initialDraw(final EntityUpdatedEvent event) {
-        event.subscribe(e -> drawEntity(e.arg1(), e.arg2(), e.arg3(), e.arg4()));
+    private void associateEvents(EntityCreatedEvent created, final EntityUpdatedEvent updated, final EntityRemovedEvent removed) {
+        created.subscribe(e -> createEntity(e.arg1(), e.arg2(), e.arg3()));
+        updated.subscribe(e -> updateEntity(e.arg1(), e.arg2(), e.arg3(), e.arg4()));
+        removed.subscribe(e -> removeEntity(e.arg()));
+    }
+
+    private void createEntity(final String entityName, final Position p, CardinalDirection d) {
+        drawImage(entityName, p.row(), p.column(), Optional.of(d));
     }
 
     private void drawSection(final Section section) {
-        section.getEntityCreatedEvent().subscribe(e -> initialDraw(e.arg()));
+        section.getEntityAddedEvent().subscribe(e -> associateEvents(e.arg1(), e.arg2(), e.arg3()));
     }
 
-    private void drawEntity(final String entityName, final Position oldPos, final Position newPos, final CardinalDirection d) {
-        
+    private void updateEntity(final String entityName, final Position oldPos, final Position newPos, final CardinalDirection d) {
+        removeEntity(oldPos);
+        drawImage(entityName, newPos.row(), newPos.column(), Optional.of(d));
     }
 
     private void removeEntity(final Position p) {
