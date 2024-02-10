@@ -345,6 +345,9 @@ public abstract class Ship extends Collider {
      * @param  direction the direction in which the ship must rotate
      */
     protected void rotate(final CardinalDirection direction) {
+        getEntityUpdatedEvent().invoke(Optional.of(this.getPosition()),
+                                       Optional.empty(),
+                                       Optional.of(direction));
         this.currDirection = direction;
     }
 

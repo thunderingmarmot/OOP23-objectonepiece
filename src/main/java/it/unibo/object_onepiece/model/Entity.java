@@ -22,13 +22,15 @@ public class Entity {
      * @see Entity
      */
     public static final class EntityUpdatedEvent
-    extends Event<TriArguments<Optional<Position>, Optional<Position>, Optional<CardinalDirection>>> {
+    extends Event<TriArguments<Optional<Position>,
+                               Optional<Position>,
+                               Optional<CardinalDirection>>> {
         /**
          * A less verbose version of invoke that directly takes the Event arguments.
-         * @param oldPosition the position this Entity was before the update
-         * @param newPosition the position this Entity is after the update
-         * @param direction the direction this Entity is after the update
-         * @see Event
+         * @param  oldPosition the position this Entity was before the update
+         * @param  newPosition the position this Entity is after the update
+         * @param  direction   the direction this Entity is after the update
+         * @see    Event
          */
         protected void invoke(final Optional<Position> oldPosition,
                               final Optional<Position> newPosition,
