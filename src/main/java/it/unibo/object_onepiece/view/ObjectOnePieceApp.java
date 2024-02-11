@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.IntPredicate;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
 import it.unibo.object_onepiece.controller.Controller;
@@ -54,6 +58,7 @@ public final class ObjectOnePieceApp extends Application {
     private static final Color CELL_BORDER_COLOR = Color.rgb(66, 138, 245);
     private static final Color DEFAULT_COLOR = Color.rgb(2, 127, 222);
     private static final int RIGHT_ANGLE = 90;
+    private static final int HP_BARS_COUNT = 4;
 
     private static final Function<String, String> PATH_FUNC = t -> "/img/sprites/" + t + "/" + t + ".png";
     private final String styleSheet = "/css/ObjectOnePieceApp.css";
@@ -65,7 +70,7 @@ public final class ObjectOnePieceApp extends Application {
     private final GridModel<State> gridModel = new GridModel<>();
     private final GridView<State> gridView = new GridView<>();
     private Controller controller = new ControllerImpl();
-    private final List<HealthBar> healthBars = new LinkedList<>();
+    private final HealthBar[] healthBars = new HealthBar[HP_BARS_COUNT];
     private World world;
 
     @Override
@@ -78,12 +83,16 @@ public final class ObjectOnePieceApp extends Application {
         Label pirateInfo = new Label("Pirate info!");
         pirateInfo.setAlignment(Pos.CENTER);
 
-        HealthBar h = new HealthBar(50, 100);
+        VBox barsContainer = new VBox();
+        for (HealthBar healthBar : healthBars) {
+            HealthBar h = new HealthBar(0, 100);
+            barsContainer.getChildren().add(h.getContainer());
+        }
 
 
         BorderPane rightPane = new BorderPane();
         rightPane.setTop(pirateInfo);
-        rightPane.setCenter(h.getContainer());
+        rightPane.setCenter(barsContainer);
 
         borderPane.setCenter(gridView);
         borderPane.setRight(rightPane);
@@ -192,7 +201,14 @@ public final class ObjectOnePieceApp extends Application {
     }
 
     private void drawPlayerInfo(final List<Integer> health, final List<Integer> maxHealth, final Integer xp) {
+        if (Stream.of(health.size(), maxHealth.size()).anyMatch(s -> s > HP_BARS_COUNT)) {
+            throw new IllegalArgumentException("Model has more healthbars than view can represent");
+        }
+
         
+        for (int i = 0; i < HP_BARS_COUNT; i++) {
+            healthBars[i].updateHealth(health.get(i), maxHealth.get(i));
+        }
     }
 
     private class HealthBar {
@@ -212,6 +228,11 @@ public final class ObjectOnePieceApp extends Application {
             updateHealth(0, 100);
         }
 
+        /**
+         * 
+         * @param health 
+         * @param maxHealth a number greater than 0
+         */
         public HealthBar(final int health, final int maxHealth) {
             configPane();
             updateHealth(health, maxHealth);
