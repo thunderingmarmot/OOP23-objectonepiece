@@ -28,8 +28,8 @@ public final class ControllerImpl implements Controller {
 
         if (currentState.perform(position,player)) {
             System.err.println("SI è mosso in teoria");
-           /*  world.getEnemies()
-                .forEach(e -> ((Enemy) e).goNext()); */
+            world.getEnemies()
+                .forEach(e -> ((Enemy) e).goNext());
         }   
     }
 
