@@ -10,16 +10,6 @@ import it.unibo.object_onepiece.model.events.EventArgs.Argument;
  * Represents World of the game, with the current section and the saved ones.
  */
 public interface World {
-
-    /**
-     * Grid rows.
-     */
-    int SECTION_ROWS = 10;
-    /**
-     * Grid columns.
-     */
-    int SECTION_COLUMNS = 10;
-
     /**
      * An Event alias that is used when a Section is created in World.
      * @see Event
@@ -60,4 +50,14 @@ public interface World {
      * @return event to associate view with section instantiation
      */
     SectionInstantiatedEvent getSectionInstantiatedEvent();
+    /**
+     * 
+     * @return number of rows in a section
+     */
+    int getMapRows();
+    /**
+     * 
+     * @return number of columns in a section
+     */
+    int getMapCols();
 }

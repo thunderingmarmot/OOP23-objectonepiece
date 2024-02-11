@@ -63,7 +63,7 @@ public final class ObjectOnePieceApp extends Application {
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
         gridSetUp();
-        world = new WorldImpl(e -> drawSection(e.arg()));
+        world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, e -> drawSection(e.arg()));
         BorderPane borderPane = new BorderPane();
 
         Label pirateInfo = new Label("Pirate info!");
