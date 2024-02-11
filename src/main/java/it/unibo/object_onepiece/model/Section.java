@@ -8,11 +8,13 @@ import de.articdive.jnoise.pipeline.JNoise;
 import it.unibo.object_onepiece.model.Entity.EntityCreatedEvent;
 import it.unibo.object_onepiece.model.Entity.EntityRemovedEvent;
 import it.unibo.object_onepiece.model.Entity.EntityUpdatedEvent;
+import it.unibo.object_onepiece.model.Player.StatsUpdatedEvent;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
+import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -59,6 +61,16 @@ public final class Section {
         protected void invoke(final EntityCreatedEvent entityCreatedEvent, final EntityUpdatedEvent entityUpdatedEvent,
             final EntityRemovedEvent entityRemovedEvent) {
             super.invoke(new TriArguments<>(entityCreatedEvent, entityUpdatedEvent, entityRemovedEvent));
+        }
+    }
+
+    public static final class PlayerAddedEvent extends Event<Argument<StatsUpdatedEvent>> {
+        /**
+         * 
+         * @param statsUpdatedEvent the event for updating view's player information (health and XP)
+         */
+        protected void invoke(final StatsUpdatedEvent statsUpdatedEvent) {
+            super.invoke(new Argument<>(statsUpdatedEvent));
         }
     }
 

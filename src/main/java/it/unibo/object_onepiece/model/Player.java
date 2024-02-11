@@ -1,10 +1,12 @@
 package it.unibo.object_onepiece.model;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
+import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
 
 /**
  * Implementation of the Player interface.
@@ -22,15 +24,16 @@ public final class Player extends Ship {
      * @see Entity
      */
     public static final class StatsUpdatedEvent
-    extends Event<BiArgument<List<Integer>>> {
+    extends Event<TriArguments<List<Integer>, List<Integer>, Integer>> {
         /**
          * A less verbose version of invoke that directly takes the Event arguments.
          * @param healthList list of all ShipComponents healths
          * @param maxHealthList list of all ShipComponents max healths
          */
-        protected void invoke(final List<Integer> healthList,
-                              final List<Integer> maxHealthList) {
-            super.invoke(new BiArgument<>(healthList, maxHealthList));
+        protected void invoke(final List<Integer> healths,
+                              final List<Integer> maxHealths,
+                              final Integer experience) {
+            super.invoke(new TriArguments<>(healths, maxHealths, experience));
         }
     }
 
@@ -108,6 +111,18 @@ public final class Player extends Ship {
         return super.shoot(target).hasShooted();
     }
 
+    private <T> Stream<T> getFromShipComponent(Function<ShipComponent, T> map) {
+        return super.getShipComponents().stream().map(map);
+    }
+
+    protected List<Integer> getMaxHealths() {
+        return getFromShipComponent((c) -> c.getMaxHealth()).toList();
+    }
+
+    protected List<Integer> getHealths() {
+        return getFromShipComponent((c) -> c.getHealth()).toList();
+    }
+
     /**
      * Getter for the experience private field.
      * @return the currently owned experience value
@@ -122,6 +137,31 @@ public final class Player extends Ship {
      */
     protected void addExperience(final int experience) {
         this.experience += experience;
+        updateStats();
+    }
+
+    /**
+     * Overridden version of takeDamage to allow event invoking.
+     * @see Ship
+     */
+    @Override
+    protected void takeDamage(final int damage, final ShipComponent s) {
+        super.takeDamage(damage, s);
+        updateStats();
+    }
+
+    /**
+     * Overridden version of healShip to allow event invoking.
+     * @see Ship
+     */
+    @Override
+    protected void healShip() {
+        super.healShip();
+        updateStats();
+    }
+
+    private void updateStats() {
+        onStatsUpdated.invoke(getHealths(), getMaxHealths(), getExperience());
     }
 
     /**
