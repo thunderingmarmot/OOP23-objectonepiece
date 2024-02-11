@@ -236,12 +236,7 @@ public abstract class Ship extends Collider {
         final Optional<Entity> ship = this.getSection().getEntityAt(position);
 
         if (ship.isPresent() && ship.get() instanceof Ship s) {
-            List<ShipComponent> sc = List.of(
-                this.getWeapon(),
-                this.getSail(),
-                this.getBow(),
-                this.getKeel()
-            );
+            List<ShipComponent> sc = s.getShipComponents();
 
             sc = sc.stream()
                    .filter(c -> c.getHealth() > 0)
