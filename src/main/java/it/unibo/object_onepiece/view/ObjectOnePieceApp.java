@@ -1,7 +1,10 @@
 package it.unibo.object_onepiece.view;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
@@ -13,9 +16,14 @@ import it.unibo.object_onepiece.model.WorldImpl;
 import it.unibo.object_onepiece.model.Entity.EntityCreatedEvent;
 import it.unibo.object_onepiece.model.Entity.EntityRemovedEvent;
 import it.unibo.object_onepiece.model.Entity.EntityUpdatedEvent;
+import it.unibo.object_onepiece.model.Player.StatsUpdatedEvent;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import javafx.application.Application;
+import javafx.beans.Observable;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableIntegerValue;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -57,6 +65,7 @@ public final class ObjectOnePieceApp extends Application {
     private final GridModel<State> gridModel = new GridModel<>();
     private final GridView<State> gridView = new GridView<>();
     private Controller controller = new ControllerImpl();
+    private final List<HealthBar> healthBars = new LinkedList<>();
     private World world;
 
     @Override
@@ -69,35 +78,12 @@ public final class ObjectOnePieceApp extends Application {
         Label pirateInfo = new Label("Pirate info!");
         pirateInfo.setAlignment(Pos.CENTER);
 
-        VBox healthContainers[] = new VBox[3];
-        for (int i = 0; i < 3; i++) {
-            healthContainers[i] = new VBox();
-            StackPane healthPane = new StackPane();
-            healthPane.setPrefHeight(100);
-            healthPane.setMaxWidth(20);
-            Rectangle redBar = new Rectangle();
-            redBar.setFill(Color.RED);
-            redBar.widthProperty().bind(healthPane.widthProperty());
-            redBar.heightProperty().bind(healthPane.heightProperty());
-            Rectangle healthBar = new Rectangle();
-            healthBar.widthProperty().bind(healthPane.widthProperty());
-            healthBar.setFill(Color.GREEN);
-            healthPane.getChildren().addAll(redBar, healthBar);
-            StackPane.setAlignment(healthBar, Pos.BOTTOM_CENTER);
-            Label healthPoints = new Label("100");
-            healthPoints.setAlignment(Pos.CENTER);
-            healthContainers[i].getChildren().addAll(healthPane, healthPoints);
-        }
+        HealthBar h = new HealthBar(50, 100);
 
-        VBox healthDiv = new VBox();
-
-        for (VBox vBox : healthContainers) {
-            healthDiv.getChildren().add(vBox);
-        }
 
         BorderPane rightPane = new BorderPane();
         rightPane.setTop(pirateInfo);
-        rightPane.setCenter(healthDiv);
+        rightPane.setCenter(h.getContainer());
 
         borderPane.setCenter(gridView);
         borderPane.setRight(rightPane);
@@ -152,13 +138,20 @@ public final class ObjectOnePieceApp extends Application {
         removed.subscribe(e -> removeEntity(e.arg()));
     }
 
+    private void associateEvents(StatsUpdatedEvent updated) {
+        updated.subscribe(e -> drawPlayerInfo(e.arg1(), e.arg2(), e.arg3()));
+    }
+    
     private void createEntity(final String entityName, final Position p, CardinalDirection d) {
         drawImage(entityName, p.row(), p.column(), Optional.of(d));
     }
 
     private void drawSection(final Section section) {
         section.getEntityAddedEvent().subscribe(e -> associateEvents(e.arg1(), e.arg2(), e.arg3()));
+        section.getPlayerAddedEvent().subscribe(e -> associateEvents(e.arg()));
     }
+
+    
 
     private void updateEntity(final String entityName, final Position oldPos, final Position newPos, final CardinalDirection d) {
         removeEntity(oldPos);
@@ -176,7 +169,7 @@ public final class ObjectOnePieceApp extends Application {
         }
     }
 
-    private void drawImage(String entityName, int row, int col, Optional<CardinalDirection> d) {
+    private void drawImage(final String entityName, final int row, final int col, final Optional<CardinalDirection> d) {
         try {
             final URL imgPath = getClass().getResource(PATH_FUNC.apply(entityName));
             final Image img = new Image(imgPath.toString());
@@ -195,6 +188,59 @@ public final class ObjectOnePieceApp extends Application {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(new Label(entityName));
+        }
+    }
+
+    private void drawPlayerInfo(final List<Integer> health, final List<Integer> maxHealth, final Integer xp) {
+        
+    }
+
+    private class HealthBar {
+        private final static int BAR_WIDTH = 20;
+        private final static int BAR_HEIGHT = 100;
+
+        private final VBox container = new VBox();
+        private final StackPane s = new StackPane();
+        private final Label healthLabel = new Label();
+        private final Rectangle redBar = new Rectangle();
+        private final Rectangle greenBar = new Rectangle();
+
+        private final BiFunction<Integer, Integer, String> labelTextBuild = (h, maxH) -> h + "/" + maxH; 
+
+        public HealthBar() {
+            configPane();
+            updateHealth(0, 100);
+        }
+
+        public HealthBar(final int health, final int maxHealth) {
+            configPane();
+            updateHealth(health, maxHealth);
+        }
+
+        VBox getContainer() {
+            return container;
+        }
+
+        private void configPane() {
+            s.setPrefHeight(BAR_HEIGHT);
+            s.setMaxWidth(BAR_WIDTH);
+            redBar.setFill(Color.RED);
+            redBar.widthProperty().bind(s.widthProperty());
+            redBar.heightProperty().bind(s.heightProperty());
+            greenBar.widthProperty().bind(s.widthProperty());
+            greenBar.setFill(Color.GREEN);
+            s.getChildren().addAll(redBar, greenBar);
+            StackPane.setAlignment(greenBar, Pos.BOTTOM_CENTER);
+            this.healthLabel.setAlignment(Pos.CENTER);
+            container.getChildren().addAll(s, healthLabel);
+        }
+
+        void updateHealth(final int health, final int maxHealth) {
+            if (maxHealth <= 0) {
+                throw new IllegalArgumentException("maxHealth cannot be less or equal to 0");
+            }
+            healthLabel.setText(labelTextBuild.apply(health, maxHealth));
+            greenBar.setHeight((redBar.getHeight() * health) / maxHealth);
         }
     }
 
