@@ -3,6 +3,10 @@ package it.unibo.object_onepiece.model;
 import java.util.List;
 import java.util.function.Consumer;
 
+import it.unibo.object_onepiece.model.Consumers.QuadrConsumer;
+import it.unibo.object_onepiece.model.Consumers.TriConsumer;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
+import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.Utils.State;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
 
@@ -41,6 +45,19 @@ public final class WorldImpl implements World {
         onSectionInstantiated.subscribe(listener);
         createNewSection();
     }
+
+    public WorldImpl(int mapRows, int mapCols, final Observers c) {
+        this.mapRows = mapRows;
+        this.mapCols = mapCols;
+    }
+
+    public record Observers(
+        TriConsumer<String, Position, CardinalDirection> createEntity, 
+        QuadrConsumer<String, Position, Position, CardinalDirection> updateEntity,
+        Consumer<Position> removeEntity,
+        TriConsumer<List<Integer>, List<Integer>, Integer> updatePlayerInfo) { }
+
+    
 
     void createNewSection() {
         currentSection = new Section(this);
