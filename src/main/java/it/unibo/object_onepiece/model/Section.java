@@ -41,6 +41,7 @@ public final class Section {
     private final Bound bound;
 
     private final EntityAddedEvent onEntityAdded = new EntityAddedEvent();
+    private final PlayerAddedEvent onPlayerAdded = new PlayerAddedEvent();
 
     /**
      * An Event alias that is used when an Entity is created in a Section.
@@ -166,6 +167,9 @@ public final class Section {
     }
 
     void addEntity(final Entity e) {
+        if (e instanceof Player) {
+            onPlayerAdded.invoke(((Player)e).getStatsUpdatedEvent());
+        }
         onEntityAdded.invoke(e.getEntityCreatedEvent(), e.getEntityUpdatedEvent(), e.getEntityRemovedEvent());
         e.getEntityCreatedEvent().invoke(e.getClass().getSimpleName(),
             e.getPosition(),
@@ -178,5 +182,12 @@ public final class Section {
      */
     public EntityAddedEvent getEntityAddedEvent() {
         return onEntityAdded;
+    }
+    /**
+     * 
+     * @return event to update player information in view
+     */
+    public PlayerAddedEvent getPlayerAddedEvent() {
+        return onPlayerAdded;
     }
 }
