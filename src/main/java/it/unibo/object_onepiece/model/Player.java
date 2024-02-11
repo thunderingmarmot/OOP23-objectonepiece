@@ -4,6 +4,8 @@ import java.util.List;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.Weapon.ShootReturnType;
+import it.unibo.object_onepiece.model.events.Event;
+import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
 
 /**
  * Implementation of the Player interface.
@@ -18,6 +20,25 @@ public final class Player extends Ship {
         MoveDetails.MOVED_BUT_COLLIDED,
         MoveDetails.ROTATED
     );
+
+    /**
+     * An Event alias that is used when Player stats are updated.
+     * @see Event
+     * @see Entity
+     */
+    public static final class StatsUpdatedEvent
+    extends Event<BiArgument<List<Integer>>> {
+        /**
+         * A less verbose version of invoke that directly takes the Event arguments.
+         * @param entityName the name of the created Entity class
+         * @param startPosition the position this Entity is spawned at
+         * @param startDirection the direction this Entity is spawned in
+         */
+        protected void invoke(final List<Integer> healthList,
+                              final List<Integer> maxHealthList) {
+            super.invoke(new BiArgument<>(healthList, maxHealthList));
+        }
+    }
 
     /**
      * Constructor for PlayerImpl.
