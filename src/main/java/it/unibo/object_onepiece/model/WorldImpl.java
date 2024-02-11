@@ -9,6 +9,10 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.Utils.State;
 import it.unibo.object_onepiece.model.events.EventArgs.Argument;
+import it.unibo.object_onepiece.view.ObjectOnePieceApp.EntityCreatedArgs;
+import it.unibo.object_onepiece.view.ObjectOnePieceApp.EntityRemovedArgs;
+import it.unibo.object_onepiece.view.ObjectOnePieceApp.EntityUpdatedArgs;
+import it.unibo.object_onepiece.view.ObjectOnePieceApp.PlayerUpdatedArgs;
 
 /**
  * Implementation of World interface.
@@ -52,10 +56,10 @@ public final class WorldImpl implements World {
     }
 
     public record Observers(
-        TriConsumer<String, Position, CardinalDirection> createEntity, 
-        QuadrConsumer<String, Position, Position, CardinalDirection> updateEntity,
-        Consumer<Position> removeEntity,
-        TriConsumer<List<Integer>, List<Integer>, Integer> updatePlayerInfo) { }
+        Consumer<EntityCreatedArgs> createEntity, 
+        Consumer<EntityUpdatedArgs> updateEntity,
+        Consumer<EntityRemovedArgs> removeEntity,
+        Consumer<PlayerUpdatedArgs> updatePlayerInfo) { }
 
     
 
