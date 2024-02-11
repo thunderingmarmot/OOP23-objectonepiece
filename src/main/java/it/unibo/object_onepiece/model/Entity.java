@@ -2,10 +2,6 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.QuadrArguments;
-import it.unibo.object_onepiece.model.events.EventArgs.Argument;
-import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
 
 /**
  * This class defines the common methods of every entity present on the section.
@@ -16,69 +12,9 @@ public class Entity {
     private Position position;
     private CardinalDirection direction;
 
-    private final EntityUpdatedEvent onEntityUpdated = new EntityUpdatedEvent();
-    private final EntityRemovedEvent onEntityRemoved = new EntityRemovedEvent();
-    private final EntityCreatedEvent onEntityCreated = new EntityCreatedEvent();
-
-    /**
-     * An Event alias that is used when an Entity state is updated in any way.
-     * @see Event
-     * @see Entity
-     */
-    public static final class EntityUpdatedEvent
-    extends Event<QuadrArguments<String, Position, Position, CardinalDirection>> {
-        /**
-         * A less verbose version of invoke that directly takes the Event arguments.
-         * @param  entityName   the name of the Entity class
-         * @param  oldPosition  the position this Entity was before the update
-         * @param  newPosition  the position this Entity is after the update
-         * @param  newDirection the direction this Entity is after the update
-         * @see    Event
-         */
-        protected void invoke(final String entityName,
-                              final Position oldPosition,
-                              final Position newPosition,
-                              final CardinalDirection newDirection) {
-            super.invoke(new QuadrArguments<>(entityName, oldPosition, newPosition, newDirection));
-        }
-    }
-
-    /**
-     * An Event alias that is used when an Entity is removed.
-     * @see Event
-     * @see Entity
-     */
-    public static final class EntityRemovedEvent
-    extends Event<Argument<Position>> {
-        /**
-         * A less verbose version of invoke that directly takes the Event arguments.
-         * @param  lastPosition the last position this Entity was
-         * @see    Event
-         */
-        protected void invoke(final Position lastPosition) {
-            super.invoke(new Argument<>(lastPosition));
-        }
-    }
-
-    /**
-     * An Event alias that is used when an Entity is created.
-     * @see Event
-     * @see Entity
-     */
-    public static final class EntityCreatedEvent
-    extends Event<TriArguments<String, Position, CardinalDirection>> {
-        /**
-         * A less verbose version of invoke that directly takes the Event arguments.
-         * @param entityName the name of the created Entity class
-         * @param startPosition the position this Entity is spawned at
-         * @param startDirection the direction this Entity is spawned in
-         */
-        protected void invoke(final String entityName,
-                              final Position startPosition,
-                              final CardinalDirection startDirection) {
-            super.invoke(new TriArguments<>(entityName, startPosition, startDirection));
-        }
-    }
+    protected record EntityCreatedArgs(String name, Position spawnPosition, CardinalDirection spawnDirection) { }
+    protected record EntityUpdatedArgs(String name, Position oldPosition, Position newPosition, CardinalDirection newDirection) { }
+    protected record EntityRemovedArgs(Position lastPosition) { };
 
     /**
      * Constructor for class Entity.
@@ -120,36 +56,6 @@ public class Entity {
      */
     protected CardinalDirection getDirection() {
         return this.direction;
-    }
-
-    /**
-     * Getter for the onEntityUpdated Event.
-     * 
-     * @return an event of entity updated.
-     * @see    Event
-     */
-    public EntityUpdatedEvent getEntityUpdatedEvent() {
-        return this.onEntityUpdated;
-    }
-
-    /**
-     * Getter for the onEntityRemoved Event.
-     * 
-     * @return an event of entity removed
-     * @see    Event
-     */
-    public EntityRemovedEvent getEntityRemovedEvent() {
-        return this.onEntityRemoved;
-    }
-
-    /**
-     * Getter for the onEntityCreated Event.
-     * 
-     * @return an event of entity created.
-     * @see    Event
-     */
-    public EntityCreatedEvent getEntityCreatedEvent() {
-        return this.onEntityCreated;
     }
 
     /**
