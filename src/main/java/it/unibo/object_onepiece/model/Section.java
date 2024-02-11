@@ -167,8 +167,8 @@ public final class Section {
     }
 
     void addEntity(final Entity e) {
-        if (e instanceof Player) {
-            onPlayerAdded.invoke(((Player)e).getStatsUpdatedEvent());
+        if (e instanceof Player p) {
+            onPlayerAdded.invoke(p.getStatsUpdatedEvent());
         }
         onEntityAdded.invoke(e.getEntityCreatedEvent(), e.getEntityUpdatedEvent(), e.getEntityRemovedEvent());
         e.getEntityCreatedEvent().invoke(e.getClass().getSimpleName(),
