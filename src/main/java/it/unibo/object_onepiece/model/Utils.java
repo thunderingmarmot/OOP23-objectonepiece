@@ -37,7 +37,13 @@ public final class Utils {
         new Position(0, 1), CardinalDirection.EAST,
         new Position(-1, 0), CardinalDirection.NORTH,
         new Position(0, -1), CardinalDirection.WEST,
-        new Position(1, 0), CardinalDirection.SOUTH
+        new Position(1, 0), CardinalDirection.SOUTH,
+
+        new Position(1, 1), CardinalDirection.SOUTH,
+        new Position(1, -1), CardinalDirection.SOUTH,
+        new Position(-1, 1), CardinalDirection.NORTH,
+        new Position(-1, -1), CardinalDirection.NORTH
+        
     );
 
     private static List<BiPredicate<Bound, Position>> insideBoundsConditions = List.of(

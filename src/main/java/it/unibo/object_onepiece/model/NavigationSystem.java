@@ -18,5 +18,4 @@ public interface NavigationSystem {
      *
      */
     public CardinalDirection move(Position objectivePosition,Position currentPosition);
-    public CardinalDirection move(Position currentPosition);
 }
