@@ -158,6 +158,10 @@ public final class Utils {
             || horizontalDirection.contains(e2.getDirection()) && verticalDirection.contains(e1.getDirection());
     }
 
+    static boolean isEntityInSameDirection(final Entity e1, final Entity e2) {
+        return e1.getDirection().equals(e2.getDirection());
+    }
+
     /**
      * A record to keep track of an Entity's Position.
      * @param row the row where the Entity is
