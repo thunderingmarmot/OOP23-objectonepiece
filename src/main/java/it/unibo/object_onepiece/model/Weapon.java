@@ -88,8 +88,8 @@ public final class Weapon extends ShipComponent {
      */
     protected static Weapon cannon() {
         final int health = 100;
-        final int maxDamage = 20;
-        final int minDamage = 10;
+        final int maxDamage = 40;
+        final int minDamage = 20;
         final int range = 3;
 
         return new Weapon(health, maxDamage, minDamage, range);
@@ -103,7 +103,7 @@ public final class Weapon extends ShipComponent {
      */
     protected static Weapon railgun() {
         final int health = 70;
-        final int maxDamage = 50;
+        final int maxDamage = 100;
         final int minDamage = 0;
         final int range = 5;
 
@@ -118,7 +118,7 @@ public final class Weapon extends ShipComponent {
      */
     protected static Weapon heavycannon() {
         final int health = 120;
-        final int maxDamage = 80;
+        final int maxDamage = 60;
         final int minDamage = 40;
         final int range = 1;
 
