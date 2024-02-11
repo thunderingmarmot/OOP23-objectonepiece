@@ -62,6 +62,9 @@ public abstract class Ship extends Collider {
         NO_MOVEMENT
     }
 
+    /**
+     * List of the MoveDetails returned when the ship has successfully moved.
+     */
     protected static final List<MoveDetails> MOVE_SUCCESS_CONDITIONS = List.of(
         MoveDetails.MOVED_SUCCESSFULLY,
         MoveDetails.MOVED_BUT_COLLIDED,
@@ -354,6 +357,11 @@ public abstract class Ship extends Collider {
         return this.keel;
     }
 
+    /**
+     * Getter for all the component of the ship.
+     * 
+     * @return a list that contains all the ship component.
+     */
     protected List<ShipComponent> getShipComponents() {
         return List.of(
             this.getWeapon(),

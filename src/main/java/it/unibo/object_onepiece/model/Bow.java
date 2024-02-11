@@ -32,7 +32,7 @@ public final class Bow extends ShipComponent {
      * @return bow crash damage.
      */
     protected int getCrashDamage() {
-        if(this.getHealth() <= 0) {
+        if (this.getHealth() <= 0) {
             return BROKEN_CRASH_DAMAGE;
         }
         return this.crashDamage;
