@@ -20,6 +20,7 @@ public abstract class Ship extends Collider {
     private Weapon weapon;
     private Sail sail;
     private Bow bow;
+    private Keel keel;
 
     /**
      * Defines the possible values of MoveDetails which explains what happened while moving.
@@ -62,13 +63,6 @@ public abstract class Ship extends Collider {
     }
 
     /**
-     * Defines the return type of the move method.
-     * @param  canStep a boolean which tells the caller of move if this Movable moved or not
-     * @param  details a MoveDetails object which explains in detail what happened
-     */
-    record MoveReturnType(boolean canStep, MoveDetails details) { }
-
-    /**
     * Constructor for class ShipImpl.
     *
     * @param  s      the section where the ship is located
@@ -77,75 +71,74 @@ public abstract class Ship extends Collider {
     * @param  weapon the weapon of the ship
     * @param  sail   the weapon of the ship
     * @param  bow    the weapon of the ship
+    * @param  keel   the keel of the ship
     */
     protected Ship(final Section s, 
                    final Position p, 
                    final CardinalDirection d, 
                    final Weapon weapon, 
                    final Sail sail, 
-                   final Bow bow) {
+                   final Bow bow,
+                   final Keel keel) {
         super(s, p, d);
         this.weapon = weapon;
         this.sail = sail;
         this.bow = bow;
+        this.keel = keel;
     }
 
     /**
-     * This method define the actual ship movement by checking the next position
-     * using canMove() and move the Ship based on the MoveReturnType returned.
+     * This method define the actual ship movement by calling step() steps times.
+     * Every step the method try to move the Ship to the next position up to the final position.
+     * If along the path there are static collision the Ship stops right before them.
      * 
      * @param  direction is the direction where the ship should move
      * @param  steps     is the number of steps that the ship should do to reach the final position
      * @return           a MoveDetails that contains the result of the last movement made by the Ship.
-     * 
-     * This is a recursive method that calls himself steps times.
-     * Every call the method try to move the Ship to the next position up to the final position.
-     * If along the path there are immovable obstacles the Ship stops right before them.
      */
     protected MoveDetails move(final CardinalDirection direction, final int steps) {
         if (!this.getSail().isInSpeedRange(steps)) {
             return MoveDetails.OUT_OF_SPEED_RANGE;
         }
 
-        Position nextPosition;
-        Optional<Entity> obstacle;
-        MoveReturnType nextStep = new MoveReturnType(false, MoveDetails.NO_MOVEMENT);
+        MoveDetails nextStep = MoveDetails.NO_MOVEMENT;
 
-        for (int i = 0; i < steps && !nextStep.details().equals(MoveDetails.STATIC_COLLISION); i++) {
-            nextPosition = this.getPosition().moveTowards(direction);
-            obstacle = this.getSection().getEntityAt(nextPosition);
-            nextStep = checkMove(direction, obstacle);
-
-            if(nextStep.details().equals(MoveDetails.STATIC_COLLISION) || nextStep.details().equals(MoveDetails.MOVED_BUT_COLLIDED)) {
-                this.collideWith((Collidable) obstacle.get());
-            }
-
-            if(nextStep.details().equals(MoveDetails.MOVED_SUCCESSFULLY) || nextStep.details().equals(MoveDetails.MOVED_BUT_COLLIDED)) {
-                this.setPosition(nextPosition);
-            }
-            
-            if(nextStep.details().equals(MoveDetails.ROTATED)) {
-                rotate(direction);
-            }
+        for (int i = 0; i < steps && !nextStep.equals(MoveDetails.STATIC_COLLISION); i++) {
+            nextStep = this.step(direction);
         }
 
-        return nextStep.details();
+        return nextStep;
     }
 
     /**
-     * Overloading of the default move method.
-     * This only accept the direction as a parameter 
-     * because it calls the move method by passing only 1 step.
+     * This method move the ship by one cell depending on the result of checkMove().
      * 
-     * This is made to simplify the calls to this method by Enemy ships,
-     * because they can't pick up power ups for their ships, so by default
-     * they can move by only one cell per turn.
-     * 
-     * @param  direction is the direction where the ship should move to
-     * @return           a MoveDetails that contains the result of the last movement made by the Ship.
+     * @param  direction the direction where the ship must move at
+     * @return           the MoveDetails returned by checkMove().
      */
-    protected MoveDetails move(final CardinalDirection direction) {
-        return move(direction, 1);
+    protected MoveDetails step(final CardinalDirection direction) {
+        final Position nextPosition = this.getPosition().moveTowards(direction);
+        final Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
+        final MoveDetails nextStep = checkMove(direction, obstacle);
+
+        if (nextStep.equals(MoveDetails.STATIC_COLLISION) 
+        || nextStep.equals(MoveDetails.MOVED_BUT_COLLIDED)) {
+            this.collideWith((Collidable) obstacle.get());
+        }
+
+        if (nextStep.equals(MoveDetails.ROTATED)) {
+            this.rotate(direction);
+            if (this.getSail().haveRotationPower()) {
+                step(direction);
+            }
+        }
+
+        if (nextStep.equals(MoveDetails.MOVED_SUCCESSFULLY)
+        || nextStep.equals(MoveDetails.MOVED_BUT_COLLIDED)) {
+            this.setPosition(nextPosition);
+        }
+
+        return nextStep;
     }
 
     /**
@@ -153,35 +146,35 @@ public abstract class Ship extends Collider {
      * 
      * @param  direction the direction where the ship should move to
      * @param  obstacle  optional of an obstacle in front of the ship
-     * @return           if the ship can move and a MoveDetails for a more detailed feedback on the movement.
+     * @return           a MoveDetails for a detailed outcome of the movement check.
      */
-    protected MoveReturnType checkMove(final CardinalDirection direction, final Optional<Entity> obstacle) {
+    protected MoveDetails checkMove(final CardinalDirection direction, final Optional<Entity> obstacle) {
         if (Objects.isNull(direction)) {
-            return new MoveReturnType(false, MoveDetails.NO_MOVEMENT);
+            return MoveDetails.NO_MOVEMENT;
         }
 
         if (this.getSail().getHealth() <= 0) {
-            return new MoveReturnType(false, MoveDetails.SAIL_BROKEN);
+            return MoveDetails.SAIL_BROKEN;
         }
 
         if (!direction.equals(this.getDirection())) {
-            return new MoveReturnType(false, MoveDetails.ROTATED);
+            return MoveDetails.ROTATED;
         }
 
         if (!this.getSection().getBounds().isInside(this.getPosition())) {
-            return new MoveReturnType(false, MoveDetails.BORDER_REACHED);
+            return MoveDetails.BORDER_REACHED;
         }
 
         if (obstacle.isPresent() && obstacle.get() instanceof Collidable c
         && (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {
-            return new MoveReturnType(false, MoveDetails.STATIC_COLLISION);
+            return MoveDetails.STATIC_COLLISION;
         }
 
         if (obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.getRigidness() == Rigidness.SOFT) {
-            return new MoveReturnType(true, MoveDetails.MOVED_BUT_COLLIDED);
+            return MoveDetails.MOVED_BUT_COLLIDED;
         }
 
-        return new MoveReturnType(true, MoveDetails.MOVED_SUCCESSFULLY);
+        return MoveDetails.MOVED_SUCCESSFULLY;
     }
 
     /**
@@ -260,9 +253,19 @@ public abstract class Ship extends Collider {
      */
     protected void takeDamage(final int damage, final ShipComponent s) {
         s.setHealth(s.getHealth() - damage);
-        if (this.bow.getHealth() <= 0) {
+        if (this.keel.getHealth() <= 0) {
             this.remove();
         }
+    }
+
+    /**
+     * This method heal every ship component to its maximum health.
+     */
+    protected void healShip() {
+        this.getWeapon().setHealth(this.getWeapon().getMaxHealth());
+        this.getSail().setHealth(this.getSail().getMaxHealth());
+        this.getBow().setHealth(this.getBow().getMaxHealth());
+        this.getKeel().setHealth(this.getKeel().getMaxHealth());
     }
 
     /**
@@ -296,6 +299,16 @@ public abstract class Ship extends Collider {
     }
 
     /**
+     * Setter for the Keel component of the Ship.
+     * 
+     * @param  keel is the keel to set
+     * @see    Keel
+     */
+    protected void setKeel(final Keel keel) {
+        this.keel = keel;
+    }
+
+    /**
      * Getter for the Weapon component of the Ship.
      * 
      * @return the current Weapon mounted on the Ship.
@@ -326,6 +339,25 @@ public abstract class Ship extends Collider {
     }
 
     /**
+     * Getter for the Keel component of the Ship.
+     * 
+     * @return the current Keel mounted on the Ship.
+     * @see    Keel
+     */
+    protected Keel getKeel() {
+        return this.keel;
+    }
+
+    protected List<ShipComponent> getShipComponents() {
+        return List.of(
+            this.getWeapon(),
+            this.getBow(),
+            this.getSail(),
+            this.getKeel()
+        );
+    }
+
+    /**
      * Getter for the Rigidness of the ship.
      * 
      * @return the Rigidnes of the Collider.
@@ -348,13 +380,26 @@ public abstract class Ship extends Collider {
     /**
      * This method calls takeDamage on the collider's 
      * bow if its Rigidness is MEDIUM.
+     * Also if the collider has opposite direction of
+     * this entity the damage is doubled.
      * 
-     * @see Collider
+     * @see  Collider
+     * @see  Utils
      */
     @Override
     protected void onCollisionWith(final Collider collider) {
-        if (collider.getRigidness() == Rigidness.MEDIUM) {
-            this.takeDamage(this.bow.getCrashDamage(), this.bow);
+        if (collider.getRigidness() == Rigidness.MEDIUM && collider instanceof Ship s) {
+            int damage = s.bow.getCrashDamage();
+            ShipComponent shipComponent = this.getBow();
+
+            if (Utils.isEntityInOppositeDirection(this, collider)) {
+                if (this.getKeel().isKeelDamaged()) {
+                    damage *= s.getBow().getCrashDamageMultiplier();
+                }
+                shipComponent = this.getKeel();
+            }
+
+            this.takeDamage(damage, shipComponent);
         }
     }
 
@@ -363,13 +408,15 @@ public abstract class Ship extends Collider {
      * and if the Rigidness of the collidable is MEDIUM it calls
      * takeDamage() on himself.
      * 
-     * @see Collidable
+     * @see  Collidable
      */
     @Override
     protected void collideWith(final Collidable collidable) {
-        collidable.onCollisionWith(this);
-        if (collidable.getRigidness() == Rigidness.MEDIUM) {
-            this.takeDamage(this.bow.getCrashDamage(), this.bow);
+        if (collidable.getRigidness() == Rigidness.MEDIUM
+        && !Utils.isEntityInOppositeDirection(collidable, this)
+        && collidable instanceof Ship s) {
+            this.takeDamage(s.bow.getCrashDamage(), this.getBow());
         }
+        collidable.onCollisionWith(this);
     }
 }

@@ -63,7 +63,7 @@ public final class NavalMine extends Collidable {
     @Override
     protected void onCollisionWith(final Collider collider) {
         if (collider instanceof Ship ship) {
-            ship.takeDamage(this.damage, ship.getBow());
+            ship.takeDamage(this.damage, ship.getKeel());
         }
         this.remove();
     }

@@ -4,7 +4,7 @@ package it.unibo.object_onepiece.model;
  * This class represents a weapon, which is a type of ShipComponent.
  * It defines a method to shoot with the weapon and retrieving maximum damage, 
  * minimum damage and range.
- * It also defines builder methods and builder methods for the available weapons.
+ * It also defines builder methods for the available weapons.
  * 
  * @see ShipComponent
  */
@@ -42,12 +42,12 @@ public final class Weapon extends ShipComponent {
     /**
      * Constructor for class Weapon.
      * 
+     * @param  health the health of the weapon
      * @param  max    the maximum damage of the weapon
      * @param  min    the minimum damage of the weapon
      * @param  range  the range of the weapon
-     * @param  health the health of the weapon
      */
-    protected Weapon(final int max, final int min, final int range, final int health) {
+    protected Weapon(final int health, final int max, final int min, final int range) {
         super(health);
         this.maxDamage = max;
         this.minDamage = min;
@@ -84,44 +84,44 @@ public final class Weapon extends ShipComponent {
     /**
      * Builder for the cannon, the standard type of weapon.
      * 
-     * @return      weapon with his standard stats.
+     * @return weapon with his standard stats.
      */
     protected static Weapon cannon() {
+        final int health = 100;
         final int maxDamage = 20;
         final int minDamage = 10;
         final int range = 3;
-        final int health = 100;
 
-        return new Weapon(maxDamage, minDamage, range, health);
+        return new Weapon(health, maxDamage, minDamage, range);
     }
 
     /**
      * Builder for the railgun, the most powerful weapon for damage and range,
      * but more fragile.
      * 
-     * @return      weapon with his standard stats.
+     * @return weapon with his standard stats.
      */
     protected static Weapon railgun() {
+        final int health = 70;
         final int maxDamage = 50;
         final int minDamage = 0;
         final int range = 5;
-        final int health = 70;
 
-        return new Weapon(maxDamage, minDamage, range, health);
+        return new Weapon(health, maxDamage, minDamage, range);
     }
 
     /**
      * Builder for the heavycannon, the best weapon for damage and health,
      * but with very short range.
      * 
-     * @return      weapon with his standard stats.
+     * @return weapon with his standard stats.
      */
     protected static Weapon heavycannon() {
+        final int health = 120;
         final int maxDamage = 80;
         final int minDamage = 40;
         final int range = 1;
-        final int health = 120;
 
-        return new Weapon(maxDamage, minDamage, range, health);
+        return new Weapon(health, maxDamage, minDamage, range);
     }
 }

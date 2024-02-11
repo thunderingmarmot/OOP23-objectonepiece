@@ -3,7 +3,9 @@ package it.unibo.object_onepiece.model;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
+
 import java.util.function.BiPredicate;
 
 /**
@@ -39,9 +41,9 @@ public final class Utils {
     );
 
     private static List<BiPredicate<Bound, Position>> insideBoundsConditions = List.of(
-        (b, p) -> p.row < b.rows,
+        (b, p) -> p.row < b.rows - 1,
         (b, p) -> p.row > 0,
-        (b, p) -> p.column < b.columns,
+        (b, p) -> p.column < b.columns - 1,
         (b, p) -> p.column > 0
     );
 
@@ -130,6 +132,25 @@ public final class Utils {
      */
     public static List<BiPredicate<Bound, Position>> getInsideBoundsConditionsList() {
         return insideBoundsConditions;
+    }
+
+    /**
+     * This method calculate if two entities have opposite direction.
+     * For example: 
+     * if the first entity direction is NORTH or SOUTH,
+     * the second entity to be in opposite direction should have EAST ore WEST.
+     * 
+     * @param  e1 the first entity to control
+     * @param  e2 the second entity to control
+     * @return    the result of the control.
+     * @see       Entity
+     */
+    public static boolean isEntityInOppositeDirection(final Entity e1, final Entity e2) {
+        final Set<CardinalDirection> verticalDirection = Set.of(CardinalDirection.NORTH, CardinalDirection.SOUTH);
+        final Set<CardinalDirection> horizontalDirection = Set.of(CardinalDirection.EAST, CardinalDirection.WEST);
+
+        return verticalDirection.contains(e1.getDirection()) && horizontalDirection.contains(e2.getDirection())
+            || horizontalDirection.contains(e1.getDirection()) && verticalDirection.contains(e1.getDirection());
     }
 
     /**
