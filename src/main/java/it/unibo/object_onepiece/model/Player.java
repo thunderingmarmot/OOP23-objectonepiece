@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.World.PlayerUpdatedArgs;
 
 /**
  * Implementation of the Player interface.
@@ -137,6 +138,7 @@ public final class Player extends Ship {
     }
 
     private void updateStats() {
-        //onStatsUpdated.invoke(getHealths(), getMaxHealths(), getExperience());
+        this.getWorld().getObservers().updatePlayerInfo().accept(
+            new PlayerUpdatedArgs(this.getHealths(), this.getMaxHealths(), this.getExperience()));
     }
 }

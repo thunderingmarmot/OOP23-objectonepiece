@@ -16,10 +16,13 @@ import it.unibo.object_onepiece.controller.Controller;
 import it.unibo.object_onepiece.controller.ControllerImpl;
 import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.World;
+import it.unibo.object_onepiece.model.World.EntityCreatedArgs;
+import it.unibo.object_onepiece.model.World.EntityUpdatedArgs;
+import it.unibo.object_onepiece.model.World.EntityRemovedArgs;
+import it.unibo.object_onepiece.model.World.PlayerUpdatedArgs;
 import it.unibo.object_onepiece.model.WorldImpl;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.WorldImpl.Observers;
 import javafx.application.Application;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -96,7 +99,7 @@ public final class ObjectOnePieceApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, new Observers(
+        world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, new it.unibo.object_onepiece.model.World.Observers(
             this::createEntity,
             this::updateEntity,
             this::removeEntity,
@@ -144,18 +147,18 @@ public final class ObjectOnePieceApp extends Application {
 
     
     private void createEntity(EntityCreatedArgs arg) {
-        drawImage(arg.name, arg.spawnPosition.row(), arg.spawnPosition.column(), Optional.of(arg.spawnDirection));
+        drawImage(arg.name(), arg.spawnPosition().row(), arg.spawnPosition().column(), Optional.of(arg.spawnDirection()));
     }
 
 
     private void updateEntity(EntityUpdatedArgs arg) {
-        removeEntity(new EntityRemovedArgs(arg.oldPosition));
-        drawImage(arg.name, arg.newPosition.row(), arg.newPosition.column(), Optional.of(arg.newDirection));
+        removeEntity(new EntityRemovedArgs(arg.oldPosition()));
+        drawImage(arg.name(), arg.newPosition().row(), arg.newPosition().column(), Optional.of(arg.newDirection()));
     }
 
     private void removeEntity(EntityRemovedArgs arg) {
-        final int col = arg.lastPosition.column();
-        final int row = arg.lastPosition.row();
+        final int col = arg.lastPosition().column();
+        final int row = arg.lastPosition().row();
 
         if (gridView.getCellPane(gridModel.getCell(col, row)).getChildren().size() == 0) {
             throw new IllegalArgumentException("Trying to delete cell view where there isn't anything");
@@ -185,21 +188,18 @@ public final class ObjectOnePieceApp extends Application {
             gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(new Label(entityName));
         }
     }
-    public record EntityCreatedArgs(String name, Position spawnPosition, CardinalDirection spawnDirection) { }
-    public record EntityUpdatedArgs(String name, Position oldPosition, Position newPosition, CardinalDirection newDirection) { }
-    public record EntityRemovedArgs(Position lastPosition) { };
-    public record PlayerUpdatedArgs(List<Integer> healthList, List<Integer> maxHealthList, Integer experience) { };
+    
     /**
      * 
      * @param p
      */
     private void drawPlayerInfo(PlayerUpdatedArgs arg) {
-        if (Stream.of(arg.healthList.size(), arg.maxHealthList.size()).anyMatch(s -> s > HP_BARS_COUNT)) {
+        if (Stream.of(arg.healthList().size(), arg.maxHealthList().size()).anyMatch(s -> s > HP_BARS_COUNT)) {
             throw new IllegalArgumentException("Model has more healthbars than view can represent");
         }
         
         for (int i = 0; i < HP_BARS_COUNT; i++) {
-            healthBars[i].updateHealth(arg.healthList.get(i), arg.maxHealthList.get(i));
+            healthBars[i].updateHealth(arg.healthList().get(i), arg.maxHealthList().get(i));
         }
     }
 

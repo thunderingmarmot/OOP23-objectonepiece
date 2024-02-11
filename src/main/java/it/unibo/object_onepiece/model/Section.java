@@ -8,9 +8,7 @@ import de.articdive.jnoise.pipeline.JNoise;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
-import it.unibo.object_onepiece.model.events.EventArgs.Argument;
+import it.unibo.object_onepiece.model.World.EntityCreatedArgs;
 
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -129,6 +127,8 @@ public final class Section {
     }
 
     void addEntity(final Entity e) {
+        this.getWorld().getObservers().createEntity().accept(
+            new EntityCreatedArgs(e.getClass().getSimpleName(), e.getPosition(), e.getDirection()));
         entities.add(e);
     }
 }

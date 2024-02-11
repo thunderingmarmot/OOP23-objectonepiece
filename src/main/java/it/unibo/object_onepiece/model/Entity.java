@@ -2,6 +2,8 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.World.EntityRemovedArgs;
+import it.unibo.object_onepiece.model.World.EntityUpdatedArgs;
 
 /**
  * This class defines the common methods of every entity present on the section.
@@ -35,6 +37,10 @@ public class Entity {
        return this.section;
     }
 
+    protected World getWorld() {
+        return this.getSection().getWorld();
+    }
+
     /**
      * Getter for the current position of the entity.
      * 
@@ -64,10 +70,8 @@ public class Entity {
      * @see    Utils
      */
     protected void setPosition(final Position newPosition) {
-        onEntityUpdated.invoke(this.getClass().getSimpleName(),
-                               this.position,
-                               newPosition,
-                               this.direction);
+        this.getWorld().getObservers().updateEntity().accept(
+            new EntityUpdatedArgs(this.getClass().getSimpleName(), this.position, newPosition, this.direction));
         this.position = newPosition;
     }
 
@@ -81,10 +85,8 @@ public class Entity {
      * @see    Utils
      */
     protected void setDirection(final CardinalDirection newDirection) {
-        onEntityUpdated.invoke(this.getClass().getSimpleName(),
-                               this.position,
-                               this.position,
-                               newDirection);
+        this.getWorld().getObservers().updateEntity().accept(
+            new EntityUpdatedArgs(this.getClass().getSimpleName(), this.position, this.position, newDirection));
         this.direction = newDirection;
     }
 
@@ -93,7 +95,7 @@ public class Entity {
      * and remove the entity from the current section.
      */
     protected void remove() {
-        onEntityRemoved.invoke(position);
+        this.getWorld().getObservers().removeEntity().accept(new EntityRemovedArgs(position));
         this.getSection().removeEntityAt(this.position);
     }
 }
