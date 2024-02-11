@@ -37,6 +37,11 @@ public class Entity {
        return this.section;
     }
 
+    /**
+     * Shortcut for the world.
+     * 
+     * @return the world.
+     */
     protected World getWorld() {
         return this.getSection().getWorld();
     }

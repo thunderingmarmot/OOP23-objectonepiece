@@ -166,12 +166,12 @@ public abstract class Ship extends Collider {
             return MoveDetails.SAIL_BROKEN;
         }
 
-        if (!direction.equals(this.getDirection())) {
-            return MoveDetails.ROTATED;
-        }
-
         if (!this.getSection().getBounds().isInside(this.getPosition())) {
             return MoveDetails.BORDER_REACHED;
+        }
+
+        if (!direction.equals(this.getDirection())) {
+            return MoveDetails.ROTATED;
         }
 
         if (obstacle.isPresent() && obstacle.get() instanceof Collidable c

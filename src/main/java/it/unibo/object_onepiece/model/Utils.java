@@ -140,10 +140,10 @@ public final class Utils {
     }
 
     /**
-     * This method calculate if two entities have opposite direction.
+     * This method calculate if two entities have perpendicular direction.
      * For example: 
      * if the first entity direction is NORTH or SOUTH,
-     * the second entity to be in opposite direction should have EAST ore WEST.
+     * the second entity to be in perpendicular direction should have EAST ore WEST.
      * 
      * @param  e1 the first entity to control
      * @param  e2 the second entity to control
@@ -159,11 +159,12 @@ public final class Utils {
     }
 
     /**
+     * This method checks if two entities have the same direction.
      * 
-     * 
-     * @param e1
-     * @param e2
-     * @return
+     * @param  e1 the first entity to control
+     * @param  e2 the second entity to control
+     * @return    the result of the control.
+     * @see       Entity
      */
     static boolean areEntitiesInSameDirection(final Entity e1, final Entity e2) {
         return e1.getDirection().equals(e2.getDirection());
