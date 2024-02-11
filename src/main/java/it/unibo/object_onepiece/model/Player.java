@@ -37,6 +37,7 @@ public final class Player extends Ship {
                      final Bow bow,
                      final Keel keel) {
         super(section, position, direction, weapon, sail, bow, keel);
+        this.experience = experience;
     }
 
     /**
