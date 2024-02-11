@@ -12,10 +12,6 @@ public class Entity {
     private Position position;
     private CardinalDirection direction;
 
-    protected record EntityCreatedArgs(String name, Position spawnPosition, CardinalDirection spawnDirection) { }
-    protected record EntityUpdatedArgs(String name, Position oldPosition, Position newPosition, CardinalDirection newDirection) { }
-    protected record EntityRemovedArgs(Position lastPosition) { };
-
     /**
      * Constructor for class Entity.
      * 
