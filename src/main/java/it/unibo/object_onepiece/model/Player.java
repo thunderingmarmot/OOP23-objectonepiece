@@ -3,7 +3,6 @@ import java.util.List;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.Weapon.ShootReturnType;
 import it.unibo.object_onepiece.model.events.Event;
 import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
 
@@ -14,12 +13,6 @@ import it.unibo.object_onepiece.model.events.EventArgs.BiArgument;
 public final class Player extends Ship {
 
     private int experience;
-
-    private static final List<MoveDetails> MOVE_SUCCESS_CONDITIONS = List.of(
-        MoveDetails.MOVED_SUCCESSFULLY,
-        MoveDetails.MOVED_BUT_COLLIDED,
-        MoveDetails.ROTATED
-    );
 
     private final StatsUpdatedEvent onStatsUpdated = new StatsUpdatedEvent();
 
