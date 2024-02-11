@@ -265,6 +265,7 @@ public abstract class Ship extends Collider {
         if (this.keel.getHealth() <= 0) {
             this.remove();
         }
+        System.out.println(this.toString() + " ha preso " + damage + " danni al " + s.toString());
     }
 
     /**
@@ -406,8 +407,8 @@ public abstract class Ship extends Collider {
             int damage = s.getBow().getCrashDamage();
             ShipComponent shipComponent = this.getBow();
 
-            if (Utils.isEntityInOppositeDirection(this, collider) 
-            || this.getDirection().equals(collider.getDirection())) {
+            if (Utils.isEntityInOppositeDirection(this, collider)
+            || this.getDirection().equals(s.getDirection())) {
                 if (this.getKeel().isKeelDamaged()) {
                     damage *= s.getBow().getCrashDamageMultiplier();
                 }
@@ -432,7 +433,8 @@ public abstract class Ship extends Collider {
         if (collidable.getRigidness() == Rigidness.MEDIUM
         && !Utils.isEntityInOppositeDirection(collidable, this)
         && collidable instanceof Ship s
-        && this.getBow().getHealth() > 0) {
+        && !this.getDirection().equals(s.getDirection())
+        && s.getBow().getHealth() > 0) {
             this.takeDamage(s.getBow().getCrashDamage(), this.getBow());
         }
         collidable.onCollisionWith(this);
