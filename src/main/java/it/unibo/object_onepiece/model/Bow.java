@@ -53,7 +53,7 @@ public final class Bow extends ShipComponent {
      * @return bow with his standard stats.
      */
     protected static Bow standard() {
-        final int health = 20;
+        final int health = 100;
         final int crashDamage = 20;
         final int crashDamageMultiplier = 2;
 
