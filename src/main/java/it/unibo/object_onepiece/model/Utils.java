@@ -41,9 +41,9 @@ public final class Utils {
     );
 
     private static List<BiPredicate<Bound, Position>> insideBoundsConditions = List.of(
-        (b, p) -> p.row < b.rows,
+        (b, p) -> p.row < b.rows - 1,
         (b, p) -> p.row > 0,
-        (b, p) -> p.column < b.columns,
+        (b, p) -> p.column < b.columns - 1,
         (b, p) -> p.column > 0
     );
 
