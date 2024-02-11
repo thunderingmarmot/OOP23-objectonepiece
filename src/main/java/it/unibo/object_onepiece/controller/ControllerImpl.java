@@ -24,7 +24,7 @@ public final class ControllerImpl implements Controller {
     public void action(final Position position, final World world) {
         var player = world.getPlayer();
 
-        toggleMode(position, new Position(0, 0));
+        toggleMode(position, player);
 
         if (currentState.perform(position,player)) {
             System.err.println("SI è mosso in teoria");
@@ -33,9 +33,10 @@ public final class ControllerImpl implements Controller {
         }   
     }
 
-    private void toggleMode(final Position position, final Position player) {
-        if (player.equals(position)) {
+    private void toggleMode(final Position position, final Player player) {
+        if (player.isInSamePositionAs(position)) {
             toggle = !toggle;
+            System.err.println("Mode changed!");
         }
 
         if (toggle) {

@@ -62,7 +62,8 @@ public final class ObstacleAvoidance extends EnemyState {
             return true;
 
         } else {
-            if (canMove(ship.move(primaryDirection))) {
+            return true;
+           /*  if (canMove(ship.move(primaryDirection))) {
                 ship.move(primaryDirection, 1);
                 primaryDirection = null;
                 ship.changeState(States.PATROLLING);
@@ -72,7 +73,7 @@ public final class ObstacleAvoidance extends EnemyState {
                 ship.move(primaryDirection, 1);
                 return true;
             }
-            return false;
+            return false; */
        }
     }
 
@@ -162,11 +163,11 @@ public final class ObstacleAvoidance extends EnemyState {
     private void chooseDirection(final Supplier<CardinalDirection> supplier) {
         while (attempt < direction) {
             avoidanceDirection = supplier.get();
-            MoveDetails result = ship.move(avoidanceDirection);
-            if (canMove(result)) {
+           /*  MoveDetails result = ship.move(avoidanceDirection); */
+          /*   if (canMove(result)) {
                 attempt = 0;
                 break;
-            }
+            } */
         }
     }
 
