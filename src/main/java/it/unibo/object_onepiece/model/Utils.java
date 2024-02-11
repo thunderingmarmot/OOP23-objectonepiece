@@ -150,15 +150,22 @@ public final class Utils {
      * @return    the result of the control.
      * @see       Entity
      */
-    static boolean isEntityInOppositeDirection(final Entity e1, final Entity e2) {
+    static boolean areEntitiesPerpendicular(final Entity e1, final Entity e2) {
         final Set<CardinalDirection> verticalDirection = Set.of(CardinalDirection.NORTH, CardinalDirection.SOUTH);
         final Set<CardinalDirection> horizontalDirection = Set.of(CardinalDirection.EAST, CardinalDirection.WEST);
 
         return verticalDirection.contains(e1.getDirection()) && horizontalDirection.contains(e2.getDirection())
-            || horizontalDirection.contains(e2.getDirection()) && verticalDirection.contains(e1.getDirection());
+            || verticalDirection.contains(e2.getDirection()) && horizontalDirection.contains(e1.getDirection());
     }
 
-    static boolean isEntityInSameDirection(final Entity e1, final Entity e2) {
+    /**
+     * 
+     * 
+     * @param e1
+     * @param e2
+     * @return
+     */
+    static boolean areEntitiesInSameDirection(final Entity e1, final Entity e2) {
         return e1.getDirection().equals(e2.getDirection());
     }
 
