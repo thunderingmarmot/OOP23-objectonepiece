@@ -9,6 +9,7 @@ package it.unibo.object_onepiece.model;
  * @see ShipComponent
  */
 public final class Bow extends ShipComponent {
+    private static final int BROKEN_CRASH_DAMAGE = 0;
     private final int crashDamage;
     private final int crashDamageMultiplier;
 
@@ -31,6 +32,9 @@ public final class Bow extends ShipComponent {
      * @return bow crash damage.
      */
     protected int getCrashDamage() {
+        if(this.getHealth() <= 0) {
+            return BROKEN_CRASH_DAMAGE;
+        }
         return this.crashDamage;
     }
 
@@ -49,7 +53,7 @@ public final class Bow extends ShipComponent {
      * @return bow with his standard stats.
      */
     protected static Bow standard() {
-        final int health = 100;
+        final int health = 20;
         final int crashDamage = 20;
         final int crashDamageMultiplier = 2;
 

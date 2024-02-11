@@ -253,7 +253,7 @@ public abstract class Ship extends Collider {
      */
     protected void takeDamage(final int damage, final ShipComponent s) {
         s.setHealth(s.getHealth() - damage);
-        if (this.bow.getHealth() <= 0 || this.keel.getHealth() <= 0) {
+        if (this.keel.getHealth() <= 0) {
             this.remove();
         }
     }
@@ -393,10 +393,11 @@ public abstract class Ship extends Collider {
      */
     @Override
     protected void collideWith(final Collidable collidable) {
-        collidable.onCollisionWith(this);
         if (collidable.getRigidness() == Rigidness.MEDIUM
-        && !Utils.isEntityInOppositeDirection(collidable, this)) {
-            this.takeDamage(this.bow.getCrashDamage(), this.bow);
+        && !Utils.isEntityInOppositeDirection(collidable, this)
+        && collidable instanceof Ship s) {
+            this.takeDamage(s.bow.getCrashDamage(), this.getBow());
         }
+        collidable.onCollisionWith(this);
     }
 }
