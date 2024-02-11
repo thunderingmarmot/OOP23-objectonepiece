@@ -14,8 +14,6 @@ public final class Player extends Ship {
 
     private int experience;
 
-    protected record PlayerInfoArgs(List<Integer> healthList, List<Integer> maxHealthList, Integer experience) { };
-
     /**
      * Constructor for PlayerImpl.
      * It's protected to only allow creating this object inside this package.
@@ -139,6 +137,6 @@ public final class Player extends Ship {
     }
 
     private void updateStats() {
-        onStatsUpdated.invoke(getHealths(), getMaxHealths(), getExperience());
+        //onStatsUpdated.invoke(getHealths(), getMaxHealths(), getExperience());
     }
 }
