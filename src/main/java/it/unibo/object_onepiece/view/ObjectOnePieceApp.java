@@ -70,24 +70,25 @@ public final class ObjectOnePieceApp extends Application {
     private final GridModel<State> gridModel = new GridModel<>();
     private final GridView<State> gridView = new GridView<>();
     private Controller controller = new ControllerImpl();
-    private final HealthBar[] healthBars = new HealthBar[HP_BARS_COUNT];
+    private final HealthBar[] healthBars = {new HealthBar(), new HealthBar(), new HealthBar(), new HealthBar()};
     private World world;
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
         gridSetUp();
+        VBox barsContainer = new VBox();
+        for (HealthBar h : healthBars) {
+            //h = new HealthBar(0, 100);
+            barsContainer.getChildren().add(h.getContainer());
+        }
         world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, e -> drawSection(e.arg()));
         BorderPane borderPane = new BorderPane();
 
         Label pirateInfo = new Label("Pirate info!");
         pirateInfo.setAlignment(Pos.CENTER);
 
-        VBox barsContainer = new VBox();
-        for (HealthBar healthBar : healthBars) {
-            HealthBar h = new HealthBar(0, 100);
-            barsContainer.getChildren().add(h.getContainer());
-        }
+        
 
 
         BorderPane rightPane = new BorderPane();
@@ -202,6 +203,8 @@ public final class ObjectOnePieceApp extends Application {
 
     private void drawPlayerInfo(final List<Integer> health, final List<Integer> maxHealth, final Integer xp) {
         if (Stream.of(health.size(), maxHealth.size()).anyMatch(s -> s > HP_BARS_COUNT)) {
+            System.out.println(health.size());
+            System.out.println(maxHealth.size());
             throw new IllegalArgumentException("Model has more healthbars than view can represent");
         }
 
