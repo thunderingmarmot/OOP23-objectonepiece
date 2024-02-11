@@ -126,6 +126,7 @@ public final class Section {
             }
         }
         this.addEntity(Player.getDefault(this, new Position(1, 1)));
+        getPlayer().takeDamage(0, getPlayer().getSail());
 
         /** Prints duplicate positions in entities list */
         final Set<Position> items = new HashSet<>();
