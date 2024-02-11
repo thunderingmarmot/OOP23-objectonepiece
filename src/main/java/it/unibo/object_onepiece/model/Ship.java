@@ -413,7 +413,9 @@ public abstract class Ship extends Collider {
                 shipComponent = this.getKeel();
             }
 
-            this.takeDamage(damage, shipComponent);
+            if (shipComponent.getHealth() > 0) {
+                this.takeDamage(damage, shipComponent);
+            }
         }
     }
 
