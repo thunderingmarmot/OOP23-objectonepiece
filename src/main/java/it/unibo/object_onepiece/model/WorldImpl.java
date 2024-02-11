@@ -25,11 +25,19 @@ public final class WorldImpl implements World {
      */
     private final SectionInstantiatedEvent onSectionInstantiated = new SectionInstantiatedEvent();
 
+    private final int mapRows;
+
+    private final int mapCols;
+
+    
+
     /**
      * 
      * @param listener view method to associate for section instantiation
      */
-    public WorldImpl(final Consumer<Argument<Section>> listener) {
+    public WorldImpl(int mapRows, int mapCols, final Consumer<Argument<Section>> listener) {
+        this.mapRows = mapRows;
+        this.mapCols = mapCols;
         onSectionInstantiated.subscribe(listener);
         createNewSection();
     }
@@ -75,5 +83,15 @@ public final class WorldImpl implements World {
 
     void instantiateSection() {
         currentSection = new Section(this);
+    }
+
+    @Override
+    public int getMapRows() {
+        return mapRows;
+    }
+    
+    @Override
+    public int getMapCols() {
+        return mapCols;
     }
 }
