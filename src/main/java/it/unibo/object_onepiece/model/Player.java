@@ -16,12 +16,6 @@ public final class Player extends Ship {
 
     private int experience;
 
-    private static final List<MoveDetails> MOVE_SUCCESS_CONDITIONS = List.of(
-        MoveDetails.MOVED_SUCCESSFULLY,
-        MoveDetails.MOVED_BUT_COLLIDED,
-        MoveDetails.ROTATED
-    );
-
     private final StatsUpdatedEvent onStatsUpdated = new StatsUpdatedEvent();
 
     /**

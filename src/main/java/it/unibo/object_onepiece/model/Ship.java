@@ -62,6 +62,12 @@ public abstract class Ship extends Collider {
         NO_MOVEMENT
     }
 
+    protected static final List<MoveDetails> MOVE_SUCCESS_CONDITIONS = List.of(
+        MoveDetails.MOVED_SUCCESSFULLY,
+        MoveDetails.MOVED_BUT_COLLIDED,
+        MoveDetails.ROTATED
+    );
+
     /**
     * Constructor for class ShipImpl.
     *
@@ -230,11 +236,16 @@ public abstract class Ship extends Collider {
         final Optional<Entity> ship = this.getSection().getEntityAt(position);
 
         if (ship.isPresent() && ship.get() instanceof Ship s) {
-            final List<ShipComponent> sc = List.of(
+            List<ShipComponent> sc = List.of(
                 this.getWeapon(),
                 this.getSail(),
-                this.getBow()
+                this.getBow(),
+                this.getKeel()
             );
+
+            sc = sc.stream()
+                   .filter(c -> c.getHealth() > 0)
+                   .toList();
 
             s.takeDamage(damage, sc.stream()
                                    .skip((long) (Math.random() * (sc.size() - 1)))
