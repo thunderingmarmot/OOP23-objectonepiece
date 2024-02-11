@@ -82,7 +82,6 @@ public final class ObjectOnePieceApp extends Application {
             //h = new HealthBar(0, 100);
             barsContainer.getChildren().add(h.getContainer());
         }
-        world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, e -> drawSection(e.arg()));
         BorderPane borderPane = new BorderPane();
 
         Label pirateInfo = new Label("Pirate info!");
@@ -102,6 +101,8 @@ public final class ObjectOnePieceApp extends Application {
         scene.getStylesheets().add(styleSheet);
         primaryStage.setScene(scene);
         primaryStage.show();
+        
+        world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, e -> drawSection(e.arg()));
     }
 
     private void gridSetUp() {
@@ -207,7 +208,6 @@ public final class ObjectOnePieceApp extends Application {
             System.out.println(maxHealth.size());
             throw new IllegalArgumentException("Model has more healthbars than view can represent");
         }
-
         
         for (int i = 0; i < HP_BARS_COUNT; i++) {
             healthBars[i].updateHealth(health.get(i), maxHealth.get(i));
