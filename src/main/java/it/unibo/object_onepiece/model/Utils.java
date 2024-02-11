@@ -156,7 +156,7 @@ public final class Utils {
         final Set<CardinalDirection> horizontalDirection = Set.of(CardinalDirection.EAST, CardinalDirection.WEST);
 
         return verticalDirection.contains(e1.getDirection()) && horizontalDirection.contains(e2.getDirection())
-            || horizontalDirection.contains(e1.getDirection()) && verticalDirection.contains(e1.getDirection());
+            || horizontalDirection.contains(e2.getDirection()) && verticalDirection.contains(e1.getDirection());
     }
 
     /**
