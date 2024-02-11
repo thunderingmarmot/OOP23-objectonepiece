@@ -9,6 +9,7 @@ import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.World.EntityCreatedArgs;
+import it.unibo.object_onepiece.model.World.PlayerUpdatedArgs;
 
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -85,7 +86,8 @@ public final class Section {
             }
         }
         this.addEntity(Player.getDefault(this, new Position(1, 1)));
-        getPlayer().takeDamage(0, getPlayer().getSail());
+        this.getWorld().getObservers().updatePlayerInfo().accept(
+            new PlayerUpdatedArgs(getPlayer().getHealths(), getPlayer().getMaxHealths(), getPlayer().getExperience()));
 
         /** Prints duplicate positions in entities list */
         final Set<Position> items = new HashSet<>();
