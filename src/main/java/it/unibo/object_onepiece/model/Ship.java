@@ -229,7 +229,7 @@ public abstract class Ship extends Collider {
     private void hitTarget(final Position position, final int damage) {
         final Optional<Entity> ship = this.getSection().getEntityAt(position);
 
-        if (ship.get() instanceof Ship s) {
+        if (ship.isPresent() && ship.get() instanceof Ship s) {
             final List<ShipComponent> sc = List.of(
                 this.getWeapon(),
                 this.getSail(),
