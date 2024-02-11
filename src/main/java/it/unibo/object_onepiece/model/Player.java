@@ -21,6 +21,8 @@ public final class Player extends Ship {
         MoveDetails.ROTATED
     );
 
+    private final StatsUpdatedEvent onStatsUpdated = new StatsUpdatedEvent();
+
     /**
      * An Event alias that is used when Player stats are updated.
      * @see Event
@@ -30,9 +32,8 @@ public final class Player extends Ship {
     extends Event<BiArgument<List<Integer>>> {
         /**
          * A less verbose version of invoke that directly takes the Event arguments.
-         * @param entityName the name of the created Entity class
-         * @param startPosition the position this Entity is spawned at
-         * @param startDirection the direction this Entity is spawned in
+         * @param healthList list of all ShipComponents healths
+         * @param maxHealthList list of all ShipComponents max healths
          */
         protected void invoke(final List<Integer> healthList,
                               final List<Integer> maxHealthList) {
@@ -97,7 +98,7 @@ public final class Player extends Ship {
      * @return a boolean that indicates wether the Player has moved
      * @see Ship
      */
-    public boolean move(final Position destination) {
+    public boolean moveTo(final Position destination) {
         final CardinalDirection direction = this.getPosition().whereTo(destination);
         final int distance = this.getPosition().distanceFrom(destination);
         final MoveDetails moveResult = super.move(direction, distance);
@@ -110,9 +111,8 @@ public final class Player extends Ship {
      * @return a ShootReturnType as it's defined in Weapon
      * @see Weapon
      */
-    @Override
-    public ShootReturnType shoot(final Position target) {
-        return super.shoot(target);
+    public boolean shootAt(final Position target) {
+        return super.shoot(target).hasShooted();
     }
 
     /**
@@ -129,5 +129,13 @@ public final class Player extends Ship {
      */
     protected void addExperience(final int experience) {
         this.experience += experience;
+    }
+
+    /**
+     * Getter for the onStatsUpdated event.
+     * @return 
+     */
+    public StatsUpdatedEvent getStatsUpdatedEvent() {
+        return onStatsUpdated;
     }
 }

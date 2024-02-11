@@ -17,7 +17,7 @@ public final class MoveState extends InputState {
 
     @Override
     public Boolean perform(final Position pos, final Player player) {
-        return player.move(pos);
+        return player.moveTo(pos);
     }
 
     @Override

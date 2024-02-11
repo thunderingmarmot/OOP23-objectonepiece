@@ -23,12 +23,12 @@ import java.util.HashSet;
  */
 public final class Section {
 
-    private static final int ROWS = World.SECTION_ROWS;
-    private static final int COLUMNS = World.SECTION_COLUMNS;
-    private static final int ROW_INSET = ROWS / 7;
-    private static final int COL_INSET = COLUMNS / 7;
-    private static final int GEN_AREA_COLS = ROWS - ROW_INSET;
-    private static final int GEN_AREA_ROWS = COLUMNS - COL_INSET;
+    private final int ROWS;
+    private final int COLUMNS;
+    private final int ROW_INSET;
+    private final int COL_INSET;
+    private final int GEN_AREA_COLS;
+    private final int GEN_AREA_ROWS;
     private static final double SCALING_FACTOR = 50.5;
     private static final int NOISE_DISPERSION = 50;
     private static final CardinalDirection DEFAULT_DIRECTION = CardinalDirection.NORTH;
@@ -36,7 +36,7 @@ public final class Section {
     private final Random rand = new Random();
     private final World world;
     private final List<Entity> entities = new LinkedList<>();
-    private final Bound bound = new Bound(ROWS, COLUMNS);
+    private final Bound bound;
 
     private final EntityAddedEvent onEntityAdded = new EntityAddedEvent();
 
@@ -68,6 +68,13 @@ public final class Section {
      *              state)
      */
     Section(final World world) {
+        this.ROWS = world.getMapRows();
+        this.COLUMNS = world.getMapCols();
+        this.ROW_INSET = this.ROWS / 7;
+        this.COL_INSET = this.COLUMNS / 7;
+        this.GEN_AREA_ROWS = this.ROWS - ROW_INSET;
+        this.GEN_AREA_COLS = this.COLUMNS - ROW_INSET;
+        this.bound = new Bound(this.ROWS, this.COLUMNS);
         this.world = world;
     }
 
