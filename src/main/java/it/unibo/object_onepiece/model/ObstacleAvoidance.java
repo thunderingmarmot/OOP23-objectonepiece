@@ -62,18 +62,16 @@ public final class ObstacleAvoidance extends EnemyState {
             return true;
 
         } else {
-            return true;
-           /*  if (canMove(ship.move(primaryDirection))) {
-                ship.move(primaryDirection, 1);
+            if ((Ship.MOVE_SUCCESS_CONDITIONS.contains(ship.move(primaryDirection,1)))) {
                 primaryDirection = null;
                 ship.changeState(States.PATROLLING);
                 return true;
             }
-            if (canMove(ship.move(avoidanceDirection))) {
+            if ((Ship.MOVE_SUCCESS_CONDITIONS.contains(ship.move(primaryDirection,1)))) {
                 ship.move(primaryDirection, 1);
                 return true;
             }
-            return false; */
+            return false;
        }
     }
 

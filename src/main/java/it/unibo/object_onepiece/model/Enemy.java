@@ -2,6 +2,7 @@ package it.unibo.object_onepiece.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import it.unibo.object_onepiece.model.Utils.*;
 
@@ -18,7 +19,7 @@ public final class Enemy extends Ship {
                          spawnPosition,
                          CardinalDirection.NORTH,
                          Weapon.cannon(),
-                         Sail.schooner(),
+                         Sail.sloop(),
                          Bow.standard(),
                          Keel.standard());
     }
@@ -33,11 +34,13 @@ public final class Enemy extends Ship {
                     final Bow bow,
                     final Keel keel) {
         super(section, position, direction, weapon, sail, bow, keel);
+
         enemyStates = new ArrayList<>(List.of(
-            new Patrol(this, new Compass(this.getPosition(),section.getBounds())),
+            new Patrol(this, new Compass()),
             new ObstacleAvoidance(this),
             new AttackState(this)
         ));
+        
         currentState = findState(States.PATROLLING);
     }
 
@@ -54,11 +57,12 @@ public final class Enemy extends Ship {
     }
     
     protected void changeState(States state) {
-       this.currentState = findState(state);
+        System.err.println("stato cambiato, " + state.toString());
+         this.currentState = findState(state);
     }
 
     private EnemyState findState(States stato){
-        return enemyStates.stream().filter(x -> x.getState().equals(States.PATROLLING)).findFirst().get();
+        return enemyStates.stream().filter(x -> x.getState().equals(stato)).findFirst().get();
     }
 
     protected static abstract class EnemyState {
