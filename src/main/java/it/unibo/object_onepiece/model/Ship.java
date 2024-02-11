@@ -242,9 +242,9 @@ public abstract class Ship extends Collider {
         final Optional<Entity> ship = this.getSection().getEntityAt(position);
 
         if (ship.isPresent() && ship.get() instanceof Ship s) {
-            long count = s.getShipComponents().stream()
-                                              .filter(c -> c.getHealth() > 0)
-                                              .count();
+            final long count = s.getShipComponents().stream()
+                                                    .filter(c -> c.getHealth() > 0)
+                                                    .count();
 
             s.takeDamage(damage, s.getShipComponents().stream()
                                                       .filter(c -> c.getHealth() > 0)
