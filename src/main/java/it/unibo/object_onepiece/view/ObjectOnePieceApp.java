@@ -16,11 +16,11 @@ import it.unibo.object_onepiece.controller.Controller;
 import it.unibo.object_onepiece.controller.ControllerImpl;
 import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.World;
+import it.unibo.object_onepiece.model.World.EntityCreatedArgs;
+import it.unibo.object_onepiece.model.World.EntityUpdatedArgs;
+import it.unibo.object_onepiece.model.World.EntityRemovedArgs;
+import it.unibo.object_onepiece.model.World.PlayerUpdatedArgs;
 import it.unibo.object_onepiece.model.WorldImpl;
-import it.unibo.object_onepiece.model.Entity.EntityCreatedEvent;
-import it.unibo.object_onepiece.model.Entity.EntityRemovedEvent;
-import it.unibo.object_onepiece.model.Entity.EntityUpdatedEvent;
-import it.unibo.object_onepiece.model.Player.StatsUpdatedEvent;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import javafx.application.Application;
@@ -87,9 +87,6 @@ public final class ObjectOnePieceApp extends Application {
         Label pirateInfo = new Label("Pirate info!");
         pirateInfo.setAlignment(Pos.CENTER);
 
-        
-
-
         BorderPane rightPane = new BorderPane();
         rightPane.setTop(pirateInfo);
         rightPane.setCenter(barsContainer);
@@ -102,7 +99,11 @@ public final class ObjectOnePieceApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, e -> drawSection(e.arg()));
+        world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, new it.unibo.object_onepiece.model.World.Observers(
+            this::createEntity,
+            this::updateEntity,
+            this::removeEntity,
+            this::drawPlayerInfo));
     }
 
     private void gridSetUp() {
@@ -143,35 +144,21 @@ public final class ObjectOnePieceApp extends Application {
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
     }
 
-    private void associateEvents(EntityCreatedEvent created, final EntityUpdatedEvent updated, final EntityRemovedEvent removed) {
-        created.subscribe(e -> createEntity(e.arg1(), e.arg2(), e.arg3()));
-        updated.subscribe(e -> updateEntity(e.arg1(), e.arg2(), e.arg3(), e.arg4()));
-        removed.subscribe(e -> removeEntity(e.arg()));
-    }
-
-    private void associateEvents(StatsUpdatedEvent updated) {
-        updated.subscribe(e -> drawPlayerInfo(e.arg1(), e.arg2(), e.arg3()));
-    }
-    
-    private void createEntity(final String entityName, final Position p, CardinalDirection d) {
-        drawImage(entityName, p.row(), p.column(), Optional.of(d));
-    }
-
-    private void drawSection(final Section section) {
-        section.getEntityAddedEvent().subscribe(e -> associateEvents(e.arg1(), e.arg2(), e.arg3()));
-        section.getPlayerAddedEvent().subscribe(e -> associateEvents(e.arg()));
-    }
 
     
-
-    private void updateEntity(final String entityName, final Position oldPos, final Position newPos, final CardinalDirection d) {
-        removeEntity(oldPos);
-        drawImage(entityName, newPos.row(), newPos.column(), Optional.of(d));
+    private void createEntity(EntityCreatedArgs arg) {
+        drawImage(arg.name(), arg.spawnPosition().row(), arg.spawnPosition().column(), Optional.of(arg.spawnDirection()));
     }
 
-    private void removeEntity(final Position p) {
-        final int col = p.column();
-        final int row = p.row();
+
+    private void updateEntity(EntityUpdatedArgs arg) {
+        removeEntity(new EntityRemovedArgs(arg.oldPosition()));
+        drawImage(arg.name(), arg.newPosition().row(), arg.newPosition().column(), Optional.of(arg.newDirection()));
+    }
+
+    private void removeEntity(EntityRemovedArgs arg) {
+        final int col = arg.lastPosition().column();
+        final int row = arg.lastPosition().row();
 
         if (gridView.getCellPane(gridModel.getCell(col, row)).getChildren().size() == 0) {
             throw new IllegalArgumentException("Trying to delete cell view where there isn't anything");
@@ -201,18 +188,22 @@ public final class ObjectOnePieceApp extends Application {
             gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(new Label(entityName));
         }
     }
-
-    private void drawPlayerInfo(final List<Integer> health, final List<Integer> maxHealth, final Integer xp) {
-        if (Stream.of(health.size(), maxHealth.size()).anyMatch(s -> s > HP_BARS_COUNT)) {
-            System.out.println(health.size());
-            System.out.println(maxHealth.size());
+    
+    /**
+     * 
+     * @param p
+     */
+    private void drawPlayerInfo(PlayerUpdatedArgs arg) {
+        if (Stream.of(arg.healthList().size(), arg.maxHealthList().size()).anyMatch(s -> s > HP_BARS_COUNT)) {
             throw new IllegalArgumentException("Model has more healthbars than view can represent");
         }
         
         for (int i = 0; i < HP_BARS_COUNT; i++) {
-            healthBars[i].updateHealth(health.get(i), maxHealth.get(i));
+            healthBars[i].updateHealth(arg.healthList().get(i), arg.maxHealthList().get(i));
         }
     }
+
+    
 
     private class HealthBar {
         private final static int BAR_WIDTH = 20;

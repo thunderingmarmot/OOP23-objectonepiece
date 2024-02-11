@@ -5,8 +5,7 @@ import java.util.stream.Stream;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
+import it.unibo.object_onepiece.model.World.PlayerUpdatedArgs;
 
 /**
  * Implementation of the Player interface.
@@ -15,27 +14,6 @@ import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
 public final class Player extends Ship {
 
     private int experience;
-
-    private final StatsUpdatedEvent onStatsUpdated = new StatsUpdatedEvent();
-
-    /**
-     * An Event alias that is used when Player stats are updated.
-     * @see Event
-     * @see Entity
-     */
-    public static final class StatsUpdatedEvent
-    extends Event<TriArguments<List<Integer>, List<Integer>, Integer>> {
-        /**
-         * A less verbose version of invoke that directly takes the Event arguments.
-         * @param healthList list of all ShipComponents healths
-         * @param maxHealthList list of all ShipComponents max healths
-         */
-        protected void invoke(final List<Integer> healths,
-                              final List<Integer> maxHealths,
-                              final Integer experience) {
-            super.invoke(new TriArguments<>(healths, maxHealths, experience));
-        }
-    }
 
     /**
      * Constructor for PlayerImpl.
@@ -59,7 +37,6 @@ public final class Player extends Ship {
                      final Bow bow,
                      final Keel keel) {
         super(section, position, direction, weapon, sail, bow, keel);
-        this.experience = experience;
     }
 
     /**
@@ -161,14 +138,7 @@ public final class Player extends Ship {
     }
 
     private void updateStats() {
-        onStatsUpdated.invoke(getHealths(), getMaxHealths(), getExperience());
-    }
-
-    /**
-     * Getter for the onStatsUpdated event.
-     * @return 
-     */
-    public StatsUpdatedEvent getStatsUpdatedEvent() {
-        return onStatsUpdated;
+        this.getWorld().getObservers().updatePlayerInfo().accept(
+            new PlayerUpdatedArgs(this.getHealths(), this.getMaxHealths(), this.getExperience()));
     }
 }
