@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -258,6 +259,13 @@ public abstract class Ship extends Collider {
         }
     }
 
+    protected void healShip() {
+        this.getWeapon().setHealth(this.getWeapon().getMaxHealth());
+        this.getSail().setHealth(this.getSail().getMaxHealth());
+        this.getBow().setHealth(this.getBow().getMaxHealth());
+        this.getKeel().setHealth(this.getKeel().getMaxHealth());
+    }
+
     /**
      * Setter for the Weapon component of the Ship.
      * 
@@ -336,6 +344,24 @@ public abstract class Ship extends Collider {
      */
     protected Keel getKeel() {
         return this.keel;
+    }
+
+    protected Map<String, Integer> getComponentsHealth() {
+        return Map.of(
+            "Weapon", this.getWeapon().getHealth(),
+            "Sail", this.getSail().getHealth(),
+            "Bow", this.getBow().getHealth(),
+            "Keel", this.getKeel().getHealth()
+        );
+    }
+
+    protected Map<String, Integer> getComponentsMaxHealth() {
+        return Map.of(
+            "Weapon", this.getWeapon().getMaxHealth(),
+            "Sail", this.getSail().getMaxHealth(),
+            "Bow", this.getBow().getMaxHealth(),
+            "Keel", this.getKeel().getMaxHealth()
+        );
     }
 
     /**
