@@ -43,7 +43,6 @@ public final class Utils {
         new Position(1, -1), CardinalDirection.SOUTH,
         new Position(-1, 1), CardinalDirection.NORTH,
         new Position(-1, -1), CardinalDirection.NORTH
-        
     );
 
     private static List<BiPredicate<Bound, Position>> insideBoundsConditions = List.of(
@@ -104,7 +103,7 @@ public final class Utils {
      * Getter for the map that translates a Position towards a CardinalDirection.
      * @return the described map
      */
-    public static Map<CardinalDirection, Function<Position, Position>> getCardinalDirectionsTranslationMap() {
+    static Map<CardinalDirection, Function<Position, Position>> getCardinalDirectionsTranslationMap() {
         return cardinalDirectionsTranslations;
     }
 
@@ -112,7 +111,7 @@ public final class Utils {
      * Getter for the map that translates a Position towards an OrdinalDirection.
      * @return the described map
      */
-    public static Map<OrdinalDirection, Function<Position, Position>> getOrdinalDirectionsTranslationMap() {
+    static Map<OrdinalDirection, Function<Position, Position>> getOrdinalDirectionsTranslationMap() {
         return ordinalDirectionsTranslations;
     }
 
@@ -120,7 +119,7 @@ public final class Utils {
      * Getter for the map that associates to a CardinalDirection a check to see if those two positions are inline.
      * @return the described map
      */
-    public static Map<CardinalDirection, BiPredicate<Position, Position>> getPositionsInlineConditionsMap() {
+    static Map<CardinalDirection, BiPredicate<Position, Position>> getPositionsInlineConditionsMap() {
         return positionsInlineConditions;
     }
 
@@ -128,7 +127,7 @@ public final class Utils {
      * Getter for the map that associates to a distance vector the corresponding CardinalDirection.
      * @return the described map
      */
-    public static Map<Position, CardinalDirection> getVersorToCardinalDirectionMap() {
+    static Map<Position, CardinalDirection> getVersorToCardinalDirectionMap() {
         return versorToCardinalDirections;
     }
 
@@ -136,7 +135,7 @@ public final class Utils {
      * Getter for the list of conditions that checks wether a Position is inside a Bound.
      * @return the described list
      */
-    public static List<BiPredicate<Bound, Position>> getInsideBoundsConditionsList() {
+    static List<BiPredicate<Bound, Position>> getInsideBoundsConditionsList() {
         return insideBoundsConditions;
     }
 
@@ -151,12 +150,12 @@ public final class Utils {
      * @return    the result of the control.
      * @see       Entity
      */
-    public static boolean isEntityInOppositeDirection(final Entity e1, final Entity e2) {
+    static boolean isEntityInOppositeDirection(final Entity e1, final Entity e2) {
         final Set<CardinalDirection> verticalDirection = Set.of(CardinalDirection.NORTH, CardinalDirection.SOUTH);
         final Set<CardinalDirection> horizontalDirection = Set.of(CardinalDirection.EAST, CardinalDirection.WEST);
 
         return verticalDirection.contains(e1.getDirection()) && horizontalDirection.contains(e2.getDirection())
-            || horizontalDirection.contains(e1.getDirection()) && verticalDirection.contains(e1.getDirection());
+            || horizontalDirection.contains(e2.getDirection()) && verticalDirection.contains(e1.getDirection());
     }
 
     /**

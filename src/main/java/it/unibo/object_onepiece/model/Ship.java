@@ -403,17 +403,20 @@ public abstract class Ship extends Collider {
     @Override
     protected void onCollisionWith(final Collider collider) {
         if (collider.getRigidness() == Rigidness.MEDIUM && collider instanceof Ship s) {
-            int damage = s.bow.getCrashDamage();
+            int damage = s.getBow().getCrashDamage();
             ShipComponent shipComponent = this.getBow();
 
-            if (Utils.isEntityInOppositeDirection(this, collider)) {
+            if (Utils.isEntityInOppositeDirection(this, collider) 
+            || this.getDirection().equals(collider.getDirection())) {
                 if (this.getKeel().isKeelDamaged()) {
                     damage *= s.getBow().getCrashDamageMultiplier();
                 }
                 shipComponent = this.getKeel();
             }
 
-            this.takeDamage(damage, shipComponent);
+            if (shipComponent.getHealth() > 0) {
+                this.takeDamage(damage, shipComponent);
+            }
         }
     }
 
@@ -428,8 +431,9 @@ public abstract class Ship extends Collider {
     protected void collideWith(final Collidable collidable) {
         if (collidable.getRigidness() == Rigidness.MEDIUM
         && !Utils.isEntityInOppositeDirection(collidable, this)
-        && collidable instanceof Ship s) {
-            this.takeDamage(s.bow.getCrashDamage(), this.getBow());
+        && collidable instanceof Ship s
+        && this.getBow().getHealth() > 0) {
+            this.takeDamage(s.getBow().getCrashDamage(), this.getBow());
         }
         collidable.onCollisionWith(this);
     }
