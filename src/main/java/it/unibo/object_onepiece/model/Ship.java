@@ -1,7 +1,9 @@
 package it.unibo.object_onepiece.model;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 
 import it.unibo.object_onepiece.model.Weapon.ShootReturnType;
 import it.unibo.object_onepiece.model.Weapon.ShootDetails;
@@ -17,6 +19,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * @see Collider
  */
 public abstract class Ship extends Collider {
+    private final Random rand = new Random();
     private Weapon weapon;
     private Sail sail;
     private Bow bow;
@@ -239,16 +242,15 @@ public abstract class Ship extends Collider {
         final Optional<Entity> ship = this.getSection().getEntityAt(position);
 
         if (ship.isPresent() && ship.get() instanceof Ship s) {
-            List<ShipComponent> sc = s.getShipComponents();
+            long count = s.getShipComponents().stream()
+                                              .filter(c -> c.getHealth() > 0)
+                                              .count();
 
-            sc = sc.stream()
-                   .filter(c -> c.getHealth() > 0)
-                   .toList();
-
-            s.takeDamage(damage, sc.stream()
-                                   .skip((long) (Math.random() * (sc.size() - 1)))
-                                   .findFirst()
-                                   .orElse(null));
+            s.takeDamage(damage, s.getShipComponents().stream()
+                                                      .filter(c -> c.getHealth() > 0)
+                                                      .skip(rand.nextLong(count))
+                                                      .findFirst()
+                                                      .orElse(null));
         }
     }
 
