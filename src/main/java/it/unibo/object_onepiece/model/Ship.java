@@ -33,7 +33,12 @@ public abstract class Ship extends Collider {
          * Did not move, Collidable with HARD Rigidness in the way.
          * @see Collidable
          */
-        STATIC_COLLISION,
+        HARD_COLLISION,
+        /**
+         * Did not move but can rotate, Collidable with MEDIUM Rigidness in the way.
+         * @see Collidable
+         */
+        MEDIUM_COLLISION,
         /**
          * Did not move, reached the border of the map.
          */
@@ -72,6 +77,14 @@ public abstract class Ship extends Collider {
         MoveDetails.MOVED_SUCCESSFULLY,
         MoveDetails.MOVED_BUT_COLLIDED,
         MoveDetails.ROTATED
+    );
+
+    /**
+     * List of the MoveDetails returned when the ship has successfully moved.
+     */
+    protected static final List<MoveDetails> MOVE_COLLISION_CONDITIONS = List.of(
+        MoveDetails.HARD_COLLISION,
+        MoveDetails.MEDIUM_COLLISION
     );
 
     /**
@@ -115,7 +128,7 @@ public abstract class Ship extends Collider {
 
         MoveDetails nextStep = MoveDetails.NO_MOVEMENT;
 
-        for (int i = 0; i < steps && !nextStep.equals(MoveDetails.STATIC_COLLISION); i++) {
+        for (int i = 0; i < steps && !MOVE_COLLISION_CONDITIONS.contains(nextStep); i++) {
             nextStep = this.step(direction);
         }
 
@@ -133,7 +146,7 @@ public abstract class Ship extends Collider {
         final Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
         final MoveDetails nextStep = checkMove(direction, obstacle);
 
-        if (nextStep.equals(MoveDetails.STATIC_COLLISION) 
+        if (MOVE_COLLISION_CONDITIONS.contains(nextStep)
         || nextStep.equals(MoveDetails.MOVED_BUT_COLLIDED)) {
             this.collideWith((Collidable) obstacle.get());
         }
@@ -173,13 +186,20 @@ public abstract class Ship extends Collider {
             return MoveDetails.BORDER_REACHED;
         }
 
-        if (obstacle.isPresent() && obstacle.get() instanceof Collidable c
-        && (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {
-            return MoveDetails.STATIC_COLLISION;
+        if (obstacle.isPresent() 
+        && obstacle.get() instanceof Collidable c
+        && c.getRigidness() == Rigidness.HARD) {
+            return MoveDetails.HARD_COLLISION;
         }
 
         if (!direction.equals(this.getDirection())) {
             return MoveDetails.ROTATED;
+        }
+
+        if (obstacle.isPresent() 
+        && obstacle.get() instanceof Collidable c
+        && c.getRigidness() == Rigidness.MEDIUM) {
+            return MoveDetails.MEDIUM_COLLISION;
         }
 
         if (obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.getRigidness() == Rigidness.SOFT) {

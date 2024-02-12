@@ -42,6 +42,7 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -84,7 +85,6 @@ public final class ObjectOnePieceApp extends Application {
             barsContainer.getChildren().add(healthBars[i].getContainer());
         }
         barsContainer.getChildren().add(experienceBar.getContainer());
-
         BorderPane borderPane = new BorderPane();
 
         Label pirateInfo = new Label("Pirate info!");
