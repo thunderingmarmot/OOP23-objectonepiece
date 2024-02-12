@@ -9,32 +9,6 @@ package it.unibo.object_onepiece.model;
  * @see ShipComponent
  */
 public final class Weapon extends ShipComponent {
-    /**
-     * Enum to define various type of result returned by shoot.
-     */
-    protected enum ShootDetails {
-        /** 
-         * The weapon has shooted succesfully. 
-         */
-        SHOOTED_SUCCESSFULLY,
-        /**
-         * The position where you want to shoot is out of range. 
-         */
-        OUT_OF_SHOOTING_RANGE,
-        /** 
-         * The weapon is broken. 
-         */
-        WEAPON_BROKEN
-    }
-
-    /**
-     * Record returned by shoot.
-     * 
-     * @param  hasShooted result of the shooting
-     * @param  details    details about the shooting result
-     */
-    protected record ShootReturnType(boolean hasShooted, ShootDetails details) { }
-
     private final int maxDamage;
     private final int minDamage;
     private final int attackRange;
