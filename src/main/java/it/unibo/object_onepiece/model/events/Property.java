@@ -7,11 +7,12 @@ public class Property<T> {
     private final Supplier<T> getter;
     private final Consumer<T> setter;
 
-    private Event<T> onValueSet;
+    private final Event<T> onValueSet;
 
     public Property(Supplier<T> getter, Consumer<T> setter) {
         this.getter = getter;
         this.setter = setter;
+        this.onValueSet = new Event<>();
         this.setter.andThen(onValueSet::invoke);
     }
 
