@@ -3,10 +3,7 @@ package it.unibo.object_onepiece.model;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 
-import it.unibo.object_onepiece.model.Weapon.ShootReturnType;
-import it.unibo.object_onepiece.model.Weapon.ShootDetails;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 
@@ -68,6 +65,32 @@ public abstract class Ship extends Collider {
          */
         NO_MOVEMENT
     }
+
+    /**
+     * Enum to define various type of result returned by shoot.
+     */
+    enum ShootDetails {
+        /** 
+         * The weapon has shooted succesfully. 
+         */
+        SHOOTED_SUCCESSFULLY,
+        /**
+         * The position where you want to shoot is out of range. 
+         */
+        OUT_OF_SHOOTING_RANGE,
+        /** 
+         * The weapon is broken. 
+         */
+        WEAPON_BROKEN
+    }
+
+    /**
+     * Record returned by shoot.
+     * 
+     * @param  hasShooted result of the shooting
+     * @param  details    details about the shooting result
+     */
+    record ShootReturnType(boolean hasShooted, ShootDetails details) { }
 
     /**
      * List of the MoveDetails returned when the ship has successfully moved.

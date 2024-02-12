@@ -265,6 +265,16 @@ public final class Utils {
     }
 
     /**
+     * This method generates a random cardinal direction,
+     * from the CardinalDirection enum.
+     * 
+     * @return the generated cardinal direction.
+     */
+    public static CardinalDirection randCardinalDirection() {
+        return CardinalDirection.values()[getRandom().nextInt(4)];
+    }
+
+    /**
      * Defines the Cardinal directions, like a compass.
      */
     public enum CardinalDirection {
@@ -284,10 +294,6 @@ public final class Utils {
          * The West cardinal direction.
          */
         WEST,
-    }
-
-    public static CardinalDirection randCardinalDirection(){
-        return CardinalDirection.values()[getRandom().nextInt(4)];
     }
 
     /** 
