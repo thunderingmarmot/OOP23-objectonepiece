@@ -13,6 +13,8 @@ import java.util.function.BiPredicate;
  * An Utility class that contains useful common enums, records and maps.
  */
 public final class Utils {
+    private static Random random = new Random();
+
     private static Map<CardinalDirection, Function<Position, Position>> cardinalDirectionsTranslations = Map.of(
         CardinalDirection.NORTH, (p) -> new Position(p.row - 1, p.column),
         CardinalDirection.SOUTH, (p) -> new Position(p.row + 1, p.column),
@@ -139,6 +141,11 @@ public final class Utils {
     static List<BiPredicate<Bound, Position>> getInsideBoundsConditionsList() {
         return insideBoundsConditions;
     }
+
+    static Random getRandom() {
+        return random;
+    }
+
 
     /**
      * This method calculate if two entities have perpendicular direction.
@@ -278,33 +285,12 @@ public final class Utils {
          */
         WEST,
     }
+
     public static CardinalDirection randCardinalDirection(){
-        Random random = new Random();
-        int value = random.nextInt(4);
-        CardinalDirection out;
-
-        switch (value) {
-            case 0:
-                out = CardinalDirection.NORTH;
-                break;
-            case 1:
-                out = CardinalDirection.EAST;
-                break;
-            case 2:
-                out = CardinalDirection.SOUTH;
-                break;
-            case 3:
-                out = CardinalDirection.WEST;
-                break;
-            default:
-                out = CardinalDirection.SOUTH;
-                break;
-        }
-
-        return out;
+        return CardinalDirection.values()[getRandom().nextInt(4)];
     }
 
-    /**
+    /** 
      * Defines the Ordinal directions, like a compass.
      */
     public enum OrdinalDirection {

@@ -12,13 +12,11 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
  */
 public final class ObstacleAvoidance extends EnemyState {
     private final Enemy ship;
-    private final CardinalDirection prevDirection;
     private CardinalDirection avoidanceDirection = null;
 
 
     public ObstacleAvoidance(Enemy ship){
         this.ship = ship;
-        prevDirection = ship.getDirection();
     }
 
    @Override
