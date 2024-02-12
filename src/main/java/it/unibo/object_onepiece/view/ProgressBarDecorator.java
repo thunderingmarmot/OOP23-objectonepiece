@@ -3,7 +3,7 @@ package it.unibo.object_onepiece.view;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public abstract class ProgressBarDecorator implements ProgressBar {
+abstract class ProgressBarDecorator implements ProgressBar {
 
     protected final ProgressBar decorated;
 
