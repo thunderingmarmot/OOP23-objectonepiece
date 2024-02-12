@@ -18,9 +18,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public final class MainMenu  {
-
-
-
+    
     protected final String styleSheet = "css/MainMenu.css";
 
     private final SceneController sc;
