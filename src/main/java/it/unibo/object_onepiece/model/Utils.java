@@ -193,6 +193,10 @@ public final class Utils {
             return Objects.isNull(direction) ? this : cardinalDirectionsTranslations.get(direction).apply(this);
         }
 
+        public Position sum(final Position pos){
+            return new Position(this.row + pos.row, this.column + pos.column);
+        }
+
         /**
          * Calculates the distance from this Position to the one gave as argument.
          * @param position the Position to calculate the distance from
