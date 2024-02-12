@@ -2,7 +2,7 @@ package it.unibo.object_onepiece.model.events;
 
 public class AutoProperty<T> {
     private T innerValue;
-    private Property<T> innerProperty;
+    private final Property<T> innerProperty;
 
     public AutoProperty() {
         this.innerProperty = new Property<>(() -> innerValue,
