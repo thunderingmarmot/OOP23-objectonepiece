@@ -1,7 +1,12 @@
 package it.unibo.object_onepiece.model;
 
 import java.util.List;
+import java.util.function.Consumer;
+
+import it.unibo.object_onepiece.model.Section.EntityAddedArgs;
+import it.unibo.object_onepiece.model.Section.PlayerAddedArgs;
 import it.unibo.object_onepiece.model.Utils.State;
+import it.unibo.object_onepiece.model.events.Event;
 
 /**
  * Implementation of World interface.
@@ -21,26 +26,25 @@ public final class WorldImpl implements World {
 
     private final int mapCols;
 
-    private final Observers observers;
+    public record SectionInstantiatedArgs(Event<EntityAddedArgs> onEntityAdded,
+                                          Event<PlayerAddedArgs> onPlayerAdded) { }
+    private Event<SectionInstantiatedArgs> onSectionInstantiated = new Event<>();
 
     /**
      * 
      * @param c view methods to associate to model
      */
-    public WorldImpl(int mapRows, int mapCols, final Observers observers) {
+    public WorldImpl(int mapRows, int mapCols, Consumer<SectionInstantiatedArgs> bindings) {
         this.mapRows = mapRows;
         this.mapCols = mapCols;
-        this.observers = observers;
+        onSectionInstantiated.subscribe(bindings);
         createNewSection();
-    }
-
-    @Override
-    public Observers getObservers() {
-        return this.observers;
     }
 
     void createNewSection() {
         currentSection = new Section(this);
+        onSectionInstantiated.invoke(new SectionInstantiatedArgs(
+            currentSection.getEntityAddedEvent(), currentSection.getPlayerAddedEvent()));
         currentSection.generateEntities();
     }
 

@@ -14,12 +14,7 @@ import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
 import it.unibo.object_onepiece.controller.Controller;
 import it.unibo.object_onepiece.controller.ControllerImpl;
-import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.World;
-import it.unibo.object_onepiece.model.World.EntityCreatedArgs;
-import it.unibo.object_onepiece.model.World.EntityUpdatedArgs;
-import it.unibo.object_onepiece.model.World.EntityRemovedArgs;
-import it.unibo.object_onepiece.model.World.PlayerUpdatedArgs;
 import it.unibo.object_onepiece.model.WorldImpl;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
@@ -102,11 +97,16 @@ public final class ObjectOnePieceApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, new it.unibo.object_onepiece.model.World.Observers(
-            this::createEntity,
-            this::updateEntity,
-            this::removeEntity,
-            this::drawPlayerInfo));
+        world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, (e1) -> {
+            e1.onEntityAdded().subscribe((e2) -> {
+                e2.onEntityCreated().subscribe((e3) -> createEntity(e3.name(), e3.spawnPosition(), e3.spawnDirection()));
+                e2.onEntityUpdated().subscribe((e3) -> updateEntity(e3.name(), e3.oldPosition(), e3.newPosition(), e3.newDirection()));
+                e2.onEntityRemoved().subscribe((e3) -> removeEntity(e3.lastPosition()));
+            });
+            e1.onPlayerAdded().subscribe((e2) -> {
+                e2.onPlayerUpdated().subscribe((e3) -> drawPlayerInfo(e3.healthList(), e3.maxHealthList(), e3.experience()));
+            });
+        });
     }
 
     private void gridSetUp() {
@@ -149,19 +149,19 @@ public final class ObjectOnePieceApp extends Application {
 
 
     
-    private void createEntity(EntityCreatedArgs arg) {
-        drawImage(arg.name(), arg.spawnPosition().row(), arg.spawnPosition().column(), Optional.of(arg.spawnDirection()));
+    private void createEntity(String name, Position spawnPosition, CardinalDirection spawnDirection) {
+        drawImage(name, spawnPosition.row(), spawnPosition.column(), Optional.of(spawnDirection));
     }
 
 
-    private void updateEntity(EntityUpdatedArgs arg) {
-        removeEntity(new EntityRemovedArgs(arg.oldPosition()));
-        drawImage(arg.name(), arg.newPosition().row(), arg.newPosition().column(), Optional.of(arg.newDirection()));
+    private void updateEntity(String name, Position oldPosition, Position newPosition, CardinalDirection newDirection) {
+        removeEntity(oldPosition);
+        drawImage(name, newPosition.row(), newPosition.column(), Optional.of(newDirection));
     }
 
-    private void removeEntity(EntityRemovedArgs arg) {
-        final int col = arg.lastPosition().column();
-        final int row = arg.lastPosition().row();
+    private void removeEntity(Position lastPosition) {
+        final int col = lastPosition.column();
+        final int row = lastPosition.row();
 
         if (gridView.getCellPane(gridModel.getCell(col, row)).getChildren().size() == 0) {
             throw new IllegalArgumentException("Trying to delete cell view where there isn't anything");
@@ -196,15 +196,15 @@ public final class ObjectOnePieceApp extends Application {
      * 
      * @param p
      */
-    private void drawPlayerInfo(PlayerUpdatedArgs arg) {
-        if (Stream.of(arg.healthList().size(), arg.maxHealthList().size()).anyMatch(s -> s > HP_BARS_COUNT)) {
+    private void drawPlayerInfo(List<Integer> healthList, List<Integer> maxHealthList, int experience) {
+        if (Stream.of(healthList.size(), maxHealthList.size()).anyMatch(s -> s > HP_BARS_COUNT)) {
             throw new IllegalArgumentException("Model has more healthbars than view can represent");
         }
         
         for (int i = 0; i < HP_BARS_COUNT; i++) {
-            healthBars[i].update(arg.healthList().get(i), arg.maxHealthList().get(i));
+            healthBars[i].update(healthList.get(i), maxHealthList.get(i));
         }
-        experienceBar.update(arg.experience());
+        experienceBar.update(experience);
     }
     /**
      * Program's entry point.
