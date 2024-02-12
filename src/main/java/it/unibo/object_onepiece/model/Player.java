@@ -13,11 +13,10 @@ import it.unibo.object_onepiece.model.events.Event;
  * @see Player
  */
 public final class Player extends Ship {
-
     private AutoProperty<Integer> experience;
 
-    public record PlayerStats(List<Integer> healthList, List<Integer> maxHealthList, int experience) { }
-    private Event<PlayerStats> onPlayerUpdated = new Event<>();
+    public record PlayerUpdatedArgs(List<Integer> healthList, List<Integer> maxHealthList, int experience) { }
+    private Event<PlayerUpdatedArgs> onPlayerUpdated = new Event<>();
 
     /**
      * Constructor for PlayerImpl.
@@ -41,8 +40,8 @@ public final class Player extends Ship {
                      final Bow bow,
                      final Keel keel) {
         super(section, position, direction, weapon, sail, bow, keel);
-        this.experience = new AutoProperty<>(experience);
-        this.experience.getValueSetEvent().subscribe((i) -> this.updateStats());
+        this.experience = new AutoProperty<>(experience, (newExperience) -> this.onPlayerUpdated.invoke(
+            new PlayerUpdatedArgs(getHealths(), getMaxHealths(), newExperience)));
     }
 
     /**
@@ -129,9 +128,15 @@ public final class Player extends Ship {
     @Override
     protected void takeDamage(final int damage, final ShipComponent s) {
         super.takeDamage(damage, s);
+        onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience.get()));
     }
 
-    private void updateStats() {
-        this.onPlayerUpdated.invoke(new PlayerStats(getHealths(), getMaxHealths(), this.experience.get()));
+    protected void heal() {
+        this.getShipComponents().forEach((c) -> c.setHealth(c.getMaxHealth()));
+        onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience.get()));
+    }
+
+    public Event<PlayerUpdatedArgs> getPlayerUpdatedEvent() {
+        return this.onPlayerUpdated;
     }
 }

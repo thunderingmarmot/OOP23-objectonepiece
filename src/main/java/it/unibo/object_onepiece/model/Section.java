@@ -8,8 +8,11 @@ import de.articdive.jnoise.pipeline.JNoise;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.World.EntityCreatedArgs;
-import it.unibo.object_onepiece.model.World.PlayerUpdatedArgs;
+import it.unibo.object_onepiece.model.Entity.EntityCreatedArgs;
+import it.unibo.object_onepiece.model.Entity.EntityUpdatedArgs;
+import it.unibo.object_onepiece.model.Player.PlayerUpdatedArgs;
+import it.unibo.object_onepiece.model.Entity.EntityRemovedArgs;
+import it.unibo.object_onepiece.model.events.Event;
 
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -34,6 +37,14 @@ public final class Section {
     private final World world;
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound;
+
+    public record EntityAddedArgs(Event<EntityCreatedArgs> onEntityCreated,
+                                  Event<EntityUpdatedArgs> onEntityUpdated,
+                                  Event<EntityRemovedArgs> onEntityRemoved) { }
+    private Event<EntityAddedArgs> onEntityAdded = new Event<>();
+
+    public record PlayerAddedArgs(Event<PlayerUpdatedArgs> onPlayerUpdated) { }
+    private Event<PlayerAddedArgs> onPlayerAdded = new Event<>();
 
     /**
      * 
@@ -85,9 +96,7 @@ public final class Section {
                 }
             }
         }
-        this.addEntity(Player.getDefault(this, new Position(1, 1)));
-        this.getWorld().getObservers().updatePlayerInfo().accept(
-            new PlayerUpdatedArgs(getPlayer().getHealths(), getPlayer().getMaxHealths(), getPlayer().getExperience()));
+        this.addPlayer(Player.getDefault(this, new Position(1, 1)));
 
         /** Prints duplicate positions in entities list */
         final Set<Position> items = new HashSet<>();
@@ -128,9 +137,24 @@ public final class Section {
         return entities;
     }
 
+    void addPlayer(final Player e) {
+        this.onPlayerAdded.invoke(new PlayerAddedArgs(e.getPlayerUpdatedEvent()));
+        addEntity(e);
+    }
+
     void addEntity(final Entity e) {
-        this.getWorld().getObservers().createEntity().accept(
-            new EntityCreatedArgs(e.getClass().getSimpleName(), e.getPosition(), e.getDirection()));
+        this.onEntityAdded.invoke(new EntityAddedArgs(
+            e.getEntityCreatedEvent(), e.getEntityUpdatedEvent(), e.getEntityRemovedEvent()));
+        e.getEntityCreatedEvent().invoke(new EntityCreatedArgs(
+            e.getClass().getSimpleName(), e.getPosition(), e.getDirection()));
         entities.add(e);
+    }
+
+    Event<EntityAddedArgs> getEntityAddedEvent() {
+        return onEntityAdded;
+    }
+
+    Event<PlayerAddedArgs> getPlayerAddedEvent() {
+        return onPlayerAdded;
     }
 }
