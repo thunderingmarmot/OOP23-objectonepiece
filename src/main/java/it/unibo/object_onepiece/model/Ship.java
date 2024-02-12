@@ -82,12 +82,9 @@ public abstract class Ship extends Collider {
     /**
      * List of the MoveDetails returned when the ship has successfully moved.
      */
-    protected static final List<MoveDetails> MOVE_FAILED_CONDITIONS = List.of(
+    protected static final List<MoveDetails> MOVE_COLLISION_CONDITIONS = List.of(
         MoveDetails.HARD_COLLISION,
-        MoveDetails.MEDIUM_COLLISION,
-        MoveDetails.OUT_OF_SPEED_RANGE,
-        MoveDetails.SAIL_BROKEN,
-        MoveDetails.NO_MOVEMENT
+        MoveDetails.MEDIUM_COLLISION
     );
 
     /**
@@ -131,7 +128,7 @@ public abstract class Ship extends Collider {
 
         MoveDetails nextStep = MoveDetails.NO_MOVEMENT;
 
-        for (int i = 0; i < steps && !MOVE_FAILED_CONDITIONS.contains(nextStep); i++) {
+        for (int i = 0; i < steps && !MOVE_COLLISION_CONDITIONS.contains(nextStep); i++) {
             nextStep = this.step(direction);
         }
 
@@ -149,8 +146,7 @@ public abstract class Ship extends Collider {
         final Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
         final MoveDetails nextStep = checkMove(direction, obstacle);
 
-        if (nextStep.equals(MoveDetails.HARD_COLLISION)
-        || nextStep.equals(MoveDetails.MEDIUM_COLLISION)
+        if (MOVE_COLLISION_CONDITIONS.contains(nextStep)
         || nextStep.equals(MoveDetails.MOVED_BUT_COLLIDED)) {
             this.collideWith((Collidable) obstacle.get());
         }
