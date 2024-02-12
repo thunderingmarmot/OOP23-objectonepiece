@@ -106,7 +106,8 @@ public abstract class Ship extends Collider {
      */
     protected static final List<MoveDetails> MOVE_COLLISION_CONDITIONS = List.of(
         MoveDetails.HARD_COLLISION,
-        MoveDetails.MEDIUM_COLLISION
+        MoveDetails.MEDIUM_COLLISION,
+        MoveDetails.BORDER_REACHED
     );
 
     /**
@@ -204,10 +205,6 @@ public abstract class Ship extends Collider {
             return MoveDetails.SAIL_BROKEN;
         }
 
-        if (!this.getSection().getBounds().isInside(this.getPosition())) {
-            return MoveDetails.BORDER_REACHED;
-        }
-
         if (obstacle.isPresent() 
         && obstacle.get() instanceof Collidable c
         && c.getRigidness() == Rigidness.HARD) {
@@ -217,6 +214,10 @@ public abstract class Ship extends Collider {
         if (!direction.equals(this.getDirection())) {
             return MoveDetails.ROTATED;
         }
+        
+        if (!this.getSection().getBounds().isInside(this.getPosition().moveTowards(direction))) {
+            return MoveDetails.BORDER_REACHED;
+        }
 
         if (obstacle.isPresent() 
         && obstacle.get() instanceof Collidable c
@@ -224,7 +225,9 @@ public abstract class Ship extends Collider {
             return MoveDetails.MEDIUM_COLLISION;
         }
 
-        if (obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.getRigidness() == Rigidness.SOFT) {
+        if (obstacle.isPresent() 
+        && obstacle.get() instanceof Collidable c 
+        && c.getRigidness() == Rigidness.SOFT) {
             return MoveDetails.MOVED_BUT_COLLIDED;
         }
 
