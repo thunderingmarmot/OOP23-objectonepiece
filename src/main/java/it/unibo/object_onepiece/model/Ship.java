@@ -1,7 +1,9 @@
 package it.unibo.object_onepiece.model;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 
 import it.unibo.object_onepiece.model.Weapon.ShootReturnType;
 import it.unibo.object_onepiece.model.Weapon.ShootDetails;
@@ -17,6 +19,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * @see Collider
  */
 public abstract class Ship extends Collider {
+    private final Random rand = new Random();
     private Weapon weapon;
     private Sail sail;
     private Bow bow;
@@ -166,10 +169,6 @@ public abstract class Ship extends Collider {
             return MoveDetails.SAIL_BROKEN;
         }
 
-        if (!direction.equals(this.getDirection())) {
-            return MoveDetails.ROTATED;
-        }
-
         if (!this.getSection().getBounds().isInside(this.getPosition())) {
             return MoveDetails.BORDER_REACHED;
         }
@@ -177,6 +176,10 @@ public abstract class Ship extends Collider {
         if (obstacle.isPresent() && obstacle.get() instanceof Collidable c
         && (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {
             return MoveDetails.STATIC_COLLISION;
+        }
+
+        if (!direction.equals(this.getDirection())) {
+            return MoveDetails.ROTATED;
         }
 
         if (obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.getRigidness() == Rigidness.SOFT) {
@@ -239,16 +242,15 @@ public abstract class Ship extends Collider {
         final Optional<Entity> ship = this.getSection().getEntityAt(position);
 
         if (ship.isPresent() && ship.get() instanceof Ship s) {
-            List<ShipComponent> sc = s.getShipComponents();
+            final long count = s.getShipComponents().stream()
+                                                    .filter(c -> c.getHealth() > 0)
+                                                    .count();
 
-            sc = sc.stream()
-                   .filter(c -> c.getHealth() > 0)
-                   .toList();
-
-            s.takeDamage(damage, sc.stream()
-                                   .skip((long) (Math.random() * (sc.size() - 1)))
-                                   .findFirst()
-                                   .orElse(null));
+            s.takeDamage(damage, s.getShipComponents().stream()
+                                                      .filter(c -> c.getHealth() > 0)
+                                                      .skip(rand.nextLong(count))
+                                                      .findFirst()
+                                                      .orElse(null));
         }
     }
 
@@ -261,20 +263,14 @@ public abstract class Ship extends Collider {
      * @param  s      the ShipComponent that needs to be hit
      */
     protected void takeDamage(final int damage, final ShipComponent s) {
-        s.setHealth(s.getHealth() - damage);
+        if (s.getHealth() > 0) {
+            s.setHealth(s.getHealth() - damage);
+            System.out.println(this.toString() + " ha preso " + damage + " danni al " + s.toString());
+        }
+
         if (this.keel.getHealth() <= 0) {
             this.remove();
         }
-    }
-
-    /**
-     * This method heal every ship component to its maximum health.
-     */
-    protected void healShip() {
-        this.getWeapon().setHealth(this.getWeapon().getMaxHealth());
-        this.getSail().setHealth(this.getSail().getMaxHealth());
-        this.getBow().setHealth(this.getBow().getMaxHealth());
-        this.getKeel().setHealth(this.getKeel().getMaxHealth());
     }
 
     /**
@@ -406,17 +402,15 @@ public abstract class Ship extends Collider {
             int damage = s.getBow().getCrashDamage();
             ShipComponent shipComponent = this.getBow();
 
-            if (Utils.isEntityInOppositeDirection(this, collider) 
-            || this.getDirection().equals(collider.getDirection())) {
+            if (Utils.areEntitiesPerpendicular(this, collider)
+            || Utils.areEntitiesInSameDirection(this, s)) {
                 if (this.getKeel().isKeelDamaged()) {
                     damage *= s.getBow().getCrashDamageMultiplier();
                 }
                 shipComponent = this.getKeel();
             }
 
-            if (shipComponent.getHealth() > 0) {
-                this.takeDamage(damage, shipComponent);
-            }
+            this.takeDamage(damage, shipComponent);
         }
     }
 
@@ -430,9 +424,10 @@ public abstract class Ship extends Collider {
     @Override
     protected void collideWith(final Collidable collidable) {
         if (collidable.getRigidness() == Rigidness.MEDIUM
-        && !Utils.isEntityInOppositeDirection(collidable, this)
+        && !Utils.areEntitiesPerpendicular(collidable, this)
         && collidable instanceof Ship s
-        && this.getBow().getHealth() > 0) {
+        && !Utils.areEntitiesInSameDirection(this, s)
+        && s.getBow().getHealth() > 0) {
             this.takeDamage(s.getBow().getCrashDamage(), this.getBow());
         }
         collidable.onCollisionWith(this);

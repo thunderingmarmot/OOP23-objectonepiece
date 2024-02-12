@@ -43,7 +43,7 @@ public final class Island extends Collidable {
      * @param player the Player
      */
     protected void heal(final Player player) {
-        player.healShip();
+        player.getShipComponents().forEach((c) -> c.setHealth(c.getMaxHealth()));
     }
 
     /**

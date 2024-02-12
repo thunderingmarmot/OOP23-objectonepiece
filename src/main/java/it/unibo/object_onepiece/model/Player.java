@@ -5,8 +5,8 @@ import java.util.stream.Stream;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.events.AutoProperty;
 import it.unibo.object_onepiece.model.events.Event;
-import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
 
 /**
  * Implementation of the Player interface.
@@ -14,28 +14,10 @@ import it.unibo.object_onepiece.model.events.EventArgs.TriArguments;
  */
 public final class Player extends Ship {
 
-    private int experience;
+    private AutoProperty<Integer> experience;
 
-    private final StatsUpdatedEvent onStatsUpdated = new StatsUpdatedEvent();
-
-    /**
-     * An Event alias that is used when Player stats are updated.
-     * @see Event
-     * @see Entity
-     */
-    public static final class StatsUpdatedEvent
-    extends Event<TriArguments<List<Integer>, List<Integer>, Integer>> {
-        /**
-         * A less verbose version of invoke that directly takes the Event arguments.
-         * @param healthList list of all ShipComponents healths
-         * @param maxHealthList list of all ShipComponents max healths
-         */
-        protected void invoke(final List<Integer> healths,
-                              final List<Integer> maxHealths,
-                              final Integer experience) {
-            super.invoke(new TriArguments<>(healths, maxHealths, experience));
-        }
-    }
+    public record PlayerStats(List<Integer> healthList, List<Integer> maxHealthList, int experience) { }
+    private Event<PlayerStats> onPlayerUpdated = new Event<>();
 
     /**
      * Constructor for PlayerImpl.
@@ -59,7 +41,8 @@ public final class Player extends Ship {
                      final Bow bow,
                      final Keel keel) {
         super(section, position, direction, weapon, sail, bow, keel);
-        this.experience = experience;
+        this.experience = new AutoProperty<>(experience);
+        this.experience.getValueSetEvent().subscribe((i) -> this.updateStats());
     }
 
     /**
@@ -128,16 +111,15 @@ public final class Player extends Ship {
      * @return the currently owned experience value
      */
     protected int getExperience() {
-        return experience;
+        return this.experience.get();
     }
 
     /**
      * Adds experience to the Player's owned experience.
-     * @param experience the experience value to add
+     * @param newExperience the experience value to add
      */
-    protected void addExperience(final int experience) {
-        this.experience += experience;
-        updateStats();
+    protected void addExperience(final int newExperience) {
+        this.experience.set(this.experience.get() + newExperience);;
     }
 
     /**
@@ -147,28 +129,9 @@ public final class Player extends Ship {
     @Override
     protected void takeDamage(final int damage, final ShipComponent s) {
         super.takeDamage(damage, s);
-        updateStats();
-    }
-
-    /**
-     * Overridden version of healShip to allow event invoking.
-     * @see Ship
-     */
-    @Override
-    protected void healShip() {
-        super.healShip();
-        updateStats();
     }
 
     private void updateStats() {
-        onStatsUpdated.invoke(getHealths(), getMaxHealths(), getExperience());
-    }
-
-    /**
-     * Getter for the onStatsUpdated event.
-     * @return 
-     */
-    public StatsUpdatedEvent getStatsUpdatedEvent() {
-        return onStatsUpdated;
+        this.onPlayerUpdated.invoke(new PlayerStats(getHealths(), getMaxHealths(), this.experience.get()));
     }
 }
