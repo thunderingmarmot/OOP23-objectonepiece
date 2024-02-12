@@ -3,7 +3,6 @@ package it.unibo.object_onepiece.model.events;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 /**
  * Base Event implementation.
@@ -12,13 +11,7 @@ import java.util.function.Supplier;
  */
 public class Event<T extends EventArgs> {
 
-    private final Supplier<T> value;
-    private final List<Consumer<T>> listeners;
-
-    protected Event(Supplier<T> value) {
-        this.value = value;
-        this.listeners = new ArrayList<>();
-    }
+    private final List<Consumer<T>> listeners = new ArrayList<>();
 
     /**
      * Subscribe a Consumer<T> to the Event.
@@ -43,7 +36,7 @@ public class Event<T extends EventArgs> {
      * @param args the arguments passed to the subscribed Consumers
      * @see EventArgs
      */
-    protected void invoke(final T args) {
+    public void invoke(final T args) {
         listeners.forEach((listener) -> listener.accept(args));
     }
 }
