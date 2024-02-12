@@ -274,16 +274,6 @@ public abstract class Ship extends Collider {
     }
 
     /**
-     * This method heal every ship component to its maximum health.
-     */
-    protected void healShip() {
-        this.getWeapon().setHealth(this.getWeapon().getMaxHealth());
-        this.getSail().setHealth(this.getSail().getMaxHealth());
-        this.getBow().setHealth(this.getBow().getMaxHealth());
-        this.getKeel().setHealth(this.getKeel().getMaxHealth());
-    }
-
-    /**
      * Setter for the Weapon component of the Ship.
      * 
      * @param  weapon is the weapon to set
