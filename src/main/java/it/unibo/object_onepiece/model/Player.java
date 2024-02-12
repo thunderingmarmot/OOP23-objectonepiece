@@ -13,6 +13,8 @@ import it.unibo.object_onepiece.model.events.Event;
  * @see Player
  */
 public final class Player extends Ship {
+    private static final int DEFAULT_EXPERIENCE_HEAL_COST = 100;
+
     private AutoProperty<Integer> experience;
 
     public record PlayerUpdatedArgs(List<Integer> healthList, List<Integer> maxHealthList, int experience) { }
@@ -119,7 +121,12 @@ public final class Player extends Ship {
      * @param newExperience the experience value to add
      */
     protected void addExperience(final int newExperience) {
-        this.experience.set(this.experience.get() + newExperience);;
+        this.experience.set(this.experience.get() + newExperience);
+    }
+
+    public void healWithExperience() {
+        this.experience.set(this.experience.get() - DEFAULT_EXPERIENCE_HEAL_COST);
+        this.heal();
     }
 
     /**

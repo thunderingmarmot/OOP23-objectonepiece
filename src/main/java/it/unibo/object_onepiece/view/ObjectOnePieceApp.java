@@ -27,6 +27,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -68,35 +69,53 @@ public final class ObjectOnePieceApp extends Application {
     private final GridView<State> gridView = new GridView<>();
     private Controller controller = new ControllerImpl();
     private final ProgressBar[] healthBars = new HealthBar[4];
-    private final ProgressBar experienceBar = new ExperienceBar(new ProgressBarImpl());
     private World world;
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
         gridSetUp();
-        VBox barsContainer = new VBox();
-        for(int i = 0; i < HP_BARS_COUNT; i++) {
-            healthBars[i] = new HealthBar(new ProgressBarImpl());
-            barsContainer.getChildren().add(healthBars[i].getContainer());
-        }
-        barsContainer.getChildren().add(experienceBar.getContainer());
-        BorderPane borderPane = new BorderPane();
+        final VBox barsContainer = new VBox();
+        final BorderPane borderPane = new BorderPane();
 
-        Label pirateInfo = new Label("Pirate info!");
+        final Label pirateInfo = new Label("Pirate info!");
         pirateInfo.setAlignment(Pos.CENTER);
 
-        BorderPane rightPane = new BorderPane();
+        final BorderPane rightPane = new BorderPane();
         rightPane.setTop(pirateInfo);
         rightPane.setCenter(barsContainer);
 
         borderPane.setCenter(gridView);
         borderPane.setRight(rightPane);
 
-        Scene scene = new Scene(borderPane, 600, 600);
+        final Scene scene = new Scene(borderPane, 600, 600);
         scene.getStylesheets().add(styleSheet);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        for(int i = 0; i < HP_BARS_COUNT; i++) {
+            healthBars[i] = new HealthBar(new ProgressBarImpl());
+            barsContainer.getChildren().add(healthBars[i].getContainer());
+        }
+
+        
+
+        final Label experienceText = new Label("20");
+        experienceText.setAlignment(Pos.CENTER);
+
+        ImageView heal = new ImageView(new Image("/img/ui/heal.png"));
+        heal.setPreserveRatio(true);
+        heal.setFitWidth(barsContainer.getWidth());
+
+        final Button useXp = new Button();
+        useXp.setGraphic(heal);
+
+        final VBox xpContainer = new VBox();
+        xpContainer.setAlignment(Pos.CENTER);
+        xpContainer.getChildren().addAll(useXp, experienceText);
+
+        barsContainer.getChildren().add(xpContainer);
+        
 
         world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, (e1) -> {
             e1.onEntityAdded().subscribe((e2) -> {
@@ -195,11 +214,7 @@ public final class ObjectOnePieceApp extends Application {
             gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(new Label(entityName));
         }
     }
-    
-    /**
-     * 
-     * @param p
-     */
+
     private void drawPlayerInfo(List<Integer> healthList, List<Integer> maxHealthList, int experience) {
         if (Stream.of(healthList.size(), maxHealthList.size()).anyMatch(s -> s > HP_BARS_COUNT)) {
             throw new IllegalArgumentException("Model has more healthbars than view can represent");
@@ -208,7 +223,8 @@ public final class ObjectOnePieceApp extends Application {
         for (int i = 0; i < HP_BARS_COUNT; i++) {
             healthBars[i].update(healthList.get(i), maxHealthList.get(i));
         }
-        experienceBar.update(experience);
+        
+        //experienceBar.update(experience);
     }
     /**
      * Program's entry point.
