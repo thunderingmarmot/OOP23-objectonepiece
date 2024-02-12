@@ -5,7 +5,8 @@ import java.util.stream.Stream;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.World.PlayerUpdatedArgs;
+import it.unibo.object_onepiece.model.events.AutoProperty;
+import it.unibo.object_onepiece.model.events.Event;
 
 /**
  * Implementation of the Player interface.
@@ -13,7 +14,10 @@ import it.unibo.object_onepiece.model.World.PlayerUpdatedArgs;
  */
 public final class Player extends Ship {
 
-    private int experience;
+    private AutoProperty<Integer> experience;
+
+    public record PlayerStats(List<Integer> healthList, List<Integer> maxHealthList, int experience) { }
+    private Event<PlayerStats> onPlayerUpdated = new Event<>();
 
     /**
      * Constructor for PlayerImpl.
@@ -37,7 +41,8 @@ public final class Player extends Ship {
                      final Bow bow,
                      final Keel keel) {
         super(section, position, direction, weapon, sail, bow, keel);
-        this.experience = experience;
+        this.experience = new AutoProperty<>();
+        this.experience.getValueSetEvent().subscribe((i) -> this.updateStats());
     }
 
     /**
@@ -106,16 +111,15 @@ public final class Player extends Ship {
      * @return the currently owned experience value
      */
     protected int getExperience() {
-        return experience;
+        return this.experience.get();
     }
 
     /**
      * Adds experience to the Player's owned experience.
-     * @param experience the experience value to add
+     * @param newExperience the experience value to add
      */
-    protected void addExperience(final int experience) {
-        this.experience += experience;
-        updateStats();
+    protected void addExperience(final int newExperience) {
+        this.experience.set(this.experience.get() + newExperience);;
     }
 
     /**
@@ -125,7 +129,6 @@ public final class Player extends Ship {
     @Override
     protected void takeDamage(final int damage, final ShipComponent s) {
         super.takeDamage(damage, s);
-        updateStats();
     }
 
     /**
@@ -135,11 +138,9 @@ public final class Player extends Ship {
     @Override
     protected void healShip() {
         super.healShip();
-        updateStats();
     }
 
     private void updateStats() {
-        this.getWorld().getObservers().updatePlayerInfo().accept(
-            new PlayerUpdatedArgs(this.getHealths(), this.getMaxHealths(), this.getExperience()));
+        this.onPlayerUpdated.invoke(new PlayerStats(getHealths(), getMaxHealths(), this.experience.get()));
     }
 }
