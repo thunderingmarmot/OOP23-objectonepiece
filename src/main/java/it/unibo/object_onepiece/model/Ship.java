@@ -69,7 +69,7 @@ public abstract class Ship extends Collider {
     /**
      * Enum to define various type of result returned by shoot.
      */
-    protected enum ShootDetails {
+    enum ShootDetails {
         /** 
          * The weapon has shooted succesfully. 
          */
@@ -90,7 +90,7 @@ public abstract class Ship extends Collider {
      * @param  hasShooted result of the shooting
      * @param  details    details about the shooting result
      */
-    protected record ShootReturnType(boolean hasShooted, ShootDetails details) { }
+    record ShootReturnType(boolean hasShooted, ShootDetails details) { }
 
     /**
      * List of the MoveDetails returned when the ship has successfully moved.
