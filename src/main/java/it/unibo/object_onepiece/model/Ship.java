@@ -19,7 +19,6 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * @see Collider
  */
 public abstract class Ship extends Collider {
-    private final Random rand = new Random();
     private Weapon weapon;
     private Sail sail;
     private Bow bow;
@@ -80,7 +79,7 @@ public abstract class Ship extends Collider {
     );
 
     /**
-     * List of the MoveDetails returned when the ship has successfully moved.
+     * List of the MoveDetails returned when the ship has collided.
      */
     protected static final List<MoveDetails> MOVE_COLLISION_CONDITIONS = List.of(
         MoveDetails.HARD_COLLISION,
@@ -268,7 +267,7 @@ public abstract class Ship extends Collider {
 
             s.takeDamage(damage, s.getShipComponents().stream()
                                                       .filter(c -> c.getHealth() > 0)
-                                                      .skip(rand.nextLong(count))
+                                                      .skip(Utils.getRandom().nextLong(count))
                                                       .findFirst()
                                                       .orElse(null));
         }
