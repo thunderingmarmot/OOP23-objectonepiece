@@ -70,7 +70,7 @@ public final class ObjectOnePieceApp extends Application {
     private final GridModel<State> gridModel = new GridModel<>();
     private final GridView<State> gridView = new GridView<>();
     private Controller controller = new ControllerImpl();
-    private final HealthBar[] healthBars = new HealthBar[4];
+    private final ProgressBar[] healthBars = new HealthBar[4];
     private World world;
 
     @Override
@@ -79,7 +79,7 @@ public final class ObjectOnePieceApp extends Application {
         gridSetUp();
         VBox barsContainer = new VBox();
         for(int i = 0; i < HP_BARS_COUNT; i++) {
-            healthBars[i] = new HealthBar(0, 100);
+            healthBars[i] = new HealthBar(new ProgressBarImpl());
             barsContainer.getChildren().add(healthBars[i].getContainer());
         }
         BorderPane borderPane = new BorderPane();
@@ -199,66 +199,9 @@ public final class ObjectOnePieceApp extends Application {
         }
         
         for (int i = 0; i < HP_BARS_COUNT; i++) {
-            healthBars[i].updateHealth(arg.healthList().get(i), arg.maxHealthList().get(i));
+            healthBars[i].update(arg.healthList().get(i), arg.maxHealthList().get(i));
         }
     }
-
-    
-
-    private class HealthBar {
-        private final static int BAR_WIDTH = 20;
-        private final static int BAR_HEIGHT = 100;
-
-        private final VBox container = new VBox();
-        private final StackPane s = new StackPane();
-        private final Label healthLabel = new Label();
-        private final Rectangle redBar = new Rectangle();
-        private final Rectangle greenBar = new Rectangle();
-
-        private final BiFunction<Integer, Integer, String> labelTextBuild = (h, maxH) -> h + "/" + maxH; 
-
-        public HealthBar() {
-            configPane();
-            updateHealth(0, 100);
-        }
-
-        /**
-         * 
-         * @param health 
-         * @param maxHealth a number greater than 0
-         */
-        public HealthBar(final int health, final int maxHealth) {
-            configPane();
-            updateHealth(health, maxHealth);
-        }
-
-        VBox getContainer() {
-            return container;
-        }
-
-        private void configPane() {
-            s.setPrefHeight(BAR_HEIGHT);
-            s.setMaxWidth(BAR_WIDTH);
-            redBar.setFill(Color.RED);
-            redBar.widthProperty().bind(s.widthProperty());
-            redBar.heightProperty().bind(s.heightProperty());
-            greenBar.widthProperty().bind(s.widthProperty());
-            greenBar.setFill(Color.GREEN);
-            s.getChildren().addAll(redBar, greenBar);
-            StackPane.setAlignment(greenBar, Pos.BOTTOM_CENTER);
-            this.healthLabel.setAlignment(Pos.CENTER);
-            container.getChildren().addAll(s, healthLabel);
-        }
-
-        void updateHealth(final int health, final int maxHealth) {
-            if (maxHealth <= 0) {
-                throw new IllegalArgumentException("maxHealth cannot be less or equal to 0");
-            }
-            healthLabel.setText(labelTextBuild.apply(health, maxHealth));
-            greenBar.setHeight((redBar.getHeight() * health) / maxHealth);
-        }
-    }
-
     /**
      * Program's entry point.
      * 
