@@ -1,7 +1,5 @@
 package it.unibo.object_onepiece.model;
 
-import java.util.function.Consumer;
-
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.events.AutoProperty;
