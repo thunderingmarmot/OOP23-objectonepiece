@@ -8,9 +8,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import java.util.function.BiFunction;
 
-public class ProgressBarImpl implements ProgressBar {
-    private final static int BAR_WIDTH = 20;
-    private final static int BAR_HEIGHT = 100;
+/**
+ * Basic progress bar with predifined dimensions and label to view progress in text form
+ */
+public final class ProgressBarImpl implements ProgressBar {
+    private static final int BAR_WIDTH = 20;
+    private static final int BAR_HEIGHT = 100;
 
     private final VBox container = new VBox();
     private final StackPane s = new StackPane();
@@ -19,7 +22,9 @@ public class ProgressBarImpl implements ProgressBar {
     private final Rectangle frontRectangle = new Rectangle();
     private final BiFunction<Integer, Integer, String> labelTextBuild = (h, maxH) -> h + "/" + maxH; 
 
-
+    /**
+     * Creates a progress bar that has two rectangles, one for the background and front for progress
+     */
     public ProgressBarImpl() {
         configPane();
     }
@@ -61,5 +66,5 @@ public class ProgressBarImpl implements ProgressBar {
         backRectangle.setFill(back);
         frontRectangle.setFill(front);
     }
-    
+
 }
