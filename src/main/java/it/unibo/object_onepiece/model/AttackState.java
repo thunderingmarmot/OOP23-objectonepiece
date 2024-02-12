@@ -14,14 +14,15 @@ public class AttackState extends EnemyState {
     private Player player;
     private Integer triggerDistance = 3;
     private Integer distanceFromPlayer = 3;
+    private Position objective = null;
    
     public AttackState(Enemy ship) {
         this.ship = ship;
-        this.player = ship.getSection().getPlayer();
     }
 
     @Override
     public Boolean perform() {
+        player = ship.getSection().getPlayer();
         distanceFromPlayer = player.getPosition().distanceFrom(ship.getPosition());
         if(distanceFromPlayer > triggerDistance){
             ship.changeState(States.PATROLLING);
@@ -30,6 +31,8 @@ public class AttackState extends EnemyState {
        if(isInRange(ship.getDirection())){
             if(ship.shoot(player.getPosition()).hasShooted()){
                 return true;
+            } else {
+
             }
 
        }
@@ -63,5 +66,17 @@ public class AttackState extends EnemyState {
             CardinalDirection.WEST,side2
         ).get(direction);
     }
- 
+
+    private void defineObjective(final Position currentPosition){
+        var rand = Utils.getRandom();
+        var bound = ship.getSection().getBounds();
+        do {
+            int x = rand.nextInt(bound.columns());
+            int y = rand.nextInt(bound.rows());
+
+            objective = new Position(x, y);
+        } while ( !bound.isInside(objective) );
+        
+        System.err.println("random objective:" + objective.toString());
+    }
 }
