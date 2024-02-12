@@ -173,13 +173,13 @@ public abstract class Ship extends Collider {
             return MoveDetails.BORDER_REACHED;
         }
 
-        if (!direction.equals(this.getDirection())) {
-            return MoveDetails.ROTATED;
-        }
-
         if (obstacle.isPresent() && obstacle.get() instanceof Collidable c
         && (c.getRigidness() == Rigidness.HARD || c.getRigidness() == Rigidness.MEDIUM)) {
             return MoveDetails.STATIC_COLLISION;
+        }
+
+        if (!direction.equals(this.getDirection())) {
+            return MoveDetails.ROTATED;
         }
 
         if (obstacle.isPresent() && obstacle.get() instanceof Collidable c && c.getRigidness() == Rigidness.SOFT) {
