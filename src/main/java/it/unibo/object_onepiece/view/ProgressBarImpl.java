@@ -39,6 +39,7 @@ public final class ProgressBarImpl implements ProgressBar {
         s.getChildren().addAll(backRectangle, frontRectangle);
         this.label.setAlignment(Pos.CENTER);
         container.getChildren().addAll(s, label);
+        container.setAlignment(Pos.CENTER);
     }
 
     @Override
