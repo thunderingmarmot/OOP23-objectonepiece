@@ -15,7 +15,7 @@ public class Patrol extends EnemyState{
     private final int triggerDistance = 3;
     private final States stato = States.PATROLLING;
     private Position objective = null;
-    private Random rand = new Random();
+    private Random rand = Utils.getRandom();
     
 
     public Patrol(Enemy ship, NavigationSystem compass){
@@ -60,9 +60,8 @@ public class Patrol extends EnemyState{
     }
 
     private void defineRandomObjective(final Position currentPosition){
-        final int maxDistance = 5;
         do {
-            int x = rand.nextInt(bound.columns() );
+            int x = rand.nextInt(bound.columns());
             int y = rand.nextInt(bound.rows());
 
             objective = new Position(x, y);
