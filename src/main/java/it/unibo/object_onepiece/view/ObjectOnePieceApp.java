@@ -71,6 +71,7 @@ public final class ObjectOnePieceApp extends Application {
     private final GridView<State> gridView = new GridView<>();
     private Controller controller = new ControllerImpl();
     private final ProgressBar[] healthBars = new HealthBar[4];
+    private final ProgressBar experienceBar = new ExperienceBar(new ProgressBarImpl());
     private World world;
 
     @Override
@@ -82,6 +83,8 @@ public final class ObjectOnePieceApp extends Application {
             healthBars[i] = new HealthBar(new ProgressBarImpl());
             barsContainer.getChildren().add(healthBars[i].getContainer());
         }
+        barsContainer.getChildren().add(experienceBar.getContainer());
+
         BorderPane borderPane = new BorderPane();
 
         Label pirateInfo = new Label("Pirate info!");
@@ -201,6 +204,7 @@ public final class ObjectOnePieceApp extends Application {
         for (int i = 0; i < HP_BARS_COUNT; i++) {
             healthBars[i].update(arg.healthList().get(i), arg.maxHealthList().get(i));
         }
+        experienceBar.update(arg.experience());
     }
     /**
      * Program's entry point.

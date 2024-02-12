@@ -42,6 +42,12 @@ public class ProgressBarImpl implements ProgressBar {
     }
 
     @Override
+    public void update(final int progress) {
+        frontRectangle.setHeight(backRectangle.getHeight());
+        label.setText(Integer.toString(progress));
+    }
+
+    @Override
     public void update(final int progress, final int maxProgress) {
         if (maxProgress <= 0) {
             throw new IllegalArgumentException("maxProgress cannot be less or equal to 0");

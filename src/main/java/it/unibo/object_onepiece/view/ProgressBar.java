@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 
 public interface ProgressBar {
     VBox getContainer();
+    void update(int progress);
     void update(int progress, int maxProgress);
     void setColor(Color back, Color front);
 }
