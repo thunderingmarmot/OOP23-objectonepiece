@@ -98,20 +98,24 @@ public final class ObjectOnePieceApp extends Application {
             barsContainer.getChildren().add(healthBars[i].getContainer());
         }
 
-        final VBox xpContainer = new VBox();
+        
+
         final Label experienceText = new Label("20");
-        experienceText.setAlignment(Pos.BOTTOM_CENTER);
-        final Button useXp = new Button();
+        experienceText.setAlignment(Pos.CENTER);
+
         ImageView heal = new ImageView(new Image("/img/ui/heal.png"));
         heal.setPreserveRatio(true);
         heal.setFitWidth(barsContainer.getWidth());
+
+        final Button useXp = new Button();
         useXp.setGraphic(heal);
 
+        final VBox xpContainer = new VBox();
+        xpContainer.setAlignment(Pos.CENTER);
         xpContainer.getChildren().addAll(useXp, experienceText);
 
         barsContainer.getChildren().add(xpContainer);
-        barsContainer.setAlignment(Pos.CENTER);
-        useXp.setAlignment(Pos.CENTER);
+        
 
         world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, (e1) -> {
             e1.onEntityAdded().subscribe((e2) -> {
