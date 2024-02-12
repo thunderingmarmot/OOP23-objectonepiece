@@ -32,9 +32,11 @@ public class Entity {
      */
     protected Entity(final Section section, final Position position, final CardinalDirection direction) {
         this.section = section;
-        this.position = new AutoProperty<>(position, (newPosition) -> this.onEntityUpdated.invoke(
+        this.position = new AutoProperty<>(position);
+        this.position.getSetEvent().subscribe((newPosition) -> this.onEntityUpdated.invoke(
             new EntityUpdatedArgs(this.getClass().getSimpleName(), this.position.get(), newPosition, this.direction.get())));
-        this.direction = new AutoProperty<>(direction, (newDirection) -> this.onEntityUpdated.invoke(
+        this.direction = new AutoProperty<>(direction);
+        this.direction.getSetEvent().subscribe((newDirection) -> this.onEntityUpdated.invoke(
             new EntityUpdatedArgs(this.getClass().getSimpleName(), this.position.get(), this.position.get(), newDirection)));
     }
 
