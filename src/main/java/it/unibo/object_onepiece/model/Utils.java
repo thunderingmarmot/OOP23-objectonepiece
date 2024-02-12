@@ -3,6 +3,7 @@ package it.unibo.object_onepiece.model;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -276,6 +277,31 @@ public final class Utils {
          * The West cardinal direction.
          */
         WEST,
+    }
+    public static CardinalDirection randCardinalDirection(){
+        Random random = new Random();
+        int value = random.nextInt(4);
+        CardinalDirection out;
+
+        switch (value) {
+            case 0:
+                out = CardinalDirection.NORTH;
+                break;
+            case 1:
+                out = CardinalDirection.EAST;
+                break;
+            case 2:
+                out = CardinalDirection.SOUTH;
+                break;
+            case 3:
+                out = CardinalDirection.WEST;
+                break;
+            default:
+                out = CardinalDirection.SOUTH;
+                break;
+        }
+
+        return out;
     }
 
     /**

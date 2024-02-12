@@ -33,8 +33,8 @@ public class Patrol extends EnemyState{
         var suggestedDir = compass.move(objective, this.ship.getPosition());
 
         if(!Ship.MOVE_SUCCESS_CONDITIONS.contains(ship.move(suggestedDir,1))){
-           /*  ship.changeState(States.AVOIDING);
-            return false; */
+            ship.changeState(States.AVOIDING);
+            return false;
         } 
 
         checkPlayer();
