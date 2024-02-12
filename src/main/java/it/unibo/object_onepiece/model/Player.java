@@ -131,15 +131,6 @@ public final class Player extends Ship {
         super.takeDamage(damage, s);
     }
 
-    /**
-     * Overridden version of healShip to allow event invoking.
-     * @see Ship
-     */
-    @Override
-    protected void healShip() {
-        super.healShip();
-    }
-
     private void updateStats() {
         this.onPlayerUpdated.invoke(new PlayerStats(getHealths(), getMaxHealths(), this.experience.get()));
     }
