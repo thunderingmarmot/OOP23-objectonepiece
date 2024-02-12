@@ -3,7 +3,6 @@ package it.unibo.object_onepiece.model;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 
 import it.unibo.object_onepiece.model.Weapon.ShootReturnType;
 import it.unibo.object_onepiece.model.Weapon.ShootDetails;
