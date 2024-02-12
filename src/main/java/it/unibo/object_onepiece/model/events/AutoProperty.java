@@ -4,14 +4,10 @@ public class AutoProperty<T> {
     private T innerValue;
     private final Property<T> innerProperty;
 
-    public AutoProperty() {
+    public AutoProperty(T initialValue) {
+        this.innerValue = initialValue;
         this.innerProperty = new Property<>(() -> innerValue,
                                             (newValue) -> innerValue = newValue);
-    }
-
-    public AutoProperty(T initialValue) {
-        this();
-        this.innerValue = initialValue;
     }
 
     public T get() {
