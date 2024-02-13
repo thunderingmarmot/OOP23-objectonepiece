@@ -5,8 +5,10 @@ import java.util.function.Consumer;
 
 import it.unibo.object_onepiece.model.Section.EntityAddedArgs;
 import it.unibo.object_onepiece.model.Section.PlayerAddedArgs;
+import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.Utils.State;
 import it.unibo.object_onepiece.model.events.Event;
+import java.util.Optional;
 
 /**
  * Implementation of World interface.
@@ -34,14 +36,18 @@ public final class WorldImpl implements World {
         this.mapRows = mapRows;
         this.mapCols = mapCols;
         onSectionInstantiated.subscribe(bindings);
-        createNewSection();
+        createNewSection(Optional.empty());
     }
 
-    void createNewSection() {
+    void createNewSection(Optional<Player> p) {
         currentSection = new Section(this);
         onSectionInstantiated.invoke(new SectionInstantiatedArgs(
-            currentSection.getEntityAddedEvent(), currentSection.getPlayerAddedEvent()));
-        currentSection.generateEntities();
+        currentSection.getEntityAddedEvent(), currentSection.getPlayerAddedEvent()));
+        currentSection.generateEntities(p);
+    }
+
+    void switchSection(Section s, Player p) {
+        this.currentSection = s;
     }
 
     @Override
