@@ -7,7 +7,6 @@ import java.util.function.Consumer;
 /**
  * Base Event implementation.
  * @param <T> the generic type implementing EventArgs defining the Event arguments
- * @see Event
  */
 public class Event<T> {
 
