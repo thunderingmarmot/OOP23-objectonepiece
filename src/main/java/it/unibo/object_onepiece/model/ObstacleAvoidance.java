@@ -15,7 +15,7 @@ public final class ObstacleAvoidance extends EnemyState {
     private CardinalDirection avoidanceDirection = null;
 
 
-    public ObstacleAvoidance(Enemy ship){
+    protected ObstacleAvoidance(Enemy ship){
         this.ship = ship;
     }
 

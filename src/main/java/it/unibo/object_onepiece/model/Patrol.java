@@ -6,19 +6,18 @@ import it.unibo.object_onepiece.model.Enemy.*;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.Position;
 
-public class Patrol extends EnemyState{
+public final class Patrol extends EnemyState{
     
     private final NavigationSystem compass;
     private final Enemy ship;
     private Bound bound;
 
-    private final int triggerDistance = 3;
     private final States stato = States.PATROLLING;
     private Position objective = null;
     private Random rand = Utils.getRandom();
     
 
-    public Patrol(Enemy ship, NavigationSystem compass){
+    protected Patrol(Enemy ship, NavigationSystem compass){
         this.ship = ship;
         this.compass = compass;
         this.bound = ship.getSection().getBounds();
@@ -47,7 +46,7 @@ public class Patrol extends EnemyState{
     }
 
     private boolean checkPlayer(){
-        if(this.ship.getPosition().distanceFrom(playerPos()) <= triggerDistance){
+        if(this.ship.getPosition().distanceFrom(playerPos()) <= ship.getTriggerDistance()){
             this.ship.changeState(States.ATTACKING);
             return true;
         }

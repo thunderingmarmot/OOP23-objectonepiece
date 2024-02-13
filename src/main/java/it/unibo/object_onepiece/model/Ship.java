@@ -269,7 +269,7 @@ public abstract class Ship extends Collider {
             final Position shootPosition;
 
             if (this.isEntityInTrajectory(position).isPresent() 
-            && this.isEntityInTrajectory(position).get() instanceof Entity c) {
+            && this.isEntityInTrajectory(position).get() instanceof Collidable c) {
                 shootPosition = c.getPosition();
             } else {
                 shootPosition = position;

@@ -5,7 +5,7 @@ import it.unibo.object_onepiece.model.Utils.*;
 
 import it.unibo.object_onepiece.model.Enemy.EnemyState;
 
-public class AttackState extends EnemyState {
+public final class AttackState extends EnemyState {
     private Enemy ship;
     private Player player;
     private Integer triggerDistance = 3;
@@ -13,7 +13,7 @@ public class AttackState extends EnemyState {
     private Position objective = null;
     private NavigationSystem navigationSystem;
    
-    public AttackState(Enemy ship,NavigationSystem navigationSystem) {
+    protected AttackState(Enemy ship,NavigationSystem navigationSystem) {
         this.ship = ship;
         this.navigationSystem = navigationSystem;
     }
@@ -42,7 +42,6 @@ public class AttackState extends EnemyState {
         }
        return true;
     }
-
 
     @Override
     public States getState() {
@@ -76,6 +75,6 @@ public class AttackState extends EnemyState {
     }
 
     private Boolean objectiveReached(final Position currentPosition) {
-        return currentPosition.equals(objective)? true:false;
+        return currentPosition.equals(objective);
     }
 }

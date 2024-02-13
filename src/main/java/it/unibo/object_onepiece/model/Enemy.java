@@ -2,7 +2,6 @@ package it.unibo.object_onepiece.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import it.unibo.object_onepiece.model.Utils.*;
 
@@ -14,12 +13,15 @@ public final class Enemy extends Ship {
         ATTACKING
     } 
 
-    protected static final List<MoveDetails> ACTION_SUCCESS_CONDITIONS = List.of(
+    static final List<MoveDetails> ACTION_SUCCESS_CONDITIONS = List.of(
         MoveDetails.MOVED_SUCCESSFULLY,
         MoveDetails.MOVED_BUT_COLLIDED,
         MoveDetails.ROTATED,
         MoveDetails.MEDIUM_COLLISION
     );
+
+    private static final int DEFAULT_TRIGGER_DISTANCE = 5;
+    private final int triggerDistance;
    
     public static Enemy getDefault(Section spawnSection, Position spawnPosition){
         return new Enemy(spawnSection,
@@ -28,7 +30,8 @@ public final class Enemy extends Ship {
                          Weapon.cannon(),
                          Sail.sloop(),
                          Bow.standard(),
-                         Keel.standard());
+                         Keel.standard(),
+                         DEFAULT_TRIGGER_DISTANCE);
     }
     private final List<EnemyState> enemyStates;
     private EnemyState currentState;
@@ -39,8 +42,10 @@ public final class Enemy extends Ship {
                     final Weapon weapon,
                     final Sail sail,
                     final Bow bow,
-                    final Keel keel) {
+                    final Keel keel,
+                    final int triggerDistance) {
         super(section, position, direction, weapon, sail, bow, keel);
+        this.triggerDistance = triggerDistance;
 
         enemyStates = new ArrayList<>(List.of(
             new Patrol(this, new Compass()),
@@ -49,6 +54,10 @@ public final class Enemy extends Ship {
         ));
         
         currentState = findState(States.PATROLLING);
+    }
+
+    protected int getTriggerDistance() {
+        return this.triggerDistance;
     }
 
     protected Section getSection() {
