@@ -113,7 +113,7 @@ public abstract class Ship extends Collider {
         MoveDetails.BORDER_REACHED
     );
 
-    private Alert onShipShooted = new Alert();
+    private final Alert onShipShooted = new Alert();
 
     /**
     * Constructor for class ShipImpl.
@@ -221,7 +221,7 @@ public abstract class Ship extends Collider {
         if (!direction.equals(this.getDirection())) {
             return MoveDetails.ROTATED;
         }
-        
+
         if (!this.getSection().getBounds().isInside(this.getPosition().moveTowards(direction))) {
             return MoveDetails.BORDER_REACHED;
         }
@@ -268,8 +268,8 @@ public abstract class Ship extends Collider {
         && this.getPosition().distanceFrom(position) <= this.getWeapon().getRange()) {
             final Position shootPosition;
 
-            if (this.isEntityInTrajectory(position).isPresent() 
-            && this.isEntityInTrajectory(position).get() instanceof Collidable c) {
+            if (this.getEntityInTrajectory(position).isPresent() 
+            && this.getEntityInTrajectory(position).get() instanceof Collidable c) {
                 shootPosition = c.getPosition();
             } else {
                 shootPosition = position;
@@ -316,29 +316,29 @@ public abstract class Ship extends Collider {
         }
     }
 
-    private Optional<Entity> isEntityInTrajectory(final Position p) {
-        Position pos = this.getPosition();
+    private Optional<Entity> getEntityInTrajectory(final Position p) {
+        Position nextPosition = this.getPosition();
         CardinalDirection direction = this.getDirection();
         Optional<Entity> entity = Optional.empty();
 
-        Map<CardinalDirection, BiPredicate<Position, Position>> m = Map.of(
+        final Map<CardinalDirection, BiPredicate<Position, Position>> positionsOnTrajectoryConditions = Map.of(
             CardinalDirection.NORTH, (p1, p2) -> p1.row() > p2.row(),
             CardinalDirection.SOUTH, (p1, p2) -> p1.row() < p2.row(),
             CardinalDirection.EAST, (p1, p2) -> p1.column() < p2.column(),
             CardinalDirection.WEST, (p1, p2) -> p1.column() > p2.column()
         );
 
-        while(this.getPosition().distanceFrom(p) > this.getPosition().distanceFrom(pos) 
+        while (this.getPosition().distanceFrom(p) > this.getPosition().distanceFrom(nextPosition)
         && entity.isEmpty()) {
             
-            for (CardinalDirection d : CardinalDirection.values()) {
-                if (m.get(d).test(pos, p)) {
+            for (final CardinalDirection d : CardinalDirection.values()) {
+                if (positionsOnTrajectoryConditions.get(d).test(nextPosition, p)) {
                     direction = d;
                 }
             }
 
-            pos = pos.moveTowards(direction);
-            entity = this.getSection().getEntityAt(pos);
+            nextPosition = nextPosition.moveTowards(direction);
+            entity = this.getSection().getEntityAt(nextPosition);
         }
 
         return entity;
@@ -367,6 +367,9 @@ public abstract class Ship extends Collider {
         }
     }
 
+    /**
+     * This method remove the ship.
+     */
     protected void die() {
         this.remove();
     }
@@ -465,6 +468,11 @@ public abstract class Ship extends Collider {
         );
     }
 
+    /**
+     * Getter for the alert when the ship shoot.
+     * 
+     * @return the onShipShooted Alert.
+     */
     public Alert getShipShootedAlert() {
         return this.onShipShooted;
     }
