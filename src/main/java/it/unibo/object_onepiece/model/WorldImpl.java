@@ -47,6 +47,14 @@ public final class WorldImpl implements World {
         this.currentSection.generatePlayer();
     }
 
+    void createNewSection(Player player) {
+        this.currentSection = new Section(this);
+        onSectionInstantiated.invoke(new SectionInstantiatedArgs(
+            this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent()));
+        this.currentSection.generateEntities();
+        this.currentSection.addPlayer(player);
+    }
+
     void switchToSection(Section section, Player player) {
         this.currentSection = section;
         onSectionInstantiated.invoke(new SectionInstantiatedArgs(
