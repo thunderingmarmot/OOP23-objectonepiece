@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.Utils.State;
 import it.unibo.object_onepiece.model.events.AutoProperty;
 import it.unibo.object_onepiece.model.events.Event;
 
@@ -83,6 +84,9 @@ public final class Player extends Ship {
         final CardinalDirection direction = this.getPosition().whereTo(destination);
         final int distance = this.getPosition().distanceFrom(destination);
         final MoveDetails moveResult = super.move(direction, distance);
+        if(moveResult.equals(MoveDetails.BORDER_REACHED)) {
+            //TODO Switch Section while remembering the old Player stats
+        }
         return MOVE_SUCCESS_CONDITIONS.contains(moveResult);
     }
 
@@ -142,6 +146,15 @@ public final class Player extends Ship {
     protected void heal() {
         this.getShipComponents().forEach((c) -> c.setHealth(c.getMaxHealth()));
         onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience.get()));
+    }
+
+    @Override
+    protected void die() {
+        super.die();
+        State savedState = this.getWorld().getSavedState();
+        this.experience.set(savedState.getPlayerExperience());
+        this.setPosition(savedState.getPlayerPosition());
+        // TODO savedState.getSection(); Switch to the saved Session
     }
 
     public Event<PlayerUpdatedArgs> getPlayerUpdatedEvent() {

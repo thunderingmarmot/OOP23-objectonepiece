@@ -5,19 +5,18 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Base Event implementation.
- * @param <T> the generic type implementing EventArgs defining the Event arguments
+ * Base Alert implementation.
  */
-public class Event<T> {
+public class Alert {
 
-    private final List<Consumer<T>> listeners = new ArrayList<>();
+    private final List<Runnable> listeners = new ArrayList<>();
 
     /**
      * Subscribe a Consumer<T> to the Event.
      * @param listener the Consumer to be executed when Event is invoked
      * @see Consumer
      */
-    public void subscribe(final Consumer<T> listener) {
+    public void subscribe(final Runnable listener) {
         listeners.add(listener);
     }
 
@@ -26,7 +25,7 @@ public class Event<T> {
      * @param listener the Consumer to be executed when Event is invoked
      * @see Consumer
      */
-    public void unsubscribe(final Consumer<T> listener) {
+    public void unsubscribe(final Runnable listener) {
         listeners.remove(listener);
     }
 
@@ -35,7 +34,7 @@ public class Event<T> {
      * @param args the arguments passed to the subscribed Consumers
      * @see EventArgs
      */
-    public void invoke(final T args) {
-        listeners.forEach((listener) -> listener.accept(args));
+    public void invoke() {
+        listeners.forEach((listener) -> listener.run());
     }
 }
