@@ -30,10 +30,6 @@ public final class WorldImpl implements World {
                                           Event<PlayerAddedArgs> onPlayerAdded) { }
     private Event<SectionInstantiatedArgs> onSectionInstantiated = new Event<>();
 
-    /**
-     * 
-     * @param c view methods to associate to model
-     */
     public WorldImpl(int mapRows, int mapCols, Consumer<SectionInstantiatedArgs> bindings) {
         this.mapRows = mapRows;
         this.mapCols = mapCols;
