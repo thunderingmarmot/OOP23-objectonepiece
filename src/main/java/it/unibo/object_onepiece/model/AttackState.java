@@ -7,20 +7,20 @@ import it.unibo.object_onepiece.model.Enemy.EnemyState;
 
 public final class AttackState extends EnemyState {
     private final Enemy ship;
-    private final Player player;
-    private final Integer distanceFromPlayer;
     private final NavigationSystem navigationSystem;
+    private Player player;
+    private Integer distanceFromPlayer;
     private Position objective = null;
 
     protected AttackState(final Enemy ship, final NavigationSystem navigationSystem) {
         this.ship = ship;
-        this.player = this.ship.getSection().getPlayer();
         this.navigationSystem = navigationSystem;
-        this.distanceFromPlayer = this.player.getPosition().distanceFrom(this.ship.getPosition());
     }
 
     @Override
     protected Boolean perform() {
+        this.player = this.ship.getSection().getPlayer();
+        this.distanceFromPlayer = this.player.getPosition().distanceFrom(this.ship.getPosition());
         if (this.distanceFromPlayer > this.ship.getTriggerDistance()) {
             ship.changeState(States.PATROLLING);
             return false;
