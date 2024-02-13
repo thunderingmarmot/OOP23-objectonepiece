@@ -1,8 +1,10 @@
 package it.unibo.object_onepiece.model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiPredicate;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
@@ -264,16 +266,25 @@ public abstract class Ship extends Collider {
 
         if (this.getPosition().isInlineWith(position, this.getDirection()) 
         && this.getPosition().distanceFrom(position) <= this.getWeapon().getRange()) {
-            hitTarget(position, this.getWeapon().getMaxDamage());
+            final Position shootPosition;
+
+            if (this.isEntityInTrajectory(position).isPresent() 
+            && this.isEntityInTrajectory(position).get() instanceof Entity c) {
+                shootPosition = c.getPosition();
+            } else {
+                shootPosition = position;
+            }
+
+            hitTarget(shootPosition, this.getWeapon().getMaxDamage());
 
             Utils.getCardinalDirectionsTranslationMap().values()
                                                        .stream()
-                                                       .forEach((f) -> hitTarget(f.apply(position), this.getWeapon()
+                                                       .forEach((f) -> hitTarget(f.apply(shootPosition), this.getWeapon()
                                                                                                         .getMinDamage()));
 
             Utils.getOrdinalDirectionsTranslationMap().values()
                                                       .stream()
-                                                      .forEach((f) -> hitTarget(f.apply(position), this.getWeapon()
+                                                      .forEach((f) -> hitTarget(f.apply(shootPosition), this.getWeapon()
                                                                                                        .getMinDamage()));
 
             this.onShipShooted.invoke();
@@ -303,6 +314,34 @@ public abstract class Ship extends Collider {
                                                       .findFirst()
                                                       .orElse(null));
         }
+    }
+
+    private Optional<Entity> isEntityInTrajectory(final Position p) {
+        Position pos = this.getPosition();
+        CardinalDirection direction = this.getDirection();
+        Optional<Entity> entity = Optional.empty();
+
+        Map<CardinalDirection, BiPredicate<Position, Position>> m = Map.of(
+            CardinalDirection.NORTH, (p1, p2) -> p1.row() > p2.row(),
+            CardinalDirection.SOUTH, (p1, p2) -> p1.row() < p2.row(),
+            CardinalDirection.EAST, (p1, p2) -> p1.column() < p2.column(),
+            CardinalDirection.WEST, (p1, p2) -> p1.column() > p2.column()
+        );
+
+        while(this.getPosition().distanceFrom(p) > this.getPosition().distanceFrom(pos) 
+        && entity.isEmpty()) {
+            
+            for (CardinalDirection d : CardinalDirection.values()) {
+                if (m.get(d).test(pos, p)) {
+                    direction = d;
+                }
+            }
+
+            pos = pos.moveTowards(direction);
+            entity = this.getSection().getEntityAt(pos);
+        }
+
+        return entity;
     }
 
     /**
