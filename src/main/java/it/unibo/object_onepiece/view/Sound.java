@@ -27,10 +27,10 @@ public final class Sound {
     }
 
     private static final String SOUND_FOLDER = "sound/";
-    private static final int DEFAULT_AMBIENCE_SOUND_VOLUME = -10;
+    private static final int DEFAULT_AMBIENCE_SOUND_VOLUME = -30;
 
     private final Map<SoundTypes, URL> soundTypesToFile = Map.of(
-        SoundTypes.AMBIENCE, this.getURL(SOUND_FOLDER + "ocean.wav"),
+        SoundTypes.AMBIENCE, this.getURL(SOUND_FOLDER + "franky_theme.wav"),
         SoundTypes.CANNON_SHOT, this.getURL(SOUND_FOLDER + "cannon_shot.wav"),
         SoundTypes.SHIP_COLLIDE, this.getURL(SOUND_FOLDER + "ship_collide.wav"),
         SoundTypes.SHIP_DESTROY, this.getURL(SOUND_FOLDER + "ship_destroy.wav"),

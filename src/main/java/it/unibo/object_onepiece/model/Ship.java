@@ -208,10 +208,6 @@ public abstract class Ship extends Collider {
             return MoveDetails.NO_MOVEMENT;
         }
 
-        if (this.getSail().getHealth() <= 0) {
-            return MoveDetails.SAIL_BROKEN;
-        }
-
         if (obstacle.isPresent() 
         && obstacle.get() instanceof Collidable c
         && c.getRigidness() == Rigidness.HARD) {
@@ -220,6 +216,10 @@ public abstract class Ship extends Collider {
 
         if (!direction.equals(this.getDirection())) {
             return MoveDetails.ROTATED;
+        }
+
+        if (this.getSail().getHealth() <= 0) {
+            return MoveDetails.SAIL_BROKEN;
         }
 
         if (!this.getSection().getBounds().isInside(this.getPosition().moveTowards(direction))) {
