@@ -1,41 +1,40 @@
 package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Enemy.States;
-import it.unibo.object_onepiece.model.Utils.*;
+import it.unibo.object_onepiece.model.Utils.Position;
 
 import it.unibo.object_onepiece.model.Enemy.EnemyState;
 
 public final class AttackState extends EnemyState {
-    private Enemy ship;
-    private Player player;
-    private Integer triggerDistance = 3;
-    private Integer distanceFromPlayer = 3;
+    private final Enemy ship;
+    private final Player player;
+    private final Integer distanceFromPlayer;
+    private final NavigationSystem navigationSystem;
     private Position objective = null;
-    private NavigationSystem navigationSystem;
-   
-    protected AttackState(Enemy ship,NavigationSystem navigationSystem) {
+
+    protected AttackState(final Enemy ship, final NavigationSystem navigationSystem) {
         this.ship = ship;
+        this.player = this.ship.getSection().getPlayer();
         this.navigationSystem = navigationSystem;
+        this.distanceFromPlayer = this.player.getPosition().distanceFrom(this.ship.getPosition());
     }
 
     @Override
-    public Boolean perform() {
-        player = ship.getSection().getPlayer();
-        distanceFromPlayer = player.getPosition().distanceFrom(ship.getPosition());
-        if(distanceFromPlayer > triggerDistance){
+    protected Boolean perform() {
+        if (this.distanceFromPlayer > this.ship.getTriggerDistance()) {
             ship.changeState(States.PATROLLING);
             return false;
         }
-        if(ship.shoot(player.getPosition()).hasShooted()){
+        if (ship.shoot(player.getPosition()).hasShooted()) {
             return true;
         } else {
-            if(objective == null || objectiveReached(this.ship.getPosition())){
+            if (objective == null || this.ship.getPosition().equals(objective)) {
                 circularTargetPlayer();
             }
 
             var suggestedDir = navigationSystem.move(objective, this.ship.getPosition());
 
-            if(!Enemy.ACTION_SUCCESS_CONDITIONS.contains(ship.move(suggestedDir,1))){
+            if (!Enemy.ACTION_SUCCESS_CONDITIONS.contains(ship.move(suggestedDir, 1))) {
                 ship.changeState(States.AVOIDING);
                 return false;
             } 
@@ -44,16 +43,16 @@ public final class AttackState extends EnemyState {
     }
 
     @Override
-    public States getState() {
+    protected States getState() {
         return States.ATTACKING;
     }
 
     /**
      * This algorithm randomises a point around the
-     * player for the enemy to reach
+     * player for the enemy to reach.
      * 
      */
-    private void circularTargetPlayer(){
+    private void circularTargetPlayer() {
         var rand = Utils.getRandom();
         var bound = this.ship.getSection().getBounds();
         var playerPos = player.getPosition();
@@ -61,20 +60,17 @@ public final class AttackState extends EnemyState {
         int radius = 2;
 
         do {
-            int x = - radius + rand.nextInt((radius * 2) + 1);
-            int y = Double.valueOf(Math.sqrt(Math.pow(radius,2) - Math.pow(x,2))).intValue();//the pitagorean formula for one side of the triangle
+            int x = -radius + rand.nextInt((radius * 2) + 1);
+            //the pitagorean formula for one side of the triangle
+            int y = Double.valueOf(Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))).intValue();
 
-            objective = playerPos.sum( new Position(x, y * randSign()) );
-        } while ( !bound.isInside(objective) ||  tsection.getEntityAt(objective).isPresent());
-        
+            objective = playerPos.sum(new Position(x, y * randSign()));
+        } while (!bound.isInside(objective) || tsection.getEntityAt(objective).isPresent());
+
         System.err.println("random objective:" + objective.toString());
     }
 
-    private int randSign(){
-        return Utils.getRandom().nextBoolean()? 1 : -1;
-    }
-
-    private Boolean objectiveReached(final Position currentPosition) {
-        return currentPosition.equals(objective);
+    private int randSign() {
+        return Utils.getRandom().nextBoolean() ? 1 : -1;
     }
 }
