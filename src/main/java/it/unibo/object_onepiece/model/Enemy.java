@@ -38,7 +38,7 @@ public final class Enemy extends Ship {
         enemyStates = new ArrayList<>(List.of(
             new Patrol(this, new Compass()),
             new ObstacleAvoidance(this),
-            new AttackState(this)
+            new AttackState(this, new Compass())
         ));
         
         currentState = findState(States.PATROLLING);

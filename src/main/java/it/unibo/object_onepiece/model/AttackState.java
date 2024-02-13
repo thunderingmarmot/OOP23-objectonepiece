@@ -3,9 +3,6 @@ package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Enemy.States;
 import it.unibo.object_onepiece.model.Utils.*;
 
-import java.util.List;
-import java.util.Map;
-
 import it.unibo.object_onepiece.model.Enemy.EnemyState;
 
 public class AttackState extends EnemyState {
@@ -14,9 +11,11 @@ public class AttackState extends EnemyState {
     private Integer triggerDistance = 3;
     private Integer distanceFromPlayer = 3;
     private Position objective = null;
+    private NavigationSystem navigationSystem;
    
-    public AttackState(Enemy ship) {
+    public AttackState(Enemy ship,NavigationSystem navigationSystem) {
         this.ship = ship;
+        this.navigationSystem = navigationSystem;
     }
 
     @Override
@@ -27,18 +26,20 @@ public class AttackState extends EnemyState {
             ship.changeState(States.PATROLLING);
             return false;
         }
-       if(isInRange(ship.getDirection())){
-            if(ship.shoot(player.getPosition()).hasShooted()){
-                return true;
-            } else {
-                if(objective == null || objectiveReached(this.ship.getPosition())){
-                    circularTargetPlayer();
-                }
-                
-
+        if(ship.shoot(player.getPosition()).hasShooted()){
+            return true;
+        } else {
+            if(objective == null || objectiveReached(this.ship.getPosition())){
+                circularTargetPlayer();
             }
 
-       }
+            var suggestedDir = navigationSystem.move(objective, this.ship.getPosition());
+
+            if(!Ship.MOVE_SUCCESS_CONDITIONS.contains(ship.move(suggestedDir,1))){
+                ship.changeState(States.AVOIDING);
+                return false;
+            } 
+        }
        return true;
     }
 
@@ -46,28 +47,6 @@ public class AttackState extends EnemyState {
     @Override
     public States getState() {
         return States.ATTACKING;
-    }
-
-    private Boolean isInRange(CardinalDirection shipDirection){
-        if(distanceFromPlayer < ship.getWeapon().getRange()){
-            for (var direction : sidesOf(shipDirection)) {
-                if(ship.getPosition().isInlineWith(player.getPosition(), direction)){
-                    return true;
-                }
-            }
-        }
-        return false; 
-    }
-
-    private List<CardinalDirection> sidesOf(CardinalDirection direction){
-        var side1 = List.of(CardinalDirection.EAST,CardinalDirection.WEST);
-        var side2 = List.of(CardinalDirection.NORTH,CardinalDirection.SOUTH);
-        return Map.of(
-            CardinalDirection.NORTH,side1,
-            CardinalDirection.SOUTH,side1,
-            CardinalDirection.EAST,side2,
-            CardinalDirection.WEST,side2
-        ).get(direction);
     }
 
     /**
@@ -93,9 +72,10 @@ public class AttackState extends EnemyState {
     }
 
     private int randSign(){
-        return Map.of(0,1,1,-1).get(Utils.getRandom().nextInt(2));
+        return Utils.getRandom().nextBoolean()? 1 : -1;
     }
-     private Boolean objectiveReached(final Position currentPosition) {
+
+    private Boolean objectiveReached(final Position currentPosition) {
         return currentPosition.equals(objective)? true:false;
     }
 }

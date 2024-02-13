@@ -47,11 +47,10 @@ public class Patrol extends EnemyState{
     }
 
     private boolean checkPlayer(){
-        /* if(this.ship.getPosition().distanceFrom(playerPos()) <= triggerDistance){
+        if(this.ship.getPosition().distanceFrom(playerPos()) <= triggerDistance){
             this.ship.changeState(States.ATTACKING);
             return true;
         }
-        return false; */
         return false;
     }
 
