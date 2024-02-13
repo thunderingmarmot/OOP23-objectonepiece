@@ -22,18 +22,16 @@ import java.util.HashSet;
  * Implementation of Section interface.
  */
 public final class Section {
-
+    private static final double SCALING_FACTOR = 50.5;
+    private static final int NOISE_DISPERSION = 50;
+    private static final CardinalDirection DEFAULT_DIRECTION = CardinalDirection.NORTH;
+    
     private final int ROWS;
     private final int COLUMNS;
     private final int ROW_INSET;
     private final int COL_INSET;
     private final int GEN_AREA_COLS;
     private final int GEN_AREA_ROWS;
-    private static final double SCALING_FACTOR = 50.5;
-    private static final int NOISE_DISPERSION = 50;
-    private static final CardinalDirection DEFAULT_DIRECTION = CardinalDirection.NORTH;
-
-    private final Random rand = new Random();
     private final World world;
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound;
