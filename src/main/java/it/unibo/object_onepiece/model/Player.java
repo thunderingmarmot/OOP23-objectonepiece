@@ -93,13 +93,14 @@ public final class Player extends Ship {
      * @see Ship
      */
     public boolean moveTo(final Position destination) {
+        
         final CardinalDirection direction = this.getPosition().whereTo(destination);
         final int distance = this.getPosition().distanceFrom(destination);
         final MoveDetails moveResult = super.move(direction, distance);
         if(moveResult.equals(MoveDetails.BORDER_REACHED)) {
             this.getWorld().createNewSection(); // TODO
         }
-        return MOVE_SUCCESS_CONDITIONS.contains(moveResult);
+        return Enemy.ACTION_SUCCESS_CONDITIONS.contains(moveResult);
     }
 
     /**
