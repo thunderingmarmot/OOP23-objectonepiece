@@ -17,7 +17,7 @@ public class Sound {
         CANNON_SHOT,
         SHIP_COLLIDE,
         SHIP_DESTROY,
-        SHIP_HEAL,
+        SHIP_REPAIR,
         BARRELL_DESTROY,
         MINE_DESTROY
     }
@@ -27,9 +27,9 @@ public class Sound {
     protected final Map<SoundTypes, URL> soundTypesToFile = Map.of(
         SoundTypes.AMBIENCE, this.getURL(soundFolder + "ocean.wav"),
         SoundTypes.CANNON_SHOT, this.getURL(soundFolder + "cannon_shot.wav"),
-        SoundTypes.SHIP_COLLIDE, this.getURL(soundFolder + "cannon_shot.wav"),
+        SoundTypes.SHIP_COLLIDE, this.getURL(soundFolder + "ship_collide.wav"),
         SoundTypes.SHIP_DESTROY, this.getURL(soundFolder + "ship_destroy.wav"),
-        SoundTypes.SHIP_HEAL, this.getURL(soundFolder + "cannon_shot.wav"),
+        SoundTypes.SHIP_REPAIR, this.getURL(soundFolder + "ship_repair.wav"),
         SoundTypes.BARRELL_DESTROY, this.getURL(soundFolder + "cannon_shot.wav"),
         SoundTypes.MINE_DESTROY, this.getURL(soundFolder + "mine_explode.wav")
     );
