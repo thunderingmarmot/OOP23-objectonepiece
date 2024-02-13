@@ -66,6 +66,18 @@ public final class Player extends Ship {
                           Keel.standard());
     }
 
+    protected Player switchSection(Section newSection) {
+        this.remove();
+        return new Player(newSection,
+                          this.getPosition(),
+                          this.getDirection(),
+                          this.getExperience(),
+                          this.getWeapon(),
+                          this.getSail(),
+                          this.getBow(),
+                          this.getKeel());
+    }
+
     /**
      * Checks wether the Player current position is the same as the one passed as argument.
      * @param position the position to check against
@@ -154,9 +166,7 @@ public final class Player extends Ship {
         super.die();
         Optional<State> savedState = this.getWorld().getSavedState();
         if(savedState.isPresent()) {
-            this.experience.set(savedState.get().getPlayerExperience());
-            this.setPosition(savedState.get().getPlayerPosition());
-            this.getWorld().switchToSection(savedState.get().getSection(), this);
+            this.getWorld().switchToSection();
         } else {
             this.getWorld().createNewSection();
         }
