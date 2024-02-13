@@ -33,15 +33,16 @@ public final class WorldImpl implements World {
     private Event<SectionInstantiatedArgs> onSectionInstantiated = new Event<>();
 
     public WorldImpl(int mapRows, int mapCols, Consumer<SectionInstantiatedArgs> bindings) {
+        this.savedState = Optional.empty();
         this.mapRows = mapRows;
         this.mapCols = mapCols;
-        onSectionInstantiated.subscribe(bindings);
+        this.onSectionInstantiated.subscribe(bindings);
         createNewSection();
     }
 
     void createNewSection() {
         this.currentSection = new Section(this);
-        onSectionInstantiated.invoke(new SectionInstantiatedArgs(
+        this.onSectionInstantiated.invoke(new SectionInstantiatedArgs(
             this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent()));
         this.currentSection.generateEntities();
         this.currentSection.generatePlayer();
@@ -49,7 +50,7 @@ public final class WorldImpl implements World {
 
     void createNewSection(Player player) {
         this.currentSection = new Section(this);
-        onSectionInstantiated.invoke(new SectionInstantiatedArgs(
+        this.onSectionInstantiated.invoke(new SectionInstantiatedArgs(
             this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent()));
         this.currentSection.generateEntities();
         this.currentSection.addPlayer(player);
@@ -57,7 +58,7 @@ public final class WorldImpl implements World {
 
     void switchToSection(Section section, Player player) {
         this.currentSection = section;
-        onSectionInstantiated.invoke(new SectionInstantiatedArgs(
+        this.onSectionInstantiated.invoke(new SectionInstantiatedArgs(
             this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent()));
         this.currentSection.addPlayer(player);
     }
