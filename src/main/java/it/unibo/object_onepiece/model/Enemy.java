@@ -13,6 +13,13 @@ public final class Enemy extends Ship {
         AVOIDING,
         ATTACKING
     } 
+
+    protected static final List<MoveDetails> ACTION_SUCCESS_CONDITIONS = List.of(
+        MoveDetails.MOVED_SUCCESSFULLY,
+        MoveDetails.MOVED_BUT_COLLIDED,
+        MoveDetails.ROTATED,
+        MoveDetails.MEDIUM_COLLISION
+    );
    
     public static Enemy getDefault(Section spawnSection, Position spawnPosition){
         return new Enemy(spawnSection,
