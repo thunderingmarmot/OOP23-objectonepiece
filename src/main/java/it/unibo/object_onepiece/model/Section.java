@@ -32,7 +32,7 @@ public final class Section {
     private final int COL_INSET;
     private final int GEN_AREA_COLS;
     private final int GEN_AREA_ROWS;
-    private final World world;
+    private final WorldImpl world;
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound;
 
@@ -49,7 +49,7 @@ public final class Section {
      * @param world reference to World object (used to consent islands to save game
      *              state)
      */
-    Section(final World world) {
+    Section(final WorldImpl world) {
         this.ROWS = world.getMapRows();
         this.COLUMNS = world.getMapCols();
         this.ROW_INSET = this.ROWS / 7;
@@ -103,7 +103,7 @@ public final class Section {
                 .forEach(e -> System.out.println(e.getPosition()));
     }
 
-    World getWorld() {
+    WorldImpl getWorld() {
         return this.world;
     }
 
