@@ -17,7 +17,7 @@ public final class WorldImpl implements World {
     /**
      * Saved State of game when player saved his state on an Island.
      */
-    private State savedState;
+    private Optional<State> savedState;
 
     /**
      * Current playing section.
@@ -36,18 +36,22 @@ public final class WorldImpl implements World {
         this.mapRows = mapRows;
         this.mapCols = mapCols;
         onSectionInstantiated.subscribe(bindings);
-        createNewSection(Optional.empty());
+        createNewSection();
     }
 
-    void createNewSection(Optional<Player> p) {
-        currentSection = new Section(this);
+    void createNewSection() {
+        this.currentSection = new Section(this);
         onSectionInstantiated.invoke(new SectionInstantiatedArgs(
-        currentSection.getEntityAddedEvent(), currentSection.getPlayerAddedEvent()));
-        currentSection.generateEntities(p);
+            this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent()));
+        this.currentSection.generateEntities();
+        this.currentSection.generatePlayer();
     }
 
-    void switchSection(Section s, Player p) {
-        this.currentSection = s;
+    void switchToSection(Section section, Player player) {
+        this.currentSection = section;
+        onSectionInstantiated.invoke(new SectionInstantiatedArgs(
+            this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent()));
+        this.currentSection.addPlayer(player);
     }
 
     @Override
@@ -64,14 +68,14 @@ public final class WorldImpl implements World {
     }
 
     @Override
-    public State getSavedState() {
+    public Optional<State> getSavedState() {
         return savedState;
     }
 
     @Override
     public void setSavedState() {
         final Player player = getCurrentSection().getPlayer();
-        savedState = new State(getCurrentSection(), player.getPosition(), player.getExperience());
+        savedState = Optional.of(new State(getCurrentSection(), player.getPosition(), player.getExperience()));
     }
 
     Section getCurrentSection() {

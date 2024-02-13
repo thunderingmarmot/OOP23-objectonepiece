@@ -1,5 +1,6 @@
 package it.unibo.object_onepiece.model;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -85,7 +86,7 @@ public final class Player extends Ship {
         final int distance = this.getPosition().distanceFrom(destination);
         final MoveDetails moveResult = super.move(direction, distance);
         if(moveResult.equals(MoveDetails.BORDER_REACHED)) {
-            //TODO Switch Section while remembering the old Player stats
+            this.getWorld().createNewSection(); // TODO
         }
         return MOVE_SUCCESS_CONDITIONS.contains(moveResult);
     }
@@ -151,10 +152,14 @@ public final class Player extends Ship {
     @Override
     protected void die() {
         super.die();
-        State savedState = this.getWorld().getSavedState();
-        this.experience.set(savedState.getPlayerExperience());
-        this.setPosition(savedState.getPlayerPosition());
-        // TODO savedState.getSection(); Switch to the saved Session
+        Optional<State> savedState = this.getWorld().getSavedState();
+        if(savedState.isPresent()) {
+            this.experience.set(savedState.get().getPlayerExperience());
+            this.setPosition(savedState.get().getPlayerPosition());
+            this.getWorld().switchToSection(savedState.get().getSection(), this);
+        } else {
+            this.getWorld().createNewSection();
+        }
     }
 
     public Event<PlayerUpdatedArgs> getPlayerUpdatedEvent() {
