@@ -13,6 +13,7 @@ import java.net.URL;
 
 public class Sound {
     enum SoundTypes {
+        AMBIENCE,
         CANNON_SHOT,
         SHIP_DESTROY,
         SHIP_HEAL,
@@ -22,27 +23,46 @@ public class Sound {
     private final String soundFolder = "sound/";
 
     protected final Map<SoundTypes, URL> soundTypesToFile = Map.of(
-        SoundTypes.CANNON_SHOT, this.getClass().getClassLoader().getResource(soundFolder + "cannon_shot.wav"),
-        SoundTypes.SHIP_DESTROY, this.getClass().getClassLoader().getResource(soundFolder + "cannon_shot.wav"),
-        SoundTypes.SHIP_HEAL,  this.getClass().getClassLoader().getResource(soundFolder + "cannon_shot.wav"),
-        SoundTypes.BARRELL_DESTROY,  this.getClass().getClassLoader().getResource(soundFolder + "cannon_shot.wav")
+        SoundTypes.AMBIENCE, this.getURL(soundFolder + "ocean.wav"),
+        SoundTypes.CANNON_SHOT, this.getURL(soundFolder + "cannon_shot.wav"),
+        SoundTypes.SHIP_DESTROY, this.getURL(soundFolder + "cannon_shot.wav"),
+        SoundTypes.SHIP_HEAL, this.getURL(soundFolder + "cannon_shot.wav"),
+        SoundTypes.BARRELL_DESTROY, this.getURL(soundFolder + "cannon_shot.wav")
     );
 
     public void playSound(SoundTypes sound) {
-        try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundTypesToFile.get(sound));
-            Clip clip = AudioSystem.getClip();
-            
-            clip.open(audioInputStream);
-            FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            volumeControl.setValue(-20);
+        this.play(soundTypesToFile.get(sound), false);
+    }
 
-            audioInputStream.close();
-            clip.start();
+    public void playAmbienceSound() {
+        this.play(soundTypesToFile.get(SoundTypes.AMBIENCE), true);
+    }
+
+    private URL getURL(String url) {
+        return this.getClass().getClassLoader().getResource(url);
+    }
+
+    private void play(URL url, boolean loop) {
+        try {
+            AudioInputStream audioIN = AudioSystem.getAudioInputStream(url);
+            Clip clip = AudioSystem.getClip();
+
+            clip.open(audioIN);
+            setVolume(clip, -20);
+    
+            audioIN.close();
+            if (loop) {
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } else {
+                clip.start();
+            }
         } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
             System.err.println(e);
         }
     }
 
-    
+    private void setVolume(Clip clip, float volume) {
+        FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        volumeControl.setValue(volume);
+    }
 }
