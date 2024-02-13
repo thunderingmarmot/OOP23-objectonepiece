@@ -15,9 +15,11 @@ public class Sound {
     enum SoundTypes {
         AMBIENCE,
         CANNON_SHOT,
+        SHIP_COLLIDE,
         SHIP_DESTROY,
         SHIP_HEAL,
-        BARRELL_DESTROY
+        BARRELL_DESTROY,
+        MINE_DESTROY
     }
 
     private final String soundFolder = "sound/";
@@ -25,30 +27,32 @@ public class Sound {
     protected final Map<SoundTypes, URL> soundTypesToFile = Map.of(
         SoundTypes.AMBIENCE, this.getURL(soundFolder + "ocean.wav"),
         SoundTypes.CANNON_SHOT, this.getURL(soundFolder + "cannon_shot.wav"),
-        SoundTypes.SHIP_DESTROY, this.getURL(soundFolder + "cannon_shot.wav"),
+        SoundTypes.SHIP_COLLIDE, this.getURL(soundFolder + "cannon_shot.wav"),
+        SoundTypes.SHIP_DESTROY, this.getURL(soundFolder + "ship_destroy.wav"),
         SoundTypes.SHIP_HEAL, this.getURL(soundFolder + "cannon_shot.wav"),
-        SoundTypes.BARRELL_DESTROY, this.getURL(soundFolder + "cannon_shot.wav")
+        SoundTypes.BARRELL_DESTROY, this.getURL(soundFolder + "cannon_shot.wav"),
+        SoundTypes.MINE_DESTROY, this.getURL(soundFolder + "mine_explode.wav")
     );
 
-    public void playSound(SoundTypes sound) {
-        this.play(soundTypesToFile.get(sound), false);
+    protected void playSound(SoundTypes sound) {
+        this.play(soundTypesToFile.get(sound), 0, false);
     }
 
-    public void playAmbienceSound() {
-        this.play(soundTypesToFile.get(SoundTypes.AMBIENCE), true);
+    protected void playAmbienceSound() {
+        this.play(soundTypesToFile.get(SoundTypes.AMBIENCE), -10, true);
     }
 
     private URL getURL(String url) {
         return this.getClass().getClassLoader().getResource(url);
     }
 
-    private void play(URL url, boolean loop) {
+    private void play(URL url, float volume, boolean loop) {
         try {
             AudioInputStream audioIN = AudioSystem.getAudioInputStream(url);
             Clip clip = AudioSystem.getClip();
 
             clip.open(audioIN);
-            setVolume(clip, -20);
+            setVolume(clip, volume);
     
             audioIN.close();
             if (loop) {
