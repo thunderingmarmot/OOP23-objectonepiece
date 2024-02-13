@@ -42,25 +42,35 @@ public final class WorldImpl implements World {
 
     void createNewSection() {
         this.currentSection = new Section(this);
-        this.onSectionInstantiated.invoke(new SectionInstantiatedArgs(
-            this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent()));
+        this.onSectionInstantiated.invoke(
+            new SectionInstantiatedArgs(this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent())
+        );
         this.currentSection.generateEntities();
         this.currentSection.generatePlayer();
     }
 
     void createNewSection(Player player) {
         this.currentSection = new Section(this);
-        this.onSectionInstantiated.invoke(new SectionInstantiatedArgs(
-            this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent()));
+        this.onSectionInstantiated.invoke(
+            new SectionInstantiatedArgs(this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent())
+        );
         this.currentSection.generateEntities();
         this.currentSection.addPlayer(player);
     }
 
-    void switchToSection(Section section, Player player) {
-        this.currentSection = section;
-        this.onSectionInstantiated.invoke(new SectionInstantiatedArgs(
-            this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent()));
-        this.currentSection.addPlayer(player);
+    void loadSavedSection() {
+        if (savedState.isPresent()) {
+            this.currentSection = savedState.get().getSection();
+            this.onSectionInstantiated.invoke(
+                new SectionInstantiatedArgs(
+                    this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent()
+                )
+            );
+            this.currentSection.addPlayer(savedState.get().getPlayer());
+        } else {
+            throw new IllegalStateException("Cannot call switchToSection when player hasn't yet saved to an island");
+        }
+        
     }
 
     @Override
@@ -84,7 +94,7 @@ public final class WorldImpl implements World {
     @Override
     public void setSavedState() {
         final Player player = getCurrentSection().getPlayer();
-        savedState = Optional.of(new State(getCurrentSection(), player.getPosition(), player.getExperience()));
+        savedState = Optional.of(new State(getCurrentSection(), player));
     }
 
     Section getCurrentSection() {
