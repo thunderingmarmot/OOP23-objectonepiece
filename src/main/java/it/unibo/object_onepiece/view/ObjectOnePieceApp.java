@@ -98,8 +98,6 @@ public final class ObjectOnePieceApp extends Application {
             barsContainer.getChildren().add(healthBars[i].getContainer());
         }
 
-        
-
         final Label experienceText = new Label("20");
         experienceText.setAlignment(Pos.CENTER);
 
@@ -115,7 +113,7 @@ public final class ObjectOnePieceApp extends Application {
         xpContainer.getChildren().addAll(useXp, experienceText);
 
         barsContainer.getChildren().add(xpContainer);
-        
+        barsContainer.setAlignment(Pos.CENTER);
 
         world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, (e1) -> {
             e1.onEntityAdded().subscribe((e2) -> {
@@ -164,8 +162,6 @@ public final class ObjectOnePieceApp extends Application {
                         .filter(n -> n instanceof Pane).map(n -> (Pane) n).forEach(n -> n.setBorder(null));
                 }
             });*/
-
-            
         });
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
     }
@@ -195,8 +191,8 @@ public final class ObjectOnePieceApp extends Application {
 
     private void drawImage(final String entityName, final int row, final int col, final Optional<CardinalDirection> d) {
         try {
-            final URL imgPath = getClass().getResource(PATH_FUNC.apply(entityName));
-            final Image img = new Image(imgPath.toString());
+            final URL imgPath = getClass().getResource(PATH_FUNC.apply(entityName.toLowerCase()));
+            final Image img = new Image(imgPath.toExternalForm());
             final ImageView entityImage = new ImageView(img);
             if (d.isPresent()) {
                 entityImage.setRotate(RIGHT_ANGLE * d.get().ordinal());
