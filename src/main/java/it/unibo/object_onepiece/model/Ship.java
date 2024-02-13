@@ -498,12 +498,19 @@ public abstract class Ship extends Collider {
 
     /**
      * This method calls takeDamage on the collider's 
-     * bow if its Rigidness is MEDIUM.
-     * Also if the collider has opposite direction of
-     * this entity the damage is doubled.
+     * bow if its Rigidness is MEDIUM and if it's a Ship.
+     * If the collider is colliding laterally or 
+     * behind this ship, the damage is received by the keel
+     * of this ship, also if this keel is damaged the damage
+     * of the collider's bow is multiplied by its crash damage multiplier.
+     * Instead if the two ships are colliding frontally the
+     * damage is received by the ship's bow.
      * 
      * @see  Collider
      * @see  Utils
+     * @see  ShipComponent
+     * @see  Bow
+     * @see  Keel
      */
     @Override
     protected void onCollisionWith(final Collider collider) {
@@ -524,11 +531,15 @@ public abstract class Ship extends Collider {
     }
 
     /**
-     * This method calls onCollisionWith() on the collidable
-     * and if the Rigidness of the collidable is MEDIUM it calls
-     * takeDamage() on himself.
+     * This method calls takeDamage() on its bow with the damage
+     * of the collidable's bow if the Rigidness of the collidable is MEDIUM,
+     * if it's a Ship and if the two ships are colliding frontally
+     * Then it calls onCollisionWith() on the collidable.
      * 
      * @see  Collidable
+     * @see  Utils
+     * @see  ShipComponent
+     * @see  Bow
      */
     @Override
     protected void collideWith(final Collidable collidable) {
