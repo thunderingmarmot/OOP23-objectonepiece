@@ -316,8 +316,12 @@ public abstract class Ship extends Collider {
         }
 
         if (this.keel.getHealth() <= 0) {
-            this.remove();
+            this.die();
         }
+    }
+
+    protected void die() {
+        this.remove();
     }
 
     /**
