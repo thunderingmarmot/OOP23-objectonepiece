@@ -165,7 +165,7 @@ public final class Player extends Ship {
         super.die();
         Optional<State> savedState = this.getWorld().getSavedState();
         if(savedState.isPresent()) {
-            this.getWorld().switchToSection();
+            this.getWorld().loadSavedSection();
         } else {
             this.getWorld().createNewSection();
         }
