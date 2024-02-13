@@ -1,5 +1,8 @@
 package it.unibo.object_onepiece.model;
 
+import java.util.function.Supplier;
+
+import java.util.Map;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 
@@ -14,9 +17,21 @@ public final class Compass implements NavigationSystem {
      */
     public Compass() {}
 
+    private Map<Position,Supplier<CardinalDirection>> dirMap = Map.of(
+        new Position(0, 1), () -> CardinalDirection.EAST,
+        new Position(-1, 0), () -> CardinalDirection.NORTH,
+        new Position(0, -1), () -> CardinalDirection.WEST,
+        new Position(1, 0), () -> CardinalDirection.SOUTH,
+
+        new Position(1, 1), () -> Utils.getRandom().nextBoolean()? CardinalDirection.SOUTH : CardinalDirection.EAST,
+        new Position(1, -1), () -> Utils.getRandom().nextBoolean()? CardinalDirection.SOUTH : CardinalDirection.WEST,
+        new Position(-1, 1), () -> Utils.getRandom().nextBoolean()? CardinalDirection.NORTH : CardinalDirection.EAST,
+        new Position(-1, -1), () -> Utils.getRandom().nextBoolean()? CardinalDirection.NORTH : CardinalDirection.WEST
+    );
+
     @Override
-    public CardinalDirection move(final Position objectivePosition, final Position currentPosition) {
-        return currentPosition.whereTo(objectivePosition);
+    public CardinalDirection move(final Position objectivePosition, final Position currentPosition) { 
+        return dirMap.get(currentPosition.versorOf(objectivePosition)).get();
     }
 
     

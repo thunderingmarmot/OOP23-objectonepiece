@@ -27,7 +27,6 @@ public final class ControllerImpl implements Controller {
         toggleMode(position, player);
 
         if (currentState.perform(position,player)) {
-            System.err.println("SI è mosso in teoria");
             world.getEnemies()
                 .forEach(e -> ((Enemy) e).goNext());
         }   
