@@ -18,6 +18,7 @@ import it.unibo.object_onepiece.model.World;
 import it.unibo.object_onepiece.model.WorldImpl;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.view.Sound.SoundTypes;
 import javafx.application.Application;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -71,6 +72,7 @@ public final class ObjectOnePieceApp extends Application {
     private final ProgressBar[] healthBars = new HealthBar[4];
     final Label experienceText = new Label();
     private World world;
+    private Sound sound = new Sound();
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
@@ -78,6 +80,8 @@ public final class ObjectOnePieceApp extends Application {
         gridSetUp();
         final VBox barsContainer = new VBox();
         final BorderPane borderPane = new BorderPane();
+
+        sound.playAmbienceSound();
 
         final Label pirateInfo = new Label("Pirate info!");
         pirateInfo.setAlignment(Pos.CENTER);
@@ -138,6 +142,7 @@ public final class ObjectOnePieceApp extends Application {
                 @Override
                 public void handle(MouseEvent event) {
                     if (event.getButton() == MouseButton.SECONDARY) {
+                        sound.playSound(SoundTypes.CANNON_SHOT);
                         System.out.println("right click pressed!");
                     }
                     controller.action(new Position(c.getRow(), c.getColumn()), world);

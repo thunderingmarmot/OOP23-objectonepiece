@@ -426,7 +426,7 @@ public abstract class Ship extends Collider {
         );
     }
 
-    protected Alert getShipShootedAlert() {
+    public Alert getShipShootedAlert() {
         return this.onShipShooted;
     }
 
