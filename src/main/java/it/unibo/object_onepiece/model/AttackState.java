@@ -9,8 +9,7 @@ public final class AttackState extends EnemyState {
     private final Enemy ship;
     private final NavigationSystem navigationSystem;
     private Player player;
-    private Integer distanceFromPlayer;
-    private Position objective = null;
+    private Position objective;
 
     protected AttackState(final Enemy ship, final NavigationSystem navigationSystem) {
         this.ship = ship;
@@ -20,8 +19,8 @@ public final class AttackState extends EnemyState {
     @Override
     protected Boolean perform() {
         this.player = this.ship.getSection().getPlayer();
-        this.distanceFromPlayer = this.player.getPosition().distanceFrom(this.ship.getPosition());
-        if (this.distanceFromPlayer > this.ship.getTriggerDistance()) {
+        final Integer distanceFromPlayer = this.player.getPosition().distanceFrom(this.ship.getPosition());
+        if (distanceFromPlayer > this.ship.getTriggerDistance()) {
             ship.changeState(States.PATROLLING);
             return false;
         }
@@ -32,7 +31,7 @@ public final class AttackState extends EnemyState {
                 circularTargetPlayer();
             }
 
-            var suggestedDir = navigationSystem.move(objective, this.ship.getPosition());
+            final var suggestedDir = navigationSystem.move(objective, this.ship.getPosition());
 
             if (!Enemy.ACTION_SUCCESS_CONDITIONS.contains(ship.move(suggestedDir, 1))) {
                 ship.changeState(States.AVOIDING);
@@ -53,21 +52,18 @@ public final class AttackState extends EnemyState {
      * 
      */
     private void circularTargetPlayer() {
-        var rand = Utils.getRandom();
-        var bound = this.ship.getSection().getBounds();
-        var playerPos = player.getPosition();
-        var tsection = this.ship.getSection();
-        int radius = 2;
+        final var bound = this.ship.getSection().getBounds();
+        final var playerPos = player.getPosition();
+        final var tsection = this.ship.getSection();
+        final int radius = 2;
 
         do {
-            int x = -radius + rand.nextInt((radius * 2) + 1);
+            final int x = -radius + Utils.getRandom().nextInt(radius * 2 + 1);
             //the pitagorean formula for one side of the triangle
-            int y = Double.valueOf(Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))).intValue();
+            final int y = Double.valueOf(Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))).intValue();
 
             objective = playerPos.sum(new Position(x, y * randSign()));
         } while (!bound.isInside(objective) || tsection.getEntityAt(objective).isPresent());
-
-        System.err.println("random objective:" + objective.toString());
     }
 
     private int randSign() {

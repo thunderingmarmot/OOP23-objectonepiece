@@ -10,7 +10,7 @@ public final class Patrol extends EnemyState {
     private final Enemy ship;
     private final Bound bound;
     private final States stato = States.PATROLLING;
-    private Position objective = null;
+    private Position objective;
 
     protected Patrol(final Enemy ship, final NavigationSystem compass) {
         this.ship = ship;
@@ -21,10 +21,10 @@ public final class Patrol extends EnemyState {
     @Override
     public Boolean perform() {
         if (objective == null || ship.getPosition().equals(objective)) {
-            defineRandomObjective(ship.getPosition());
+            defineRandomObjective();
         } 
 
-        var suggestedDir = compass.move(objective, this.ship.getPosition());
+        final var suggestedDir = compass.move(objective, this.ship.getPosition());
 
         if (!Enemy.ACTION_SUCCESS_CONDITIONS.contains(ship.move(suggestedDir, 1))) {
             ship.changeState(States.AVOIDING);
@@ -52,14 +52,12 @@ public final class Patrol extends EnemyState {
         return this.ship.getSection().getPlayer().getPosition();
     }
 
-    private void defineRandomObjective(final Position currentPosition) {
+    private void defineRandomObjective() {
         do {
-            int x = Utils.getRandom().nextInt(bound.columns());
-            int y = Utils.getRandom().nextInt(bound.rows());
+            final int x = Utils.getRandom().nextInt(bound.columns());
+            final int y = Utils.getRandom().nextInt(bound.rows());
 
             objective = new Position(x, y);
         } while (!bound.isInside(objective));
-
-        System.err.println("random objective:" + objective.toString());
     }
 }
