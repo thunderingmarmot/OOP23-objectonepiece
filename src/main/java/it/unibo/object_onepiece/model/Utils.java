@@ -136,7 +136,6 @@ public final class Utils {
         return random;
     }
 
-
     /**
      * This method calculate if two entities have perpendicular direction.
      * For example: 
