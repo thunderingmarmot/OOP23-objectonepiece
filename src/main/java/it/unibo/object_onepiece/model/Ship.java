@@ -330,7 +330,7 @@ public abstract class Ship extends Collider {
 
         while (this.getPosition().distanceFrom(p) > this.getPosition().distanceFrom(nextPosition)
         && entity.isEmpty()) {
-            
+
             for (final CardinalDirection d : CardinalDirection.values()) {
                 if (positionsOnTrajectoryConditions.get(d).test(nextPosition, p)) {
                     direction = d;
@@ -359,7 +359,6 @@ public abstract class Ship extends Collider {
             } else {
                 s.setHealth(0);
             }
-            System.out.println(this.toString() + " ha preso " + damage + " danni al " + s.toString());
         }
 
         if (this.keel.getHealth() <= 0) {
