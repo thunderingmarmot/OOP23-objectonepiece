@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.model.events.Alert;
 
 /**
  * This class represents a ship that extends the Collider class.
@@ -109,6 +110,8 @@ public abstract class Ship extends Collider {
         MoveDetails.MEDIUM_COLLISION,
         MoveDetails.BORDER_REACHED
     );
+
+    private Alert onShipShooted = new Alert();
 
     /**
     * Constructor for class ShipImpl.
@@ -273,6 +276,7 @@ public abstract class Ship extends Collider {
                                                       .forEach((f) -> hitTarget(f.apply(position), this.getWeapon()
                                                                                                        .getMinDamage()));
 
+            this.onShipShooted.invoke();
             return new ShootReturnType(true, ShootDetails.SHOOTED_SUCCESSFULLY);
         }
 
@@ -311,7 +315,11 @@ public abstract class Ship extends Collider {
      */
     protected void takeDamage(final int damage, final ShipComponent s) {
         if (s.getHealth() > 0) {
-            s.setHealth(s.getHealth() - damage);
+            if (s.getHealth() > damage) {
+                s.setHealth(s.getHealth() - damage);
+            } else {
+                s.setHealth(0);
+            }
             System.out.println(this.toString() + " ha preso " + damage + " danni al " + s.toString());
         }
 
@@ -416,6 +424,10 @@ public abstract class Ship extends Collider {
             this.getSail(),
             this.getKeel()
         );
+    }
+
+    protected Alert getShipShootedAlert() {
+        return this.onShipShooted;
     }
 
     /**
