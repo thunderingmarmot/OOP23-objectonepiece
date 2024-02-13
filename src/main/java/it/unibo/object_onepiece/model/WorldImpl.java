@@ -93,7 +93,7 @@ public final class WorldImpl implements World {
 
     @Override
     public void setSavedState() {
-        final Player player = getCurrentSection().getPlayer();
+        final Player player = getCurrentSection().getPlayer().duplicate();
         savedState = Optional.of(new State(getCurrentSection(), player));
     }
 
