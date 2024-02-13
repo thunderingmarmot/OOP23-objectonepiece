@@ -62,8 +62,7 @@ public final class Utils {
      */
     protected static class State {
         private final Section section;
-        private final Position playerPosition;
-        private final int playerExperience;
+        private final Player player;
 
         /**
          * Creates a State of the game with the main information to save.
@@ -71,10 +70,9 @@ public final class Utils {
          * @param playerPosition the Position of the Player when the save occurred
          * @param playerExperience the experience of the Player when the save occurred
          */
-        protected State(final Section section, final Position playerPosition, final int playerExperience) {
+        protected State(final Section section, final Player player) {
             this.section = section;
-            this.playerPosition = playerPosition;
-            this.playerExperience = playerExperience;
+            this.player = player;
         }
 
         /**
@@ -86,19 +84,11 @@ public final class Utils {
         }
 
         /**
-         * Getter for the Player position.
-         * @return the Position of the Player when the save occurred
+         * Getter for the saved Player.
+         * @return the Player object when the save occurred
          */
-        protected Position getPlayerPosition() {
-            return this.playerPosition;
-        }
-
-        /**
-         * Getter for the Player experience.
-         * @return the experience of the Player when the save occurred
-         */
-        protected int getPlayerExperience() {
-            return this.playerExperience;
+        protected Player getPlayer() {
+            return this.player;
         }
     }
 
