@@ -59,11 +59,11 @@ public final class Section {
         this.bound = new Bound(this.ROWS, this.COLUMNS);
         this.world = world;
     }
-
+    
     /**
      * Populates entities list using white noise algorithm from JNoise.
      */
-    void generateEntities() {
+    void generateEntities(Optional<Player> player) {
         final int seed = 120350;
         final var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR)
             .build();
@@ -94,7 +94,11 @@ public final class Section {
                 }
             }
         }
-        this.addPlayer(Player.getDefault(this, new Position(1, 1)));
+        if (player.isPresent()) {
+            this.addPlayer(player.get());
+        } else {
+            this.addPlayer(Player.getDefault(this, new Position(1, 1)));
+        }
 
         /** Prints duplicate positions in entities list */
         final Set<Position> items = new HashSet<>();

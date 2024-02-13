@@ -69,6 +69,7 @@ public final class ObjectOnePieceApp extends Application {
     private final GridView<State> gridView = new GridView<>();
     private Controller controller = new ControllerImpl();
     private final ProgressBar[] healthBars = new HealthBar[4];
+    final Label experienceText = new Label();
     private World world;
 
     @Override
@@ -98,7 +99,6 @@ public final class ObjectOnePieceApp extends Application {
             barsContainer.getChildren().add(healthBars[i].getContainer());
         }
 
-        final Label experienceText = new Label("20");
         experienceText.setAlignment(Pos.CENTER);
 
         ImageView heal = new ImageView(new Image("/img/ui/heal.png"));
@@ -220,7 +220,7 @@ public final class ObjectOnePieceApp extends Application {
             healthBars[i].update(healthList.get(i), maxHealthList.get(i));
         }
         
-        //experienceBar.update(experience);
+        experienceText.setText(Integer.toString(experience));
     }
     /**
      * Program's entry point.
