@@ -66,9 +66,8 @@ public final class Player extends Ship {
                           Keel.standard());
     }
 
-    protected Player switchSection(Section newSection) {
-        this.remove();
-        return new Player(newSection,
+    protected Player duplicate() {
+        return new Player(this.getSection(),
                           this.getPosition(),
                           this.getDirection(),
                           this.getExperience(),
