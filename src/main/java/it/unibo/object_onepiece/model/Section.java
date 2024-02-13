@@ -35,7 +35,6 @@ public final class Section {
     private final WorldImpl world;
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound;
-
     public record EntityAddedArgs(Event<EntityCreatedArgs> onEntityCreated,
                                   Event<EntityUpdatedArgs> onEntityUpdated,
                                   Event<EntityRemovedArgs> onEntityRemoved) { }
@@ -43,6 +42,7 @@ public final class Section {
 
     public record PlayerAddedArgs(Event<PlayerUpdatedArgs> onPlayerUpdated) { }
     private Event<PlayerAddedArgs> onPlayerAdded = new Event<>();
+    private final Position playerDefaultSpawnPoint;
 
     /**
      * 
@@ -58,18 +58,22 @@ public final class Section {
         this.GEN_AREA_COLS = this.COLUMNS - ROW_INSET;
         this.bound = new Bound(this.ROWS, this.COLUMNS);
         this.world = world;
+        this.playerDefaultSpawnPoint = new Position((ROWS - 1) * 3/4, (COLUMNS - 1) / 2);
     }
     
     /**
      * Populates entities list using white noise algorithm from JNoise.
      */
     void generateEntities() {
-        final int seed = 120350;
+        final int seed = Utils.getRandom().nextInt();
         final var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR)
             .build();
-        for (int i = ROW_INSET; i < GEN_AREA_ROWS; i++) {
-            for (int j = COL_INSET; j < GEN_AREA_COLS; j++) {
+        for (int i = ROW_INSET; i < GEN_AREA_ROWS - 1; i++) {
+            for (int j = COL_INSET; j < GEN_AREA_COLS - 1; j++) {
                 final Position p = new Position(i, j);
+                if (p.equals(playerDefaultSpawnPoint)) {
+                    continue;
+                }
                 final double noise = whiteNoise.evaluateNoise(i, j);
                 final int floored = (int) Math.floor(noise * NOISE_DISPERSION);
 
@@ -89,6 +93,8 @@ public final class Section {
                     case 4:
                         this.addEntity(Enemy.getDefault(this, p));
                         break;
+                    case 5:
+                        this.addEntity(Enemy.getDefault(this, p));
                     default:
                         break;
                 }
@@ -103,8 +109,12 @@ public final class Section {
     }
 
     void generatePlayer() {
-        /** TODO Handle Player spawning on existing entities by simply removing them */
-        this.addPlayer(Player.getDefault(this, new Position(1, 1)));
+        if  (entities.stream().anyMatch(e -> e instanceof Player)) {
+            throw new IllegalStateException("Player already exists. Cannot generate it again");
+        } else {
+            this.addPlayer(Player.getDefault(this, playerDefaultSpawnPoint));
+        }
+        
     }
 
     WorldImpl getWorld() {

@@ -70,7 +70,6 @@ public final class WorldImpl implements World {
         } else {
             throw new IllegalStateException("Cannot call switchToSection when player hasn't yet saved to an island");
         }
-        
     }
 
     @Override

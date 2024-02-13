@@ -77,7 +77,7 @@ public final class ObjectOnePieceApp extends Application {
     @Override
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
-        gridSetUp();
+        //gridSetUp();
         final VBox barsContainer = new VBox();
         final BorderPane borderPane = new BorderPane();
 
