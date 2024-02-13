@@ -63,7 +63,7 @@ public final class Section {
     /**
      * Populates entities list using white noise algorithm from JNoise.
      */
-    void generateEntities(Optional<Player> player) {
+    void generateEntities() {
         final int seed = 120350;
         final var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR)
             .build();
@@ -94,17 +94,17 @@ public final class Section {
                 }
             }
         }
-        if (player.isPresent()) {
-            this.addPlayer(player.get());
-        } else {
-            this.addPlayer(Player.getDefault(this, new Position(1, 1)));
-        }
-
+        
         /** Prints duplicate positions in entities list */
         final Set<Position> items = new HashSet<>();
         entities.stream().filter(n -> !items.add(n.getPosition()))
                 .collect(Collectors.toSet())
                 .forEach(e -> System.out.println(e.getPosition()));
+    }
+
+    void generatePlayer() {
+        /** TODO Handle Player spawning on existing entities by simply removing them */
+        this.addPlayer(Player.getDefault(this, new Position(1, 1)));
     }
 
     WorldImpl getWorld() {

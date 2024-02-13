@@ -1,6 +1,8 @@
 package it.unibo.object_onepiece.model;
 
 import java.util.List;
+import java.util.Optional;
+
 import it.unibo.object_onepiece.model.Utils.State;
 
 /**
@@ -11,7 +13,7 @@ public interface World {
      * 
      * @return State last saved section.
      */
-    State getSavedState();
+    Optional<State> getSavedState();
     /**
      * Save current section.
      */
