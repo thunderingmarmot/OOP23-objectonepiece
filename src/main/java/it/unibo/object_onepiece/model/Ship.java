@@ -169,9 +169,11 @@ public abstract class Ship extends Collider {
         final Optional<Entity> obstacle = this.getSection().getEntityAt(nextPosition);
         final MoveDetails nextStep = checkMove(direction, obstacle);
 
-        if (MOVE_COLLISION_CONDITIONS.contains(nextStep)
-        || nextStep.equals(MoveDetails.MOVED_BUT_COLLIDED)) {
-            this.collideWith((Collidable) obstacle.get());
+        if ((MOVE_COLLISION_CONDITIONS.contains(nextStep)
+        || nextStep.equals(MoveDetails.MOVED_BUT_COLLIDED))
+        && obstacle.isPresent()
+        && obstacle.get() instanceof Collidable c) {
+            this.collideWith(c);
         }
 
         if (nextStep.equals(MoveDetails.ROTATED)) {
@@ -314,8 +316,12 @@ public abstract class Ship extends Collider {
         }
 
         if (this.keel.getHealth() <= 0) {
-            this.remove();
+            this.die();
         }
+    }
+
+    protected void die() {
+        this.remove();
     }
 
     /**

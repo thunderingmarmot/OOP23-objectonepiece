@@ -55,7 +55,7 @@ public class Entity {
      * 
      * @return the world.
      */
-    protected World getWorld() {
+    protected WorldImpl getWorld() {
         return this.getSection().getWorld();
     }
 

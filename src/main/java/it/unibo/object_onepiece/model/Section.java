@@ -22,19 +22,17 @@ import java.util.HashSet;
  * Implementation of Section interface.
  */
 public final class Section {
-
+    private static final double SCALING_FACTOR = 50.5;
+    private static final int NOISE_DISPERSION = 50;
+    private static final CardinalDirection DEFAULT_DIRECTION = CardinalDirection.NORTH;
+    
     private final int ROWS;
     private final int COLUMNS;
     private final int ROW_INSET;
     private final int COL_INSET;
     private final int GEN_AREA_COLS;
     private final int GEN_AREA_ROWS;
-    private static final double SCALING_FACTOR = 50.5;
-    private static final int NOISE_DISPERSION = 50;
-    private static final CardinalDirection DEFAULT_DIRECTION = CardinalDirection.NORTH;
-
-    private final Random rand = new Random();
-    private final World world;
+    private final WorldImpl world;
     private final List<Entity> entities = new LinkedList<>();
     private final Bound bound;
 
@@ -51,7 +49,7 @@ public final class Section {
      * @param world reference to World object (used to consent islands to save game
      *              state)
      */
-    Section(final World world) {
+    Section(final WorldImpl world) {
         this.ROWS = world.getMapRows();
         this.COLUMNS = world.getMapCols();
         this.ROW_INSET = this.ROWS / 7;
@@ -105,7 +103,7 @@ public final class Section {
                 .forEach(e -> System.out.println(e.getPosition()));
     }
 
-    World getWorld() {
+    WorldImpl getWorld() {
         return this.world;
     }
 
