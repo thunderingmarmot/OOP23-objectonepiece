@@ -13,7 +13,7 @@ public final class Compass implements NavigationSystem {
     /**
      * The contructor of Compass.
      */
-    private final static Map<Position, Supplier<CardinalDirection>> DIR_MAP = Map.of(
+    private static final Map<Position, Supplier<CardinalDirection>> DIR_MAP = Map.of(
         new Position(0, 1), () -> CardinalDirection.EAST,
         new Position(-1, 0), () -> CardinalDirection.NORTH,
         new Position(0, -1), () -> CardinalDirection.WEST,

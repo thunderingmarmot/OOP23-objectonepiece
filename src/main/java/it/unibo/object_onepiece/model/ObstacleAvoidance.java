@@ -22,7 +22,7 @@ public final class ObstacleAvoidance extends EnemyState {
     @Override
     protected Boolean perform() {
         if (avoidanceDirection == null) {
-            var tempDirection = Utils.randCardinalDirection();
+            final var tempDirection = Utils.randCardinalDirection();
             if (Ship.MOVE_SUCCESS_CONDITIONS.contains(ship.move(tempDirection, 1))) {
                 avoidanceDirection = tempDirection;
                 return true;

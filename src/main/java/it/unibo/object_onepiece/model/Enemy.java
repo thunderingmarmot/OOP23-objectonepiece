@@ -38,7 +38,7 @@ public final class Enemy extends Ship {
         MoveDetails.ROTATED,
         MoveDetails.MEDIUM_COLLISION
     );
-    
+
     private static final int DEFAULT_TRIGGER_DISTANCE = 5;
     private final int triggerDistance;
     private EnemyState currentState;
@@ -59,8 +59,6 @@ public final class Enemy extends Ship {
             Keel.standard(),
             DEFAULT_TRIGGER_DISTANCE);
     }
-    
-    
 
     private Enemy(final Section section,
                 final Position position,
@@ -96,6 +94,7 @@ public final class Enemy extends Ship {
     protected Section getSection() {
         return super.getSection();
     }
+
     /**
      * Needs to be called when is the Enemy turn.
      */
@@ -105,6 +104,7 @@ public final class Enemy extends Ship {
             result = !currentState.perform();
         } while (result);
     }
+
     /**
      * 
      * @return returns the current state
@@ -112,6 +112,7 @@ public final class Enemy extends Ship {
     protected States getCurrentState() {
         return currentState.getState();
     }
+
     /**
      * Is called by the Enemy or enemy states to change the current state.
      * @param state

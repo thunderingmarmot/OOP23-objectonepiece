@@ -24,7 +24,7 @@ public interface Controller {
 
     enum Buttons {
         /**
-         * The experience is used to fix the ship
+         * The experience is used to fix the ship.
          */
         FIX
     }
