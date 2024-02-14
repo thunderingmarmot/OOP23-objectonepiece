@@ -144,14 +144,14 @@ public final class Player extends Ship {
      * Adds experience to the Player's owned experience.
      * @param newExperience the experience value to add
      */
-    protected void addExperience(final int experience) {
-        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), experience));
-        this.experience += experience;
+    protected void addExperience(final int experienceToAdd) {
+        this.experience += experienceToAdd;
+        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
     }
 
-    protected void subtractExperience(final int experience) {
-        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), experience));
-        this.experience -= experience;
+    protected void subtractExperience(final int experienceToSubtract) {
+        this.experience -= experienceToSubtract;
+        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
     }
 
     public void healWithExperience() {
