@@ -50,36 +50,36 @@ public final class Player extends Ship {
 
     /**
      * Constructor that creates a Player by copying another in a different Section and a different Position.
-     * @param oldPlayer the Player to copy
+     * @param player the Player to copy
      * @param customSection the Section containing the new Player
      * @param customPosition the Position the new Player is at
      */
-    protected Player(final Player oldPlayer, final Section customSection, final Position customPosition) {
+    protected Player(final Player player, final Section customSection, final Position customPosition) {
         this(customSection,
              customPosition,
-             oldPlayer.getDirection(),
-             oldPlayer.getExperience(),
-             oldPlayer.getPlayerUpdatedEvent(),
-             oldPlayer.getWeapon(),
-             oldPlayer.getSail(),
-             oldPlayer.getBow(),
-             oldPlayer.getKeel());
+             player.getDirection(),
+             player.getExperience(),
+             player.getPlayerUpdatedEvent(),
+             player.getWeapon(),
+             player.getSail(),
+             player.getBow(),
+             player.getKeel());
     }
 
     /**
      * Constructor that creates a Player by copying another.
-     * @param oldPlayer the Player to copy
+     * @param player the Player to copy
      */
-    protected Player(final Player oldPlayer) {
-        this(oldPlayer.getSection(),
-             oldPlayer.getPosition(),
-             oldPlayer.getDirection(),
-             oldPlayer.getExperience(),
-             oldPlayer.getPlayerUpdatedEvent(),
-             oldPlayer.getWeapon(),
-             oldPlayer.getSail(),
-             oldPlayer.getBow(),
-             oldPlayer.getKeel());
+    protected Player(final Player player) {
+        this(player.getSection(),
+             player.getPosition(),
+             player.getDirection(),
+             player.getExperience(),
+             player.getPlayerUpdatedEvent(),
+             player.getWeapon(),
+             player.getSail(),
+             player.getBow(),
+             player.getKeel());
     }
 
     @Override
