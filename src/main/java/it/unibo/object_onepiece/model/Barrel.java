@@ -36,7 +36,7 @@ public final class Barrel extends Collidable {
     }
     
     @Override
-    protected Entity duplicate() {
+    protected Barrel duplicate() {
         return new Barrel(this);
     }
 
