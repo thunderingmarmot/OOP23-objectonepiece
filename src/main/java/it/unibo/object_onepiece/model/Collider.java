@@ -13,6 +13,7 @@ public abstract class Collider extends Collidable {
      * Same constructor as Collidable.
      * @param spawnSection the Section this Collider is in
      * @param spawnPosition the Position this Collider is at
+     * @param spawnDirection the Direction this Collider is in
      * @see Collidable
      */
     protected Collider(final Section spawnSection, final Position spawnPosition, final CardinalDirection spawnDirection) {
