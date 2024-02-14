@@ -1,12 +1,10 @@
 package it.unibo.object_onepiece.model;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.Utils.State;
 import it.unibo.object_onepiece.model.events.Event;
 
 /**
