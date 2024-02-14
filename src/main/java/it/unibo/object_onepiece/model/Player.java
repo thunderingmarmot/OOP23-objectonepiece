@@ -14,7 +14,7 @@ public final class Player extends Ship {
     private static final int DEFAULT_EXPERIENCE_HEAL_COST = 100;
 
     private final Event<PlayerUpdatedArgs> onPlayerUpdated = new Event<>();
-    
+
     private int experience;
 
     private Player(final Section section,
