@@ -15,20 +15,8 @@ public final class Island extends Collidable {
      * @param spawnPosition the position to place this Island at
      * @return the newly created Island object
      */
-    protected static Island getDefault(final Section spawnSection, final Position spawnPosition, final CardinalDirection spawnDirection) {
-        return new Island(spawnSection, spawnPosition, spawnDirection);
-    }
-
-    /**
-     * Constructor for IslandImpl.
-     * It's protected to only allow creating this object inside this package.
-     * Actual object creation is handled in the static method inside Island interface.
-     * @param section the reference to the Section containing this Island 
-     * @param position the position to place this Island at
-     * @see Island
-     */
-    protected Island(final Section section, final Position position, final CardinalDirection direction) {
-        super(section, position, direction);
+    protected Island(final Section spawnSection, final Position spawnPosition, final CardinalDirection spawnDirection) {
+        super(spawnSection, spawnPosition, spawnDirection);
     }
 
     /**

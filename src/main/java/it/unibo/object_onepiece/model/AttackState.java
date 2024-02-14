@@ -2,9 +2,10 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Enemy.States;
 import it.unibo.object_onepiece.model.Utils.Position;
-
-import it.unibo.object_onepiece.model.Enemy.EnemyState;
-
+/**
+ * The attackState of Enemy.
+ * identi
+ */
 public final class AttackState extends EnemyState {
     private final Enemy ship;
     private final NavigationSystem navigationSystem;

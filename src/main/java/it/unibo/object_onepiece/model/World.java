@@ -3,17 +3,15 @@ package it.unibo.object_onepiece.model;
 import java.util.List;
 import java.util.Optional;
 
-import it.unibo.object_onepiece.model.Utils.State;
-
 /**
  * Represents World of the game, with the current section and the saved ones.
  */
 public interface World {
     /**
      * 
-     * @return State last saved section.
+     * @return Last saved section.
      */
-    Optional<State> getSavedState();
+    Optional<Section> getSavedState();
     /**
      * Save current section.
      */

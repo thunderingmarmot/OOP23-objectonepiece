@@ -16,6 +16,7 @@ import it.unibo.object_onepiece.model.events.Event;
 
 import java.util.stream.Collectors;
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -33,7 +34,7 @@ public final class Section {
     private final int GEN_AREA_COLS;
     private final int GEN_AREA_ROWS;
     private final WorldImpl world;
-    private final List<Entity> entities = new LinkedList<>();
+    private final List<Entity> entities;
     private final Bound bound;
     public record EntityAddedArgs(Event<EntityCreatedArgs> onEntityCreated,
                                   Event<EntityUpdatedArgs> onEntityUpdated,
@@ -57,6 +58,22 @@ public final class Section {
         this.GEN_AREA_COLS = this.COLUMNS - ROW_INSET;
         this.bound = new Bound(this.ROWS, this.COLUMNS);
         this.world = world;
+        entities = new LinkedList<>();
+    }
+    /**
+     * Constructor for copying.
+     * @param s Section to copy
+     */
+    Section(Section s) {
+        this.ROWS = s.ROWS;
+        this.COLUMNS = s.COLUMNS;
+        this.ROW_INSET = s.ROW_INSET;
+        this.COL_INSET = s.COL_INSET;
+        this.GEN_AREA_ROWS = s.GEN_AREA_ROWS;
+        this.GEN_AREA_COLS = s.GEN_AREA_COLS;
+        this.bound = s.bound;
+        this.world = s.world;
+        this.entities = new ArrayList<>(s.entities);
     }
     
     /**
@@ -77,19 +94,19 @@ public final class Section {
                         /* Don't do anything because water */
                         break;
                     case 1:
-                        this.addEntity(Island.getDefault(this, p, DEFAULT_DIRECTION));
+                        this.addEntity(new Island(this, p, DEFAULT_DIRECTION));
                         break;
                     case 2:
-                        this.addEntity(Barrel.getDefault(this, p, DEFAULT_DIRECTION));
+                        this.addEntity(new Barrel(this, p, DEFAULT_DIRECTION));
                         break;
                     case 3:
-                        this.addEntity(NavalMine.getDefault(this, p, DEFAULT_DIRECTION));
+                        this.addEntity(new NavalMine(this, p, DEFAULT_DIRECTION));
                         break;
                     case 4:
-                        this.addEntity(Enemy.getDefault(this, p));
+                        this.addEntity(new Enemy(this, p));
                         break;
                     case 5:
-                        this.addEntity(Enemy.getDefault(this, p));
+                        this.addEntity(new Player(this, p));
                     default:
                         break;
                 }
