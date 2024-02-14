@@ -159,7 +159,13 @@ public final class Utils {
             return Objects.isNull(direction) ? this : cardinalDirectionsTranslations.get(direction).apply(this);
         }
 
-        public Position sum(final Position pos){
+        /**
+         * This method make the vectorial addiction on two Positions.
+         * 
+         * @param  pos the position to sum.
+         * @return     a new Position that is the sum of two Positions.
+         */
+        public Position sum(final Position pos) {
             return new Position(this.row + pos.row, this.column + pos.column);
         }
 
@@ -217,7 +223,15 @@ public final class Utils {
             return versorToCardinalDirections.get(versor);
         }
 
-        public Position opposite(CardinalDirection direction, Bound bounds) {
+        /**
+         * This method give the opposite position on the bounds 
+         * depending on the current position, direction and bound.
+         * 
+         * @param  direction the current direction
+         * @param  bounds    the current bound
+         * @return           the position on the opposite bound.
+         */
+        public Position opposite(final CardinalDirection direction, final Bound bounds) {
             return oppositePositions.get(direction).apply(this, bounds);
         }
     }
