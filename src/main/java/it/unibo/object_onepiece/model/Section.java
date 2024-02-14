@@ -94,7 +94,8 @@ public final class Section {
         this.genAreaCols = s.genAreaCols;
         this.bound = s.bound;
         this.world = s.world;
-        this.entities = new ArrayList<>(s.entities);
+        this.entities = new ArrayList<>(s.entities
+            .stream().map((e) -> e.copy()).toList());
     }
     /**
      * Populates entities list using white noise algorithm from JNoise.

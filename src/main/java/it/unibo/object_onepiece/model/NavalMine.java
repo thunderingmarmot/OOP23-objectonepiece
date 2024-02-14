@@ -46,8 +46,9 @@ public final class NavalMine extends Collidable {
         this.damage = origin.damage;
     }
 
-    protected int getDamage() {
-        return this.damage;
+    @Override
+    protected Entity copy() {
+        return new NavalMine(this);
     }
 
     /**

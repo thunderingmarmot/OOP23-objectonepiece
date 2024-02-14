@@ -48,6 +48,11 @@ public final class Player extends Ship {
         this.onPlayerUpdated = origin.onPlayerUpdated;
     }
 
+    @Override
+    protected Entity copy() {
+        return new Player(this);
+    }
+
     /**
      * Checks wether the Player's current position is the same as the one passed as argument.
      * @param position the position to check against

@@ -29,6 +29,11 @@ public final class Barrel extends Collidable {
         this.experienceGiven = origin.experienceGiven;
     }
 
+    @Override
+    protected Entity copy() {
+        return new Barrel(this);
+    }
+
     /**
      * Getter for the experience value given to the Player on pickup.
      * @return the experience value

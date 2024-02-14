@@ -86,6 +86,11 @@ public final class Enemy extends Ship {
         this.triggerDistance = origin.triggerDistance;
     }
 
+    @Override
+    protected Entity copy() {
+        return new Enemy(this);
+    }
+
     /**
      * 
      * @return the distance at which the Enemy change from Patrol to Attack.

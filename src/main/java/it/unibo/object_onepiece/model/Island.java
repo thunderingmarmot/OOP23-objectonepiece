@@ -23,6 +23,11 @@ public final class Island extends Collidable {
         super(origin);
     }
 
+    @Override
+    protected Entity copy() {
+        return new Island(this);
+    }
+
     /**
      * Saves the current game state.
      * This method doesn't *actually* save the game state,
