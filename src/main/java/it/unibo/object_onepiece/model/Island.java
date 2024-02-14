@@ -10,10 +10,10 @@ import it.unibo.object_onepiece.model.Utils.Position;
 public final class Island extends Collidable {
 
     /**
-     * Creates a default Island.
+     * Constructor that creates a default Island.
      * @param spawnSection the reference to the Section containing this Island
      * @param spawnPosition the position to place this Island at
-     * @return the newly created Island object
+     * @param spawnDirection the direction to place this Island in
      */
     protected Island(final Section spawnSection, final Position spawnPosition, final CardinalDirection spawnDirection) {
         super(spawnSection, spawnPosition, spawnDirection);
@@ -21,6 +21,8 @@ public final class Island extends Collidable {
 
     /**
      * Saves the current game state.
+     * This method doesn't *actually* save the game state,
+     * it instead calls a method in World that does all the work.
      */
     protected void save() {
         this.getSection().getWorld().setSavedState();
@@ -28,7 +30,10 @@ public final class Island extends Collidable {
 
     /**
      * Heals the Player that interacted with the Island.
-     * @param player the Player
+     * @param player the Player to heal.
+     * This method just calls the appropriate method in Player,
+     * so the healing mechanic is defined there. 
+     * @see
      */
     protected void heal(final Player player) {
         player.heal();

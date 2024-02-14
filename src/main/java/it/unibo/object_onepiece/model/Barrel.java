@@ -50,6 +50,11 @@ public final class Barrel extends Collidable {
         this.remove();
     }
 
+    /**
+     * Defines the Rigidness of the Island.
+     * @return the Rigidness value
+     * @see Collidable
+     */
     @Override
     protected Rigidness getRigidness() {
         return Rigidness.SOFT;
