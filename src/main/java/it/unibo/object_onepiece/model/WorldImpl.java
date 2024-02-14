@@ -3,7 +3,6 @@ package it.unibo.object_onepiece.model;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
 import it.unibo.object_onepiece.model.Section.EntityAddedArgs;
 import it.unibo.object_onepiece.model.Section.PlayerAddedArgs;
 import it.unibo.object_onepiece.model.Utils.Position;
