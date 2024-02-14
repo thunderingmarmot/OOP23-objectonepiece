@@ -149,7 +149,7 @@ public final class ObjectOnePieceApp extends Application {
             c.setOnClick(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    Position p = new Position(c.getRow(), c.getColumn())
+                    Position p = new Position(c.getRow(), c.getColumn());
                     if (event.getButton() == MouseButton.SECONDARY) {
                         controller.action(p, world, Controller.States.SHOOTING);
                     } else {
