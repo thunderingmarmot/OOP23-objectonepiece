@@ -70,7 +70,7 @@ public final class Player extends Ship {
      * Constructor that creates a Player by copying another.
      * @param player the Player to copy
      */
-    protected Player(final Player player) {
+    private Player(final Player player) {
         this(player.getSection(),
              player.getPosition(),
              player.getDirection(),

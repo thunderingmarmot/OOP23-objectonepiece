@@ -28,7 +28,7 @@ public final class Barrel extends Collidable {
         this(spawnSection, spawnPosition, spawnDirection, DEFAULT_EXPERIENCE_GIVEN);
     }
 
-    protected Barrel(final Barrel barrel) {
+    private Barrel(final Barrel barrel) {
         this(barrel.getSection(),
              barrel.getPosition(),
              barrel.getDirection(),
