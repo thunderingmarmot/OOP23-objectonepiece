@@ -24,6 +24,7 @@ import javafx.beans.Observable;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableIntegerValue;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -129,6 +130,13 @@ public final class ObjectOnePieceApp extends Application {
                 e2.onPlayerUpdated().subscribe((e3) -> drawPlayerInfo(e3.healthList(), e3.maxHealthList(), e3.experience()));
             });
         });
+
+        useXp.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                controller.pressGameButton(Controller.Buttons.FIX, world);
+            }
+        });
     }
 
     private void gridSetUp() {
@@ -141,10 +149,12 @@ public final class ObjectOnePieceApp extends Application {
             c.setOnClick(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
+                    Position p = new Position(c.getRow(), c.getColumn())
                     if (event.getButton() == MouseButton.SECONDARY) {
-                        System.out.println("right click pressed!");
+                        controller.action(p, world, Controller.States.SHOOTING);
+                    } else {
+                        controller.action(p, world, Controller.States.MOVING);
                     }
-                    controller.action(new Position(c.getRow(), c.getColumn()), world);
                 }
             });
             /*gridView.getCellPane(c).addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<Event>() {
