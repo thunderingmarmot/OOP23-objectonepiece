@@ -5,7 +5,6 @@ import java.util.stream.Stream;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.events.Event;
 
 /**
  * Implementation of the Player interface.
@@ -16,22 +15,8 @@ public final class Player extends Ship {
 
     private int experience;
 
-    public record PlayerUpdatedArgs(List<Integer> healthList, List<Integer> maxHealthList, int experience) { }
     private Event<PlayerUpdatedArgs> onPlayerUpdated = new Event<>();
 
-    /**
-     * Constructor for PlayerImpl.
-     * It's protected to only allow creating this object inside this package.
-     * Actual object creation is handled in the static method inside Player interface.
-     * @param section the reference to the Section containing this Player 
-     * @param position the position to place this Player at
-     * @param direction the starting direction of the Player's ship
-     * @param experience the starting experience value of the Player
-     * @param weapon the starting weapon of the Player's ship
-     * @param sail the starting sail of the Player's ship
-     * @param bow the starting bow of the Player's ship
-     * @see Player
-     */
     private Player(final Section section,
                    final Position position,
                    final CardinalDirection direction,
