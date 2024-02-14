@@ -182,7 +182,8 @@ public final class Player extends Ship {
         if(this.getWorld().getSavedState().isPresent()) {
             this.getWorld().loadSavedSection();
         } else {
-            this.getWorld().createNewSection();
+            this.getWorld().createNewSection(
+                (newSection) -> Player.getDefault(newSection, this.getWorld().getPlayerDefaultSpawnPoint()));
         }
     }
 
