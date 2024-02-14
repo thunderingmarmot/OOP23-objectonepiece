@@ -14,6 +14,7 @@ public final class Player extends Ship {
     private static final int DEFAULT_EXPERIENCE_HEAL_COST = 100;
 
     private int experience;
+
     private Event<PlayerUpdatedArgs> onPlayerUpdated = new Event<>();
 
     private Player(final Section section,
@@ -29,7 +30,7 @@ public final class Player extends Ship {
     }
 
     /**
-     * Constructor that creates a default version of a Player.
+     * Constructor that creates a default Player.
      * @param spawnSection the Section containing this Player
      * @param spawnPosition the Position this Player spawns at
      */

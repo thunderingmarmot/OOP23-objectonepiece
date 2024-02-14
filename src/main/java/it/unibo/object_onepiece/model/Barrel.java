@@ -19,10 +19,10 @@ public final class Barrel extends Collidable {
     }
 
     /**
-     * Creates a default Barrel.
+     * Constructor that creates a default Barrel.
      * @param spawnSection the reference to the Section containing this Barrel
      * @param spawnPosition the position to place this Barrel at
-     * @return the newly created Barrel object
+     * @param spawnDirection the direction to place this Barrel in
      */
     protected Barrel(final Section spawnSection, final Position spawnPosition, final CardinalDirection spawnDirection) {
         this(spawnSection, spawnPosition, spawnDirection, DEFAULT_EXPERIENCE_GIVEN);
@@ -33,7 +33,7 @@ public final class Barrel extends Collidable {
      * @param player the Player that is taking this Barrel
      * @see Player
      */
-    protected void take(final Player player) {
+    protected void getTakenBy(final Player player) {
         player.addExperience(experienceGiven);
     }
 
@@ -45,7 +45,7 @@ public final class Barrel extends Collidable {
     @Override
     protected void onCollisionWith(final Collider collider) {
         if (collider instanceof Player player) {
-            take(player);
+            getTakenBy(player);
         }
         this.remove();
     }
