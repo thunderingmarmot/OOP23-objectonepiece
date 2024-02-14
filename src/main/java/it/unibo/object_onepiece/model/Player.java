@@ -93,7 +93,6 @@ public final class Player extends Ship {
      * @see Ship
      */
     public boolean moveTo(final Position destination) {
-        
         final CardinalDirection direction = this.getPosition().whereTo(destination);
         final int distance = this.getPosition().distanceFrom(destination);
         final MoveDetails moveResult = super.move(direction, distance);
@@ -164,8 +163,7 @@ public final class Player extends Ship {
     @Override
     protected void die() {
         super.die();
-        Optional<State> savedState = this.getWorld().getSavedState();
-        if(savedState.isPresent()) {
+        if(this.getWorld().getSavedState().isPresent()) {
             this.getWorld().loadSavedSection();
         } else {
             this.getWorld().createNewSection();
