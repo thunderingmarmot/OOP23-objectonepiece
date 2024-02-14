@@ -54,9 +54,10 @@ public final class Sound {
     /**
      * This method play the ambience sound in loop.
      * 
-     * @throws UnsupportedAudioFileException
-     * @throws IOException
-     * @throws LineUnavailableException
+     * @param   volume the volume of the sound 
+     * @throws         UnsupportedAudioFileException
+     * @throws         IOException
+     * @throws         LineUnavailableException
      */
     void playAmbienceSound(final float volume)
     throws UnsupportedAudioFileException, IOException, LineUnavailableException {
