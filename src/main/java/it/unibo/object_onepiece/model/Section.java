@@ -117,7 +117,11 @@ public final class Section {
     }
 
     void clearEntities() {
-        entities.forEach((e) -> e.getEntityRemovedEvent().lastInvoke(new EntityRemovedArgs(e.getPosition())));
+        entities.forEach((e) -> {
+            e.getEntityRemovedEvent().lastInvoke(new EntityRemovedArgs(e.getPosition()));
+            e.getEntityCreatedEvent().invalidate();
+            e.getEntityUpdatedEvent().invalidate();
+        });
         entities.clear();
     }
 
