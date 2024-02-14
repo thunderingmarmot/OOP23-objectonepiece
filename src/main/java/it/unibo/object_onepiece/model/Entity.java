@@ -13,12 +13,32 @@ public class Entity {
     private Position position;
     private CardinalDirection direction;
 
+    /**
+     * This record contains the arguments of the Entity created Event.
+     * 
+     * @param  name           the name of the Entity
+     * @param  spawnPosition  the spawn position of the Entity
+     * @param  spawnDirection the spawn direction of the Entity
+     */
     public record EntityCreatedArgs(String name, Position spawnPosition, CardinalDirection spawnDirection) { }
     private final Event<EntityCreatedArgs> onEntityCreated = new Event<>();
 
+    /**
+     * This record contains the arguments of the Entity updated Event.
+     * 
+     * @param  name         the name of the Entity
+     * @param  oldPosition  the old position of the Entity
+     * @param  newPosition  the new position of the Entity
+     * @param  newDirection the new direction of the Entity
+     */
     public record EntityUpdatedArgs(String name, Position oldPosition, Position newPosition, CardinalDirection newDirection) { }
     private final Event<EntityUpdatedArgs> onEntityUpdated = new Event<>();
 
+    /**
+     * This record contains the arguments of the Entity removed Event.
+     * 
+     * @param  lastPosition the last position of the Entity
+     */
     public record EntityRemovedArgs(Position lastPosition) { }
     private final Event<EntityRemovedArgs> onEntityRemoved = new Event<>();
 
