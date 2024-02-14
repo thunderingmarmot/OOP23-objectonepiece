@@ -115,11 +115,7 @@ public final class Section {
     }
 
     void clearEntities() {
-        entities.forEach((e) -> {
-            e.getEntityRemovedEvent().lastInvoke(new EntityRemovedArgs(e.getPosition()));
-            e.getEntityCreatedEvent().invalidate();
-            e.getEntityUpdatedEvent().invalidate();
-        });
+        entities.forEach((e) -> removeEntity(e));
         entities.clear();
     }
 
@@ -132,15 +128,17 @@ public final class Section {
     }
 
     void removeEntityAt(final Position position) {
-        entities.stream()
-            .filter(e -> e.getPosition().equals(position))
-            .findFirst().ifPresent(e -> {
-                    entities.remove(e);
-                    e.getEntityRemovedEvent().lastInvoke(new EntityRemovedArgs(position));
-                    e.getEntityCreatedEvent().invalidate();
-                    e.getEntityUpdatedEvent().invalidate();
-                }
-            );
+        Optional<Entity> entity = this.getEntityAt(position);
+        if(entity.isPresent()) {
+            this.removeEntity(entity.get());
+        }
+    }
+
+    void removeEntity(final Entity entity) {
+        this.entities.remove(entity);
+        entity.getEntityRemovedEvent().lastInvoke(new EntityRemovedArgs(entity.getPosition()));
+        entity.getEntityCreatedEvent().invalidate();
+        entity.getEntityUpdatedEvent().invalidate();
     }
 
     Player getPlayer() {
