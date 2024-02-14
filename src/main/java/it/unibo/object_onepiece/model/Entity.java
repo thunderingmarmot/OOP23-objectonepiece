@@ -105,11 +105,9 @@ public class Entity {
     }
 
     /**
-     * This method invoke an Event onEntityRemoved
-     * and remove the entity from the current section.
+     * Removes entity from the section at its own position.
      */
     protected void remove() {
-        this.onEntityRemoved.invoke(new EntityRemovedArgs(this.position));
         this.getSection().removeEntityAt(this.position);
     }
 

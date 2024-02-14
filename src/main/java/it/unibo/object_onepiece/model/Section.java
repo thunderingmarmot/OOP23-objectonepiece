@@ -42,7 +42,6 @@ public final class Section {
 
     public record PlayerAddedArgs(Event<PlayerUpdatedArgs> onPlayerUpdated) { }
     private Event<PlayerAddedArgs> onPlayerAdded = new Event<>();
-    private final Position playerDefaultSpawnPoint;
 
     /**
      * 
@@ -58,7 +57,6 @@ public final class Section {
         this.GEN_AREA_COLS = this.COLUMNS - ROW_INSET;
         this.bound = new Bound(this.ROWS, this.COLUMNS);
         this.world = world;
-        this.playerDefaultSpawnPoint = new Position((ROWS - 1) * 3/4, (COLUMNS - 1) / 2);
     }
     
     /**
@@ -71,9 +69,6 @@ public final class Section {
         for (int i = ROW_INSET; i < GEN_AREA_ROWS - 1; i++) {
             for (int j = COL_INSET; j < GEN_AREA_COLS - 1; j++) {
                 final Position p = new Position(i, j);
-                if (p.equals(playerDefaultSpawnPoint)) {
-                    continue;
-                }
                 final double noise = whiteNoise.evaluateNoise(i, j);
                 final int floored = (int) Math.floor(noise * NOISE_DISPERSION);
 
@@ -100,21 +95,11 @@ public final class Section {
                 }
             }
         }
-        
         /** Prints duplicate positions in entities list */
         final Set<Position> items = new HashSet<>();
         entities.stream().filter(n -> !items.add(n.getPosition()))
                 .collect(Collectors.toSet())
                 .forEach(e -> System.out.println(e.getPosition()));
-    }
-
-    void generatePlayer() {
-        if  (entities.stream().anyMatch(e -> e instanceof Player)) {
-            throw new IllegalStateException("Player already exists. Cannot generate it again");
-        } else {
-            this.addPlayer(Player.getDefault(this, playerDefaultSpawnPoint));
-        }
-        
     }
 
     WorldImpl getWorld() {
@@ -126,7 +111,14 @@ public final class Section {
     }
 
     void removeEntityAt(final Position position) {
-        entities.removeIf(e -> e.getPosition().equals(position));
+        entities.stream()
+            .filter(e -> e.getPosition().equals(position))
+            .findFirst().ifPresent(e -> 
+                {
+                    entities.remove(e);
+                    e.getEntityRemovedEvent().invoke(new EntityRemovedArgs(position));
+                }
+            );
     }
 
     Player getPlayer() {
@@ -149,9 +141,14 @@ public final class Section {
         return entities;
     }
 
-    void addPlayer(final Player e) {
-        this.onPlayerAdded.invoke(new PlayerAddedArgs(e.getPlayerUpdatedEvent()));
-        addEntity(e);
+    void addPlayer(final Player p) {
+        if  (entities.stream().anyMatch(e -> e instanceof Player)) {
+            throw new IllegalStateException("Player already exists. Cannot generate it again");
+        } else {
+            removeEntityAt(p.getPosition());
+            this.onPlayerAdded.invoke(new PlayerAddedArgs(p.getPlayerUpdatedEvent()));
+            addEntity(p);
+        }
     }
 
     void addEntity(final Entity e) {

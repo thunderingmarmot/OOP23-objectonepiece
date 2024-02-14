@@ -26,8 +26,8 @@ public final class WorldImpl implements World {
     private Section currentSection;
 
     private final int mapRows;
-
     private final int mapCols;
+    private final Position playerDefaultSpawnPoint;
 
     public record SectionInstantiatedArgs(Event<EntityAddedArgs> onEntityAdded,
                                           Event<PlayerAddedArgs> onPlayerAdded) { }
@@ -37,6 +37,7 @@ public final class WorldImpl implements World {
         this.savedState = Optional.empty();
         this.mapRows = mapRows;
         this.mapCols = mapCols;
+        this.playerDefaultSpawnPoint = new Position((mapRows - 1) * 3/4, (mapCols - 1) / 2);
         this.onSectionInstantiated.subscribe(bindings);
         createNewSection();
     }
@@ -47,7 +48,7 @@ public final class WorldImpl implements World {
             new SectionInstantiatedArgs(this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent())
         );
         this.currentSection.generateEntities();
-        this.currentSection.generatePlayer();
+        this.currentSection.addPlayer(Player.getDefault(currentSection, this.playerDefaultSpawnPoint));
     }
 
     void createNewSection(Function<Section, Player> player) {
