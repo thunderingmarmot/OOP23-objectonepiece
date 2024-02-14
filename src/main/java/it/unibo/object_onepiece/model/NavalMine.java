@@ -19,26 +19,26 @@ public final class NavalMine extends Collidable {
      * @param  direction the direction of the naval mine
      * @param  damage    the damage inflicted by the naval mine
      */
-    protected NavalMine(final Section section, 
-                        final Position position, 
-                        final CardinalDirection direction, 
-                        final int damage) {
+    private NavalMine(final Section section, 
+                      final Position position, 
+                      final CardinalDirection direction, 
+                      final int damage) {
         super(section, position, direction);
         this.damage = damage;
     }
 
     /**
-     * Getter for the default naval mine.
+     * Constructor for the default naval mine.
      * 
      * @param  spawnSection   the section where the mine should spawn
      * @param  spawnPosition  the position where the mine should spawn
      * @param  spawnDirection the spawn direction of the mine
-     * @return                the naval mine
      */
-    protected static NavalMine getDefault(final Section spawnSection, 
-                                          final Position spawnPosition, 
-                                          final CardinalDirection spawnDirection) {
-        return new NavalMine(spawnSection, spawnPosition, spawnDirection, DEFAULT_DAMAGE);
+    protected NavalMine(final Section spawnSection, 
+                        final Position spawnPosition, 
+                        final CardinalDirection spawnDirection) {
+        super(spawnSection, spawnPosition, spawnDirection);
+        this.damage = DEFAULT_DAMAGE;
     }
 
     /**
