@@ -109,7 +109,7 @@ public final class Section {
                         this.addEntity(new Enemy(this, p));
                         break;
                     case 5:
-                        this.addEntity(new Player(this, p));
+                        this.addEntity(new Enemy(this, p));
                     default:
                         break;
                 }
