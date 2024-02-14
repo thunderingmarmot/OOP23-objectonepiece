@@ -6,7 +6,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 /**
  * This class defines the common methods of every entity present on the section.
  */
-public abstract class Entity {
+public class Entity {
 
     private final Section section;
 
@@ -21,7 +21,7 @@ public abstract class Entity {
      * @param  spawnDirection the spawn direction of the Entity
      */
     public record EntityCreatedArgs(String name, Position spawnPosition, CardinalDirection spawnDirection) { }
-    private final Event<EntityCreatedArgs> onEntityCreated = new Event<>();
+    private final Event<EntityCreatedArgs> onEntityCreated;
 
     /**
      * This record contains the arguments of the Entity updated Event.
@@ -32,7 +32,7 @@ public abstract class Entity {
      * @param  newDirection the new direction of the Entity
      */
     public record EntityUpdatedArgs(String name, Position oldPosition, Position newPosition, CardinalDirection newDirection) { }
-    private final Event<EntityUpdatedArgs> onEntityUpdated = new Event<>();
+    private final Event<EntityUpdatedArgs> onEntityUpdated;
 
     /**
      * This record contains the arguments of the Entity removed Event.
@@ -40,7 +40,21 @@ public abstract class Entity {
      * @param  lastPosition the last position of the Entity
      */
     public record EntityRemovedArgs(Position lastPosition) { }
-    private final Event<EntityRemovedArgs> onEntityRemoved = new Event<>();
+    private final Event<EntityRemovedArgs> onEntityRemoved;
+
+    /**
+     * Constructor for copying from an existing Entity.
+     * 
+     * @param  origin  the Entity to copy from
+     */
+    protected Entity(final Entity origin) {
+        this.section = origin.section;
+        this.position = origin.position;
+        this.direction = origin.direction;
+        this.onEntityCreated = origin.onEntityCreated;
+        this.onEntityUpdated = origin.onEntityUpdated;
+        this.onEntityRemoved = origin.onEntityRemoved;
+    }
 
     /**
      * Constructor for class Entity.
@@ -53,9 +67,10 @@ public abstract class Entity {
         this.section = section;
         this.position = position;
         this.direction = direction;
+        this.onEntityCreated = new Event<>();
+        this.onEntityUpdated = new Event<>();
+        this.onEntityRemoved = new Event<>();
     }
-
-    protected abstract Entity duplicate();
 
     /**
      * Getter for the current section of the entity.

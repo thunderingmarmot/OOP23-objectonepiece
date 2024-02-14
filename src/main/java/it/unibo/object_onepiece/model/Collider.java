@@ -11,6 +11,15 @@ public abstract class Collider extends Collidable {
 
     /**
      * Same constructor as Collidable.
+     * @param origin the Collider to copy from
+     * @see Collidable
+     */
+    protected Collider(final Collider origin) {
+        super(origin);
+    }
+
+    /**
+     * Same constructor as Collidable.
      * @param spawnSection the Section this Collider is in
      * @param spawnPosition the Position this Collider is at
      * @param spawnDirection the Direction this Collider is in

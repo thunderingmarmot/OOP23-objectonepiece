@@ -41,16 +41,9 @@ public final class NavalMine extends Collidable {
         this.damage = DEFAULT_DAMAGE;
     }
 
-    private NavalMine(final NavalMine navalMine) {
-        this(navalMine.getSection(),
-             navalMine.getPosition(),
-             navalMine.getDirection(),
-             navalMine.getDamage());
-    }
-    
-    @Override
-    protected Entity duplicate() {
-        return new NavalMine(this);
+    protected NavalMine(final NavalMine origin) {
+        super(origin);
+        this.damage = origin.damage;
     }
 
     protected int getDamage() {

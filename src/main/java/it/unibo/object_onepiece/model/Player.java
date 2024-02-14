@@ -17,74 +17,35 @@ public final class Player extends Ship {
 
     private int experience;
 
-    private Player(final Section section,
-                   final Position position,
-                   final CardinalDirection direction,
-                   final int experience,
-                   final Event<PlayerUpdatedArgs> onPlayerUpdated,
-                   final Weapon weapon,
-                   final Sail sail,
-                   final Bow bow,
-                   final Keel keel) {
-        super(section, position, direction, weapon, sail, bow, keel);
-        this.onPlayerUpdated = onPlayerUpdated;
-        this.experience = experience;
-    }
-
     /**
      * Constructor that creates a default Player.
      * @param spawnSection the Section containing this Player
      * @param spawnPosition the Position this Player spawns at
      */
     protected Player(final Section spawnSection, final Position spawnPosition) {
-        this(spawnSection,
-             spawnPosition,
-             CardinalDirection.NORTH,
-             0,
-             new Event<>(),
-             Weapon.cannon(),
-             Sail.sloop(),
-             Bow.standard(),
-             Keel.standard());
+        super(spawnSection, spawnPosition, CardinalDirection.NORTH, Weapon.cannon(), Sail.sloop(), Bow.standard(), Keel.standard());
+        this.onPlayerUpdated = new Event<>();
+        this.experience = 0;
     }
 
     /**
      * Constructor that creates a Player by copying another in a different Section and a different Position.
-     * @param player the Player to copy
+     * @param origin the Player to copy from
      * @param customSection the Section containing the new Player
      * @param customPosition the Position the new Player is at
      */
-    protected Player(final Player player, final Section customSection, final Position customPosition) {
-        this(customSection,
-             customPosition,
-             player.getDirection(),
-             player.getExperience(),
-             player.getPlayerUpdatedEvent(),
-             player.getWeapon(),
-             player.getSail(),
-             player.getBow(),
-             player.getKeel());
+    protected Player(final Player origin, final Section customSection, final Position customPosition) {
+        super(customSection, customPosition, origin.getDirection(), origin.getWeapon(), origin.getSail(), origin.getBow(), origin.getKeel());
+        this.onPlayerUpdated = origin.onPlayerUpdated;
     }
 
     /**
      * Constructor that creates a Player by copying another.
-     * @param player the Player to copy
+     * @param origin the Player to copy from
      */
-    private Player(final Player player) {
-        this(player.getSection(),
-             player.getPosition(),
-             player.getDirection(),
-             player.getExperience(),
-             player.getPlayerUpdatedEvent(),
-             player.getWeapon(),
-             player.getSail(),
-             player.getBow(),
-             player.getKeel());
-    }
-
-    @Override
-    protected Player duplicate() {
-        return new Player(this);
+    protected Player(final Player origin) {
+        super(origin);
+        this.onPlayerUpdated = origin.onPlayerUpdated;
     }
 
     /**

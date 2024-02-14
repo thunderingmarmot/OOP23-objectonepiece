@@ -113,6 +113,15 @@ public abstract class Ship extends Collider {
     );
 
     /**
+     * Constructor to copy from an existing Ship.
+     * @param origin the Ship to copy from
+     * @see Entity
+     */
+    protected Ship(Ship origin) {
+        super(origin);
+    }
+
+    /**
     * Constructor for class ShipImpl.
     *
     * @param  s      the section where the ship is located

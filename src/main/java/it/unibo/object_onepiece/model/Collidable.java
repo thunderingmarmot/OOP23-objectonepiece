@@ -12,6 +12,15 @@ public abstract class Collidable extends Entity {
 
     /**
      * Same constructor as Entity.
+     * @param origin the Collidable to copy from
+     * @see Entity
+     */
+    protected Collidable(final Collidable origin) {
+        super(origin);
+    }
+
+    /**
+     * Same constructor as Entity.
      * @param  spawnSection   the Section this Collidable is in
      * @param  spawnPosition  the Position this Collidable is at
      * @param  spawnDirection the Direction this Collidable is at

@@ -80,20 +80,10 @@ public final class Enemy extends Ship {
         currentState = findState(States.PATROLLING);
     }
 
-    private Enemy(final Enemy enemy) {
-        this(enemy.getSection(),
-             enemy.getPosition(),
-             enemy.getDirection(),
-             enemy.getWeapon(),
-             enemy.getSail(),
-             enemy.getBow(),
-             enemy.getKeel(),
-             enemy.getTriggerDistance());
-    }
-
-    @Override
-    protected Entity duplicate() {
-        return new Enemy(this);
+    protected Enemy(final Enemy origin) {
+        super(origin);
+        this.enemyStates = origin.enemyStates;
+        this.triggerDistance = origin.triggerDistance;
     }
 
     /**
