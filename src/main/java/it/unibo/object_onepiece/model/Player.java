@@ -13,9 +13,9 @@ import it.unibo.object_onepiece.model.Utils.Position;
 public final class Player extends Ship {
     private static final int DEFAULT_EXPERIENCE_HEAL_COST = 100;
 
+    private final Event<PlayerUpdatedArgs> onPlayerUpdated = new Event<>();
+    
     private int experience;
-
-    private Event<PlayerUpdatedArgs> onPlayerUpdated = new Event<>();
 
     private Player(final Section section,
                    final Position position,
