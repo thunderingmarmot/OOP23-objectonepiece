@@ -19,6 +19,13 @@ public final class Island extends Collidable {
         super(spawnSection, spawnPosition, spawnDirection);
     }
 
+    @Override
+    protected Island duplicate() {
+        return new Island(this.getSection(),
+                          this.getPosition(),
+                          this.getDirection());
+    }
+
     /**
      * Saves the current game state.
      * This method doesn't *actually* save the game state,
