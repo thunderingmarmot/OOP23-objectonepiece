@@ -116,9 +116,7 @@ public final class Section {
 
     void clearEntities() {
         this.entities.forEach((entity) -> {
-            entity.getEntityRemovedEvent().lastInvoke(new EntityRemovedArgs(entity.getPosition()));
-            entity.getEntityCreatedEvent().invalidate();
-            entity.getEntityUpdatedEvent().invalidate();
+            entity.getEntityRemovedEvent().invoke(new EntityRemovedArgs(entity.getPosition()));
         });
         this.entities.clear();
     }
@@ -135,9 +133,7 @@ public final class Section {
         Optional<Entity> entity = this.getEntityAt(position);
         if(entity.isPresent()) {
             this.entities.remove(entity.get());
-            entity.get().getEntityRemovedEvent().lastInvoke(new EntityRemovedArgs(entity.get().getPosition()));
-            entity.get().getEntityCreatedEvent().invalidate();
-            entity.get().getEntityUpdatedEvent().invalidate();
+            entity.get().getEntityRemovedEvent().invoke(new EntityRemovedArgs(entity.get().getPosition()));
         }
     }
 

@@ -77,12 +77,9 @@ public final class WorldImpl implements World {
             this.currentSection.getEntityAddedEvent().invalidate();
             this.currentSection.getPlayerAddedEvent().invalidate();
 
-            /*this.currentSection = new Section(this);
-            this.onSectionInstantiated.invoke(
-                new SectionInstantiatedArgs(this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent())
-            );
+            this.currentSection = new Section(this);
             this.currentSection.setEntities(saved.get().entities);
-            this.currentSection.addPlayer(saved.get().player);*/
+            this.currentSection.addPlayer(saved.get().player);
         } else {
             throw new IllegalStateException("Cannot call switchToSection when player hasn't yet saved to an island");
         }

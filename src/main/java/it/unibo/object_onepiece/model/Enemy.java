@@ -82,8 +82,9 @@ public final class Enemy extends Ship {
 
     protected Enemy(final Enemy origin) {
         super(origin);
-        this.enemyStates = origin.enemyStates;
         this.triggerDistance = origin.triggerDistance;
+        this.enemyStates = origin.enemyStates;
+        this.currentState = origin.currentState;
     }
 
     @Override
