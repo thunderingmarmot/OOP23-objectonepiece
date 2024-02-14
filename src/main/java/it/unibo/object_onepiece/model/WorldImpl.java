@@ -19,6 +19,7 @@ public final class WorldImpl implements World {
      * Saved State of game when player saved his state on an Island.
      */
     private Optional<State> savedState;
+    private Optional<Section> saved;
 
     /**
      * Current playing section.
@@ -27,7 +28,7 @@ public final class WorldImpl implements World {
 
     private final int mapRows;
     private final int mapCols;
-    private final Position playerDefaultSpawnPoint;
+    protected final Position playerDefaultSpawnPoint;
 
     public record SectionInstantiatedArgs(Event<EntityAddedArgs> onEntityAdded,
                                           Event<PlayerAddedArgs> onPlayerAdded) { }
@@ -42,7 +43,7 @@ public final class WorldImpl implements World {
         createNewSection();
     }
 
-    void createNewSection() {
+    private void createNewSection() {
         this.currentSection = new Section(this);
         this.onSectionInstantiated.invoke(
             new SectionInstantiatedArgs(this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent())
