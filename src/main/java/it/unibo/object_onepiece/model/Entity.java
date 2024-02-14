@@ -6,7 +6,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 /**
  * This class defines the common methods of every entity present on the section.
  */
-public class Entity {
+public abstract class Entity {
 
     private final Section section;
 
@@ -54,6 +54,8 @@ public class Entity {
         this.position = position;
         this.direction = direction;
     }
+
+    protected abstract Entity duplicate();
 
     /**
      * Getter for the current section of the entity.
