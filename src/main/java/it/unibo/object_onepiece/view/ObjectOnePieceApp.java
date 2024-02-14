@@ -59,6 +59,7 @@ public final class ObjectOnePieceApp extends Application {
     private static final Color DEFAULT_COLOR = Color.rgb(2, 127, 222);
     private static final int RIGHT_ANGLE = 90;
     private static final int HP_BARS_COUNT = 4;
+    private static final float DEFAULT_AMBIENCE_SOUND_VOLUME = -30;
 
     private static final Function<String, String> PATH_FUNC = t -> "/img/sprites/" + t + "/" + t + ".png";
     private final String styleSheet = "/css/ObjectOnePieceApp.css";
@@ -82,7 +83,7 @@ public final class ObjectOnePieceApp extends Application {
         final VBox barsContainer = new VBox();
         final BorderPane borderPane = new BorderPane();
 
-        sound.playAmbienceSound();
+        sound.playAmbienceSound(DEFAULT_AMBIENCE_SOUND_VOLUME);
 
         final Label pirateInfo = new Label("Pirate info!");
         pirateInfo.setAlignment(Pos.CENTER);
