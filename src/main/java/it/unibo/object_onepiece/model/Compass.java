@@ -31,6 +31,11 @@ public final class Compass implements NavigationSystem {
 
     @Override
     public CardinalDirection move(final Position objectivePosition, final Position currentPosition) { 
+        var vers = currentPosition.versorOf(objectivePosition);
+        var deb = dirMap.get(vers);
+        if(deb == null){
+            System.err.println(vers.toString());
+        }
         return dirMap.get(currentPosition.versorOf(objectivePosition)).get();
     }
 

@@ -58,6 +58,6 @@ public final class Patrol extends EnemyState {
             final int y = Utils.getRandom().nextInt(bound.rows());
 
             objective = new Position(x, y);
-        } while (!bound.isInside(objective));
+        } while (!bound.isInside(objective) || this.ship.getSection().getEntityAt(objective).isPresent());
     }
 }
