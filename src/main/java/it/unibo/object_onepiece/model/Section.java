@@ -15,6 +15,7 @@ import it.unibo.object_onepiece.model.Entity.EntityRemovedArgs;
 import it.unibo.object_onepiece.model.events.Event;
 
 import java.util.stream.Collectors;
+
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -89,18 +90,20 @@ public final class Section {
                 final double noise = whiteNoise.evaluateNoise(i, j);
                 final int floored = (int) Math.floor(noise * NOISE_DISPERSION);
 
+                final CardinalDirection d = CardinalDirection.values()[Utils.getRandom().nextInt(CardinalDirection.values().length)];
+
                 switch (floored) {
                     case 0:
                         /* Don't do anything because water */
                         break;
                     case 1:
-                        this.addEntity(new Island(this, p, DEFAULT_DIRECTION));
+                        this.addEntity(new Island(this, p, d));
                         break;
                     case 2:
-                        this.addEntity(new Barrel(this, p, DEFAULT_DIRECTION));
+                        this.addEntity(new Barrel(this, p, d));
                         break;
                     case 3:
-                        this.addEntity(new NavalMine(this, p, DEFAULT_DIRECTION));
+                        this.addEntity(new NavalMine(this, p, d));
                         break;
                     case 4:
                         this.addEntity(new Enemy(this, p));
