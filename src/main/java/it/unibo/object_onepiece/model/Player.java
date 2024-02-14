@@ -74,6 +74,17 @@ public final class Player extends Ship {
                           this.getKeel());
     }
 
+    protected Player duplicate(Section customSection, Position customPosition) {
+        return new Player(customSection,
+                          customPosition,
+                          this.getDirection(),
+                          this.getExperience(),
+                          this.getWeapon(),
+                          this.getSail(),
+                          this.getBow(),
+                          this.getKeel());
+    }
+
     /**
      * Checks wether the Player current position is the same as the one passed as argument.
      * @param position the position to check against
@@ -94,7 +105,9 @@ public final class Player extends Ship {
         final int distance = this.getPosition().distanceFrom(destination);
         final MoveDetails moveResult = super.move(direction, distance);
         if(moveResult.equals(MoveDetails.BORDER_REACHED)) {
-            this.getWorld().createNewSection(); // TODO
+            this.getWorld().createNewSection(
+                (newSection) -> this.duplicate(newSection, 
+                                               this.getPosition().opposite(this.getDirection(), newSection.getBounds())));
         }
         return Enemy.ACTION_SUCCESS_CONDITIONS.contains(moveResult);
     }

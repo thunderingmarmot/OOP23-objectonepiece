@@ -2,6 +2,7 @@ package it.unibo.object_onepiece.model;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import it.unibo.object_onepiece.model.Section.EntityAddedArgs;
 import it.unibo.object_onepiece.model.Section.PlayerAddedArgs;
@@ -49,13 +50,13 @@ public final class WorldImpl implements World {
         this.currentSection.generatePlayer();
     }
 
-    void createNewSection(Player player) {
+    void createNewSection(Function<Section, Player> player) {
         this.currentSection = new Section(this);
         this.onSectionInstantiated.invoke(
             new SectionInstantiatedArgs(this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent())
         );
         this.currentSection.generateEntities();
-        this.currentSection.addPlayer(player);
+        this.currentSection.addPlayer(player.apply(currentSection));
     }
 
     void loadSavedSection() {

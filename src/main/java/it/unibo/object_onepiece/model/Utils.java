@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
 
+import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 
 /**
@@ -34,6 +35,13 @@ public final class Utils {
         CardinalDirection.SOUTH, (p1, p2) -> p1.row == p2.row && p1.column != p2.column,
         CardinalDirection.WEST, (p1, p2) -> p1.column == p2.column && p1.row != p2.row,
         CardinalDirection.EAST, (p1, p2) -> p1.column == p2.column && p1.row != p2.row
+    );
+
+    private static Map<CardinalDirection, BiFunction<Position, Bound, Position>> oppositePositions = Map.of(
+        CardinalDirection.NORTH, (p, b) -> new Position(p.row + (b.rows - 3), p.column),
+        CardinalDirection.SOUTH, (p, b) -> new Position(p.row - (b.rows - 3), p.column),
+        CardinalDirection.WEST, (p, b) -> new Position(p.row, p.column + (b.columns - 3)),
+        CardinalDirection.EAST, (p, b) -> new Position(p.row, p.column - (b.columns - 3))
     );
 
     private static Map<Position, CardinalDirection> versorToCardinalDirections = Map.of(
@@ -130,6 +138,10 @@ public final class Utils {
      */
     static List<BiPredicate<Bound, Position>> getInsideBoundsConditionsList() {
         return insideBoundsConditions;
+    }
+
+    static Map<CardinalDirection, BiFunction<Position, Bound, Position>> getOppositePositionsMap() {
+        return oppositePositions;
     }
 
     static Random getRandom() {
@@ -238,6 +250,10 @@ public final class Utils {
         public CardinalDirection whereTo(final Position position) {
             final var versor = this.versorOf(position);
             return versorToCardinalDirections.get(versor);
+        }
+
+        public Position opposite(CardinalDirection direction, Bound bounds) {
+            return oppositePositions.get(direction).apply(this, bounds);
         }
     }
 
