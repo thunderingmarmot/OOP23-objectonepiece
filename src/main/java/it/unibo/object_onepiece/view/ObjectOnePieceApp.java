@@ -77,7 +77,7 @@ public final class ObjectOnePieceApp extends Application {
     @Override
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
-        //gridSetUp();
+        gridSetUp();
         final VBox barsContainer = new VBox();
         final BorderPane borderPane = new BorderPane();
 
@@ -120,7 +120,6 @@ public final class ObjectOnePieceApp extends Application {
         barsContainer.setAlignment(Pos.CENTER);
 
         world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, (e1) -> {
-            gridSetUp();
             e1.onEntityAdded().subscribe((e2) -> {
                 e2.onEntityCreated().subscribe((e3) -> createEntity(e3.name(), e3.spawnPosition(), e3.spawnDirection()));
                 e2.onEntityUpdated().subscribe((e3) -> updateEntity(e3.name(), e3.oldPosition(), e3.newPosition(), e3.newDirection()));
