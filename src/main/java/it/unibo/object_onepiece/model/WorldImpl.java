@@ -7,7 +7,7 @@ import java.util.function.Function;
 import it.unibo.object_onepiece.model.Section.EntityAddedArgs;
 import it.unibo.object_onepiece.model.Section.PlayerAddedArgs;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.events.Event;
+
 import java.util.Optional;
 
 /**
@@ -47,7 +47,7 @@ public final class WorldImpl implements World {
             new SectionInstantiatedArgs(this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent())
         );
         this.currentSection.generateEntities();
-        this.currentSection.addPlayer(Player.getDefault(currentSection, this.playerDefaultSpawnPoint));
+        this.currentSection.addPlayer(new Player(currentSection, this.playerDefaultSpawnPoint));
     }
 
     void createNewSection(Function<Section, Player> player) {

@@ -83,7 +83,8 @@ public final class ObjectOnePieceApp extends Application {
         final VBox barsContainer = new VBox();
         final BorderPane borderPane = new BorderPane();
 
-        sound.playAmbienceSound(DEFAULT_AMBIENCE_SOUND_VOLUME);
+        sound.playAmbienceSound();
+        sound.setVolume(sound.getAmbienceClip(), DEFAULT_AMBIENCE_SOUND_VOLUME);
 
         final Label pirateInfo = new Label("Pirate info!");
         pirateInfo.setAlignment(Pos.CENTER);
@@ -111,14 +112,26 @@ public final class ObjectOnePieceApp extends Application {
         heal.setPreserveRatio(true);
         heal.setFitWidth(barsContainer.getWidth());
 
+        ImageView audio = new ImageView(new Image("/img/ui/audio.png"));
+        audio.setPreserveRatio(true);
+        audio.setFitWidth(barsContainer.getWidth());
+
         final Button useXp = new Button();
         useXp.setGraphic(heal);
+
+        final Button pauseAmbienceSound = new Button();
+        pauseAmbienceSound.setGraphic(audio);
 
         final VBox xpContainer = new VBox();
         xpContainer.setAlignment(Pos.CENTER);
         xpContainer.getChildren().addAll(useXp, experienceText);
 
+        final VBox volumeContainer = new VBox();
+        volumeContainer.setAlignment(Pos.CENTER);
+        volumeContainer.getChildren().add(pauseAmbienceSound);
+
         barsContainer.getChildren().add(xpContainer);
+        barsContainer.getChildren().add(volumeContainer);
         barsContainer.setAlignment(Pos.CENTER);
 
         world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, (e1) -> {
@@ -128,7 +141,7 @@ public final class ObjectOnePieceApp extends Application {
                 e2.onEntityRemoved().subscribe((e3) -> removeEntity(e3.lastPosition()));
             });
             e1.onPlayerAdded().subscribe((e2) -> {
-                e2.onPlayerUpdated().subscribe((e3) -> drawPlayerInfo(e3.healthList(), e3.maxHealthList(), e3.experience()));
+                e2.onPlayerUpdated().subscribe((e3) -> drawPlayerInfo(e3.getHealthList(), e3.getMaxHealthList(), e3.getExperience()));
             });
         });
 
@@ -136,6 +149,13 @@ public final class ObjectOnePieceApp extends Application {
             @Override
             public void handle(ActionEvent event) {
                 controller.pressGameButton(Controller.Buttons.FIX, world);
+            }
+        });
+
+        pauseAmbienceSound.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                sound.pauseSound(sound.getAmbienceClip());
             }
         });
     }

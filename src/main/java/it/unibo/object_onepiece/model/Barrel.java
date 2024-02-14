@@ -13,27 +13,19 @@ public final class Barrel extends Collidable {
 
     private final int experienceGiven;
 
+    private Barrel(final Section section, final Position position, final CardinalDirection direction, final int experienceGiven) {
+        super(section, position, direction);
+        this.experienceGiven = experienceGiven;
+    }
+
     /**
      * Creates a default Barrel.
      * @param spawnSection the reference to the Section containing this Barrel
      * @param spawnPosition the position to place this Barrel at
      * @return the newly created Barrel object
      */
-    protected static Barrel getDefault(final Section spawnSection, final Position spawnPosition, final CardinalDirection spawnDirection) {
-        return new Barrel(spawnSection, spawnPosition, spawnDirection, DEFAULT_EXPERIENCE_GIVEN);
-    }
-
-    /**
-     * Constructor for BarrelImpl.
-     * It's protected to only allow creating this object inside this package.
-     * Actual object creation is handled in the static method inside Barrel interface.
-     * @param section the reference to the Section containing this Barrel 
-     * @param position the position to place this Island at
-     * @param experienceGiven the experience value this Barrel gives the Player when taken
-     */
-    protected Barrel(final Section section, final Position position, final CardinalDirection direction, final int experienceGiven) {
-        super(section, position, direction);
-        this.experienceGiven = experienceGiven;
+    protected Barrel(final Section spawnSection, final Position spawnPosition, final CardinalDirection spawnDirection) {
+        this(spawnSection, spawnPosition, spawnDirection, DEFAULT_EXPERIENCE_GIVEN);
     }
 
     /**
@@ -41,7 +33,7 @@ public final class Barrel extends Collidable {
      * @param player the Player that is taking this Barrel
      * @see Player
      */
-    public void take(final Player player) {
+    protected void take(final Player player) {
         player.addExperience(experienceGiven);
     }
 
@@ -51,7 +43,7 @@ public final class Barrel extends Collidable {
      * @see Collidable
      */
     @Override
-    public void onCollisionWith(final Collider collider) {
+    protected void onCollisionWith(final Collider collider) {
         if (collider instanceof Player player) {
             take(player);
         }
@@ -59,7 +51,7 @@ public final class Barrel extends Collidable {
     }
 
     @Override
-    public Rigidness getRigidness() {
+    protected Rigidness getRigidness() {
         return Rigidness.SOFT;
     }
 }

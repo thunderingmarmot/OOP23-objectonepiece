@@ -5,7 +5,6 @@ import java.util.stream.Stream;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.events.Event;
 
 /**
  * Implementation of the Player interface.
@@ -16,71 +15,51 @@ public final class Player extends Ship {
 
     private int experience;
 
-    public record PlayerUpdatedArgs(List<Integer> healthList, List<Integer> maxHealthList, int experience) { }
     private Event<PlayerUpdatedArgs> onPlayerUpdated = new Event<>();
 
-    /**
-     * Constructor for PlayerImpl.
-     * It's protected to only allow creating this object inside this package.
-     * Actual object creation is handled in the static method inside Player interface.
-     * @param section the reference to the Section containing this Player 
-     * @param position the position to place this Player at
-     * @param direction the starting direction of the Player's ship
-     * @param experience the starting experience value of the Player
-     * @param weapon the starting weapon of the Player's ship
-     * @param sail the starting sail of the Player's ship
-     * @param bow the starting bow of the Player's ship
-     * @see Player
-     */
-    protected Player(final Section section,
-                     final Position position,
-                     final CardinalDirection direction,
-                     final int experience,
-                     final Weapon weapon,
-                     final Sail sail,
-                     final Bow bow,
-                     final Keel keel) {
+    private Player(final Section section,
+                   final Position position,
+                   final CardinalDirection direction,
+                   final int experience,
+                   final Weapon weapon,
+                   final Sail sail,
+                   final Bow bow,
+                   final Keel keel) {
         super(section, position, direction, weapon, sail, bow, keel);
         this.experience = experience;
     }
 
-    /**
-     * Creates a default Player.
-     * @param spawnSection the reference to the Section containing this Player
-     * @param spawnPosition the position to place this Player at
-     * @return the newly created Player object
-     */
-    protected static Player getDefault(final Section spawnSection, final Position spawnPosition) {
-        return new Player(spawnSection,
-                          spawnPosition,
-                          CardinalDirection.NORTH,
-                          0,
-                          Weapon.cannon(),
-                          Sail.sloop(),
-                          Bow.standard(),
-                          Keel.standard());
+    protected Player(final Section spawnSection, final Position spawnPosition) {
+        this(spawnSection,
+             spawnPosition,
+             CardinalDirection.NORTH,
+             0,
+             Weapon.cannon(),
+             Sail.sloop(),
+             Bow.standard(),
+             Keel.standard());
     }
 
-    protected Player duplicate() {
-        return new Player(this.getSection(),
-                          this.getPosition(),
-                          this.getDirection(),
-                          this.getExperience(),
-                          this.getWeapon(),
-                          this.getSail(),
-                          this.getBow(),
-                          this.getKeel());
+    protected Player(final Player oldPlayer, final Section customSection, final Position customPosition) {
+        this(customSection,
+             customPosition,
+             oldPlayer.getDirection(),
+             oldPlayer.getExperience(),
+             oldPlayer.getWeapon(),
+             oldPlayer.getSail(),
+             oldPlayer.getBow(),
+             oldPlayer.getKeel());
     }
 
-    protected Player duplicate(Section customSection, Position customPosition) {
-        return new Player(customSection,
-                          customPosition,
-                          this.getDirection(),
-                          this.getExperience(),
-                          this.getWeapon(),
-                          this.getSail(),
-                          this.getBow(),
-                          this.getKeel());
+    protected Player(final Player oldPlayer) {
+        this(oldPlayer.getSection(),
+             oldPlayer.getPosition(),
+             oldPlayer.getDirection(),
+             oldPlayer.getExperience(),
+             oldPlayer.getWeapon(),
+             oldPlayer.getSail(),
+             oldPlayer.getBow(),
+             oldPlayer.getKeel());
     }
 
     /**
@@ -104,8 +83,8 @@ public final class Player extends Ship {
         final MoveDetails moveResult = super.move(direction, distance);
         if(moveResult.equals(MoveDetails.BORDER_REACHED)) {
             this.getWorld().createNewSection(
-                (newSection) -> this.duplicate(newSection, 
-                                               this.getPosition().opposite(this.getDirection(), newSection.getBounds())));
+                (newSection) -> new Player(this, newSection, 
+                                           this.getPosition().opposite(this.getDirection(), newSection.getBounds())));
         }
         return Enemy.ACTION_SUCCESS_CONDITIONS.contains(moveResult);
     }
@@ -183,7 +162,7 @@ public final class Player extends Ship {
             this.getWorld().loadSavedSection();
         } else {
             this.getWorld().createNewSection(
-                (newSection) -> Player.getDefault(newSection, this.getWorld().getPlayerDefaultSpawnPoint()));
+                (newSection) -> new Player(newSection, this.getWorld().getPlayerDefaultSpawnPoint()));
         }
     }
 

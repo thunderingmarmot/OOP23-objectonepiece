@@ -66,42 +66,6 @@ public final class Utils {
     private Utils() { }
 
     /**
-     * A class that keeps track of the main data to save.
-     * @deprecated
-     */
-    protected static class State {
-        private final Section section;
-        private final Player player;
-
-        /**
-         * Creates a State of the game with the main information to save.
-         * @param section the Section the Player was in when the save occurred
-         * @param playerPosition the Position of the Player when the save occurred
-         * @param playerExperience the experience of the Player when the save occurred
-         */
-        protected State(final Section section, final Player player) {
-            this.section = section;
-            this.player = player;
-        }
-
-        /**
-         * Getter for the saved Section.
-         * @return the Section the Player was in when the save occurred
-         */
-        protected Section getSection() {
-            return this.section;
-        }
-
-        /**
-         * Getter for the saved Player.
-         * @return the Player object when the save occurred
-         */
-        protected Player getPlayer() {
-            return this.player;
-        }
-    }
-
-    /**
      * Getter for the map that translates a Position towards a CardinalDirection.
      * @return the described map
      */
@@ -195,7 +159,13 @@ public final class Utils {
             return Objects.isNull(direction) ? this : cardinalDirectionsTranslations.get(direction).apply(this);
         }
 
-        public Position sum(final Position pos){
+        /**
+         * This method make the vectorial addiction on two Positions.
+         * 
+         * @param  pos the position to sum.
+         * @return     a new Position that is the sum of two Positions.
+         */
+        public Position sum(final Position pos) {
             return new Position(this.row + pos.row, this.column + pos.column);
         }
 
@@ -253,7 +223,15 @@ public final class Utils {
             return versorToCardinalDirections.get(versor);
         }
 
-        public Position opposite(CardinalDirection direction, Bound bounds) {
+        /**
+         * This method give the opposite position on the bounds 
+         * depending on the current position, direction and bound.
+         * 
+         * @param  direction the current direction
+         * @param  bounds    the current bound
+         * @return           the position on the opposite bound.
+         */
+        public Position opposite(final CardinalDirection direction, final Bound bounds) {
             return oppositePositions.get(direction).apply(this, bounds);
         }
     }
