@@ -33,7 +33,7 @@ public final class Barrel extends Collidable {
      * @param player the Player that is taking this Barrel
      * @see Player
      */
-    protected void getTakenBy(final Player player) {
+    protected void onPickup(final Player player) {
         player.addExperience(experienceGiven);
     }
 
@@ -45,7 +45,7 @@ public final class Barrel extends Collidable {
     @Override
     protected void onCollisionWith(final Collider collider) {
         if (collider instanceof Player player) {
-            getTakenBy(player);
+            onPickup(player);
         }
         this.remove();
     }
