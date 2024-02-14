@@ -55,26 +55,15 @@ public final class Player extends Ship {
              Keel.standard());
     }
 
-    protected Player duplicate() {
-        return new Player(this.getSection(),
-                          this.getPosition(),
-                          this.getDirection(),
-                          this.getExperience(),
-                          this.getWeapon(),
-                          this.getSail(),
-                          this.getBow(),
-                          this.getKeel());
-    }
-
-    protected Player duplicate(Section customSection, Position customPosition) {
-        return new Player(customSection,
-                          customPosition,
-                          this.getDirection(),
-                          this.getExperience(),
-                          this.getWeapon(),
-                          this.getSail(),
-                          this.getBow(),
-                          this.getKeel());
+    protected Player(final Player oldPlayer, final Section customSection, final Position customPosition) {
+        this(customSection,
+             customPosition,
+             oldPlayer.getDirection(),
+             oldPlayer.getExperience(),
+             oldPlayer.getWeapon(),
+             oldPlayer.getSail(),
+             oldPlayer.getBow(),
+             oldPlayer.getKeel());
     }
 
     /**
@@ -98,8 +87,8 @@ public final class Player extends Ship {
         final MoveDetails moveResult = super.move(direction, distance);
         if(moveResult.equals(MoveDetails.BORDER_REACHED)) {
             this.getWorld().createNewSection(
-                (newSection) -> this.duplicate(newSection, 
-                                               this.getPosition().opposite(this.getDirection(), newSection.getBounds())));
+                (newSection) -> new Player(this, newSection, 
+                                           this.getPosition().opposite(this.getDirection(), newSection.getBounds())));
         }
         return Enemy.ACTION_SUCCESS_CONDITIONS.contains(moveResult);
     }
