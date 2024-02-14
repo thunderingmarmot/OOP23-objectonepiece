@@ -13,7 +13,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 public final class Player extends Ship {
     private static final int DEFAULT_EXPERIENCE_HEAL_COST = 100;
 
-    private final Event<PlayerUpdatedArgs> onPlayerUpdated = new Event<>();
+    private final Event<PlayerUpdatedArgs> onPlayerUpdated;
 
     private int experience;
 
@@ -21,11 +21,13 @@ public final class Player extends Ship {
                    final Position position,
                    final CardinalDirection direction,
                    final int experience,
+                   final Event<PlayerUpdatedArgs> onPlayerUpdated,
                    final Weapon weapon,
                    final Sail sail,
                    final Bow bow,
                    final Keel keel) {
         super(section, position, direction, weapon, sail, bow, keel);
+        this.onPlayerUpdated = onPlayerUpdated;
         this.experience = experience;
     }
 
@@ -39,6 +41,7 @@ public final class Player extends Ship {
              spawnPosition,
              CardinalDirection.NORTH,
              0,
+             new Event<>(),
              Weapon.cannon(),
              Sail.sloop(),
              Bow.standard(),
@@ -56,6 +59,7 @@ public final class Player extends Ship {
              customPosition,
              oldPlayer.getDirection(),
              oldPlayer.getExperience(),
+             oldPlayer.getPlayerUpdatedEvent(),
              oldPlayer.getWeapon(),
              oldPlayer.getSail(),
              oldPlayer.getBow(),
@@ -71,10 +75,16 @@ public final class Player extends Ship {
              oldPlayer.getPosition(),
              oldPlayer.getDirection(),
              oldPlayer.getExperience(),
+             oldPlayer.getPlayerUpdatedEvent(),
              oldPlayer.getWeapon(),
              oldPlayer.getSail(),
              oldPlayer.getBow(),
              oldPlayer.getKeel());
+    }
+
+    @Override
+    protected Player duplicate() {
+        return new Player(this);
     }
 
     /**
