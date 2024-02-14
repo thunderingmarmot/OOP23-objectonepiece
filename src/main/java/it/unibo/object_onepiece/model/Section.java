@@ -147,6 +147,7 @@ public final class Section {
         } else {
             removeEntityAt(p.getPosition());
             this.onPlayerAdded.invoke(new PlayerAddedArgs(p.getPlayerUpdatedEvent()));
+            p.getPlayerUpdatedEvent().invoke(new PlayerUpdatedArgs(p.getHealths(), p.getMaxHealths(), p.getExperience()));
             addEntity(p);
         }
     }
@@ -165,5 +166,9 @@ public final class Section {
 
     Event<PlayerAddedArgs> getPlayerAddedEvent() {
         return onPlayerAdded;
+    }
+
+    void entityRemovedEventInvoke() {
+        entities.forEach(e -> e.getEntityRemovedEvent().invoke(new EntityRemovedArgs(e.getPosition())));
     }
 }
