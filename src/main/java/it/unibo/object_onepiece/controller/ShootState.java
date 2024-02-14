@@ -13,7 +13,7 @@ public final class ShootState extends InputState {
      */
     @Override
     public Boolean perform(final Position pos, final Player player) {
-        return player.shootAt(pos);   
+        return player.shootAt(pos);
     }
 
     @Override

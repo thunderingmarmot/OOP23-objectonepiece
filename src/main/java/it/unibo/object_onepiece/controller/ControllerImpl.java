@@ -19,7 +19,7 @@ public final class ControllerImpl implements Controller {
         States.MOVING, new MoveState());
 
     private static Map<Buttons, Consumer<World>> buttons = Map.of(
-        Buttons.FIX,(w) -> w.getPlayer().healWithExperience() 
+        Buttons.FIX, (w) -> w.getPlayer().healWithExperience() 
     );
 
     @Override
@@ -27,7 +27,7 @@ public final class ControllerImpl implements Controller {
         if (states.get(state).perform(position, world.getPlayer())) {
             world.getEnemies()
                 .forEach(e -> ((Enemy) e).goNext());
-        }   
+        }
     }
 
     @Override
@@ -35,13 +35,13 @@ public final class ControllerImpl implements Controller {
         buttons.get(button).accept(world);
     }
 
-    protected static abstract class InputState {
+    protected abstract static class InputState {
         /**
-         * @param pos the input accepted by the controller
-         * 
-         * @return whenether it was possible to perform the action or not
+         * @param  pos    the input accepted by the controller
+         * @param  player the player
+         * @return        whenether it was possible to perform the action or not
          */
-        protected abstract Boolean perform(Position pos,Player player);
+        protected abstract Boolean perform(Position pos, Player player);
         /**
          * @return The type of state that is implemented
          */
