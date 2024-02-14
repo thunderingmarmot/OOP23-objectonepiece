@@ -71,7 +71,7 @@ public final class ObjectOnePieceApp extends Application {
     private final GridModel<State> gridModel = new GridModel<>();
     private final GridView<State> gridView = new GridView<>();
     private Controller controller = new ControllerImpl();
-    private final ProgressBar[] healthBars = new HealthBar[4];
+    private final ProgressBar[] healthBars = new ProgressBar[4];
     private final Sound sound = new Sound();
     final Label experienceText = new Label();
     private World world;
@@ -86,7 +86,7 @@ public final class ObjectOnePieceApp extends Application {
         sound.playAmbienceSound();
         sound.setVolume(sound.getAmbienceClip(), DEFAULT_AMBIENCE_SOUND_VOLUME);
 
-        final Label pirateInfo = new Label("Pirate info!");
+        final Label pirateInfo = new Label("Player info");
         pirateInfo.setAlignment(Pos.CENTER);
 
         final BorderPane rightPane = new BorderPane();
@@ -96,15 +96,15 @@ public final class ObjectOnePieceApp extends Application {
         borderPane.setCenter(gridView);
         borderPane.setRight(rightPane);
 
-        final Scene scene = new Scene(borderPane, 600, 600);
-        scene.getStylesheets().add(styleSheet);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
         for(int i = 0; i < HP_BARS_COUNT; i++) {
             healthBars[i] = new HealthBar(new ProgressBarImpl());
             barsContainer.getChildren().add(healthBars[i].getContainer());
         }
+
+        final Scene scene = new Scene(borderPane, 600, 600);
+        scene.getStylesheets().add(styleSheet);
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
         experienceText.setAlignment(Pos.CENTER);
 
@@ -178,35 +178,13 @@ public final class ObjectOnePieceApp extends Application {
                     }
                 }
             });
-            /*gridView.getCellPane(c).addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<Event>() {
-
-                @Override
-                public void handle(Event event) {
-                    Border b = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
-                        BorderWidths.DEFAULT));
-                    Pane p = new Pane();
-                    p.setBorder(b);
-                    gridView.getCellPane(c).getChildren().add(p);
-                }
-            });
-            gridView.getCellPane(c).addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<Event>() {
-
-                @Override
-                public void handle(Event event) {
-                    gridView.getCellPane(c).getChildren().stream()
-                        .filter(n -> n instanceof Pane).map(n -> (Pane) n).forEach(n -> n.setBorder(null));
-                }
-            });*/
         });
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
     }
-
-
     
     private void createEntity(String name, Position spawnPosition, CardinalDirection spawnDirection) {
         drawImage(name, spawnPosition.row(), spawnPosition.column(), Optional.of(spawnDirection));
     }
-
 
     private void updateEntity(String name, Position oldPosition, Position newPosition, CardinalDirection newDirection) {
         removeEntity(oldPosition);

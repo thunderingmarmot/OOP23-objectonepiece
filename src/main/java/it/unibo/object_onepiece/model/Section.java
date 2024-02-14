@@ -11,9 +11,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.Entity.EntityCreatedArgs;
 import it.unibo.object_onepiece.model.Entity.EntityUpdatedArgs;
 import it.unibo.object_onepiece.model.Entity.EntityRemovedArgs;
-
 import java.util.stream.Collectors;
-
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,7 +22,6 @@ import java.util.HashSet;
 public final class Section {
     private static final double SCALING_FACTOR = 50.5;
     private static final int NOISE_DISPERSION = 50;
-    private static final CardinalDirection DEFAULT_DIRECTION = CardinalDirection.NORTH;
     
     private final int ROWS;
     private final int COLUMNS;
