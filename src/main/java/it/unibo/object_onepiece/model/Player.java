@@ -146,13 +146,19 @@ public final class Player extends Ship {
      * Adds experience to the Player's owned experience.
      * @param newExperience the experience value to add
      */
-    protected void addExperience(final int newExperience) {
-        this.experience += newExperience;
+    protected void addExperience(final int experience) {
+        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), experience));
+        this.experience += experience;
+    }
+
+    protected void subtractExperience(final int experience) {
+        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), experience));
+        this.experience -= experience;
     }
 
     public void healWithExperience() {
         if(this.experience >= DEFAULT_EXPERIENCE_HEAL_COST) {
-            this.experience -= DEFAULT_EXPERIENCE_HEAL_COST;
+            this.subtractExperience(DEFAULT_EXPERIENCE_HEAL_COST);
             this.heal();
         }
     }
@@ -164,12 +170,12 @@ public final class Player extends Ship {
     @Override
     protected void takeDamage(final int damage, final ShipComponent s) {
         super.takeDamage(damage, s);
-        onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
+        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
     }
 
     protected void heal() {
         this.getShipComponents().forEach((c) -> c.setHealth(c.getMaxHealth()));
-        onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
+        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
     }
 
     @Override
