@@ -81,21 +81,7 @@ public final class Section {
         this.world = world;
         this.entities = new LinkedList<>();
     }
-    /**
-     * Constructor for copying.
-     * @param s Section to copy
-     */
-    Section(final Section s) {
-        this.rows = s.rows;
-        this.columns = s.columns;
-        this.rowInset = s.rowInset;
-        this.colInset = s.colInset;
-        this.genAreaRows = s.genAreaRows;
-        this.genAreaCols = s.genAreaCols;
-        this.bound = s.bound;
-        this.world = s.world;
-        this.entities = new LinkedList<>();
-    }
+
     /**
      * Populates entities list using white noise algorithm from JNoise.
      */

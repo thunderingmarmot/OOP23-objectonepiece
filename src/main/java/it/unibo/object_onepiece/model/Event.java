@@ -31,6 +31,13 @@ public class Event<T> {
     }
 
     /**
+     * Invalidates this Event unsubscribing every Consumer<T> from it.
+     */
+    public void invalidate() {
+        listeners.clear();
+    }
+
+    /**
      * Invoke the Event with some arguments.
      * @param args the arguments passed to the subscribed Consumers
      * @see EventArgs
