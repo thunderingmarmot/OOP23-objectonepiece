@@ -7,7 +7,6 @@ import java.util.stream.Stream;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.Utils.State;
-import it.unibo.object_onepiece.model.events.AutoProperty;
 import it.unibo.object_onepiece.model.events.Event;
 
 /**
@@ -17,7 +16,7 @@ import it.unibo.object_onepiece.model.events.Event;
 public final class Player extends Ship {
     private static final int DEFAULT_EXPERIENCE_HEAL_COST = 100;
 
-    private AutoProperty<Integer> experience;
+    private int experience;
 
     public record PlayerUpdatedArgs(List<Integer> healthList, List<Integer> maxHealthList, int experience) { }
     private Event<PlayerUpdatedArgs> onPlayerUpdated = new Event<>();
@@ -44,9 +43,7 @@ public final class Player extends Ship {
                      final Bow bow,
                      final Keel keel) {
         super(section, position, direction, weapon, sail, bow, keel);
-        this.experience = new AutoProperty<>(experience);
-        this.experience.getSetEvent().subscribe((newExperience) -> this.onPlayerUpdated.invoke(
-            new PlayerUpdatedArgs(getHealths(), getMaxHealths(), newExperience)));
+        this.experience = experience;
     }
 
     /**
@@ -99,7 +96,7 @@ public final class Player extends Ship {
         if(moveResult.equals(MoveDetails.BORDER_REACHED)) {
             this.getWorld().createNewSection(); // TODO
         }
-        return MOVE_SUCCESS_CONDITIONS.contains(moveResult);
+        return Enemy.ACTION_SUCCESS_CONDITIONS.contains(moveResult);
     }
 
     /**
@@ -129,7 +126,7 @@ public final class Player extends Ship {
      * @return the currently owned experience value
      */
     protected int getExperience() {
-        return this.experience.get();
+        return this.experience;
     }
 
     /**
@@ -137,12 +134,14 @@ public final class Player extends Ship {
      * @param newExperience the experience value to add
      */
     protected void addExperience(final int newExperience) {
-        this.experience.set(this.experience.get() + newExperience);
+        this.experience += newExperience;
     }
 
     public void healWithExperience() {
-        this.experience.set(this.experience.get() - DEFAULT_EXPERIENCE_HEAL_COST);
-        this.heal();
+        if(this.experience >= DEFAULT_EXPERIENCE_HEAL_COST) {
+            this.experience -= DEFAULT_EXPERIENCE_HEAL_COST;
+            this.heal();
+        }
     }
 
     /**
@@ -152,19 +151,18 @@ public final class Player extends Ship {
     @Override
     protected void takeDamage(final int damage, final ShipComponent s) {
         super.takeDamage(damage, s);
-        onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience.get()));
+        onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
     }
 
     protected void heal() {
         this.getShipComponents().forEach((c) -> c.setHealth(c.getMaxHealth()));
-        onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience.get()));
+        onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
     }
 
     @Override
     protected void die() {
         super.die();
-        Optional<State> savedState = this.getWorld().getSavedState();
-        if(savedState.isPresent()) {
+        if(this.getWorld().getSavedState().isPresent()) {
             this.getWorld().loadSavedSection();
         } else {
             this.getWorld().createNewSection();

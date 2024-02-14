@@ -70,9 +70,9 @@ public final class ObjectOnePieceApp extends Application {
     private final GridView<State> gridView = new GridView<>();
     private Controller controller = new ControllerImpl();
     private final ProgressBar[] healthBars = new HealthBar[4];
+    private final Sound sound = new Sound();
     final Label experienceText = new Label();
     private World world;
-    private Sound sound = new Sound();
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
@@ -143,7 +143,6 @@ public final class ObjectOnePieceApp extends Application {
                 @Override
                 public void handle(MouseEvent event) {
                     if (event.getButton() == MouseButton.SECONDARY) {
-                        sound.playSound(SoundTypes.CANNON_SHOT);
                         System.out.println("right click pressed!");
                     }
                     controller.action(new Position(c.getRow(), c.getColumn()), world);

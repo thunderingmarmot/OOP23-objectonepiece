@@ -2,7 +2,6 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.events.AutoProperty;
 import it.unibo.object_onepiece.model.events.Event;
 
 /**
@@ -11,33 +10,30 @@ import it.unibo.object_onepiece.model.events.Event;
 public class Entity {
 
     private final Section section;
-    private AutoProperty<Position> position;
-    private AutoProperty<CardinalDirection> direction;
+
+    private Position position;
+    private CardinalDirection direction;
 
     public record EntityCreatedArgs(String name, Position spawnPosition, CardinalDirection spawnDirection) { }
-    private Event<EntityCreatedArgs> onEntityCreated = new Event<>();
+    private final Event<EntityCreatedArgs> onEntityCreated = new Event<>();
 
     public record EntityUpdatedArgs(String name, Position oldPosition, Position newPosition, CardinalDirection newDirection) { }
-    private Event<EntityUpdatedArgs> onEntityUpdated = new Event<>();
+    private final Event<EntityUpdatedArgs> onEntityUpdated = new Event<>();
 
     public record EntityRemovedArgs(Position lastPosition) { }
-    private Event<EntityRemovedArgs> onEntityRemoved = new Event<>();
+    private final Event<EntityRemovedArgs> onEntityRemoved = new Event<>();
 
     /**
      * Constructor for class Entity.
      * 
-     * @param  s section where the entity should be located
-     * @param  p position of the entity in the section
-     * @param  d direction of the entity in the section
+     * @param  section   section where the entity should be located
+     * @param  position  position of the entity in the section
+     * @param  direction direction of the entity in the section
      */
     protected Entity(final Section section, final Position position, final CardinalDirection direction) {
         this.section = section;
-        this.position = new AutoProperty<>(position);
-        this.position.getSetEvent().subscribe((newPosition) -> this.onEntityUpdated.invoke(
-            new EntityUpdatedArgs(this.getClass().getSimpleName(), this.position.get(), newPosition, this.direction.get())));
-        this.direction = new AutoProperty<>(direction);
-        this.direction.getSetEvent().subscribe((newDirection) -> this.onEntityUpdated.invoke(
-            new EntityUpdatedArgs(this.getClass().getSimpleName(), this.position.get(), this.position.get(), newDirection)));
+        this.position = position;
+        this.direction = direction;
     }
 
     /**
@@ -66,7 +62,7 @@ public class Entity {
      * @see    Utils
      */
     protected Position getPosition() {
-        return this.position.get();
+        return this.position;
     }
 
     /**
@@ -75,7 +71,7 @@ public class Entity {
      * @return the current direction of the Entity.
      */
     protected CardinalDirection getDirection() {
-        return this.direction.get();
+        return this.direction;
     }
 
     /**
@@ -88,7 +84,9 @@ public class Entity {
      * @see    Utils
      */
     protected void setPosition(final Position newPosition) {
-        this.position.set(newPosition);
+        this.onEntityUpdated.invoke(new EntityUpdatedArgs(
+            this.getClass().getSimpleName(), this.position, newPosition, this.direction));
+        this.position = newPosition;
     }
 
     /**
@@ -101,14 +99,16 @@ public class Entity {
      * @see    Utils
      */
     protected void setDirection(final CardinalDirection newDirection) {
-        this.direction.set(newDirection);
+        this.onEntityUpdated.invoke(new EntityUpdatedArgs(
+            this.getClass().getSimpleName(), this.position, this.position, newDirection));
+        this.direction = newDirection;
     }
 
     /**
      * Removes entity from the section at its own position.
      */
     protected void remove() {
-        this.getSection().removeEntityAt(this.position.get());
+        this.getSection().removeEntityAt(this.position);
     }
 
     public Event<EntityCreatedArgs> getEntityCreatedEvent() {

@@ -6,7 +6,6 @@ import java.util.Map;
 
 import it.unibo.object_onepiece.model.Enemy;
 import it.unibo.object_onepiece.model.Player;
-import it.unibo.object_onepiece.model.Section;
 import it.unibo.object_onepiece.model.World;
 
 /**

@@ -1,8 +1,10 @@
 package it.unibo.object_onepiece.model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiPredicate;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
@@ -111,7 +113,7 @@ public abstract class Ship extends Collider {
         MoveDetails.BORDER_REACHED
     );
 
-    private Alert onShipShooted = new Alert();
+    private final Alert onShipShooted = new Alert();
 
     /**
     * Constructor for class ShipImpl.
@@ -206,10 +208,6 @@ public abstract class Ship extends Collider {
             return MoveDetails.NO_MOVEMENT;
         }
 
-        if (this.getSail().getHealth() <= 0) {
-            return MoveDetails.SAIL_BROKEN;
-        }
-
         if (obstacle.isPresent() 
         && obstacle.get() instanceof Collidable c
         && c.getRigidness() == Rigidness.HARD) {
@@ -219,7 +217,11 @@ public abstract class Ship extends Collider {
         if (!direction.equals(this.getDirection())) {
             return MoveDetails.ROTATED;
         }
-        
+
+        if (this.getSail().getHealth() <= 0) {
+            return MoveDetails.SAIL_BROKEN;
+        }
+
         if (!this.getSection().getBounds().isInside(this.getPosition().moveTowards(direction))) {
             return MoveDetails.BORDER_REACHED;
         }
@@ -237,6 +239,72 @@ public abstract class Ship extends Collider {
         }
 
         return MoveDetails.MOVED_SUCCESSFULLY;
+    }
+
+    /**
+     * This method rotates the Ship to the given direction.
+     * 
+     * @param  direction the direction in which the ship must rotate
+     */
+    protected void rotate(final CardinalDirection direction) {
+        this.setDirection(direction);
+    }
+
+    /**
+     * This method calls takeDamage on the collider's 
+     * bow if its Rigidness is MEDIUM and if it's a Ship.
+     * If the collider is colliding laterally or 
+     * behind this ship, the damage is received by the keel
+     * of this ship, also if this keel is damaged the damage
+     * of the collider's bow is multiplied by its crash damage multiplier.
+     * Instead if the two ships are colliding frontally the
+     * damage is received by the ship's bow.
+     * 
+     * @see  Collider
+     * @see  Utils
+     * @see  ShipComponent
+     * @see  Bow
+     * @see  Keel
+     */
+    @Override
+    protected void onCollisionWith(final Collider collider) {
+        if (collider.getRigidness() == Rigidness.MEDIUM && collider instanceof Ship s) {
+            int damage = s.getBow().getCrashDamage();
+            ShipComponent shipComponent = this.getBow();
+
+            if (Utils.areEntitiesPerpendicular(this, collider)
+            || Utils.areEntitiesInSameDirection(this, s)) {
+                if (this.getKeel().isKeelDamaged()) {
+                    damage *= s.getBow().getCrashDamageMultiplier();
+                }
+                shipComponent = this.getKeel();
+            }
+
+            this.takeDamage(damage, shipComponent);
+        }
+    }
+
+    /**
+     * This method calls takeDamage() on its bow with the damage
+     * of the collidable's bow if the Rigidness of the collidable is MEDIUM,
+     * if it's a Ship and if the two ships are colliding frontally
+     * Then it calls onCollisionWith() on the collidable.
+     * 
+     * @see  Collidable
+     * @see  Utils
+     * @see  ShipComponent
+     * @see  Bow
+     */
+    @Override
+    protected void collideWith(final Collidable collidable) {
+        if (collidable.getRigidness() == Rigidness.MEDIUM
+        && !Utils.areEntitiesPerpendicular(collidable, this)
+        && collidable instanceof Ship s
+        && !Utils.areEntitiesInSameDirection(this, s)
+        && s.getBow().getHealth() > 0) {
+            this.takeDamage(s.getBow().getCrashDamage(), this.getBow());
+        }
+        collidable.onCollisionWith(this);
     }
 
     /**
@@ -264,16 +332,25 @@ public abstract class Ship extends Collider {
 
         if (this.getPosition().isInlineWith(position, this.getDirection()) 
         && this.getPosition().distanceFrom(position) <= this.getWeapon().getRange()) {
-            hitTarget(position, this.getWeapon().getMaxDamage());
+            final Position shootPosition;
+
+            if (this.getEntityInTrajectory(position).isPresent() 
+            && this.getEntityInTrajectory(position).get() instanceof Collidable c) {
+                shootPosition = c.getPosition();
+            } else {
+                shootPosition = position;
+            }
+
+            hitTarget(shootPosition, this.getWeapon().getMaxDamage());
 
             Utils.getCardinalDirectionsTranslationMap().values()
                                                        .stream()
-                                                       .forEach((f) -> hitTarget(f.apply(position), this.getWeapon()
+                                                       .forEach((f) -> hitTarget(f.apply(shootPosition), this.getWeapon()
                                                                                                         .getMinDamage()));
 
             Utils.getOrdinalDirectionsTranslationMap().values()
                                                       .stream()
-                                                      .forEach((f) -> hitTarget(f.apply(position), this.getWeapon()
+                                                      .forEach((f) -> hitTarget(f.apply(shootPosition), this.getWeapon()
                                                                                                        .getMinDamage()));
 
             this.onShipShooted.invoke();
@@ -305,6 +382,34 @@ public abstract class Ship extends Collider {
         }
     }
 
+    private Optional<Entity> getEntityInTrajectory(final Position p) {
+        Position nextPosition = this.getPosition();
+        CardinalDirection direction = this.getDirection();
+        Optional<Entity> entity = Optional.empty();
+
+        final Map<CardinalDirection, BiPredicate<Position, Position>> positionsOnTrajectoryConditions = Map.of(
+            CardinalDirection.NORTH, (p1, p2) -> p1.row() > p2.row(),
+            CardinalDirection.SOUTH, (p1, p2) -> p1.row() < p2.row(),
+            CardinalDirection.EAST, (p1, p2) -> p1.column() < p2.column(),
+            CardinalDirection.WEST, (p1, p2) -> p1.column() > p2.column()
+        );
+
+        while (this.getPosition().distanceFrom(p) > this.getPosition().distanceFrom(nextPosition)
+        && entity.isEmpty()) {
+
+            for (final CardinalDirection d : CardinalDirection.values()) {
+                if (positionsOnTrajectoryConditions.get(d).test(nextPosition, p)) {
+                    direction = d;
+                }
+            }
+
+            nextPosition = nextPosition.moveTowards(direction);
+            entity = this.getSection().getEntityAt(nextPosition);
+        }
+
+        return entity;
+    }
+
     /**
      * This method is used to cause the ship to take damage from enemy attacks or collisions.
      * Since the ship have multiple component, this method is called on one ShipComponent.
@@ -320,7 +425,6 @@ public abstract class Ship extends Collider {
             } else {
                 s.setHealth(0);
             }
-            System.out.println(this.toString() + " ha preso " + damage + " danni al " + s.toString());
         }
 
         if (this.keel.getHealth() <= 0) {
@@ -328,6 +432,9 @@ public abstract class Ship extends Collider {
         }
     }
 
+    /**
+     * This method remove the ship.
+     */
     protected void die() {
         this.remove();
     }
@@ -426,6 +533,11 @@ public abstract class Ship extends Collider {
         );
     }
 
+    /**
+     * Getter for the alert when the ship shoot.
+     * 
+     * @return the onShipShooted Alert.
+     */
     public Alert getShipShootedAlert() {
         return this.onShipShooted;
     }
@@ -439,60 +551,5 @@ public abstract class Ship extends Collider {
     @Override
     protected Rigidness getRigidness() {
         return Rigidness.MEDIUM;
-    }
-
-    /**
-     * This method rotates the Ship to the given direction.
-     * 
-     * @param  direction the direction in which the ship must rotate
-     */
-    protected void rotate(final CardinalDirection direction) {
-        this.setDirection(direction);
-    }
-
-    /**
-     * This method calls takeDamage on the collider's 
-     * bow if its Rigidness is MEDIUM.
-     * Also if the collider has opposite direction of
-     * this entity the damage is doubled.
-     * 
-     * @see  Collider
-     * @see  Utils
-     */
-    @Override
-    protected void onCollisionWith(final Collider collider) {
-        if (collider.getRigidness() == Rigidness.MEDIUM && collider instanceof Ship s) {
-            int damage = s.getBow().getCrashDamage();
-            ShipComponent shipComponent = this.getBow();
-
-            if (Utils.areEntitiesPerpendicular(this, collider)
-            || Utils.areEntitiesInSameDirection(this, s)) {
-                if (this.getKeel().isKeelDamaged()) {
-                    damage *= s.getBow().getCrashDamageMultiplier();
-                }
-                shipComponent = this.getKeel();
-            }
-
-            this.takeDamage(damage, shipComponent);
-        }
-    }
-
-    /**
-     * This method calls onCollisionWith() on the collidable
-     * and if the Rigidness of the collidable is MEDIUM it calls
-     * takeDamage() on himself.
-     * 
-     * @see  Collidable
-     */
-    @Override
-    protected void collideWith(final Collidable collidable) {
-        if (collidable.getRigidness() == Rigidness.MEDIUM
-        && !Utils.areEntitiesPerpendicular(collidable, this)
-        && collidable instanceof Ship s
-        && !Utils.areEntitiesInSameDirection(this, s)
-        && s.getBow().getHealth() > 0) {
-            this.takeDamage(s.getBow().getCrashDamage(), this.getBow());
-        }
-        collidable.onCollisionWith(this);
     }
 }
