@@ -94,19 +94,19 @@ public final class Section {
                         /* Don't do anything because water */
                         break;
                     case 1:
-                        this.addEntity(Island.getDefault(this, p, DEFAULT_DIRECTION));
+                        this.addEntity(new Island(this, p, DEFAULT_DIRECTION));
                         break;
                     case 2:
-                        this.addEntity(Barrel.getDefault(this, p, DEFAULT_DIRECTION));
+                        this.addEntity(new Barrel(this, p, DEFAULT_DIRECTION));
                         break;
                     case 3:
-                        this.addEntity(NavalMine.getDefault(this, p, DEFAULT_DIRECTION));
+                        this.addEntity(new NavalMine(this, p, DEFAULT_DIRECTION));
                         break;
                     case 4:
-                        this.addEntity(Enemy.getDefault(this, p));
+                        this.addEntity(new Enemy(this, p));
                         break;
                     case 5:
-                        this.addEntity(Enemy.getDefault(this, p));
+                        this.addEntity(new Player(this, p));
                     default:
                         break;
                 }

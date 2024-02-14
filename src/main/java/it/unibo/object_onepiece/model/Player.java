@@ -32,33 +32,27 @@ public final class Player extends Ship {
      * @param bow the starting bow of the Player's ship
      * @see Player
      */
-    protected Player(final Section section,
-                     final Position position,
-                     final CardinalDirection direction,
-                     final int experience,
-                     final Weapon weapon,
-                     final Sail sail,
-                     final Bow bow,
-                     final Keel keel) {
+    private Player(final Section section,
+                   final Position position,
+                   final CardinalDirection direction,
+                   final int experience,
+                   final Weapon weapon,
+                   final Sail sail,
+                   final Bow bow,
+                   final Keel keel) {
         super(section, position, direction, weapon, sail, bow, keel);
         this.experience = experience;
     }
 
-    /**
-     * Creates a default Player.
-     * @param spawnSection the reference to the Section containing this Player
-     * @param spawnPosition the position to place this Player at
-     * @return the newly created Player object
-     */
-    protected static Player getDefault(final Section spawnSection, final Position spawnPosition) {
-        return new Player(spawnSection,
-                          spawnPosition,
-                          CardinalDirection.NORTH,
-                          0,
-                          Weapon.cannon(),
-                          Sail.sloop(),
-                          Bow.standard(),
-                          Keel.standard());
+    protected Player(final Section spawnSection, final Position spawnPosition) {
+        this(spawnSection,
+             spawnPosition,
+             CardinalDirection.NORTH,
+             0,
+             Weapon.cannon(),
+             Sail.sloop(),
+             Bow.standard(),
+             Keel.standard());
     }
 
     protected Player duplicate() {
@@ -183,7 +177,7 @@ public final class Player extends Ship {
             this.getWorld().loadSavedSection();
         } else {
             this.getWorld().createNewSection(
-                (newSection) -> Player.getDefault(newSection, this.getWorld().getPlayerDefaultSpawnPoint()));
+                (newSection) -> new Player(newSection, this.getWorld().getPlayerDefaultSpawnPoint()));
         }
     }
 
