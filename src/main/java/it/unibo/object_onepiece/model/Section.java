@@ -138,8 +138,8 @@ public final class Section {
     }
 
     Player getPlayer() {
-        if (entities.stream().filter(e -> e instanceof Player).count() != 1) {
-            throw new IllegalStateException("There is no player in section or there's more than one player");
+        if (entities.stream().filter(e -> e instanceof Player).count() > 1) {
+            throw new IllegalStateException("There's more than one player");
         }
         final Optional<Player> p = entities.stream().filter(e -> e instanceof Player).map(e -> (Player) e).findFirst();
         if (!p.isPresent()) {
