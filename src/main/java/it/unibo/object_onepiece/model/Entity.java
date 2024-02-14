@@ -21,7 +21,7 @@ public abstract class Entity {
      * @param  spawnDirection the spawn direction of the Entity
      */
     public record EntityCreatedArgs(String name, Position spawnPosition, CardinalDirection spawnDirection) { }
-    private final Event<EntityCreatedArgs> onEntityCreated;
+    private final Event<EntityCreatedArgs> onEntityCreated = new Event<>();
 
     /**
      * This record contains the arguments of the Entity updated Event.
@@ -32,7 +32,7 @@ public abstract class Entity {
      * @param  newDirection the new direction of the Entity
      */
     public record EntityUpdatedArgs(String name, Position oldPosition, Position newPosition, CardinalDirection newDirection) { }
-    private final Event<EntityUpdatedArgs> onEntityUpdated;
+    private final Event<EntityUpdatedArgs> onEntityUpdated = new Event<>();
 
     /**
      * This record contains the arguments of the Entity removed Event.
@@ -40,21 +40,7 @@ public abstract class Entity {
      * @param  lastPosition the last position of the Entity
      */
     public record EntityRemovedArgs(Position lastPosition) { }
-    private final Event<EntityRemovedArgs> onEntityRemoved;
-
-    /**
-     * Constructor for copying from an existing Entity.
-     * 
-     * @param  origin  the Entity to copy from
-     */
-    protected Entity(final Entity origin) {
-        this.section = origin.section;
-        this.position = origin.position;
-        this.direction = origin.direction;
-        this.onEntityCreated = origin.onEntityCreated;
-        this.onEntityUpdated = origin.onEntityUpdated;
-        this.onEntityRemoved = origin.onEntityRemoved;
-    }
+    private final Event<EntityRemovedArgs> onEntityRemoved = new Event<>();
 
     /**
      * Constructor for class Entity.
@@ -67,9 +53,15 @@ public abstract class Entity {
         this.section = section;
         this.position = position;
         this.direction = direction;
-        this.onEntityCreated = new Event<>();
-        this.onEntityUpdated = new Event<>();
-        this.onEntityRemoved = new Event<>();
+    }
+
+    /**
+     * Constructor for copying from an existing Entity.
+     * 
+     * @param  origin  the Entity to copy from
+     */
+    protected Entity(final Entity origin) {
+        this(origin.section, origin.position, origin.direction);
     }
 
     protected abstract Entity copy();

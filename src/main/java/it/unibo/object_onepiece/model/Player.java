@@ -13,7 +13,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 public final class Player extends Ship {
     private static final int DEFAULT_EXPERIENCE_HEAL_COST = 100;
 
-    private final Event<PlayerUpdatedArgs> onPlayerUpdated;
+    private final Event<PlayerUpdatedArgs> onPlayerUpdated = new Event<>();
 
     private int experience;
 
@@ -24,7 +24,6 @@ public final class Player extends Ship {
      */
     protected Player(final Section spawnSection, final Position spawnPosition) {
         super(spawnSection, spawnPosition, CardinalDirection.NORTH, Weapon.cannon(), Sail.sloop(), Bow.standard(), Keel.standard());
-        this.onPlayerUpdated = new Event<>();
         this.experience = 0;
     }
 
@@ -34,9 +33,9 @@ public final class Player extends Ship {
      * @param customSection the Section containing the new Player
      * @param customPosition the Position the new Player is at
      */
-    protected Player(final Player origin, final Section customSection, final Position customPosition) {
-        super(customSection, customPosition, origin.getDirection(), origin.getWeapon(), origin.getSail(), origin.getBow(), origin.getKeel());
-        this.onPlayerUpdated = origin.onPlayerUpdated;
+    protected Player(final Player origin, final Section customSection) {
+        super(customSection, origin.getPosition(), origin.getDirection(), origin.getWeapon(), origin.getSail(), origin.getBow(), origin.getKeel());
+        this.experience = origin.experience;
     }
 
     /**
@@ -45,7 +44,7 @@ public final class Player extends Ship {
      */
     protected Player(final Player origin) {
         super(origin);
-        this.onPlayerUpdated = origin.onPlayerUpdated;
+        this.experience = origin.experience;
     }
 
     @Override
@@ -74,8 +73,11 @@ public final class Player extends Ship {
         final MoveDetails moveResult = super.move(direction, distance);
         if (moveResult.equals(MoveDetails.BORDER_REACHED)) {
             this.getWorld().createNewSection(
-                (newSection) -> new Player(this, newSection, 
-                                           this.getPosition().opposite(this.getDirection(), newSection.getBounds())));
+                (newSection) -> {
+                    Player player = new Player(this, newSection);
+                    player.setPosition(player.getPosition().opposite(player.getDirection(), newSection.getBounds()));
+                    return player;
+                });
         }
         return Enemy.ACTION_SUCCESS_CONDITIONS.contains(moveResult);
     }
