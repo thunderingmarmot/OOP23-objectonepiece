@@ -10,6 +10,7 @@ import java.util.function.Consumer;
  */
 public class Event<T> {
 
+    private boolean isValid = true;
     private final List<Consumer<T>> listeners = new ArrayList<>();
 
     /**
@@ -18,7 +19,11 @@ public class Event<T> {
      * @see Consumer
      */
     public void subscribe(final Consumer<T> listener) {
-        listeners.add(listener);
+        if(this.isValid) {
+            listeners.add(listener);
+        } else {
+            throw new IllegalStateException("Tried to call 'subscribe' on an invalid Event!");
+        }
     }
 
     /**
@@ -27,14 +32,23 @@ public class Event<T> {
      * @see Consumer
      */
     public void unsubscribe(final Consumer<T> listener) {
-        listeners.remove(listener);
+        if(this.isValid) {
+            listeners.remove(listener);
+        } else {
+            throw new IllegalStateException("Tried to call 'unsubscribe' on an invalid Event!");
+        }
     }
 
     /**
      * Invalidates this Event unsubscribing every Consumer<T> from it.
      */
     public void invalidate() {
-        listeners.clear();
+        if(this.isValid) {
+            listeners.clear();
+            this.isValid = false;
+        } else {
+            throw new IllegalStateException("Tried to call 'invalidate' on an invalid Event!");
+        }
     }
 
     /**
@@ -42,7 +56,11 @@ public class Event<T> {
      * @param args the argument passed to the subscribed Consumers
      */
     public void invoke(final T args) {
-        listeners.forEach((listener) -> listener.accept(args));
+        if(this.isValid) {
+            listeners.forEach((listener) -> listener.accept(args));
+        } else {
+            throw new IllegalStateException("Tried to call 'invoke' on an invalid Event!");
+        }
     }
 
     /**
@@ -50,7 +68,11 @@ public class Event<T> {
      * @param args the argument passed to the subscribed Consumers
      */
     public void lastInvoke(final T args) {
-        this.invoke(args);
-        this.invalidate();
+        if(this.isValid) {
+            this.invoke(args);
+            this.invalidate();
+        } else {
+            throw new IllegalStateException("Tried to call 'lastInvoke' on an invalid Event!");
+        }
     }
 }
