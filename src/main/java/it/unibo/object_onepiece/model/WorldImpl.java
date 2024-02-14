@@ -59,10 +59,10 @@ public final class WorldImpl implements World {
     }
 
     void createNewSection(final Function<Section, Player> player) {
-        this.currentSection.entityRemovedEventInvoke();
+        this.currentSection.clearEntities();
         this.currentSection.getEntityAddedEvent().invalidate();
         this.currentSection.getPlayerAddedEvent().invalidate();
-        
+
         this.currentSection = new Section(this);
         this.onSectionInstantiated.invoke(
             new SectionInstantiatedArgs(this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent())
@@ -73,16 +73,16 @@ public final class WorldImpl implements World {
 
     void loadSavedSection() {
         if (saved.isPresent()) {
-            this.currentSection.entityRemovedEventInvoke();
+            this.currentSection.clearEntities();
             this.currentSection.getEntityAddedEvent().invalidate();
             this.currentSection.getPlayerAddedEvent().invalidate();
 
-            this.currentSection = new Section(this);
+            /*this.currentSection = new Section(this);
             this.onSectionInstantiated.invoke(
                 new SectionInstantiatedArgs(this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent())
             );
             this.currentSection.setEntities(saved.get().entities);
-            this.currentSection.addPlayer(saved.get().player);
+            this.currentSection.addPlayer(saved.get().player);*/
         } else {
             throw new IllegalStateException("Cannot call switchToSection when player hasn't yet saved to an island");
         }

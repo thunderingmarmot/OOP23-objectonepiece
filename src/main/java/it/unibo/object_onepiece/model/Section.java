@@ -12,6 +12,7 @@ import it.unibo.object_onepiece.model.Entity.EntityCreatedArgs;
 import it.unibo.object_onepiece.model.Entity.EntityUpdatedArgs;
 import it.unibo.object_onepiece.model.Entity.EntityRemovedArgs;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,6 +116,11 @@ public final class Section {
         entities.forEach((e) -> addEntity(e));
     }
 
+    void clearEntities() {
+        entities.forEach((e) -> e.getEntityRemovedEvent().lastInvoke(new EntityRemovedArgs(e.getPosition())));
+        entities.clear();
+    }
+
     WorldImpl getWorld() {
         return this.world;
     }
@@ -128,10 +134,9 @@ public final class Section {
             .filter(e -> e.getPosition().equals(position))
             .findFirst().ifPresent(e -> {
                     entities.remove(e);
-                    e.getEntityRemovedEvent().invoke(new EntityRemovedArgs(position));
+                    e.getEntityRemovedEvent().lastInvoke(new EntityRemovedArgs(position));
                     e.getEntityCreatedEvent().invalidate();
                     e.getEntityUpdatedEvent().invalidate();
-                    e.getEntityRemovedEvent().invalidate();
                 }
             );
     }
@@ -181,9 +186,5 @@ public final class Section {
 
     Event<PlayerAddedArgs> getPlayerAddedEvent() {
         return onPlayerAdded;
-    }
-
-    void entityRemovedEventInvoke() {
-        entities.forEach(e -> e.getEntityRemovedEvent().invoke(new EntityRemovedArgs(e.getPosition())));
     }
 }
