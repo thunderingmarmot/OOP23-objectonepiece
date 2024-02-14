@@ -129,6 +129,9 @@ public final class Section {
             .findFirst().ifPresent(e -> {
                     entities.remove(e);
                     e.getEntityRemovedEvent().invoke(new EntityRemovedArgs(position));
+                    e.getEntityCreatedEvent().invalidate();
+                    e.getEntityUpdatedEvent().invalidate();
+                    e.getEntityRemovedEvent().invalidate();
                 }
             );
     }

@@ -171,7 +171,8 @@ public final class Player extends Ship {
      */
     @Override
     protected void die() {
-        //super.die();
+        super.die();
+        this.onPlayerUpdated.invalidate();
         if (this.getWorld().getSavedState().isPresent()) {
             this.getWorld().loadSavedSection();
         } else {

@@ -60,6 +60,9 @@ public final class WorldImpl implements World {
 
     void createNewSection(final Function<Section, Player> player) {
         this.currentSection.entityRemovedEventInvoke();
+        this.currentSection.getEntityAddedEvent().invalidate();
+        this.currentSection.getPlayerAddedEvent().invalidate();
+        
         this.currentSection = new Section(this);
         this.onSectionInstantiated.invoke(
             new SectionInstantiatedArgs(this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent())
@@ -71,6 +74,9 @@ public final class WorldImpl implements World {
     void loadSavedSection() {
         if (saved.isPresent()) {
             this.currentSection.entityRemovedEventInvoke();
+            this.currentSection.getEntityAddedEvent().invalidate();
+            this.currentSection.getPlayerAddedEvent().invalidate();
+
             this.currentSection = new Section(this);
             this.onSectionInstantiated.invoke(
                 new SectionInstantiatedArgs(this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent())
