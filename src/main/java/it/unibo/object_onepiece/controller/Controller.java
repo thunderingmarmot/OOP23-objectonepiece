@@ -22,6 +22,9 @@ public interface Controller {
         MOVING
     }
 
+    /**
+     * Contains the list of all button-linkable functions of the game.
+     */
     enum Buttons {
         /**
          * The experience is used to fix the ship.

@@ -4,12 +4,10 @@ import it.unibo.object_onepiece.model.Enemy.States;
 import it.unibo.object_onepiece.model.Utils.Position;
 /**
  * The attackState of Enemy.
- * identi
  */
 public final class AttackState extends EnemyState {
     private final Enemy ship;
     private final NavigationSystem navigationSystem;
-    private Player player;
     private Position objective;
     /**
      * The constructor of attackState.
@@ -23,8 +21,9 @@ public final class AttackState extends EnemyState {
 
     @Override
     protected Boolean perform() {
-        this.player = this.ship.getSection().getPlayer();
-        final Integer distanceFromPlayer = this.player.getPosition().distanceFrom(this.ship.getPosition());
+        final var player = this.ship.getSection().getPlayer();
+        final Integer distanceFromPlayer = player.getPosition().distanceFrom(this.ship.getPosition());
+
         if (distanceFromPlayer > this.ship.getTriggerDistance()) {
             ship.changeState(States.PATROLLING);
             return false;
@@ -58,16 +57,16 @@ public final class AttackState extends EnemyState {
      */
     private void circularTargetPlayer() {
         final var bound = this.ship.getSection().getBounds();
-        final var playerPos = player.getPosition();
         final var tsection = this.ship.getSection();
         final int radius = 2;
+        final var player = ship.getSection().getPlayer();
 
         do {
             final int x = -radius + Utils.getRandom().nextInt(radius * 2 + 1);
             //the pitagorean formula for one side of the triangle
             final int y = Double.valueOf(Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))).intValue();
 
-            objective = playerPos.sum(new Position(x, y * randSign()));
+            objective = player.getPosition().sum(new Position(x, y * randSign()));
         } while (!bound.isInside(objective) || tsection.getEntityAt(objective).isPresent());
     }
 
