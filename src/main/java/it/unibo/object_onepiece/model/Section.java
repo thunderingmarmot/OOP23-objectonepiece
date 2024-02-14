@@ -115,9 +115,12 @@ public final class Section {
     }
 
     void clearEntities() {
-        while(this.entities.size() > 0) {
-            this.entities.get(0).remove();
-        }
+        this.entities.forEach((entity) -> {
+            entity.getEntityRemovedEvent().lastInvoke(new EntityRemovedArgs(entity.getPosition()));
+            entity.getEntityCreatedEvent().invalidate();
+            entity.getEntityUpdatedEvent().invalidate();
+        });
+        this.entities.clear();
     }
 
     WorldImpl getWorld() {
@@ -131,15 +134,11 @@ public final class Section {
     void removeEntityAt(final Position position) {
         Optional<Entity> entity = this.getEntityAt(position);
         if(entity.isPresent()) {
-            this.removeEntity(entity.get());
+            this.entities.remove(entity.get());
+            entity.get().getEntityRemovedEvent().lastInvoke(new EntityRemovedArgs(entity.get().getPosition()));
+            entity.get().getEntityCreatedEvent().invalidate();
+            entity.get().getEntityUpdatedEvent().invalidate();
         }
-    }
-
-    void removeEntity(final Entity entity) {
-        this.entities.remove(entity);
-        entity.getEntityRemovedEvent().lastInvoke(new EntityRemovedArgs(entity.getPosition()));
-        entity.getEntityCreatedEvent().invalidate();
-        entity.getEntityUpdatedEvent().invalidate();
     }
 
     Player getPlayer() {
