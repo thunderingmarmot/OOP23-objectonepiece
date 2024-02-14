@@ -87,7 +87,7 @@ public final class Enemy extends Ship {
     }
 
     @Override
-    protected Entity copy() {
+    protected Enemy copy() {
         return new Enemy(this);
     }
 

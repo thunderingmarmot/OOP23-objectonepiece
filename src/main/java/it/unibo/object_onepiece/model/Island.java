@@ -24,7 +24,7 @@ public final class Island extends Collidable {
     }
 
     @Override
-    protected Entity copy() {
+    protected Island copy() {
         return new Island(this);
     }
 

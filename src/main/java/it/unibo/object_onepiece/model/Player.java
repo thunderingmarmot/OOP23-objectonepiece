@@ -49,7 +49,7 @@ public final class Player extends Ship {
     }
 
     @Override
-    protected Entity copy() {
+    protected Player copy() {
         return new Player(this);
     }
 
@@ -171,7 +171,7 @@ public final class Player extends Ship {
      */
     @Override
     protected void die() {
-        super.die();
+        //super.die();
         if (this.getWorld().getSavedState().isPresent()) {
             this.getWorld().loadSavedSection();
         } else {

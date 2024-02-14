@@ -79,7 +79,7 @@ public final class Section {
         this.genAreaCols = this.columns - rowInset;
         this.bound = new Bound(this.rows, this.columns);
         this.world = world;
-        entities = new LinkedList<>();
+        this.entities = new LinkedList<>();
     }
     /**
      * Constructor for copying.
@@ -94,8 +94,7 @@ public final class Section {
         this.genAreaCols = s.genAreaCols;
         this.bound = s.bound;
         this.world = s.world;
-        this.entities = new ArrayList<>(s.entities
-            .stream().map((e) -> e.copy()).toList());
+        this.entities = new LinkedList<>();
     }
     /**
      * Populates entities list using white noise algorithm from JNoise.
@@ -124,6 +123,10 @@ public final class Section {
         entities.stream().filter(n -> !items.add(n.getPosition()))
                 .collect(Collectors.toSet())
                 .forEach(e -> System.out.println(e.getPosition()));
+    }
+
+    void setEntities(List<Entity> entities) {
+        entities.forEach((e) -> addEntity(e));
     }
 
     WorldImpl getWorld() {
