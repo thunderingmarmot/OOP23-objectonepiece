@@ -1,7 +1,6 @@
 package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Enemy.States;
-import it.unibo.object_onepiece.model.Enemy.EnemyState;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 /**
  * ObstacleAvoidance implements the Avoidance state of Enemy.

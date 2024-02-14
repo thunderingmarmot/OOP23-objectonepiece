@@ -3,13 +3,32 @@ package it.unibo.object_onepiece.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibo.object_onepiece.model.Utils.*;
+import it.unibo.object_onepiece.model.Utils.CardinalDirection;
+import it.unibo.object_onepiece.model.Utils.Position;
 
+/**
+ * This class rappresents The enemy entity.
+ * Since it exends Ship it can shoot and move according to 
+ * the algorithm
+ */
 public final class Enemy extends Ship {
 
+    /**
+     * The different states in which the Enemy acts.
+     * ( State pattern )
+     */
     public enum States {
+        /**
+         * The Enemy wanders the map, in search for the player.
+         */
         PATROLLING,
+        /**
+         * The Enemy has collided with an obstacle and is finding an alterantive route
+         */
         AVOIDING,
+        /**
+         * 
+         */
         ATTACKING
     } 
 
@@ -22,28 +41,33 @@ public final class Enemy extends Ship {
 
     private static final int DEFAULT_TRIGGER_DISTANCE = 5;
     private final int triggerDistance;
-   
-    public static Enemy getDefault(Section spawnSection, Position spawnPosition){
-        return new Enemy(spawnSection,
-                         spawnPosition,
-                         CardinalDirection.NORTH,
-                         Weapon.cannon(),
-                         Sail.sloop(),
-                         Bow.standard(),
-                         Keel.standard(),
-                         DEFAULT_TRIGGER_DISTANCE);
+    /**
+     * Returns a Default version of Enemy
+     * @param spawnSection the section in which enemy gets spawned
+     * @param spawnPosition where the Enemy gets spawned
+     * @return
+    */
+    protected Enemy(final Section spawnSection, final Position spawnPosition) {
+        this(spawnSection,
+            spawnPosition,
+            CardinalDirection.NORTH,
+            Weapon.cannon(),
+            Sail.sloop(),
+            Bow.standard(),
+            Keel.standard(),
+            DEFAULT_TRIGGER_DISTANCE);
     }
     private final List<EnemyState> enemyStates;
     private EnemyState currentState;
-    
-    protected Enemy(final Section section,
-                    final Position position,
-                    final CardinalDirection direction,
-                    final Weapon weapon,
-                    final Sail sail,
-                    final Bow bow,
-                    final Keel keel,
-                    final int triggerDistance) {
+
+    private Enemy(final Section section,
+                final Position position,
+                final CardinalDirection direction,
+                final Weapon weapon,
+                final Sail sail,
+                final Bow bow,
+                final Keel keel,
+                final int triggerDistance) {
         super(section, position, direction, weapon, sail, bow, keel);
         this.triggerDistance = triggerDistance;
 
@@ -52,10 +76,13 @@ public final class Enemy extends Ship {
             new ObstacleAvoidance(this),
             new AttackState(this, new Compass())
         ));
-        
+
         currentState = findState(States.PATROLLING);
     }
-
+    /**
+     * 
+     * @return the distance at which the Enemy change from Patrol to Attack.
+    */
     protected int getTriggerDistance() {
         return this.triggerDistance;
     }
@@ -63,31 +90,33 @@ public final class Enemy extends Ship {
     protected Section getSection() {
         return super.getSection();
     }
-
+    /**
+     * Needs to be called when is the Enemy turn.
+     */
     public void goNext() {
-        while (!currentState.perform());
+        Boolean result;
+        do {
+            result = !currentState.perform();
+        } while (result);
     }
-
+    /**
+     * 
+     * @return returns the current state
+     */
     protected States getCurrentState() {
         return currentState.getState();
     }
-    
-    protected void changeState(States state) {
+    /**
+     * Is called by the Enemy or enemy states to change the current state.
+     * @param state
+     */
+    protected void changeState(final States state) {
         System.err.println("stato cambiato, " + state.toString());
          this.currentState = findState(state);
     }
 
-    private EnemyState findState(States stato){
+    private EnemyState findState(final States stato) {
         return enemyStates.stream().filter(x -> x.getState().equals(stato)).findFirst().get();
     }
-
-    protected static abstract class EnemyState {
-        /**
-         * @return true if the action was executed
-         * false if not ( is given that the state has been changed and another attempt will be performed )
-         */
-        protected abstract Boolean perform();
-    
-        protected abstract States getState();
-    }
 }
+
