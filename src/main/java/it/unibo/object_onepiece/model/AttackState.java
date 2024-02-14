@@ -11,7 +11,11 @@ public final class AttackState extends EnemyState {
     private final NavigationSystem navigationSystem;
     private Player player;
     private Position objective;
-
+    /**
+     * The constructor of attackState.
+     * @param ship 
+     * @param navigationSystem
+     */
     protected AttackState(final Enemy ship, final NavigationSystem navigationSystem) {
         this.ship = ship;
         this.navigationSystem = navigationSystem;

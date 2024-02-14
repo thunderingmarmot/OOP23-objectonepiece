@@ -11,11 +11,11 @@ import it.unibo.object_onepiece.model.Utils.Position;
 public interface NavigationSystem {
     /**
      * 
-     * @param objectivePosition The position of the objective that we 
-     * want to reach
+     * @param objectivePosition The position of the objective that we want to reach.
+     * 
      * @param currentPosition The position of the ship
      * @return The direction to reach the objective
      *
      */
-    public CardinalDirection move(Position objectivePosition,Position currentPosition);
+     CardinalDirection move(Position objectivePosition, Position currentPosition);
 }

@@ -14,26 +14,24 @@ import it.unibo.object_onepiece.model.World;
  */
 public final class ControllerImpl implements Controller {
 
-    private Map<States, InputState> states = Map.of(
+    private static Map<States, InputState> states = Map.of(
         States.SHOOTING, new ShootState(),
         States.MOVING, new MoveState());
 
-    private Map<Buttons, Consumer<World>> buttons = Map.of(
+    private static Map<Buttons, Consumer<World>> buttons = Map.of(
         Buttons.FIX,(w) -> w.getPlayer().healWithExperience() 
     );
 
     @Override
     public void action(final Position position, final World world, final States state) {
-        var player = world.getPlayer();
-
-        if (states.get(state).perform(position,player)) {
+        if (states.get(state).perform(position, world.getPlayer())) {
             world.getEnemies()
                 .forEach(e -> ((Enemy) e).goNext());
         }   
     }
 
     @Override
-    public void pressGameButton(Buttons button, World world) {
+    public void pressGameButton(final Buttons button, final World world) {
         buttons.get(button).accept(world);
     }
 

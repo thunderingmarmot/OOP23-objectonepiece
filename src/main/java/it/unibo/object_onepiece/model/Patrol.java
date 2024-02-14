@@ -4,13 +4,20 @@ import it.unibo.object_onepiece.model.Enemy.States;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.Position;
 
+/**
+ * An implementation of patrol state of Enemy.
+ */
 public final class Patrol extends EnemyState {
     private final NavigationSystem compass;
     private final Enemy ship;
     private final Bound bound;
     private final States stato = States.PATROLLING;
     private Position objective;
-
+    /**
+     * The constructor of Patrol.
+     * @param ship
+     * @param compass
+     */
     protected Patrol(final Enemy ship, final NavigationSystem compass) {
         this.ship = ship;
         this.compass = compass;

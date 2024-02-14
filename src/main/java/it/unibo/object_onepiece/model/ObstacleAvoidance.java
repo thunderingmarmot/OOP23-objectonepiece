@@ -9,8 +9,12 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
  */
 public final class ObstacleAvoidance extends EnemyState {
     private final Enemy ship;
-    private CardinalDirection avoidanceDirection = null;
+    private CardinalDirection avoidanceDirection;
 
+    /**
+     * The costructor of Obstacle avoidance.
+     * @param ship
+     */
     protected ObstacleAvoidance(final Enemy ship) {
         this.ship = ship;
     }

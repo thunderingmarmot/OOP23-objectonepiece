@@ -103,10 +103,10 @@ public final class Section {
                         this.addEntity(NavalMine.getDefault(this, p, DEFAULT_DIRECTION));
                         break;
                     case 4:
-                        this.addEntity(Enemy.getDefault(this, p));
+                        this.addEntity(new Enemy(this, p));
                         break;
                     case 5:
-                        this.addEntity(Enemy.getDefault(this, p));
+                        this.addEntity(new Enemy(this, p));
                     default:
                         break;
                 }
