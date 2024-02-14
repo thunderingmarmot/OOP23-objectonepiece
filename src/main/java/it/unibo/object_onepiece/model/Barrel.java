@@ -28,6 +28,26 @@ public final class Barrel extends Collidable {
         this(spawnSection, spawnPosition, spawnDirection, DEFAULT_EXPERIENCE_GIVEN);
     }
 
+    protected Barrel(final Barrel barrel) {
+        this(barrel.getSection(),
+             barrel.getPosition(),
+             barrel.getDirection(),
+             barrel.getExperienceGiven());
+    }
+    
+    @Override
+    protected Entity duplicate() {
+        return new Barrel(this);
+    }
+
+    /**
+     * Getter for the experience value given to the Player on pickup.
+     * @return the experience value
+     */
+    protected int getExperienceGiven() {
+        return this.experienceGiven;
+    }
+
     /**
      * Defines the behaviour of getting taken by a Player.
      * @param player the Player that is taking this Barrel
