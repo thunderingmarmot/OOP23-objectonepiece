@@ -2,8 +2,8 @@ package it.unibo.object_onepiece.model;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 import de.articdive.jnoise.pipeline.JNoise;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
@@ -14,7 +14,9 @@ import it.unibo.object_onepiece.model.Entity.EntityRemovedArgs;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.function.BiFunction;
 
 /**
  * Implementation of Section interface.
@@ -22,37 +24,60 @@ import java.util.HashSet;
 public final class Section {
     private static final double SCALING_FACTOR = 50.5;
     private static final int NOISE_DISPERSION = 50;
-    
-    private final int ROWS;
-    private final int COLUMNS;
-    private final int ROW_INSET;
-    private final int COL_INSET;
-    private final int GEN_AREA_COLS;
-    private final int GEN_AREA_ROWS;
+    private static final int INSET_FACTOR = 7;
+
+    private final int rows;
+    private final int columns;
+    private final int rowInset;
+    private final int colInset;
+    private final int genAreaCols;
+    private final int genAreaRows;
     private final WorldImpl world;
     private final List<Entity> entities;
     private final Bound bound;
-    public record EntityAddedArgs(Event<EntityCreatedArgs> onEntityCreated,
-                                  Event<EntityUpdatedArgs> onEntityUpdated,
-                                  Event<EntityRemovedArgs> onEntityRemoved) { }
-    private Event<EntityAddedArgs> onEntityAdded = new Event<>();
-
+    /**
+     * This map is used to associate noise values with an object. The enemy is repeated two times for higher frequency.
+     */
+    private final Map<Integer, BiFunction<Position, CardinalDirection, Entity>> getEntity = new HashMap<>(Map.of(
+        0, (p, d) -> new Island(this, p, d),
+        1, (p, d) -> new Barrel(this, p, d),
+        2, (p, d) -> new NavalMine(this, p, d),
+        3, (p, d) -> new Enemy(this, p),
+        4, (p, d) -> new Enemy(this, p)
+    ));
+    /**
+     * Record for the entity concerning Events.
+     * 
+     * @param onEntityCreated entity creation event
+     * @param onEntityUpdated entity update event
+     * @param onEntityRemoved entity removed event
+     */
+    public record EntityAddedArgs(
+        Event<EntityCreatedArgs> onEntityCreated,
+        Event<EntityUpdatedArgs> onEntityUpdated,
+        Event<EntityRemovedArgs> onEntityRemoved
+    ) { }
+    /**
+     * Record for the player concerning Events.
+     * 
+     * @param onPlayerUpdated player information (health, xp etc.) update event
+     */
     public record PlayerAddedArgs(Event<PlayerUpdatedArgs> onPlayerUpdated) { }
-    private Event<PlayerAddedArgs> onPlayerAdded = new Event<>();
 
+    private Event<EntityAddedArgs> onEntityAdded = new Event<>();
+    private Event<PlayerAddedArgs> onPlayerAdded = new Event<>();
     /**
      * 
-     * @param world reference to World object (used to consent islands to save game
-     *              state)
+     * @param world reference to World object (used to consent islands to save game state)
      */
     Section(final WorldImpl world) {
-        this.ROWS = world.getMapRows();
-        this.COLUMNS = world.getMapCols();
-        this.ROW_INSET = this.ROWS / 7;
-        this.COL_INSET = this.COLUMNS / 7;
-        this.GEN_AREA_ROWS = this.ROWS - ROW_INSET;
-        this.GEN_AREA_COLS = this.COLUMNS - ROW_INSET;
-        this.bound = new Bound(this.ROWS, this.COLUMNS);
+        this.rows = world.getMapRows();
+        this.columns = world.getMapCols();
+        this.rowInset = this.rows / INSET_FACTOR;
+        this.colInset = this.columns / INSET_FACTOR;
+        this.genAreaRows = this.rows - rowInset;
+        this.genAreaCols = this.columns - rowInset;
+        this.bound = new Bound(this.rows, this.columns);
         this.world = world;
         entities = new LinkedList<>();
     }
@@ -60,18 +85,17 @@ public final class Section {
      * Constructor for copying.
      * @param s Section to copy
      */
-    Section(Section s) {
-        this.ROWS = s.ROWS;
-        this.COLUMNS = s.COLUMNS;
-        this.ROW_INSET = s.ROW_INSET;
-        this.COL_INSET = s.COL_INSET;
-        this.GEN_AREA_ROWS = s.GEN_AREA_ROWS;
-        this.GEN_AREA_COLS = s.GEN_AREA_COLS;
+    Section(final Section s) {
+        this.rows = s.rows;
+        this.columns = s.columns;
+        this.rowInset = s.rowInset;
+        this.colInset = s.colInset;
+        this.genAreaRows = s.genAreaRows;
+        this.genAreaCols = s.genAreaCols;
         this.bound = s.bound;
         this.world = s.world;
         this.entities = new ArrayList<>(s.entities);
     }
-    
     /**
      * Populates entities list using white noise algorithm from JNoise.
      */
@@ -79,36 +103,19 @@ public final class Section {
         final int seed = Utils.getRandom().nextInt();
         final var whiteNoise = JNoise.newBuilder().white(seed).addModifier(v -> (v + 1) / 2.0).scale(SCALING_FACTOR)
             .build();
-        for (int i = ROW_INSET; i < GEN_AREA_ROWS - 1; i++) {
-            for (int j = COL_INSET; j < GEN_AREA_COLS - 1; j++) {
+        for (int i = rowInset; i < genAreaRows - 1; i++) {
+            for (int j = colInset; j < genAreaCols - 1; j++) {
                 final Position p = new Position(i, j);
                 final double noise = whiteNoise.evaluateNoise(i, j);
                 final int floored = (int) Math.floor(noise * NOISE_DISPERSION);
 
-                final CardinalDirection d = CardinalDirection.values()[Utils.getRandom().nextInt(CardinalDirection.values().length)];
+                final CardinalDirection d = 
+                    CardinalDirection.values()[Utils.getRandom().nextInt(CardinalDirection.values().length)];
 
-                switch (floored) {
-                    case 0:
-                        /* Don't do anything because water */
-                        break;
-                    case 1:
-                        this.addEntity(new Island(this, p, d));
-                        break;
-                    case 2:
-                        this.addEntity(new Barrel(this, p, d));
-                        break;
-                    case 3:
-                        this.addEntity(new NavalMine(this, p, d));
-                        break;
-                    case 4:
-                        this.addEntity(new Enemy(this, p));
-                        break;
-                    case 5:
-                        this.addEntity(new Enemy(this, p));
-                        break;
-                    default:
-                        break;
+                if (getEntity.containsKey(floored)) {
+                    this.addEntity(getEntity.get(floored).apply(p, d));
                 }
+
             }
         }
         /** Prints duplicate positions in entities list */
@@ -129,8 +136,7 @@ public final class Section {
     void removeEntityAt(final Position position) {
         entities.stream()
             .filter(e -> e.getPosition().equals(position))
-            .findFirst().ifPresent(e -> 
-                {
+            .findFirst().ifPresent(e -> {
                     entities.remove(e);
                     e.getEntityRemovedEvent().invoke(new EntityRemovedArgs(position));
                 }

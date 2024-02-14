@@ -1,15 +1,10 @@
 package it.unibo.object_onepiece.view;
 
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.IntPredicate;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
 import eu.lestard.grid.GridModel;
 import eu.lestard.grid.GridView;
 import it.unibo.object_onepiece.controller.Controller;
@@ -18,14 +13,8 @@ import it.unibo.object_onepiece.model.World;
 import it.unibo.object_onepiece.model.WorldImpl;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.view.Sound.SoundTypes;
 import javafx.application.Application;
-import javafx.beans.Observable;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ObservableIntegerValue;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -35,18 +24,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -73,7 +53,7 @@ public final class ObjectOnePieceApp extends Application {
     private Controller controller = new ControllerImpl();
     private final ProgressBar[] healthBars = new ProgressBar[4];
     private final Sound sound = new Sound();
-    final Label experienceText = new Label();
+    private final Label experienceText = new Label();
     private World world;
 
     @Override
@@ -96,7 +76,7 @@ public final class ObjectOnePieceApp extends Application {
         borderPane.setCenter(gridView);
         borderPane.setRight(rightPane);
 
-        for(int i = 0; i < HP_BARS_COUNT; i++) {
+        for (int i = 0; i < HP_BARS_COUNT; i++) {
             healthBars[i] = new HealthBar(new ProgressBarImpl());
             barsContainer.getChildren().add(healthBars[i].getContainer());
         }
@@ -136,25 +116,29 @@ public final class ObjectOnePieceApp extends Application {
 
         world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, (e1) -> {
             e1.onEntityAdded().subscribe((e2) -> {
-                e2.onEntityCreated().subscribe((e3) -> createEntity(e3.name(), e3.spawnPosition(), e3.spawnDirection()));
-                e2.onEntityUpdated().subscribe((e3) -> updateEntity(e3.name(), e3.oldPosition(), e3.newPosition(), e3.newDirection()));
-                e2.onEntityRemoved().subscribe((e3) -> removeEntity(e3.lastPosition()));
+                e2.onEntityCreated()
+                    .subscribe((e3) -> createEntity(e3.name(), e3.spawnPosition(), e3.spawnDirection()));
+                e2.onEntityUpdated()
+                    .subscribe((e3) -> updateEntity(e3.name(), e3.oldPosition(), e3.newPosition(), e3.newDirection()));
+                e2.onEntityRemoved()
+                    .subscribe((e3) -> removeEntity(e3.lastPosition()));
             });
             e1.onPlayerAdded().subscribe((e2) -> {
-                e2.onPlayerUpdated().subscribe((e3) -> drawPlayerInfo(e3.getHealthList(), e3.getMaxHealthList(), e3.getExperience()));
+                e2.onPlayerUpdated()
+                    .subscribe((e3) -> drawPlayerInfo(e3.getHealthList(), e3.getMaxHealthList(), e3.getExperience()));
             });
         });
 
         useXp.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(final ActionEvent event) {
                 controller.pressGameButton(Controller.Buttons.FIX, world);
             }
         });
 
         pauseAmbienceSound.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(final ActionEvent event) {
                 sound.pauseSound(sound.getAmbienceClip());
             }
         });
@@ -169,7 +153,7 @@ public final class ObjectOnePieceApp extends Application {
             gridView.addColorMapping(State.WATER, DEFAULT_COLOR);
             c.setOnClick(new EventHandler<MouseEvent>() {
                 @Override
-                public void handle(MouseEvent event) {
+                public void handle(final MouseEvent event) {
                     Position p = new Position(c.getRow(), c.getColumn());
                     if (event.getButton() == MouseButton.SECONDARY) {
                         controller.action(p, world, Controller.States.SHOOTING);
@@ -181,17 +165,21 @@ public final class ObjectOnePieceApp extends Application {
         });
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
     }
-    
-    private void createEntity(String name, Position spawnPosition, CardinalDirection spawnDirection) {
+
+    private void createEntity(final String name, final Position spawnPosition, final CardinalDirection spawnDirection) {
         drawImage(name, spawnPosition.row(), spawnPosition.column(), Optional.of(spawnDirection));
     }
 
-    private void updateEntity(String name, Position oldPosition, Position newPosition, CardinalDirection newDirection) {
+    private void updateEntity(
+        final String name,
+        final Position oldPosition,
+        final Position newPosition,
+        final CardinalDirection newDirection) {
         removeEntity(oldPosition);
         drawImage(name, newPosition.row(), newPosition.column(), Optional.of(newDirection));
     }
 
-    private void removeEntity(Position lastPosition) {
+    private void removeEntity(final Position lastPosition) {
         final int col = lastPosition.column();
         final int row = lastPosition.row();
 
@@ -224,15 +212,15 @@ public final class ObjectOnePieceApp extends Application {
         }
     }
 
-    private void drawPlayerInfo(List<Integer> healthList, List<Integer> maxHealthList, int experience) {
+    private void drawPlayerInfo(final List<Integer> healthList, final List<Integer> maxHealthList, final int experience) {
         if (Stream.of(healthList.size(), maxHealthList.size()).anyMatch(s -> s > HP_BARS_COUNT)) {
             throw new IllegalArgumentException("Model has more healthbars than view can represent");
         }
-        
+
         for (int i = 0; i < HP_BARS_COUNT; i++) {
             healthBars[i].update(healthList.get(i), maxHealthList.get(i));
         }
-        
+
         experienceText.setText(Integer.toString(experience));
     }
     /**

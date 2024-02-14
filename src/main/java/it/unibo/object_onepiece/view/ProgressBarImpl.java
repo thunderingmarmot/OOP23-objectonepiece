@@ -9,7 +9,7 @@ import javafx.scene.shape.Rectangle;
 import java.util.function.BiFunction;
 
 /**
- * Basic progress bar with predifined dimensions and label to view progress in text form
+ * Basic progress bar with predifined dimensions and label to view progress in text form.
  */
 public final class ProgressBarImpl implements ProgressBar {
     private static final int BAR_WIDTH = 20;
@@ -23,7 +23,7 @@ public final class ProgressBarImpl implements ProgressBar {
     private final BiFunction<Integer, Integer, String> labelTextBuild = (h, maxH) -> h + "/" + maxH; 
 
     /**
-     * Creates a progress bar that has two rectangles, one for the background and front for progress
+     * Creates a progress bar that has two rectangles, one for the background and front for progress.
      */
     public ProgressBarImpl() {
         configPane();

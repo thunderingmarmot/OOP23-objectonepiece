@@ -14,28 +14,35 @@ import java.util.Optional;
  */
 public final class WorldImpl implements World {
     /**
+     * Record for the section instantiation concerning events.
+     * @param onEntityAdded
+     * @param onPlayerAdded
+     */
+    public record SectionInstantiatedArgs(Event<EntityAddedArgs> onEntityAdded,
+                                          Event<PlayerAddedArgs> onPlayerAdded) { }
+    /**
      * Saved section of game when player saved his stats and position on an Island.
      */
     private Optional<Section> saved;
-
     /**
      * Current playing section.
      */
     private Section currentSection;
-
     private final int mapRows;
     private final int mapCols;
     private final Position playerDefaultSpawnPoint;
-
-    public record SectionInstantiatedArgs(Event<EntityAddedArgs> onEntityAdded,
-                                          Event<PlayerAddedArgs> onPlayerAdded) { }
     private Event<SectionInstantiatedArgs> onSectionInstantiated = new Event<>();
-
-    public WorldImpl(int mapRows, int mapCols, Consumer<SectionInstantiatedArgs> bindings) {
+    /**
+     * Creates a world (an abstraction that contains sections).
+     * @param mapRows rows of the section
+     * @param mapCols columns of the section
+     * @param bindings view bindings for events
+     */
+    public WorldImpl(final int mapRows, final int mapCols, final Consumer<SectionInstantiatedArgs> bindings) {
         this.saved = Optional.empty();
         this.mapRows = mapRows;
         this.mapCols = mapCols;
-        this.playerDefaultSpawnPoint = new Position((mapRows - 1) * 3/4, (mapCols - 1) / 2);
+        this.playerDefaultSpawnPoint = new Position((mapRows - 1) * 3 / 4, (mapCols - 1) / 2);
         this.onSectionInstantiated.subscribe(bindings);
         createNewSection();
     }
@@ -49,7 +56,7 @@ public final class WorldImpl implements World {
         this.currentSection.addPlayer(new Player(currentSection, this.playerDefaultSpawnPoint));
     }
 
-    void createNewSection(Function<Section, Player> player) {
+    void createNewSection(final Function<Section, Player> player) {
         this.currentSection.entityRemovedEventInvoke();
         this.currentSection = new Section(this);
         this.onSectionInstantiated.invoke(
@@ -109,12 +116,15 @@ public final class WorldImpl implements World {
     public int getMapRows() {
         return mapRows;
     }
-    
+
     @Override
     public int getMapCols() {
         return mapCols;
     }
-
+    /**
+     * 
+     * @return Position where player spawns by default
+     */
     protected Position getPlayerDefaultSpawnPoint() {
         return playerDefaultSpawnPoint;
     }
