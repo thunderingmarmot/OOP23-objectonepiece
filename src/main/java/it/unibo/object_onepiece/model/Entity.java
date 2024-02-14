@@ -146,7 +146,7 @@ public abstract class Entity {
      * Removes entity from the section at its own position.
      */
     protected void remove() {
-        this.getSection().removeEntityAt(this.position);
+        this.getSection().removeEntity(this);
     }
 
     /**

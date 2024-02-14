@@ -115,8 +115,9 @@ public final class Section {
     }
 
     void clearEntities() {
-        entities.forEach((e) -> removeEntity(e));
-        entities.clear();
+        while(this.entities.size() > 0) {
+            this.entities.get(0).remove();
+        }
     }
 
     WorldImpl getWorld() {
