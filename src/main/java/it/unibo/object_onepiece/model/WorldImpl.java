@@ -28,7 +28,7 @@ public final class WorldImpl implements World {
 
     private final int mapRows;
     private final int mapCols;
-    protected final Position playerDefaultSpawnPoint;
+    private final Position playerDefaultSpawnPoint;
 
     public record SectionInstantiatedArgs(Event<EntityAddedArgs> onEntityAdded,
                                           Event<PlayerAddedArgs> onPlayerAdded) { }
@@ -117,5 +117,9 @@ public final class WorldImpl implements World {
     @Override
     public int getMapCols() {
         return mapCols;
+    }
+
+    protected Position getPlayerDefaultSpawnPoint() {
+        return playerDefaultSpawnPoint;
     }
 }
