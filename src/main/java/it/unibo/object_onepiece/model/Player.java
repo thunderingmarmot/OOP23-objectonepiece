@@ -66,6 +66,17 @@ public final class Player extends Ship {
              oldPlayer.getKeel());
     }
 
+    protected Player(final Player oldPlayer) {
+        this(oldPlayer.getSection(),
+             oldPlayer.getPosition(),
+             oldPlayer.getDirection(),
+             oldPlayer.getExperience(),
+             oldPlayer.getWeapon(),
+             oldPlayer.getSail(),
+             oldPlayer.getBow(),
+             oldPlayer.getKeel());
+    }
+
     /**
      * Checks wether the Player current position is the same as the one passed as argument.
      * @param position the position to check against
