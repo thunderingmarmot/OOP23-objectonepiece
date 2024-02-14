@@ -1,4 +1,4 @@
-package it.unibo.object_onepiece.model.events;
+package it.unibo.object_onepiece.model;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -10,9 +10,7 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.Entity.EntityCreatedArgs;
 import it.unibo.object_onepiece.model.Entity.EntityUpdatedArgs;
-import it.unibo.object_onepiece.model.Player.PlayerUpdatedArgs;
 import it.unibo.object_onepiece.model.Entity.EntityRemovedArgs;
-import it.unibo.object_onepiece.model.events.Event;
 
 import java.util.stream.Collectors;
 

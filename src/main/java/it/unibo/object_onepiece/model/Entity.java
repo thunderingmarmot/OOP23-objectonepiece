@@ -2,7 +2,6 @@ package it.unibo.object_onepiece.model;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.events.Event;
 
 /**
  * This class defines the common methods of every entity present on the section.
