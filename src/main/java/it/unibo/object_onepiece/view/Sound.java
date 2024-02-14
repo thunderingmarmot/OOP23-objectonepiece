@@ -37,7 +37,6 @@ public final class Sound {
     );
 
     private final URL ambienceSoundURL = this.getURL(SOUND_FOLDER + "franky_theme.wav");
-    private AudioInputStream ambienceAudioIN;
     private Clip ambienceClip;
 
     /**
@@ -58,32 +57,47 @@ public final class Sound {
     /**
      * This method play the ambience sound in loop.
      * 
-     * @param   volume the volume of the sound 
      * @throws         UnsupportedAudioFileException
      * @throws         IOException
      * @throws         LineUnavailableException
      */
     void playAmbienceSound()
     throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        this.ambienceAudioIN = AudioSystem.getAudioInputStream(ambienceSoundURL);
+        final AudioInputStream ambienceAudioIN = AudioSystem.getAudioInputStream(ambienceSoundURL);
         this.ambienceClip = AudioSystem.getClip();
-        this.play(this.ambienceAudioIN, this.ambienceClip, false);
+        this.play(ambienceAudioIN, this.ambienceClip, false);
     }
 
+    /**
+     * This method sets the volume of a Clip.
+     * 
+     * @param  clip   the clip to set
+     * @param  volume the volume to set the clip
+     */
     void setVolume(final Clip clip, final float volume) {
         final FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         volumeControl.setValue(volume);
     }
 
+    /**
+     * This method pause the sound of a clip.
+     * 
+     * @param  clip the to pause
+     */
     void pauseSound(final Clip clip) {
-        if(clip.isRunning()) {
+        if (clip.isRunning()) {
             clip.stop();
         } else {
             clip.start();
         }
     }
 
-    public Clip getAmbienceClip() {
+    /**
+     * Getter for the ambience clip.
+     * 
+     * @return the ambience clip.
+     */
+    Clip getAmbienceClip() {
         return this.ambienceClip;
     }
 

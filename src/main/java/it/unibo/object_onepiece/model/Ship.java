@@ -329,14 +329,7 @@ public abstract class Ship extends Collider {
 
         if (this.getPosition().isInlineWith(position, this.getDirection()) 
         && this.getPosition().distanceFrom(position) <= this.getWeapon().getRange()) {
-            final Position shootPosition;
-
-            if (this.getEntityInTrajectory(position).isPresent() 
-            && this.getEntityInTrajectory(position).get() instanceof Collidable c) {
-                shootPosition = c.getPosition();
-            } else {
-                shootPosition = position;
-            }
+            final Position shootPosition = this.getEntityPositionInTrajectory(position);
 
             hitTarget(shootPosition, this.getWeapon().getMaxDamage());
 
@@ -378,7 +371,7 @@ public abstract class Ship extends Collider {
         }
     }
 
-    private Optional<Entity> getEntityInTrajectory(final Position p) {
+    private Position getEntityPositionInTrajectory(final Position p) {
         Position nextPosition = this.getPosition();
         CardinalDirection direction = this.getDirection();
         Optional<Entity> entity = Optional.empty();
@@ -403,7 +396,11 @@ public abstract class Ship extends Collider {
             entity = this.getSection().getEntityAt(nextPosition);
         }
 
-        return entity;
+        if (entity.isPresent()) {
+            return entity.get().getPosition();
+        }
+
+        return p;
     }
 
     /**
