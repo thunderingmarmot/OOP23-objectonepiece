@@ -27,7 +27,6 @@ public final class Sound {
     }
 
     private static final String SOUND_FOLDER = "sound/";
-    private static final int DEFAULT_AMBIENCE_SOUND_VOLUME = -30;
 
     private final Map<SoundTypes, URL> soundTypesToFile = Map.of(
         SoundTypes.AMBIENCE, this.getURL(SOUND_FOLDER + "franky_theme.wav"),
@@ -55,13 +54,14 @@ public final class Sound {
     /**
      * This method play the ambience sound in loop.
      * 
-     * @throws UnsupportedAudioFileException
-     * @throws IOException
-     * @throws LineUnavailableException
+     * @param   volume the volume of the sound 
+     * @throws         UnsupportedAudioFileException
+     * @throws         IOException
+     * @throws         LineUnavailableException
      */
-    void playAmbienceSound() 
+    void playAmbienceSound(final float volume)
     throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        this.play(soundTypesToFile.get(SoundTypes.AMBIENCE), DEFAULT_AMBIENCE_SOUND_VOLUME, true);
+        this.play(soundTypesToFile.get(SoundTypes.AMBIENCE), volume, true);
     }
 
     private URL getURL(final String url) {

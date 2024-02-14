@@ -67,6 +67,7 @@ public final class Utils {
 
     /**
      * A class that keeps track of the main data to save.
+     * @deprecated
      */
     protected static class State {
         private final Section section;

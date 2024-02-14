@@ -45,7 +45,7 @@ dependencies {
     implementation("de.articdive:jnoise-pipeline:4.1.0")
 
     // JavaFX: comment out if you do not need them
-    val javaFxVersion = 15
+    val javaFxVersion = 21
     for (platform in supportedPlatforms) {
         for (module in javaFXModules) {
             implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")

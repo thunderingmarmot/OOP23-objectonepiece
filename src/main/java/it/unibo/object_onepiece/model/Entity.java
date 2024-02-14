@@ -111,14 +111,29 @@ public class Entity {
         this.getSection().removeEntityAt(this.position);
     }
 
+    /**
+     * Getter for the entity created Event.
+     * 
+     * @return the Event on entity created.
+     */
     public Event<EntityCreatedArgs> getEntityCreatedEvent() {
         return onEntityCreated;
     }
 
+    /**
+     * Getter for the entity updated Event.
+     * 
+     * @return the Event on entity updated.
+     */
     public Event<EntityUpdatedArgs> getEntityUpdatedEvent() {
         return onEntityUpdated;
     }
 
+    /**
+     * Getter for the entity removed Event.
+     * 
+     * @return the Event on entity removed.
+     */
     public Event<EntityRemovedArgs> getEntityRemovedEvent() {
         return onEntityRemoved;
     }

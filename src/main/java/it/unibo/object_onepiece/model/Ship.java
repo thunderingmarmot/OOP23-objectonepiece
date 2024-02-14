@@ -8,7 +8,6 @@ import java.util.function.BiPredicate;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.events.Alert;
 
 /**
  * This class represents a ship that extends the Collider class.
@@ -112,8 +111,6 @@ public abstract class Ship extends Collider {
         MoveDetails.MEDIUM_COLLISION,
         MoveDetails.BORDER_REACHED
     );
-
-    private final Alert onShipShooted = new Alert();
 
     /**
     * Constructor for class ShipImpl.
@@ -353,7 +350,6 @@ public abstract class Ship extends Collider {
                                                       .forEach((f) -> hitTarget(f.apply(shootPosition), this.getWeapon()
                                                                                                        .getMinDamage()));
 
-            this.onShipShooted.invoke();
             return new ShootReturnType(true, ShootDetails.SHOOTED_SUCCESSFULLY);
         }
 
@@ -531,15 +527,6 @@ public abstract class Ship extends Collider {
             this.getSail(),
             this.getKeel()
         );
-    }
-
-    /**
-     * Getter for the alert when the ship shoot.
-     * 
-     * @return the onShipShooted Alert.
-     */
-    public Alert getShipShootedAlert() {
-        return this.onShipShooted;
     }
 
     /**
