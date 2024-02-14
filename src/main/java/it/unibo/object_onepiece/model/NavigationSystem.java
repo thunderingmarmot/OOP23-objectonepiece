@@ -3,7 +3,7 @@ package it.unibo.object_onepiece.model;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 /**
- * The navigation system provides a direction to follow
+ * The navigation system provides a direction to follow.
  * to reach the position of the objective,
  * if no objective position is specified, it will generate one
  * within the limits

@@ -1,9 +1,9 @@
 package it.unibo.object_onepiece.controller;
 
-import it.unibo.object_onepiece.controller.ControllerImpl.*;
+import it.unibo.object_onepiece.controller.Controller.States;
+import it.unibo.object_onepiece.controller.ControllerImpl.InputState;
 import it.unibo.object_onepiece.model.Player;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.controller.Controller.*;
 /**
  * The implementation of "Shoot" state of the controller.
  */
@@ -12,12 +12,10 @@ public final class ShootState extends InputState {
     /**
      * The contructor of ShootState.
      */
-    public ShootState() {}
-       
-    
+    public ShootState() { } 
 
     @Override
-    public Boolean perform(final Position pos,final Player player) {
+    public Boolean perform(final Position pos, final Player player) {
         return player.shootAt(pos);   
     }
 

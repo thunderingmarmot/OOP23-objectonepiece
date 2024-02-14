@@ -3,6 +3,7 @@ package it.unibo.object_onepiece.controller;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 import it.unibo.object_onepiece.model.Enemy;
 import it.unibo.object_onepiece.model.Player;
@@ -13,35 +14,27 @@ import it.unibo.object_onepiece.model.World;
  */
 public final class ControllerImpl implements Controller {
 
-    private Boolean toggle = false;
-    private InputState currentState;
     private Map<States, InputState> states = Map.of(
         States.SHOOTING, new ShootState(),
         States.MOVING, new MoveState());
 
+    private Map<Buttons, Consumer<World>> buttons = Map.of(
+        Buttons.FIX,(w) -> w.getPlayer().healWithExperience() 
+    );
+
     @Override
-    public void action(final Position position, final World world) {
+    public void action(final Position position, final World world, final States state) {
         var player = world.getPlayer();
 
-        toggleMode(position, player);
-
-        if (currentState.perform(position,player)) {
+        if (states.get(state).perform(position,player)) {
             world.getEnemies()
                 .forEach(e -> ((Enemy) e).goNext());
         }   
     }
 
-    private void toggleMode(final Position position, final Player player) {
-        if (player.isInSamePositionAs(position)) {
-            toggle = !toggle;
-            System.err.println("Mode changed!");
-        }
-
-        if (toggle) {
-            currentState = states.get(States.SHOOTING);
-        } else { 
-            currentState = states.get(States.MOVING);
-        }
+    @Override
+    public void pressGameButton(Buttons button, World world) {
+        buttons.get(button).accept(world);
     }
 
     protected static abstract class InputState {
