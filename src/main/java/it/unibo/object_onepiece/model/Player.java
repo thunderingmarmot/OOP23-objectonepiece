@@ -5,7 +5,6 @@ import java.util.stream.Stream;
 
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.events.Event;
 
 /**
  * Implementation of the Player interface.
@@ -16,22 +15,8 @@ public final class Player extends Ship {
 
     private int experience;
 
-    public record PlayerUpdatedArgs(List<Integer> healthList, List<Integer> maxHealthList, int experience) { }
     private Event<PlayerUpdatedArgs> onPlayerUpdated = new Event<>();
 
-    /**
-     * Constructor for PlayerImpl.
-     * It's protected to only allow creating this object inside this package.
-     * Actual object creation is handled in the static method inside Player interface.
-     * @param section the reference to the Section containing this Player 
-     * @param position the position to place this Player at
-     * @param direction the starting direction of the Player's ship
-     * @param experience the starting experience value of the Player
-     * @param weapon the starting weapon of the Player's ship
-     * @param sail the starting sail of the Player's ship
-     * @param bow the starting bow of the Player's ship
-     * @see Player
-     */
     private Player(final Section section,
                    final Position position,
                    final CardinalDirection direction,
@@ -44,6 +29,11 @@ public final class Player extends Ship {
         this.experience = experience;
     }
 
+    /**
+     * Constructor that creates a default Player.
+     * @param spawnSection the Section containing this Player
+     * @param spawnPosition the Position this Player spawns at
+     */
     protected Player(final Section spawnSection, final Position spawnPosition) {
         this(spawnSection,
              spawnPosition,
@@ -55,6 +45,12 @@ public final class Player extends Ship {
              Keel.standard());
     }
 
+    /**
+     * Constructor that creates a Player by copying another in a different Section and a different Position.
+     * @param oldPlayer the Player to copy
+     * @param customSection the Section containing the new Player
+     * @param customPosition the Position the new Player is at
+     */
     protected Player(final Player oldPlayer, final Section customSection, final Position customPosition) {
         this(customSection,
              customPosition,
@@ -66,6 +62,10 @@ public final class Player extends Ship {
              oldPlayer.getKeel());
     }
 
+    /**
+     * Constructor that creates a Player by copying another.
+     * @param oldPlayer the Player to copy
+     */
     protected Player(final Player oldPlayer) {
         this(oldPlayer.getSection(),
              oldPlayer.getPosition(),
@@ -78,9 +78,9 @@ public final class Player extends Ship {
     }
 
     /**
-     * Checks wether the Player current position is the same as the one passed as argument.
+     * Checks wether the Player's current position is the same as the one passed as argument.
      * @param position the position to check against
-     * @return a boolean that indicates wether the Player is in that position
+     * @return a boolean that indicates wether the Player is in that same position
      */
     public boolean isInSamePositionAs(final Position position) {
         return this.getPosition().equals(position);
@@ -96,7 +96,7 @@ public final class Player extends Ship {
         final CardinalDirection direction = this.getPosition().whereTo(destination);
         final int distance = this.getPosition().distanceFrom(destination);
         final MoveDetails moveResult = super.move(direction, distance);
-        if(moveResult.equals(MoveDetails.BORDER_REACHED)) {
+        if (moveResult.equals(MoveDetails.BORDER_REACHED)) {
             this.getWorld().createNewSection(
                 (newSection) -> new Player(this, newSection, 
                                            this.getPosition().opposite(this.getDirection(), newSection.getBounds())));
@@ -114,14 +114,23 @@ public final class Player extends Ship {
         return super.shoot(target).hasShooted();
     }
 
-    private <T> Stream<T> getFromShipComponent(Function<ShipComponent, T> map) {
+    private <T> Stream<T> getFromShipComponent(final Function<ShipComponent, T> map) {
         return super.getShipComponents().stream().map(map);
     }
 
+    /**
+     * Getter for the maximum healths of each component.
+     * @return a List of max healths
+     * @see ShipComponent
+     */
     protected List<Integer> getMaxHealths() {
         return getFromShipComponent((c) -> c.getMaxHealth()).toList();
     }
 
+    /**
+     * Getter for the current healths of each component.
+     * @return a List of healths
+     */
     protected List<Integer> getHealths() {
         return getFromShipComponent((c) -> c.getHealth()).toList();
     }
@@ -136,20 +145,27 @@ public final class Player extends Ship {
 
     /**
      * Adds experience to the Player's owned experience.
-     * @param newExperience the experience value to add
+     * @param experienceToAdd the experience value to add
      */
     protected void addExperience(final int experienceToAdd) {
         this.experience += experienceToAdd;
         this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
     }
 
+    /**
+     * Subtracts experience to the Player's owned experience.
+     * @param experienceToSubtract the experience value to subtract
+     */
     protected void subtractExperience(final int experienceToSubtract) {
         this.experience -= experienceToSubtract;
         this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
     }
 
+    /**
+     * Fully heals the Player by spending experience.
+     */
     public void healWithExperience() {
-        if(this.experience >= DEFAULT_EXPERIENCE_HEAL_COST) {
+        if (this.experience >= DEFAULT_EXPERIENCE_HEAL_COST) {
             this.subtractExperience(DEFAULT_EXPERIENCE_HEAL_COST);
             this.heal();
         }
@@ -165,15 +181,22 @@ public final class Player extends Ship {
         this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
     }
 
+    /**
+     * Fully heals the Player when called.
+     */
     protected void heal() {
         this.getShipComponents().forEach((c) -> c.setHealth(c.getMaxHealth()));
         this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
     }
 
+    /**
+     * Handles Player death.
+     * @see Ship
+     */
     @Override
     protected void die() {
         super.die();
-        if(this.getWorld().getSavedState().isPresent()) {
+        if (this.getWorld().getSavedState().isPresent()) {
             this.getWorld().loadSavedSection();
         } else {
             this.getWorld().createNewSection(
@@ -181,6 +204,11 @@ public final class Player extends Ship {
         }
     }
 
+    /**
+     * Getter for the onPlayerUpdated Event.
+     * @return the onPlayerUpdated Event
+     * @see Event
+     */
     public Event<PlayerUpdatedArgs> getPlayerUpdatedEvent() {
         return this.onPlayerUpdated;
     }

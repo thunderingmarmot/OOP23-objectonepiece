@@ -22,9 +22,12 @@ public interface Controller {
         MOVING
     }
 
+    /**
+     * Contains the list of all button-linkable functions of the game.
+     */
     enum Buttons {
         /**
-         * The experience is used to fix the ship
+         * The experience is used to fix the ship.
          */
         FIX
     }
@@ -33,6 +36,7 @@ public interface Controller {
      * The actual input of the controller.
      * @param position The position of the pressed cell( chess-like GUI )
      * @param world The model on which the Controller acts.
+     * @param state The state of 
      */
     void action(Position position, World world, States state);
     /**

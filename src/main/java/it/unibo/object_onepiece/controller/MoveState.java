@@ -13,8 +13,6 @@ public final class MoveState extends InputState {
     /**
      * The constructor of MoveState.
      */
-    public MoveState() { }
-
     @Override
     public Boolean perform(final Position pos, final Player player) {
         return player.moveTo(pos);

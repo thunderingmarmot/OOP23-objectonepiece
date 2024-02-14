@@ -13,9 +13,7 @@ public final class Compass implements NavigationSystem {
     /**
      * The contructor of Compass.
      */
-    public Compass() { }
-
-    private Map<Position, Supplier<CardinalDirection>> dirMap = Map.of(
+    private static final Map<Position, Supplier<CardinalDirection>> DIR_MAP = Map.of(
         new Position(0, 1), () -> CardinalDirection.EAST,
         new Position(-1, 0), () -> CardinalDirection.NORTH,
         new Position(0, -1), () -> CardinalDirection.WEST,
@@ -29,11 +27,6 @@ public final class Compass implements NavigationSystem {
 
     @Override
     public CardinalDirection move(final Position objectivePosition, final Position currentPosition) { 
-        var vers = currentPosition.versorOf(objectivePosition);
-        var deb = dirMap.get(vers);
-        if (deb == null) {
-            System.err.println(vers.toString());
-        }
-        return dirMap.get(currentPosition.versorOf(objectivePosition)).get();
+        return DIR_MAP.get(currentPosition.versorOf(objectivePosition)).get();
     }
 }

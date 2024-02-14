@@ -6,7 +6,7 @@ import java.util.function.Function;
 import it.unibo.object_onepiece.model.Section.EntityAddedArgs;
 import it.unibo.object_onepiece.model.Section.PlayerAddedArgs;
 import it.unibo.object_onepiece.model.Utils.Position;
-import it.unibo.object_onepiece.model.events.Event;
+
 import java.util.Optional;
 
 /**

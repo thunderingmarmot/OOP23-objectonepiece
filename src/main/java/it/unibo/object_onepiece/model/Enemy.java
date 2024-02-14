@@ -23,7 +23,7 @@ public final class Enemy extends Ship {
          */
         PATROLLING,
         /**
-         * The Enemy has collided with an obstacle and is finding an alterantive route
+         * The Enemy has collided with an obstacle and is finding an alterantive route.
          */
         AVOIDING,
         /**
@@ -41,8 +41,10 @@ public final class Enemy extends Ship {
 
     private static final int DEFAULT_TRIGGER_DISTANCE = 5;
     private final int triggerDistance;
+    private EnemyState currentState;
+    private final List<EnemyState> enemyStates;
     /**
-     * Returns a Default version of Enemy
+     * Returns a Default version of Enemy.
      * @param spawnSection the section in which enemy gets spawned
      * @param spawnPosition where the Enemy gets spawned
      * @return
@@ -57,8 +59,6 @@ public final class Enemy extends Ship {
             Keel.standard(),
             DEFAULT_TRIGGER_DISTANCE);
     }
-    private final List<EnemyState> enemyStates;
-    private EnemyState currentState;
 
     private Enemy(final Section section,
                 final Position position,
@@ -87,9 +87,14 @@ public final class Enemy extends Ship {
         return this.triggerDistance;
     }
 
+    /**
+     * @return the section in which is present.
+     */
+    @Override
     protected Section getSection() {
         return super.getSection();
     }
+
     /**
      * Needs to be called when is the Enemy turn.
      */
@@ -99,6 +104,7 @@ public final class Enemy extends Ship {
             result = !currentState.perform();
         } while (result);
     }
+
     /**
      * 
      * @return returns the current state
@@ -106,12 +112,12 @@ public final class Enemy extends Ship {
     protected States getCurrentState() {
         return currentState.getState();
     }
+
     /**
      * Is called by the Enemy or enemy states to change the current state.
      * @param state
      */
     protected void changeState(final States state) {
-        System.err.println("stato cambiato, " + state.toString());
          this.currentState = findState(state);
     }
 

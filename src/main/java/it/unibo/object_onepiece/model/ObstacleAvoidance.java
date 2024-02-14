@@ -9,8 +9,12 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
  */
 public final class ObstacleAvoidance extends EnemyState {
     private final Enemy ship;
-    private CardinalDirection avoidanceDirection = null;
+    private CardinalDirection avoidanceDirection;
 
+    /**
+     * The costructor of Obstacle avoidance.
+     * @param ship
+     */
     protected ObstacleAvoidance(final Enemy ship) {
         this.ship = ship;
     }
@@ -18,7 +22,7 @@ public final class ObstacleAvoidance extends EnemyState {
     @Override
     protected Boolean perform() {
         if (avoidanceDirection == null) {
-            var tempDirection = Utils.randCardinalDirection();
+            final var tempDirection = Utils.randCardinalDirection();
             if (Ship.MOVE_SUCCESS_CONDITIONS.contains(ship.move(tempDirection, 1))) {
                 avoidanceDirection = tempDirection;
                 return true;

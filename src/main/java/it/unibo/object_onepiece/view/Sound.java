@@ -32,7 +32,7 @@ public final class Sound {
         SoundTypes.SHIP_COLLIDE, this.getURL(SOUND_FOLDER + "ship_collide.wav"),
         SoundTypes.SHIP_DESTROY, this.getURL(SOUND_FOLDER + "ship_destroy.wav"),
         SoundTypes.SHIP_REPAIR, this.getURL(SOUND_FOLDER + "ship_repair.wav"),
-        SoundTypes.BARRELL_DESTROY, this.getURL(SOUND_FOLDER + "cannon_shot.wav"),
+        SoundTypes.BARRELL_DESTROY, this.getURL(SOUND_FOLDER + "ship_collide.wav"),
         SoundTypes.MINE_DESTROY, this.getURL(SOUND_FOLDER + "mine_explode.wav")
     );
 

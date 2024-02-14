@@ -141,7 +141,7 @@ public final class ObjectOnePieceApp extends Application {
                 e2.onEntityRemoved().subscribe((e3) -> removeEntity(e3.lastPosition()));
             });
             e1.onPlayerAdded().subscribe((e2) -> {
-                e2.onPlayerUpdated().subscribe((e3) -> drawPlayerInfo(e3.healthList(), e3.maxHealthList(), e3.experience()));
+                e2.onPlayerUpdated().subscribe((e3) -> drawPlayerInfo(e3.getHealthList(), e3.getMaxHealthList(), e3.getExperience()));
             });
         });
 
