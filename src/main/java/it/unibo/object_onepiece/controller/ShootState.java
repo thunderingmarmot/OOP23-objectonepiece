@@ -8,7 +8,6 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * The implementation of "Shoot" state of the controller.
  */
 public final class ShootState extends InputState {
-   
     /**
      * The contructor of ShootState.
      */
@@ -23,5 +22,4 @@ public final class ShootState extends InputState {
     public States getState() {
         return States.SHOOTING;
     }
-
 }
