@@ -66,42 +66,6 @@ public final class Utils {
     private Utils() { }
 
     /**
-     * A class that keeps track of the main data to save.
-     * @deprecated
-     */
-    protected static class State {
-        private final Section section;
-        private final Player player;
-
-        /**
-         * Creates a State of the game with the main information to save.
-         * @param section the Section the Player was in when the save occurred
-         * @param playerPosition the Position of the Player when the save occurred
-         * @param playerExperience the experience of the Player when the save occurred
-         */
-        protected State(final Section section, final Player player) {
-            this.section = section;
-            this.player = player;
-        }
-
-        /**
-         * Getter for the saved Section.
-         * @return the Section the Player was in when the save occurred
-         */
-        protected Section getSection() {
-            return this.section;
-        }
-
-        /**
-         * Getter for the saved Player.
-         * @return the Player object when the save occurred
-         */
-        protected Player getPlayer() {
-            return this.player;
-        }
-    }
-
-    /**
      * Getter for the map that translates a Position towards a CardinalDirection.
      * @return the described map
      */
