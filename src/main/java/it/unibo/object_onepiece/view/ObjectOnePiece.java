@@ -230,12 +230,4 @@ public final class ObjectOnePiece extends Application {
         experienceText.setText(Integer.toString(experience));
         sound.playSound(SoundTypes.REPAIR_COLLECT);
     }
-    /**
-     * Program's entry point.
-     * 
-     * @param args
-     */
-    public static void run(final String... args) {
-        launch(args);
-    }
 }
