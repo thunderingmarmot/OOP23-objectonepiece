@@ -127,12 +127,16 @@ public final class Section {
         }
     }
 
-    Optional<Player> getPlayer() {
+    Player getPlayer() {
         if (entities.stream().filter(e -> e instanceof Player).count() > 1) {
             throw new IllegalStateException("There's more than one player");
         }
         final Optional<Player> p = entities.stream().filter(e -> e instanceof Player).map(e -> (Player) e).findFirst();
-        return p;
+        if (!p.isPresent()) {
+            throw new IllegalStateException("No player found");
+        }
+
+        return p.get();
     }
 
     Optional<Entity> getEntityAt(final Position position) {
