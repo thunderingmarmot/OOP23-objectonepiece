@@ -32,7 +32,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
- * Sample JavaFX application.
+ * Object One Piece game.
  */
 public final class ObjectOnePiece extends Application {
     private static final int MAP_ROWS = 10;
