@@ -25,8 +25,10 @@ public final class ControllerImpl implements Controller {
     @Override
     public void action(final Position position, final World world, final States state) {
         if (states.get(state).perform(position, world.getPlayer())) {
-            world.getEnemies()
-                .forEach(e -> ((Enemy) e).goNext());
+            world.getEnemies().forEach(e -> {
+                if(world.getPlayer() != null){
+                    e.goNext();  
+                }});
         }
     }
 
