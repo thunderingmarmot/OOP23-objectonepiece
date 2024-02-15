@@ -132,7 +132,7 @@ public final class ObjectOnePiece extends Application {
             });
             e1.onPlayerAdded().subscribe((e2) -> {
                 e2.onPlayerUpdated()
-                    .subscribe((e3) -> drawPlayerInfo(e3.getHealthList(), e3.getMaxHealthList(), e3.getExperience()));
+                    .subscribe((e3) -> drawPlayerInfo(e3.getNames(), e3.getHealthList(), e3.getMaxHealthList(), e3.getExperience()));
             });
         });
 
@@ -217,13 +217,14 @@ public final class ObjectOnePiece extends Application {
         gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(entityImage);
     }
 
-    private void drawPlayerInfo(final List<Integer> healthList, final List<Integer> maxHealthList, final int experience) {
-        if (Stream.of(healthList.size(), maxHealthList.size()).anyMatch(s -> s > HP_BARS_COUNT)) {
+    private void drawPlayerInfo(final List<String> names, final List<Integer> healthList, final List<Integer> maxHealthList, final int experience) {
+        if (Stream.of(healthList.size(), maxHealthList.size(), names.size()).anyMatch(s -> s > HP_BARS_COUNT)) {
             throw new IllegalArgumentException("Model has more healthbars than view can represent");
         }
         healthBarContainer.getChildren().clear();
         for (int i = 0; i < HP_BARS_COUNT; i++) {
             pointBars[i].setProgressMaxProgress(healthList.get(i), maxHealthList.get(i));
+            pointBars[i].setName(names.get(i));
             healthBarContainer.getChildren().add(pointBars[i].getContainer());
         }
 

@@ -9,6 +9,8 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.Optional;
 import java.util.function.BiFunction;
+
+import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 /**
  * Basic progress bar with predifined dimensions and label to view progress in text form.
  */
@@ -20,6 +22,7 @@ public final class ProgressBarImpl implements ProgressBar {
     private Color frontColor = Color.BLACK;
     private int progress;
     private Optional<Integer> maxProgress = Optional.empty();
+    private String name = "";
     private final BiFunction<Integer, Integer, String> labelTextBuild = (h, maxH) -> h + "/" + maxH;
 
     @Override
@@ -38,7 +41,11 @@ public final class ProgressBarImpl implements ProgressBar {
         frontRectangle.widthProperty().bind(s.widthProperty());
         StackPane.setAlignment(frontRectangle, Pos.BOTTOM_CENTER);
         s.getChildren().addAll(backRectangle, frontRectangle);
-        container.getChildren().addAll(s, label);
+        container.getChildren().addAll(s);
+        if (!name.isEmpty()) {
+            container.getChildren().add(new Label(name));
+        }
+        container.getChildren().add(label);
         container.setAlignment(Pos.CENTER);
         if (maxProgress.isEmpty()) {
             frontRectangle.heightProperty().bind(backRectangle.heightProperty());
@@ -51,6 +58,11 @@ public final class ProgressBarImpl implements ProgressBar {
         }
 
         return container;
+    }
+
+    @Override
+    public void setName(final String name) {
+        this.name = name;
     }
 
     @Override

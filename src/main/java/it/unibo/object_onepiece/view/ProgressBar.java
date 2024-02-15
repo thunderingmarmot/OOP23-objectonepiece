@@ -28,4 +28,9 @@ interface ProgressBar {
      * @param front
      */
     void setColor(Color back, Color front);
+    /**
+     * Sets the name of the bar. Can be empty for it not to display.
+     * @param name of the bar
+     */
+    void setName(String name);
 }

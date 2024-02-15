@@ -15,6 +15,11 @@ abstract class ProgressBarDecorator implements ProgressBar {
     }
 
     @Override
+    public void setName(String name) {
+        this.decorated.setName(name);
+    }
+
+    @Override
     public VBox getContainer() {
         return this.decorated.getContainer();
     }
