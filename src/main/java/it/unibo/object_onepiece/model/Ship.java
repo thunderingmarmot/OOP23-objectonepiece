@@ -432,21 +432,21 @@ public abstract class Ship extends Collider {
                 s.setHealth(0);
             }
         }
+    }
 
-        if (this.keel.getHealth() <= 0) {
-            this.die();
-        }
+    /**
+     * This method checks if the ship is dead by looking at the keel health.
+     * 
+     * @return the result of the control.
+     */
+    protected boolean isShipDead() {
+        return this.getKeel().getHealth() <= 0;
     }
 
     /**
      * This method remove the ship.
      */
-    protected void die() {
-        this.remove();
-        this.getEntityCreatedEvent().invalidate();
-        this.getEntityUpdatedEvent().invalidate();
-        this.getEntityRemovedEvent().invalidate();
-    }
+    protected abstract void die();
 
     /**
      * Setter for the Weapon component of the Ship.
