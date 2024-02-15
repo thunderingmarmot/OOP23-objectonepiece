@@ -33,7 +33,7 @@ public final class WorldImpl implements World {
     private final int mapRows;
     private final int mapCols;
     private final Position playerDefaultSpawnPoint;
-    private Event<SectionInstantiatedArgs> onSectionInstantiated = new Event<>();
+    private final Event<SectionInstantiatedArgs> onSectionInstantiated = new Event<>();
     /**
      * Creates a world (an abstraction that contains sections).
      * @param mapRows rows of the section
@@ -106,10 +106,10 @@ public final class WorldImpl implements World {
     }
 
     void setSavedState() {
-        List<Entity> entityListCopy = this.currentSection.getEntities()
-                                                         .stream()
-                                                         .filter((e) -> !(e instanceof Player))
-                                                         .map((e) -> e.copy()).toList();
+        final List<Entity> entityListCopy = this.currentSection.getEntities()
+            .stream()
+            .filter((e) -> !(e instanceof Player))
+            .map((e) -> e.copy()).toList();
         saved = Optional.of(new SavedSection(entityListCopy, this.getPlayer().copy()));
     }
 
@@ -134,7 +134,7 @@ public final class WorldImpl implements World {
      * 
      * @return Position where player spawns by default
      */
-    protected Position getPlayerDefaultSpawnPoint() {
+    Position getPlayerDefaultSpawnPoint() {
         return playerDefaultSpawnPoint;
     }
 }

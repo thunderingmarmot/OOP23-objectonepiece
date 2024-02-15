@@ -64,7 +64,18 @@ public class Event<T> {
     }
 
     /**
-     * Invokes the Event with some argument the invalidates it.
+     * Try invoking the Event with some argument, if it fails, don't throw exception.
+     * @param args the argument passed to the subscribed Consumers
+     */
+    public boolean tryInvoke(final T args) {
+        if(this.isValid) {
+            listeners.forEach((listener) -> listener.accept(args));
+        }
+        return this.isValid;
+    }
+
+    /**
+     * Invokes the Event with some argument then invalidates it.
      * @param args the argument passed to the subscribed Consumers
      */
     public void lastInvoke(final T args) {

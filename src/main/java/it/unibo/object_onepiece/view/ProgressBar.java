@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 /**
  * ProgressBar that allows for update of progress and color customization.
  */
-public interface ProgressBar {
+interface ProgressBar {
     /**
      * Vertical Box with vertical progress bar and text under it.
      * @return topmost container which holds all children in it

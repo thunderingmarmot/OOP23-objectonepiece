@@ -11,10 +11,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.Entity.EntityCreatedArgs;
 import it.unibo.object_onepiece.model.Entity.EntityUpdatedArgs;
 import it.unibo.object_onepiece.model.Entity.EntityRemovedArgs;
-import java.util.stream.Collectors;
-import java.util.Set;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.function.BiFunction;
 
 /**
@@ -25,8 +22,6 @@ public final class Section {
     private static final int NOISE_DISPERSION = 50;
     private static final int INSET_FACTOR = 7;
 
-    private final int rows;
-    private final int columns;
     private final int rowInset;
     private final int colInset;
     private final int genAreaCols;
@@ -63,20 +58,20 @@ public final class Section {
      */
     public record PlayerAddedArgs(Event<PlayerUpdatedArgs> onPlayerUpdated) { }
 
-    private Event<EntityAddedArgs> onEntityAdded = new Event<>();
-    private Event<PlayerAddedArgs> onPlayerAdded = new Event<>();
+    private final Event<EntityAddedArgs> onEntityAdded = new Event<>();
+    private final Event<PlayerAddedArgs> onPlayerAdded = new Event<>();
     /**
      * 
      * @param world reference to World object (used to consent islands to save game state)
      */
     Section(final WorldImpl world) {
-        this.rows = world.getMapRows();
-        this.columns = world.getMapCols();
-        this.rowInset = this.rows / INSET_FACTOR;
-        this.colInset = this.columns / INSET_FACTOR;
-        this.genAreaRows = this.rows - rowInset;
-        this.genAreaCols = this.columns - rowInset;
-        this.bound = new Bound(this.rows, this.columns);
+        int rows = world.getMapRows();
+        int columns = world.getMapCols();
+        this.rowInset = rows / INSET_FACTOR;
+        this.colInset = columns / INSET_FACTOR;
+        this.genAreaRows = rows - rowInset;
+        this.genAreaCols = columns - rowInset;
+        this.bound = new Bound(rows, columns);
         this.world = world;
         this.entities = new LinkedList<>();
     }
@@ -103,14 +98,9 @@ public final class Section {
 
             }
         }
-        /** Prints duplicate positions in entities list */
-        final Set<Position> items = new HashSet<>();
-        entities.stream().filter(n -> !items.add(n.getPosition()))
-                .collect(Collectors.toSet())
-                .forEach(e -> System.out.println(e.getPosition()));
     }
 
-    void setEntities(List<Entity> entities) {
+    void setEntities(final List<Entity> entities) {
         entities.forEach((e) -> addEntity(e));
     }
 
@@ -130,8 +120,8 @@ public final class Section {
     }
 
     void removeEntityAt(final Position position) {
-        Optional<Entity> entity = this.getEntityAt(position);
-        if(entity.isPresent()) {
+        final Optional<Entity> entity = this.getEntityAt(position);
+        if (entity.isPresent()) {
             this.entities.remove(entity.get());
             entity.get().getEntityRemovedEvent().invoke(new EntityRemovedArgs(entity.get().getPosition()));
         }

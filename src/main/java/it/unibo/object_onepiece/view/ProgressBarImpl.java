@@ -7,7 +7,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import java.util.function.BiFunction;
-
 /**
  * Basic progress bar with predifined dimensions and label to view progress in text form.
  */

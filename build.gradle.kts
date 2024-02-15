@@ -43,6 +43,7 @@ dependencies {
 
     // https://mvnrepository.com/artifact/de.articdive/jnoise-pipeline
     implementation("de.articdive:jnoise-pipeline:4.1.0")
+
     // JavaFX: comment out if you do not need them
     val javaFxVersion = 21
     for (platform in supportedPlatforms) {
