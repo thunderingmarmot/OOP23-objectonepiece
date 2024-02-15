@@ -20,10 +20,12 @@ public final class WorldImpl implements World {
      */
     public record SectionInstantiatedArgs(Event<EntityAddedArgs> onEntityAdded,
                                           Event<PlayerAddedArgs> onPlayerAdded) { }
+
+    private record SavedSection(List<Entity> entities, Player player) { }
     /**
      * Saved section of game when player saved his stats and position on an Island.
      */
-    private Optional<Section> saved;
+    private Optional<SavedSection> saved;
     /**
      * Current playing section.
      */
@@ -57,7 +59,10 @@ public final class WorldImpl implements World {
     }
 
     void createNewSection(final Function<Section, Player> player) {
-        this.currentSection.entityRemovedEventInvoke();
+        this.currentSection.clearEntities();
+        this.currentSection.getEntityAddedEvent().invalidate();
+        this.currentSection.getPlayerAddedEvent().invalidate();
+
         this.currentSection = new Section(this);
         this.onSectionInstantiated.invoke(
             new SectionInstantiatedArgs(this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent())
@@ -68,14 +73,16 @@ public final class WorldImpl implements World {
 
     void loadSavedSection() {
         if (saved.isPresent()) {
-            this.currentSection.entityRemovedEventInvoke();
-            this.currentSection = saved.get();
+            this.currentSection.clearEntities();
+            this.currentSection.getEntityAddedEvent().invalidate();
+            this.currentSection.getPlayerAddedEvent().invalidate();
+
+            this.currentSection = new Section(this);
             this.onSectionInstantiated.invoke(
-                new SectionInstantiatedArgs(
-                    this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent()
-                )
+                new SectionInstantiatedArgs(this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent())
             );
-            this.currentSection.addPlayer(saved.get().getPlayer());
+            this.currentSection.setEntities(saved.get().entities);
+            this.currentSection.addPlayer(saved.get().player);
         } else {
             throw new IllegalStateException("Cannot call switchToSection when player hasn't yet saved to an island");
         }
@@ -94,14 +101,16 @@ public final class WorldImpl implements World {
             .toList();
     }
 
-    @Override
-    public Optional<Section> getSavedState() {
+    Optional<SavedSection> getSavedState() {
         return saved;
     }
 
-    @Override
-    public void setSavedState() {
-        saved = Optional.of(new Section(currentSection));
+    void setSavedState() {
+        List<Entity> entityListCopy = this.currentSection.getEntities()
+                                                         .stream()
+                                                         .filter((e) -> !(e instanceof Player))
+                                                         .map((e) -> e.copy()).toList();
+        saved = Optional.of(new SavedSection(entityListCopy, this.getPlayer().copy()));
     }
 
     Section getCurrentSection() {

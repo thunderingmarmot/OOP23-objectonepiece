@@ -11,8 +11,10 @@ import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.Entity.EntityCreatedArgs;
 import it.unibo.object_onepiece.model.Entity.EntityUpdatedArgs;
 import it.unibo.object_onepiece.model.Entity.EntityRemovedArgs;
-import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.Set;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.function.BiFunction;
 
 /**
@@ -76,23 +78,9 @@ public final class Section {
         this.genAreaCols = this.columns - rowInset;
         this.bound = new Bound(this.rows, this.columns);
         this.world = world;
-        entities = new LinkedList<>();
+        this.entities = new LinkedList<>();
     }
-    /**
-     * Constructor for copying.
-     * @param s Section to copy
-     */
-    Section(final Section s) {
-        this.rows = s.rows;
-        this.columns = s.columns;
-        this.rowInset = s.rowInset;
-        this.colInset = s.colInset;
-        this.genAreaRows = s.genAreaRows;
-        this.genAreaCols = s.genAreaCols;
-        this.bound = s.bound;
-        this.world = s.world;
-        this.entities = new ArrayList<>(s.entities);
-    }
+
     /**
      * Populates entities list using white noise algorithm from JNoise.
      */
@@ -117,6 +105,17 @@ public final class Section {
         }
     }
 
+    void setEntities(List<Entity> entities) {
+        entities.forEach((e) -> addEntity(e));
+    }
+
+    void clearEntities() {
+        this.entities.forEach((entity) -> {
+            entity.getEntityRemovedEvent().invoke(new EntityRemovedArgs(entity.getPosition()));
+        });
+        this.entities.clear();
+    }
+
     WorldImpl getWorld() {
         return this.world;
     }
@@ -126,18 +125,16 @@ public final class Section {
     }
 
     void removeEntityAt(final Position position) {
-        entities.stream()
-            .filter(e -> e.getPosition().equals(position))
-            .findFirst().ifPresent(e -> {
-                    entities.remove(e);
-                    e.getEntityRemovedEvent().invoke(new EntityRemovedArgs(position));
-                }
-            );
+        Optional<Entity> entity = this.getEntityAt(position);
+        if(entity.isPresent()) {
+            this.entities.remove(entity.get());
+            entity.get().getEntityRemovedEvent().invoke(new EntityRemovedArgs(entity.get().getPosition()));
+        }
     }
 
     Player getPlayer() {
-        if (entities.stream().filter(e -> e instanceof Player).count() != 1) {
-            throw new IllegalStateException("There is no player in section or there's more than one player");
+        if (entities.stream().filter(e -> e instanceof Player).count() > 1) {
+            throw new IllegalStateException("There's more than one player");
         }
         final Optional<Player> p = entities.stream().filter(e -> e instanceof Player).map(e -> (Player) e).findFirst();
         if (!p.isPresent()) {
@@ -180,9 +177,5 @@ public final class Section {
 
     Event<PlayerAddedArgs> getPlayerAddedEvent() {
         return onPlayerAdded;
-    }
-
-    void entityRemovedEventInvoke() {
-        entities.forEach(e -> e.getEntityRemovedEvent().invoke(new EntityRemovedArgs(e.getPosition())));
     }
 }

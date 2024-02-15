@@ -79,6 +79,19 @@ public final class Enemy extends Ship {
 
         currentState = findState(States.PATROLLING);
     }
+
+    protected Enemy(final Enemy origin) {
+        super(origin);
+        this.triggerDistance = origin.triggerDistance;
+        this.enemyStates = origin.enemyStates;
+        this.currentState = origin.currentState;
+    }
+
+    @Override
+    protected Enemy copy() {
+        return new Enemy(this);
+    }
+
     /**
      * 
      * @return the distance at which the Enemy change from Patrol to Attack.

@@ -13,11 +13,6 @@ public final class Barrel extends Collidable {
 
     private final int experienceGiven;
 
-    private Barrel(final Section section, final Position position, final CardinalDirection direction, final int experienceGiven) {
-        super(section, position, direction);
-        this.experienceGiven = experienceGiven;
-    }
-
     /**
      * Constructor that creates a default Barrel.
      * @param spawnSection the reference to the Section containing this Barrel
@@ -25,18 +20,17 @@ public final class Barrel extends Collidable {
      * @param spawnDirection the direction to place this Barrel in
      */
     protected Barrel(final Section spawnSection, final Position spawnPosition, final CardinalDirection spawnDirection) {
-        this(spawnSection, spawnPosition, spawnDirection, DEFAULT_EXPERIENCE_GIVEN);
+        super(spawnSection, spawnPosition, spawnDirection);
+        this.experienceGiven = DEFAULT_EXPERIENCE_GIVEN;
     }
 
-    private Barrel(final Barrel barrel) {
-        this(barrel.getSection(),
-             barrel.getPosition(),
-             barrel.getDirection(),
-             barrel.getExperienceGiven());
+    protected Barrel(final Barrel origin) {
+        super(origin);
+        this.experienceGiven = origin.experienceGiven;
     }
-    
+
     @Override
-    protected Entity duplicate() {
+    protected Barrel copy() {
         return new Barrel(this);
     }
 

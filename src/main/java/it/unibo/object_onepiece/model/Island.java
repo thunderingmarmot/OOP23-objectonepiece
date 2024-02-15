@@ -19,14 +19,12 @@ public final class Island extends Collidable {
         super(spawnSection, spawnPosition, spawnDirection);
     }
 
-    private Island(final Island island) {
-        this(island.getSection(),
-             island.getPosition(),
-             island.getDirection());
+    protected Island(final Island origin) {
+        super(origin);
     }
 
     @Override
-    protected Island duplicate() {
+    protected Island copy() {
         return new Island(this);
     }
 

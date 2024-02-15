@@ -55,7 +55,16 @@ public abstract class Entity {
         this.direction = direction;
     }
 
-    protected abstract Entity duplicate();
+    /**
+     * Constructor for copying from an existing Entity.
+     * 
+     * @param  origin  the Entity to copy from
+     */
+    protected Entity(final Entity origin) {
+        this(origin.section, origin.position, origin.direction);
+    }
+
+    protected abstract Entity copy();
 
     /**
      * Getter for the current section of the entity.
