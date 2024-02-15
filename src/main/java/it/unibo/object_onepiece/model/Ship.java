@@ -379,9 +379,9 @@ public abstract class Ship extends Collider {
 
             s.takeDamage(damage, s.getShipComponents().stream()
                                                       .filter(c -> c.getHealth() > 0)
-                                                      .skip(Utils.getRandom().nextLong(count))
+                                                      .skip(Math.abs(Utils.getRandom().nextLong(count)))
                                                       .findFirst()
-                                                      .orElse(null));
+                                                      .orElse(s.getKeel()));
         }
     }
 
