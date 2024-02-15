@@ -29,6 +29,18 @@ public final class Sail extends ShipComponent {
         this.rotationPower = rotation;
     }
 
+    protected Sail(final Sail origin) {
+        super(origin);
+        this.maxSpeed = origin.getMaxSpeed();
+        this.minSpeed = origin.getMinSpeed();
+        this.rotationPower = origin.haveRotationPower();
+    }
+
+    @Override
+    protected Sail copy() {
+        return new Sail(this);
+    }
+
      /**
      * Check if the ship can make a certain number of steps
      * checking if steps in beetween maxSpeed and minSpeed.

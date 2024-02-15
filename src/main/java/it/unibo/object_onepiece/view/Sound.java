@@ -20,8 +20,7 @@ public final class Sound {
         CANNON_SHOT,
         SHIP_COLLIDE,
         SHIP_DESTROY,
-        SHIP_REPAIR,
-        BARRELL_DESTROY,
+        REPAIR_COLLECT,
         MINE_DESTROY
     }
 
@@ -31,8 +30,7 @@ public final class Sound {
         SoundTypes.CANNON_SHOT, this.getURL(SOUND_FOLDER + "cannon_shot.wav"),
         SoundTypes.SHIP_COLLIDE, this.getURL(SOUND_FOLDER + "ship_collide.wav"),
         SoundTypes.SHIP_DESTROY, this.getURL(SOUND_FOLDER + "ship_destroy.wav"),
-        SoundTypes.SHIP_REPAIR, this.getURL(SOUND_FOLDER + "ship_repair.wav"),
-        SoundTypes.BARRELL_DESTROY, this.getURL(SOUND_FOLDER + "ship_collide.wav"),
+        SoundTypes.REPAIR_COLLECT, this.getURL(SOUND_FOLDER + "repair_collect.wav"),
         SoundTypes.MINE_DESTROY, this.getURL(SOUND_FOLDER + "mine_explode.wav")
     );
 
@@ -43,29 +41,31 @@ public final class Sound {
      * This method play a specific sound based on the received SoundTypes.
      * 
      * @param  sound the type of sound to play
-     * @throws       UnsupportedAudioFileException
-     * @throws       IOException
-     * @throws       LineUnavailableException
      */
-    void playSound(final SoundTypes sound) 
-    throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        final AudioInputStream audioIN = AudioSystem.getAudioInputStream(soundTypesToFile.get(sound));
-        final Clip clip = AudioSystem.getClip();
-        this.play(audioIN, clip, false);
+    void playSound(final SoundTypes sound) {
+        final AudioInputStream audioIN;
+        final Clip clip;
+        try {
+            audioIN = AudioSystem.getAudioInputStream(soundTypesToFile.get(sound));
+            clip = AudioSystem.getClip();
+            this.play(audioIN, clip, false);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            
+        }
     }
 
     /**
      * This method play the ambience sound in loop.
-     * 
-     * @throws         UnsupportedAudioFileException
-     * @throws         IOException
-     * @throws         LineUnavailableException
      */
-    void playAmbienceSound()
-    throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        final AudioInputStream ambienceAudioIN = AudioSystem.getAudioInputStream(ambienceSoundURL);
-        this.ambienceClip = AudioSystem.getClip();
-        this.play(ambienceAudioIN, this.ambienceClip, false);
+    void playAmbienceSound() {
+        final AudioInputStream ambienceAudioIN;
+        try {
+            ambienceAudioIN = AudioSystem.getAudioInputStream(ambienceSoundURL);
+            this.ambienceClip = AudioSystem.getClip();
+            this.play(ambienceAudioIN, this.ambienceClip, false);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

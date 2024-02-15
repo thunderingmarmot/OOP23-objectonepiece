@@ -26,6 +26,17 @@ public final class Bow extends ShipComponent {
         this.crashDamageMultiplier = crashDamageMultiplier;
     }
 
+    protected Bow(final Bow origin) {
+        super(origin);
+        this.crashDamage = origin.getCrashDamage();
+        this.crashDamageMultiplier = origin.getCrashDamageMultiplier();
+    }
+
+    @Override
+    protected Bow copy() {
+        return new Bow(this);
+    }
+
     /**
      * Getter for the crash damage of the ship bow.
      * 

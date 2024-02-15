@@ -28,6 +28,18 @@ public final class Weapon extends ShipComponent {
         this.attackRange = range;
     }
 
+    protected Weapon(final Weapon origin) {
+        super(origin);
+        this.maxDamage = origin.getMaxDamage();
+        this.minDamage = origin.getMinDamage();
+        this.attackRange = origin.getRange();
+    }
+
+    @Override
+    protected Weapon copy() {
+        return new Weapon(this);
+    }
+
     /**
      * Getter for the maximum damage of the ship weapon.
      * 

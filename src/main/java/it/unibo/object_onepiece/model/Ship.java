@@ -119,10 +119,10 @@ public abstract class Ship extends Collider {
      */
     protected Ship(final Ship origin) {
         super(origin);
-        this.weapon = origin.weapon;
-        this.sail = origin.sail;
-        this.bow = origin.bow;
-        this.keel = origin.keel;
+        this.weapon = origin.getWeapon().copy();
+        this.sail = origin.getSail().copy();
+        this.bow = origin.getBow().copy();
+        this.keel = origin.getKeel().copy();
     }
 
     /**

@@ -23,6 +23,16 @@ public class Keel extends ShipComponent {
         this.damageEndurance = damageEndurance;
     }
 
+    protected Keel(final Keel origin) {
+        super(origin);
+        this.damageEndurance = origin.getDamageEndurance();
+    }
+
+    @Override
+    protected Keel copy() {
+        return new Keel(this);
+    }
+
     /**
      * This method checks if the keel is damaged.
      * To do so it checks if the current health is minor than

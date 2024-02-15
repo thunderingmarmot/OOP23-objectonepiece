@@ -5,7 +5,7 @@ package it.unibo.object_onepiece.model;
  * It defines the ship components common methods, like setting
  * and getting health and maximum health.
  */
-public class ShipComponent {
+public abstract class ShipComponent {
     private final int maxHealth;
     private int health;
 
@@ -19,6 +19,18 @@ public class ShipComponent {
         this.health = health;
     }
 
+    protected ShipComponent(final ShipComponent origin) {
+        this.maxHealth = origin.getMaxHealth();
+        this.health = origin.getHealth();
+    }
+
+    /**
+     * Ovveride to define the behaviour of copy.
+     * 
+     * @return an Entity or something that extends it.
+     */
+    protected abstract ShipComponent copy();
+    
     /**
      * Setter for the health of the ShipComponent.
      * 
