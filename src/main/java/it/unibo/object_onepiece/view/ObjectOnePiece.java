@@ -92,6 +92,7 @@ public final class ObjectOnePiece extends Application {
         primaryStage.minHeightProperty().set(WINDOW_HEIGHT);
         primaryStage.minWidthProperty().set(WINDOW_WIDTH);
         scene.getStylesheets().add(STYLE_SHEET);
+        primaryStage.setMaximized(true);
         primaryStage.setScene(scene);
         primaryStage.show();
 
