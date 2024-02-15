@@ -11,7 +11,7 @@ public interface World {
      * 
      * @return Player object in the section
      */
-    Optional<Player> getPlayer();
+    Player getPlayer();
     /**
      * 
      * @return enemies present in the section
