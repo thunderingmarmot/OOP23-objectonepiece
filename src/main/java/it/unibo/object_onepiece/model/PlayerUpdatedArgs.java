@@ -15,6 +15,7 @@ public final class PlayerUpdatedArgs {
 
     /**
      * Creates an instance of this class.
+     * @param nameList the list of components names
      * @param healthList the list of components current health
      * @param maxHealthList the list of components maximum health
      * @param experience the experience of the Player
@@ -30,7 +31,7 @@ public final class PlayerUpdatedArgs {
     }
 
     /**
-     * Getter for the list of components names;
+     * Getter for the list of components names.
      * @return the List of current healths
      */
     public List<String> getNames() {
