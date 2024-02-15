@@ -65,8 +65,8 @@ public final class Section {
      * @param world reference to World object (used to consent islands to save game state)
      */
     Section(final WorldImpl world) {
-        int rows = world.getMapRows();
-        int columns = world.getMapCols();
+        final int rows = world.getMapRows();
+        final int columns = world.getMapCols();
         this.rowInset = rows / INSET_FACTOR;
         this.colInset = columns / INSET_FACTOR;
         this.genAreaRows = rows - rowInset;
