@@ -27,7 +27,7 @@ public final class Player extends Ship {
               spawnPosition,
               CardinalDirection.NORTH,
               Weapon.cannon(),
-              Sail.sloop(),
+              Sail.spinnaker(),
               Bow.standard(),
               Keel.standard());
         this.experience = 0;
