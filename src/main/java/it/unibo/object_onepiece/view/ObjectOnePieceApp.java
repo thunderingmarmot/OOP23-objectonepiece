@@ -55,6 +55,7 @@ public final class ObjectOnePieceApp extends Application {
     private final ProgressBar[] healthBars = new ProgressBar[4];
     private final Sound sound = new Sound();
     private final Label experienceText = new Label();
+    private final VBox healthBarContainer = new VBox();
     private World world;
 
     @Override
@@ -76,11 +77,11 @@ public final class ObjectOnePieceApp extends Application {
 
         borderPane.setCenter(gridView);
         borderPane.setRight(rightPane);
-
         for (int i = 0; i < HP_BARS_COUNT; i++) {
             healthBars[i] = new HealthBar(new ProgressBarImpl());
-            infoWrapper.getChildren().add(healthBars[i].getContainer());
+            healthBarContainer.getChildren().add(healthBars[i].getContainer());
         }
+        infoWrapper.getChildren().add(healthBarContainer);
 
         final Scene scene = new Scene(borderPane, WINDOW_WIDTH, WINDOW_HEIGHT);
         primaryStage.minHeightProperty().set(WINDOW_HEIGHT);
@@ -215,9 +216,10 @@ public final class ObjectOnePieceApp extends Application {
         if (Stream.of(healthList.size(), maxHealthList.size()).anyMatch(s -> s > HP_BARS_COUNT)) {
             throw new IllegalArgumentException("Model has more healthbars than view can represent");
         }
-
+        healthBarContainer.getChildren().clear();
         for (int i = 0; i < HP_BARS_COUNT; i++) {
-            healthBars[i].update(healthList.get(i), maxHealthList.get(i));
+            healthBars[i].setProgressMaxProgress(healthList.get(i), maxHealthList.get(i));
+            healthBarContainer.getChildren().add(healthBars[i].getContainer());
         }
 
         experienceText.setText(Integer.toString(experience));
