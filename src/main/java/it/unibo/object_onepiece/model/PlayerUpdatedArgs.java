@@ -8,6 +8,7 @@ import java.util.List;
  * @see Player
  */
 public final class PlayerUpdatedArgs {
+    private final List<String> nameList;
     private final List<Integer> healthList;
     private final List<Integer> maxHealthList;
     private final int experience;
@@ -18,12 +19,22 @@ public final class PlayerUpdatedArgs {
      * @param maxHealthList the list of components maximum health
      * @param experience the experience of the Player
      */
-    protected PlayerUpdatedArgs(final List<Integer> healthList,
-                             final List<Integer> maxHealthList,
-                             final int experience) {
+    protected PlayerUpdatedArgs(final List<String> nameList,
+                                final List<Integer> healthList,
+                                final List<Integer> maxHealthList,
+                                final int experience) {
+        this.nameList = nameList;
         this.healthList = healthList;
         this.maxHealthList = maxHealthList;
         this.experience = experience;
+    }
+
+    /**
+     * Getter for the list of components names;
+     * @return the List of current healths
+     */
+    public List<String> getStrings() {
+        return new ArrayList<>(this.nameList);
     }
 
     /**

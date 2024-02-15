@@ -27,7 +27,7 @@ public final class Player extends Ship {
               spawnPosition,
               CardinalDirection.NORTH,
               Weapon.cannon(),
-              Sail.spinnaker(),
+              Sail.sloop(),
               Bow.standard(),
               Keel.standard());
         this.experience = 0;
@@ -135,6 +135,14 @@ public final class Player extends Ship {
     }
 
     /**
+     * Getter for the names of each component.
+     * @return a List of healths
+     */
+    protected List<String> getNames() {
+        return getFromShipComponent((c) -> c.getClass().getSimpleName()).toList();
+    }
+
+    /**
      * Getter for the experience private field.
      * @return the currently owned experience value
      */
@@ -148,7 +156,7 @@ public final class Player extends Ship {
      */
     protected void addExperience(final int experienceToAdd) {
         this.experience += experienceToAdd;
-        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
+        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getNames(), getHealths(), getMaxHealths(), this.experience));
     }
 
     /**
@@ -157,7 +165,7 @@ public final class Player extends Ship {
      */
     protected void subtractExperience(final int experienceToSubtract) {
         this.experience -= experienceToSubtract;
-        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
+        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getNames(), getHealths(), getMaxHealths(), this.experience));
     }
 
     /**
@@ -177,7 +185,7 @@ public final class Player extends Ship {
     @Override
     protected void takeDamage(final int damage, final ShipComponent s) {
         super.takeDamage(damage, s);
-        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
+        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getNames(), getHealths(), getMaxHealths(), this.experience));
     }
 
     /**
@@ -185,7 +193,7 @@ public final class Player extends Ship {
      */
     protected void heal() {
         this.getShipComponents().forEach((c) -> c.setHealth(c.getMaxHealth()));
-        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
+        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getNames(), getHealths(), getMaxHealths(), this.experience));
     }
 
     /**
