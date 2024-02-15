@@ -35,8 +35,8 @@ import javafx.stage.Stage;
  * Object One Piece game.
  */
 public final class ObjectOnePiece extends Application {
-    private static final int MAP_ROWS = 10;
-    private static final int MAP_COLUMNS = 10;
+    private static final int MAP_ROWS = 25;
+    private static final int MAP_COLUMNS = 25;
     private static final Color CELL_BORDER_COLOR = Color.rgb(66, 138, 245);
     private static final Color DEFAULT_COLOR = Color.rgb(2, 127, 222);
     private static final int RIGHT_ANGLE = 90;
