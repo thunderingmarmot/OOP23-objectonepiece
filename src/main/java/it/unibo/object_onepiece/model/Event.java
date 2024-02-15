@@ -75,7 +75,7 @@ public class Event<T> {
     }
 
     /**
-     * Invokes the Event with some argument the invalidates it.
+     * Invokes the Event with some argument then invalidates it.
      * @param args the argument passed to the subscribed Consumers
      */
     public void lastInvoke(final T args) {
