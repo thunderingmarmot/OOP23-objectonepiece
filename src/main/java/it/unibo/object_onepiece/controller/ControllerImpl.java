@@ -33,6 +33,9 @@ public final class ControllerImpl implements Controller {
         buttons.get(button).accept(world);
     }
 
+    /**
+     * Abstract class defining the current InputState of the Controller.
+     */ 
     protected abstract static class InputState {
         /**
          * @param  pos    the input accepted by the controller
