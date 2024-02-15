@@ -446,7 +446,12 @@ public abstract class Ship extends Collider {
     /**
      * This method remove the ship.
      */
-    protected abstract void die();
+    protected void die() {
+        this.remove();
+        this.getEntityCreatedEvent().invalidate();
+        this.getEntityUpdatedEvent().invalidate();
+        this.getEntityRemovedEvent().invalidate();
+    }
 
     /**
      * Setter for the Weapon component of the Ship.
