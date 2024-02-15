@@ -9,8 +9,6 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.Optional;
 import java.util.function.BiFunction;
-
-import edu.umd.cs.findbugs.annotations.OverrideMustInvoke;
 /**
  * Basic progress bar with predifined dimensions and label to view progress in text form.
  */

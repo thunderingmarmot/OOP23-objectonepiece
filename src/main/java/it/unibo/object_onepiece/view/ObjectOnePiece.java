@@ -132,7 +132,9 @@ public final class ObjectOnePiece extends Application {
             });
             e1.onPlayerAdded().subscribe((e2) -> {
                 e2.onPlayerUpdated()
-                    .subscribe((e3) -> drawPlayerInfo(e3.getNames(), e3.getHealthList(), e3.getMaxHealthList(), e3.getExperience()));
+                    .subscribe((e3) -> drawPlayerInfo(
+                        e3.getNames(), e3.getHealthList(), e3.getMaxHealthList(), e3.getExperience())
+                    );
             });
         });
 
@@ -173,7 +175,11 @@ public final class ObjectOnePiece extends Application {
         gridView.cellBorderColorProperty().set(CELL_BORDER_COLOR);
     }
 
-    private void createEntity(final String name, final Position spawnPosition, final CardinalDirection spawnDirection) {
+    private void createEntity(
+        final String name,
+        final Position spawnPosition,
+        final CardinalDirection spawnDirection
+    ) {
         drawImage(name, spawnPosition.row(), spawnPosition.column(), Optional.of(spawnDirection));
     }
 
@@ -217,7 +223,12 @@ public final class ObjectOnePiece extends Application {
         gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(entityImage);
     }
 
-    private void drawPlayerInfo(final List<String> names, final List<Integer> healthList, final List<Integer> maxHealthList, final int experience) {
+    private void drawPlayerInfo(
+        final List<String> names,
+        final List<Integer> healthList,
+        final List<Integer> maxHealthList,
+        final int experience
+    ) {
         if (Stream.of(healthList.size(), maxHealthList.size(), names.size()).anyMatch(s -> s > HP_BARS_COUNT)) {
             throw new IllegalArgumentException("Model has more healthbars than view can represent");
         }
