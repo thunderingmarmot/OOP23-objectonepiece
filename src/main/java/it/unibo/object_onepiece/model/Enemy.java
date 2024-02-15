@@ -80,16 +80,9 @@ public final class Enemy extends Ship {
         currentState = findState(States.PATROLLING);
     }
 
-    protected Enemy(final Enemy origin) {
-        super(origin);
-        this.triggerDistance = origin.triggerDistance;
-        this.enemyStates = origin.enemyStates;
-        this.currentState = origin.currentState;
-    }
-
     @Override
     protected Enemy copy() {
-        return new Enemy(this);
+        return new Enemy(this.getSection(), this.getPosition());
     }
 
     /**
