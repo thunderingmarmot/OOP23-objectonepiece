@@ -106,10 +106,10 @@ public final class WorldImpl implements World {
     }
 
     void setSavedState() {
-        List<Entity> entityListCopy = this.currentSection.getEntities()
-                                                         .stream()
-                                                         .filter((e) -> !(e instanceof Player))
-                                                         .map((e) -> e.copy()).toList();
+        final List<Entity> entityListCopy = this.currentSection.getEntities()
+            .stream()
+            .filter((e) -> !(e instanceof Player))
+            .map((e) -> e.copy()).toList();
         saved = Optional.of(new SavedSection(entityListCopy, this.getPlayer().copy()));
     }
 
