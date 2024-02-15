@@ -18,10 +18,10 @@ public final class ProgressBarImpl implements ProgressBar {
 
     private Color backColor = Color.WHITE;
     private Color frontColor = Color.BLACK;
-    private int progress = 0;
+    private int progress;
     private Optional<Integer> maxProgress = Optional.empty();
-    private final BiFunction<Integer, Integer, String> labelTextBuild = (h, maxH) -> h + "/" + maxH; 
-    
+    private final BiFunction<Integer, Integer, String> labelTextBuild = (h, maxH) -> h + "/" + maxH;
+
     @Override
     public VBox getContainer() {
         final VBox container = new VBox();
@@ -41,12 +41,13 @@ public final class ProgressBarImpl implements ProgressBar {
         container.getChildren().addAll(s, label);
         container.setAlignment(Pos.CENTER);
         if (maxProgress.isEmpty()) {
-            frontRectangle.setHeight(backRectangle.getHeight());
+            frontRectangle.heightProperty().bind(backRectangle.heightProperty());
             label.setText(Integer.toString(progress));
         } else if (maxProgress.isPresent()) {
             label.setText(labelTextBuild.apply(progress, maxProgress.get()));
-            frontRectangle.setHeight((backRectangle.getHeight() * progress) / maxProgress.get());    
+            frontRectangle.heightProperty().bind(backRectangle.heightProperty().map(e -> (e.doubleValue() * progress) / maxProgress.get()));    
         }
+
         return container;
     }
 
