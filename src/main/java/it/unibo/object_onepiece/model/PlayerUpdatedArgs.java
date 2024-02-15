@@ -33,7 +33,7 @@ public final class PlayerUpdatedArgs {
      * Getter for the list of components names;
      * @return the List of current healths
      */
-    public List<String> getStrings() {
+    public List<String> getNames() {
         return new ArrayList<>(this.nameList);
     }
 
