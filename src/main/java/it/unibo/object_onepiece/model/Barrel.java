@@ -24,6 +24,10 @@ public final class Barrel extends Collidable {
         this.experienceGiven = DEFAULT_EXPERIENCE_GIVEN;
     }
 
+    /**
+     * Copy constructor that creates a copy of a Barrel.
+     * @param origin the Barrel to copy from
+     */
     protected Barrel(final Barrel origin) {
         super(origin);
         this.experienceGiven = origin.experienceGiven;
