@@ -5,7 +5,6 @@ import it.unibo.object_onepiece.model.Utils.Position;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import it.unibo.object_onepiece.model.Enemy;
 import it.unibo.object_onepiece.model.Player;
 import it.unibo.object_onepiece.model.World;
 

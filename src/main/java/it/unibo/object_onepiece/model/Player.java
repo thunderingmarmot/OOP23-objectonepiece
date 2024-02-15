@@ -68,6 +68,11 @@ public final class Player extends Ship {
      * @see Ship
      */
     public boolean moveTo(final Position destination) {
+        if(this.isShipDead()) {
+            this.die();
+            return false;
+        }
+
         final CardinalDirection direction = this.getPosition().whereTo(destination);
         final int distance = this.getPosition().distanceFrom(destination);
         final MoveDetails moveResult = super.move(direction, distance);
@@ -89,6 +94,11 @@ public final class Player extends Ship {
      * @see Weapon
      */
     public boolean shootAt(final Position target) {
+        if(this.isShipDead()) {
+            this.die();
+            return false;
+        }
+
         return super.shoot(target).hasShooted();
     }
 
@@ -156,9 +166,7 @@ public final class Player extends Ship {
     @Override
     protected void takeDamage(final int damage, final ShipComponent s) {
         super.takeDamage(damage, s);  
-        // tryInvoke is needed here because if super.takeDamage decides the Ship has died,
-        // the Player.die() will be executed first, invalidating all events.
-        this.onPlayerUpdated.tryInvoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
+        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
     }
 
     /**
@@ -176,7 +184,7 @@ public final class Player extends Ship {
     @Override
     protected void die() {
         super.die();
-        this.onPlayerUpdated.lastInvoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
+        this.onPlayerUpdated.invalidate();
         if (this.getWorld().getSavedState().isPresent()) {
             this.getWorld().loadSavedSection();
         } else {

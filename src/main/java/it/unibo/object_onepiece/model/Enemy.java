@@ -112,6 +112,11 @@ public final class Enemy extends Ship {
      * Needs to be called when is the Enemy turn.
      */
     public void goNext() {
+        if(this.isShipDead()) {
+            super.die();
+            return;
+        }
+
         Boolean result;
         do {
             result = !currentState.perform();
