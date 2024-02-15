@@ -45,7 +45,9 @@ public final class ProgressBarImpl implements ProgressBar {
             label.setText(Integer.toString(progress));
         } else if (maxProgress.isPresent()) {
             label.setText(labelTextBuild.apply(progress, maxProgress.get()));
-            frontRectangle.heightProperty().bind(backRectangle.heightProperty().map(e -> (e.doubleValue() * progress) / maxProgress.get()));    
+            frontRectangle.heightProperty().bind(
+                backRectangle.heightProperty().map(e -> (e.doubleValue() * progress) / maxProgress.get())
+            );
         }
 
         return container;
