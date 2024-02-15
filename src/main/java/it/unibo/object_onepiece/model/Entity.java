@@ -57,7 +57,7 @@ public abstract class Entity {
     /**
      * Constructor for copying from an existing Entity.
      * 
-     * @param  origin  the Entity to copy from
+     * @param  origin the Entity to copy from
      */
     protected Entity(final Entity origin) {
         this(origin.section, origin.position, origin.direction);

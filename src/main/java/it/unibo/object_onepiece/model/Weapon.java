@@ -28,6 +28,11 @@ public final class Weapon extends ShipComponent {
         this.attackRange = range;
     }
 
+    /**
+     * Constructor to copy from an existing Weapon.
+     * 
+     * @param  origin the weapon to copy from
+     */
     protected Weapon(final Weapon origin) {
         super(origin);
         this.maxDamage = origin.getMaxDamage();
@@ -35,6 +40,11 @@ public final class Weapon extends ShipComponent {
         this.attackRange = origin.getRange();
     }
 
+    /**
+     * This method makes a copy of a Weapon.
+     * 
+     * @return the copy of the weapon.
+     */
     @Override
     protected Weapon copy() {
         return new Weapon(this);

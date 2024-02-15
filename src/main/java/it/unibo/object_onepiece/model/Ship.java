@@ -113,19 +113,6 @@ public abstract class Ship extends Collider {
     );
 
     /**
-     * Constructor to copy from an existing Ship.
-     * @param origin the Ship to copy from
-     * @see Entity
-     */
-    protected Ship(final Ship origin) {
-        super(origin);
-        this.weapon = origin.getWeapon().copy();
-        this.sail = origin.getSail().copy();
-        this.bow = origin.getBow().copy();
-        this.keel = origin.getKeel().copy();
-    }
-
-    /**
     * Constructor for class ShipImpl.
     *
     * @param  s      the section where the ship is located
@@ -148,6 +135,20 @@ public abstract class Ship extends Collider {
         this.sail = sail;
         this.bow = bow;
         this.keel = keel;
+    }
+
+    /**
+     * Constructor to copy from an existing Ship.
+     * 
+     * @param origin the Ship to copy from
+     * @see Entity
+     */
+    protected Ship(final Ship origin) {
+        super(origin);
+        this.weapon = origin.getWeapon().copy();
+        this.sail = origin.getSail().copy();
+        this.bow = origin.getBow().copy();
+        this.keel = origin.getKeel().copy();
     }
 
     /**

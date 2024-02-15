@@ -29,6 +29,11 @@ public final class Sail extends ShipComponent {
         this.rotationPower = rotation;
     }
 
+    /**
+     * Constructor to copy from an existing Sail.
+     * 
+     * @param  origin the sail to copy from
+     */
     protected Sail(final Sail origin) {
         super(origin);
         this.maxSpeed = origin.getMaxSpeed();
@@ -36,6 +41,11 @@ public final class Sail extends ShipComponent {
         this.rotationPower = origin.haveRotationPower();
     }
 
+    /**
+     * This method makes a copy of a Sail.
+     * 
+     * @return the copy of the sail.
+     */
     @Override
     protected Sail copy() {
         return new Sail(this);

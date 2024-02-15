@@ -19,6 +19,11 @@ public abstract class ShipComponent {
         this.health = health;
     }
 
+    /**
+     * Constructor to copy from an existing ShipComponent.
+     * 
+     * @param  origin the ship component to copy from
+     */
     protected ShipComponent(final ShipComponent origin) {
         this.maxHealth = origin.getMaxHealth();
         this.health = origin.getHealth();
@@ -27,10 +32,10 @@ public abstract class ShipComponent {
     /**
      * Ovveride to define the behaviour of copy.
      * 
-     * @return an Entity or something that extends it.
+     * @return a ShipComponent or something that extends it.
      */
     protected abstract ShipComponent copy();
-    
+
     /**
      * Setter for the health of the ShipComponent.
      * 

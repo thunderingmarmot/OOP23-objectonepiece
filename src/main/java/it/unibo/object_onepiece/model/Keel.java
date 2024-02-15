@@ -23,11 +23,21 @@ public class Keel extends ShipComponent {
         this.damageEndurance = damageEndurance;
     }
 
+    /**
+     * Constructor to copy from an existing Keel.
+     * 
+     * @param  origin the keel to copy from
+     */
     protected Keel(final Keel origin) {
         super(origin);
         this.damageEndurance = origin.getDamageEndurance();
     }
 
+    /**
+     * This method makes a copy of a Keel.
+     * 
+     * @return the copy of the keel.
+     */
     @Override
     protected Keel copy() {
         return new Keel(this);
