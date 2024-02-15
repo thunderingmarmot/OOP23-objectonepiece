@@ -4,7 +4,7 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
- * Implementation of the Barrel interface.
+ * A Barrel, a Collidable that when collided with can be picked up.
  * @see Barrel
  */
 public final class Barrel extends Collidable {

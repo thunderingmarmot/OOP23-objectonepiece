@@ -7,7 +7,8 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
- * Implementation of the Player interface.
+ * A Player, a Ship that represents the Player itself.
+ * Different from its counter-part, the Enemy.
  * @see Player
  */
 public final class Player extends Ship {

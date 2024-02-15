@@ -4,7 +4,7 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
- * Implementation of the Island interface.
+ * An Island, a Collidable that when collided with, heals the Player and saves the game.
  * @see Island
  */
 public final class Island extends Collidable {

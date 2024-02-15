@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Base Event implementation.
+ * An Event class that mimics C# events.
+ * Supports the subscribe and unsubscribe operations.
+ * Supports invoking the Event with a generic argument.
+ * Also supports a way for invalidating the Event which means
+ * unsubscribing all listeners and making the Event unusable.
  * @param <T> the generic type defining the Event argument
  */
 public class Event<T> {
