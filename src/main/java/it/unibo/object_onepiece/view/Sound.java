@@ -65,7 +65,7 @@ public final class Sound {
         try {
             ambienceAudioIN = AudioSystem.getAudioInputStream(ambienceSoundURL);
             this.ambienceClip = AudioSystem.getClip();
-            this.play(ambienceAudioIN, this.ambienceClip, false);
+            this.play(ambienceAudioIN, this.ambienceClip, true);
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             log.warning("Error: " + e.getStackTrace());
         }
