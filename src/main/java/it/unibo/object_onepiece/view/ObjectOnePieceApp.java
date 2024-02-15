@@ -43,6 +43,8 @@ public final class ObjectOnePieceApp extends Application {
     private static final float DEFAULT_AMBIENCE_SOUND_VOLUME = -30;
     private static final String STYLE_SHEET = "/css/ObjectOnePieceApp.css";
     private static final Function<String, String> PATH_FUNC = t -> "/img/sprites/" + t + "/" + t + ".png";
+    private static final int WINDOW_WIDTH = 650;
+    private static final int WINDOW_HEIGHT = 650;
 
     private enum State {
         WATER;
@@ -59,7 +61,7 @@ public final class ObjectOnePieceApp extends Application {
     public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Object One Piece!");
         gridSetUp();
-        final VBox barsContainer = new VBox();
+        final VBox infoWrapper = new VBox();
         final BorderPane borderPane = new BorderPane();
 
         sound.playAmbienceSound();
@@ -70,17 +72,19 @@ public final class ObjectOnePieceApp extends Application {
 
         final BorderPane rightPane = new BorderPane();
         rightPane.setTop(pirateInfo);
-        rightPane.setCenter(barsContainer);
+        rightPane.setCenter(infoWrapper);
 
         borderPane.setCenter(gridView);
         borderPane.setRight(rightPane);
 
         for (int i = 0; i < HP_BARS_COUNT; i++) {
             healthBars[i] = new HealthBar(new ProgressBarImpl());
-            barsContainer.getChildren().add(healthBars[i].getContainer());
+            infoWrapper.getChildren().add(healthBars[i].getContainer());
         }
 
-        final Scene scene = new Scene(borderPane, 600, 600);
+        final Scene scene = new Scene(borderPane, WINDOW_WIDTH, WINDOW_HEIGHT);
+        primaryStage.minHeightProperty().set(WINDOW_HEIGHT);
+        primaryStage.minWidthProperty().set(WINDOW_WIDTH);
         scene.getStylesheets().add(STYLE_SHEET);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -89,11 +93,11 @@ public final class ObjectOnePieceApp extends Application {
 
         final ImageView heal = new ImageView(new Image("/img/ui/heal.png"));
         heal.setPreserveRatio(true);
-        heal.setFitWidth(barsContainer.getWidth());
+        heal.setFitWidth(infoWrapper.getWidth() / 2);
 
         final ImageView audio = new ImageView(new Image("/img/ui/audio.png"));
         audio.setPreserveRatio(true);
-        audio.setFitWidth(barsContainer.getWidth());
+        audio.setFitWidth(infoWrapper.getWidth() / 2);
 
         final Button useXp = new Button();
         useXp.setGraphic(heal);
@@ -101,17 +105,15 @@ public final class ObjectOnePieceApp extends Application {
         final Button pauseAmbienceSound = new Button();
         pauseAmbienceSound.setGraphic(audio);
 
-        final VBox xpContainer = new VBox();
-        xpContainer.setAlignment(Pos.CENTER);
-        xpContainer.getChildren().addAll(useXp, experienceText);
+        final VBox buttonContainer = new VBox();
+        buttonContainer.setAlignment(Pos.CENTER);
+        buttonContainer.getChildren().addAll(useXp, experienceText, pauseAmbienceSound);
 
-        final VBox volumeContainer = new VBox();
-        volumeContainer.setAlignment(Pos.CENTER);
-        volumeContainer.getChildren().add(pauseAmbienceSound);
 
-        barsContainer.getChildren().add(xpContainer);
-        barsContainer.getChildren().add(volumeContainer);
-        barsContainer.setAlignment(Pos.CENTER);
+
+        infoWrapper.getChildren().add(buttonContainer);
+
+        infoWrapper.setAlignment(Pos.CENTER);
 
         world = new WorldImpl(MAP_ROWS, MAP_COLUMNS, (e1) -> {
             e1.onEntityAdded().subscribe((e2) -> {
