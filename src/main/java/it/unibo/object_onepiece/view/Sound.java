@@ -1,7 +1,6 @@
 package it.unibo.object_onepiece.view;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -27,7 +26,6 @@ public final class Sound {
     }
 
     private static final String SOUND_FOLDER = "sound/";
-    private static Logger log = Logger.getLogger(Sound.class.getName());
 
     private final Map<SoundTypes, URL> soundTypesToFile = Map.of(
         SoundTypes.CANNON_SHOT, this.getURL(SOUND_FOLDER + "cannon_shot.wav"),
@@ -53,7 +51,7 @@ public final class Sound {
             clip = AudioSystem.getClip();
             this.play(audioIN, clip, false);
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            log.warning("Error: " + e);
+            throw new IllegalArgumentException("Audio file not supported");
         }
     }
 
@@ -67,7 +65,7 @@ public final class Sound {
             this.ambienceClip = AudioSystem.getClip();
             this.play(ambienceAudioIN, this.ambienceClip, false);
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            log.warning("Error: " + e);
+            throw new IllegalArgumentException("Audio file not supported");
         }
     }
 
