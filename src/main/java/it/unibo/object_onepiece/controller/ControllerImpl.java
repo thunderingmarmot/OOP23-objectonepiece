@@ -18,16 +18,13 @@ public final class ControllerImpl implements Controller {
         States.MOVING, new MoveState());
 
     private static Map<Buttons, Consumer<World>> buttons = Map.of(
-        Buttons.FIX, (w) -> w.getPlayer().healWithExperience() 
+        Buttons.FIX, (w) -> w.getPlayer().healWithExperience()
     );
 
     @Override
     public void action(final Position position, final World world, final States state) {
         if (states.get(state).perform(position, world.getPlayer())) {
-            world.getEnemies().forEach(e -> {
-                if(world.getPlayer() != null){
-                    e.goNext();  
-                }});
+            world.getEnemies().forEach(e -> e.goNext());
         }
     }
 
