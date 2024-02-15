@@ -372,14 +372,14 @@ public abstract class Ship extends Collider {
     private void hitTarget(final Position position, final int damage) {
         final Optional<Entity> ship = this.getSection().getEntityAt(position);
 
-        if (ship.isPresent() && ship.get() instanceof Ship s) {
+        if (ship.isPresent() 
+        && ship.get() instanceof Ship s 
+        && !s.isShipDead()) {
             final List<ShipComponent> validComponents = s.getShipComponents().stream()
                                                          .filter(c -> c.getHealth() > 0)
                                                          .toList();
 
-            s.takeDamage(damage, validComponents.get(validComponents.isEmpty()
-                                                     ? 0 
-                                                     : Utils.getRandom().nextInt(validComponents.size())));
+            s.takeDamage(damage, validComponents.get(Utils.getRandom().nextInt(validComponents.size())));
         }
     }
 
