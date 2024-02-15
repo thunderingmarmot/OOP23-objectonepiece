@@ -84,7 +84,6 @@ public final class ObjectOnePieceApp extends Application {
             } else {
                 pointBars[i] = new ComponentBar(new ProgressBarImpl());
             }
-            
             healthBarContainer.getChildren().add(pointBars[i].getContainer());
         }
         infoWrapper.getChildren().add(healthBarContainer);

@@ -9,6 +9,5 @@ class ComponentBar extends ProgressBarDecorator  {
     protected ComponentBar(ProgressBar decorated) {
         super(decorated);
         this.setColor(DARK_RED, DARK_GREEN);
-    }
-    
+    }   
 }
