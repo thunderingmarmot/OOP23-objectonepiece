@@ -89,7 +89,7 @@ public final class WorldImpl implements World {
     }
 
     @Override
-    public Player getPlayer() {
+    public Optional<Player> getPlayer() {
         return getCurrentSection().getPlayer();
     }
 
@@ -110,7 +110,11 @@ public final class WorldImpl implements World {
             .stream()
             .filter((e) -> !(e instanceof Player))
             .map((e) -> e.copy()).toList();
-        saved = Optional.of(new SavedSection(entityListCopy, this.getPlayer().copy()));
+        if (this.getPlayer().isPresent()) {
+            saved = Optional.of(new SavedSection(entityListCopy, this.getPlayer().get().copy()));
+        } else {
+            throw new IllegalStateException("Player is not present, cannot save state");
+        }
     }
 
     Section getCurrentSection() {
