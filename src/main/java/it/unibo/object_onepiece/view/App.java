@@ -15,6 +15,6 @@ public final class App {
     * @param args
     */
     public static void main(final String[] args) {
-        Application.launch(ObjectOnePieceApp.class);
+        Application.launch(ObjectOnePiece.class);
     }
 }
