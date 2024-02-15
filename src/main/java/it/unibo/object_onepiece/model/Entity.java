@@ -9,7 +9,6 @@ import it.unibo.object_onepiece.model.Utils.Position;
 public abstract class Entity {
 
     private final Section section;
-
     private Position position;
     private CardinalDirection direction;
 
@@ -64,6 +63,11 @@ public abstract class Entity {
         this(origin.section, origin.position, origin.direction);
     }
 
+    /**
+     * Ovveride to define the behaviour of copy.
+     * 
+     * @return an Entity or something that extends it.
+     */
     protected abstract Entity copy();
 
     /**
