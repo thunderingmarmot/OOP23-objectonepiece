@@ -41,11 +41,21 @@ public final class NavalMine extends Collidable {
         this.damage = DEFAULT_DAMAGE;
     }
 
+    /**
+     * Constructor to copy from an existing NavalMine.
+     * 
+     * @param  origin the naval mine to copy from
+     */
     protected NavalMine(final NavalMine origin) {
         super(origin);
         this.damage = origin.damage;
     }
 
+    /**
+     * This method returns a copy a naval mine.
+     * 
+     * @return a copy of a NavalMine.
+     */
     @Override
     protected Entity copy() {
         return new NavalMine(this);

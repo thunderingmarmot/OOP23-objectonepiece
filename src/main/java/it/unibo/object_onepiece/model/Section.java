@@ -65,8 +65,8 @@ public final class Section {
      * @param world reference to World object (used to consent islands to save game state)
      */
     Section(final WorldImpl world) {
-        int rows = world.getMapRows();
-        int columns = world.getMapCols();
+        final int rows = world.getMapRows();
+        final int columns = world.getMapCols();
         this.rowInset = rows / INSET_FACTOR;
         this.colInset = columns / INSET_FACTOR;
         this.genAreaRows = rows - rowInset;
@@ -106,7 +106,7 @@ public final class Section {
 
     void clearEntities() {
         this.entities.forEach((entity) -> {
-            entity.getEntityRemovedEvent().invoke(new EntityRemovedArgs(entity.getPosition()));
+            entity.getEntityRemovedEvent().tryInvoke(new EntityRemovedArgs(entity.getPosition()));
         });
         this.entities.clear();
     }
@@ -159,6 +159,7 @@ public final class Section {
     }
 
     void addEntity(final Entity e) {
+        e.setSection(this);
         this.onEntityAdded.invoke(new EntityAddedArgs(
             e.getEntityCreatedEvent(), e.getEntityUpdatedEvent(), e.getEntityRemovedEvent()));
         e.getEntityCreatedEvent().invoke(new EntityCreatedArgs(

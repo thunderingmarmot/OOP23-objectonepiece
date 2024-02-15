@@ -27,6 +27,27 @@ public final class Bow extends ShipComponent {
     }
 
     /**
+     * Constructor to copy from an existing Bow.
+     * 
+     * @param  origin the bow to copy from
+     */
+    protected Bow(final Bow origin) {
+        super(origin);
+        this.crashDamage = origin.getCrashDamage();
+        this.crashDamageMultiplier = origin.getCrashDamageMultiplier();
+    }
+
+    /**
+     * This method makes a copy of a Bow.
+     * 
+     * @return the copy of the bow.
+     */
+    @Override
+    protected Bow copy() {
+        return new Bow(this);
+    }
+
+    /**
      * Getter for the crash damage of the ship bow.
      * 
      * @return bow crash damage.

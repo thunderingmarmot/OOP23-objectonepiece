@@ -5,7 +5,6 @@ import it.unibo.object_onepiece.model.Utils.Position;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import it.unibo.object_onepiece.model.Enemy;
 import it.unibo.object_onepiece.model.Player;
 import it.unibo.object_onepiece.model.World;
 
@@ -19,16 +18,13 @@ public final class ControllerImpl implements Controller {
         States.MOVING, new MoveState());
 
     private static Map<Buttons, Consumer<World>> buttons = Map.of(
-        Buttons.FIX, (w) -> w.getPlayer().healWithExperience() 
+        Buttons.FIX, (w) -> w.getPlayer().healWithExperience()
     );
 
     @Override
     public void action(final Position position, final World world, final States state) {
         if (states.get(state).perform(position, world.getPlayer())) {
-            world.getEnemies().forEach(e -> {
-                if(world.getPlayer() != null){
-                    e.goNext();  
-                }});
+            world.getEnemies().forEach(e -> e.goNext());
         }
     }
 
@@ -37,6 +33,9 @@ public final class ControllerImpl implements Controller {
         buttons.get(button).accept(world);
     }
 
+    /**
+     * Abstract class defining the current InputState of the Controller.
+     */ 
     protected abstract static class InputState {
         /**
          * @param  pos    the input accepted by the controller

@@ -23,7 +23,13 @@ public final class Player extends Ship {
      * @param spawnPosition the Position this Player spawns at
      */
     protected Player(final Section spawnSection, final Position spawnPosition) {
-        super(spawnSection, spawnPosition, CardinalDirection.NORTH, Weapon.cannon(), Sail.sloop(), Bow.standard(), Keel.standard());
+        super(spawnSection,
+              spawnPosition,
+              CardinalDirection.NORTH,
+              Weapon.cannon(),
+              Sail.sloop(),
+              Bow.standard(),
+              Keel.standard());
         this.experience = 0;
     }
 
@@ -31,10 +37,15 @@ public final class Player extends Ship {
      * Constructor that creates a Player by copying another in a different Section and a different Position.
      * @param origin the Player to copy from
      * @param customSection the Section containing the new Player
-     * @param customPosition the Position the new Player is at
      */
     protected Player(final Player origin, final Section customSection) {
-        super(customSection, origin.getPosition(), origin.getDirection(), origin.getWeapon(), origin.getSail(), origin.getBow(), origin.getKeel());
+        super(customSection,
+              origin.getPosition(),
+              origin.getDirection(),
+              origin.getWeapon(),
+              origin.getSail(),
+              origin.getBow(),
+              origin.getKeel());
         this.experience = origin.experience;
     }
 
@@ -68,13 +79,18 @@ public final class Player extends Ship {
      * @see Ship
      */
     public boolean moveTo(final Position destination) {
+        if (this.isShipDead()) {
+            this.die();
+            return false;
+        }
+
         final CardinalDirection direction = this.getPosition().whereTo(destination);
         final int distance = this.getPosition().distanceFrom(destination);
         final MoveDetails moveResult = super.move(direction, distance);
         if (moveResult.equals(MoveDetails.BORDER_REACHED)) {
             this.getWorld().createNewSection(
                 (newSection) -> {
-                    Player player = new Player(this, newSection);
+                    final Player player = new Player(this, newSection);
                     player.setPosition(player.getPosition().opposite(player.getDirection(), newSection.getBounds()));
                     return player;
                 });
@@ -89,6 +105,11 @@ public final class Player extends Ship {
      * @see Weapon
      */
     public boolean shootAt(final Position target) {
+        if (this.isShipDead()) {
+            this.die();
+            return false;
+        }
+
         return super.shoot(target).hasShooted();
     }
 
@@ -155,10 +176,8 @@ public final class Player extends Ship {
      */
     @Override
     protected void takeDamage(final int damage, final ShipComponent s) {
-        super.takeDamage(damage, s);  
-        // tryInvoke is needed here because if super.takeDamage decides the Ship has died,
-        // the Player.die() will be executed first, invalidating all events.
-        this.onPlayerUpdated.tryInvoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
+        super.takeDamage(damage, s);
+        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
     }
 
     /**
@@ -176,7 +195,7 @@ public final class Player extends Ship {
     @Override
     protected void die() {
         super.die();
-        this.onPlayerUpdated.lastInvoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
+        this.onPlayerUpdated.invalidate();
         if (this.getWorld().getSavedState().isPresent()) {
             this.getWorld().loadSavedSection();
         } else {

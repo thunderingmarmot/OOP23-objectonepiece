@@ -14,6 +14,7 @@ import it.unibo.object_onepiece.model.World;
 import it.unibo.object_onepiece.model.WorldImpl;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 import it.unibo.object_onepiece.model.Utils.Position;
+import it.unibo.object_onepiece.view.Sound.SoundTypes;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -59,7 +60,7 @@ public final class ObjectOnePieceApp extends Application {
     private World world;
 
     @Override
-    public void start(final Stage primaryStage) throws Exception {
+    public void start(final Stage primaryStage) {
         primaryStage.setTitle("Object One Piece!");
         gridSetUp();
         final VBox infoWrapper = new VBox();
@@ -223,6 +224,7 @@ public final class ObjectOnePieceApp extends Application {
         }
 
         experienceText.setText(Integer.toString(experience));
+        sound.playSound(SoundTypes.REPAIR_COLLECT);
     }
     /**
      * Program's entry point.

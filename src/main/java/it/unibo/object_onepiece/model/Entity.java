@@ -8,8 +8,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  */
 public abstract class Entity {
 
-    private final Section section;
-
+    private Section section;
     private Position position;
     private CardinalDirection direction;
 
@@ -58,12 +57,17 @@ public abstract class Entity {
     /**
      * Constructor for copying from an existing Entity.
      * 
-     * @param  origin  the Entity to copy from
+     * @param  origin the Entity to copy from
      */
     protected Entity(final Entity origin) {
         this(origin.section, origin.position, origin.direction);
     }
 
+    /**
+     * Ovveride to define the behaviour of copy.
+     * 
+     * @return an Entity or something that extends it.
+     */
     protected abstract Entity copy();
 
     /**
@@ -102,6 +106,15 @@ public abstract class Entity {
      */
     protected CardinalDirection getDirection() {
         return this.direction;
+    }
+
+    /**
+     * Setter for the section of the entity.
+     * 
+     * @param  section new section to set
+     */
+    protected void setSection(final Section section) {
+        this.section = section;
     }
 
     /**

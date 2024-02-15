@@ -113,19 +113,6 @@ public abstract class Ship extends Collider {
     );
 
     /**
-     * Constructor to copy from an existing Ship.
-     * @param origin the Ship to copy from
-     * @see Entity
-     */
-    protected Ship(Ship origin) {
-        super(origin);
-        this.weapon = origin.weapon;
-        this.sail = origin.sail;
-        this.bow = origin.bow;
-        this.keel = origin.keel;
-    }
-
-    /**
     * Constructor for class ShipImpl.
     *
     * @param  s      the section where the ship is located
@@ -148,6 +135,20 @@ public abstract class Ship extends Collider {
         this.sail = sail;
         this.bow = bow;
         this.keel = keel;
+    }
+
+    /**
+     * Constructor to copy from an existing Ship.
+     * 
+     * @param origin the Ship to copy from
+     * @see Entity
+     */
+    protected Ship(final Ship origin) {
+        super(origin);
+        this.weapon = origin.getWeapon().copy();
+        this.sail = origin.getSail().copy();
+        this.bow = origin.getBow().copy();
+        this.keel = origin.getKeel().copy();
     }
 
     /**
@@ -432,10 +433,15 @@ public abstract class Ship extends Collider {
                 s.setHealth(0);
             }
         }
+    }
 
-        if (this.keel.getHealth() <= 0) {
-            this.die();
-        }
+    /**
+     * This method checks if the ship is dead by looking at the keel health.
+     * 
+     * @return the result of the control.
+     */
+    protected boolean isShipDead() {
+        return this.getKeel().getHealth() <= 0;
     }
 
     /**

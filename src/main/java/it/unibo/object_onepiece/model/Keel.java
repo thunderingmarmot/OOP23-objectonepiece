@@ -24,6 +24,26 @@ public class Keel extends ShipComponent {
     }
 
     /**
+     * Constructor to copy from an existing Keel.
+     * 
+     * @param  origin the keel to copy from
+     */
+    protected Keel(final Keel origin) {
+        super(origin);
+        this.damageEndurance = origin.getDamageEndurance();
+    }
+
+    /**
+     * This method makes a copy of a Keel.
+     * 
+     * @return the copy of the keel.
+     */
+    @Override
+    protected Keel copy() {
+        return new Keel(this);
+    }
+
+    /**
      * This method checks if the keel is damaged.
      * To do so it checks if the current health is minor than
      * the maximum health divided by the damage endurance field.

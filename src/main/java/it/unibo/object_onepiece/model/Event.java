@@ -19,7 +19,7 @@ public class Event<T> {
      * @see Consumer
      */
     public void subscribe(final Consumer<T> listener) {
-        if(this.isValid) {
+        if (this.isValid) {
             listeners.add(listener);
         } else {
             throw new IllegalStateException("Tried to call 'subscribe' on an invalid Event!");
@@ -32,7 +32,7 @@ public class Event<T> {
      * @see Consumer
      */
     public void unsubscribe(final Consumer<T> listener) {
-        if(this.isValid) {
+        if (this.isValid) {
             listeners.remove(listener);
         } else {
             throw new IllegalStateException("Tried to call 'unsubscribe' on an invalid Event!");
@@ -43,7 +43,7 @@ public class Event<T> {
      * Invalidates this Event unsubscribing every Consumer<T> from it.
      */
     public void invalidate() {
-        if(this.isValid) {
+        if (this.isValid) {
             listeners.clear();
             this.isValid = false;
         } else {
@@ -56,7 +56,7 @@ public class Event<T> {
      * @param args the argument passed to the subscribed Consumers
      */
     public void invoke(final T args) {
-        if(this.isValid) {
+        if (this.isValid) {
             listeners.forEach((listener) -> listener.accept(args));
         } else {
             throw new IllegalStateException("Tried to call 'invoke' on an invalid Event!");
@@ -66,9 +66,10 @@ public class Event<T> {
     /**
      * Try invoking the Event with some argument, if it fails, don't throw exception.
      * @param args the argument passed to the subscribed Consumers
+     * @return a boolean which tells wether the invoke has been successfully called 
      */
     public boolean tryInvoke(final T args) {
-        if(this.isValid) {
+        if (this.isValid) {
             listeners.forEach((listener) -> listener.accept(args));
         }
         return this.isValid;
@@ -79,7 +80,7 @@ public class Event<T> {
      * @param args the argument passed to the subscribed Consumers
      */
     public void lastInvoke(final T args) {
-        if(this.isValid) {
+        if (this.isValid) {
             this.invoke(args);
             this.invalidate();
         } else {
