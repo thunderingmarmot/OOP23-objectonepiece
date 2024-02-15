@@ -53,7 +53,7 @@ public final class ObjectOnePieceApp extends Application {
     private final GridModel<State> gridModel = new GridModel<>();
     private final GridView<State> gridView = new GridView<>();
     private final Controller controller = new ControllerImpl();
-    private final ProgressBar[] healthBars = new ProgressBar[4];
+    private final ProgressBar[] pointBars = new ProgressBar[4];
     private final Sound sound = new Sound();
     private final Label experienceText = new Label();
     private final VBox healthBarContainer = new VBox();
@@ -79,8 +79,13 @@ public final class ObjectOnePieceApp extends Application {
         borderPane.setCenter(gridView);
         borderPane.setRight(rightPane);
         for (int i = 0; i < HP_BARS_COUNT; i++) {
-            healthBars[i] = new HealthBar(new ProgressBarImpl());
-            healthBarContainer.getChildren().add(healthBars[i].getContainer());
+            if (i == HP_BARS_COUNT - 1) {
+                pointBars[i] = new HealthBar(new ProgressBarImpl());
+            } else {
+                pointBars[i] = new ComponentBar(new ProgressBarImpl());
+            }
+            
+            healthBarContainer.getChildren().add(pointBars[i].getContainer());
         }
         infoWrapper.getChildren().add(healthBarContainer);
 
@@ -219,8 +224,8 @@ public final class ObjectOnePieceApp extends Application {
         }
         healthBarContainer.getChildren().clear();
         for (int i = 0; i < HP_BARS_COUNT; i++) {
-            healthBars[i].setProgressMaxProgress(healthList.get(i), maxHealthList.get(i));
-            healthBarContainer.getChildren().add(healthBars[i].getContainer());
+            pointBars[i].setProgressMaxProgress(healthList.get(i), maxHealthList.get(i));
+            healthBarContainer.getChildren().add(pointBars[i].getContainer());
         }
 
         experienceText.setText(Integer.toString(experience));
