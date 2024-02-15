@@ -1,5 +1,7 @@
 package it.unibo.object_onepiece.view;
 
+import javafx.application.Application;
+
 /**
 * Entry point's class.
 */
@@ -13,6 +15,6 @@ public final class App {
     * @param args
     */
     public static void main(final String[] args) {
-        ObjectOnePieceApp.Main.main(args);
+        Application.launch(ObjectOnePieceApp.class);
     }
 }
