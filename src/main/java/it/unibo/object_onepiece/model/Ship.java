@@ -396,7 +396,7 @@ public abstract class Ship extends Collider {
         );
 
         while (this.getPosition().distanceFrom(p) > this.getPosition().distanceFrom(nextPosition)
-        && (entity.isEmpty() || (entity.get() instanceof Collidable c && c.getRigidness().equals(Rigidness.SOFT)))) {
+        && (entity.isEmpty() || entity.get() instanceof Collidable c && c.getRigidness().equals(Rigidness.SOFT))) {
 
             for (final CardinalDirection d : CardinalDirection.values()) {
                 if (positionsOnTrajectoryConditions.get(d).test(nextPosition, p)) {
