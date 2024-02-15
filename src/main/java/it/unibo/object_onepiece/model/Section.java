@@ -11,11 +11,8 @@ import it.unibo.object_onepiece.model.Utils.Position;
 import it.unibo.object_onepiece.model.Entity.EntityCreatedArgs;
 import it.unibo.object_onepiece.model.Entity.EntityUpdatedArgs;
 import it.unibo.object_onepiece.model.Entity.EntityRemovedArgs;
-import java.util.stream.Collectors;
-import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.function.BiFunction;
 
 /**
@@ -64,8 +61,8 @@ public final class Section {
      */
     public record PlayerAddedArgs(Event<PlayerUpdatedArgs> onPlayerUpdated) { }
 
-    private Event<EntityAddedArgs> onEntityAdded = new Event<>();
-    private Event<PlayerAddedArgs> onPlayerAdded = new Event<>();
+    private final Event<EntityAddedArgs> onEntityAdded = new Event<>();
+    private final Event<PlayerAddedArgs> onPlayerAdded = new Event<>();
     /**
      * 
      * @param world reference to World object (used to consent islands to save game state)
@@ -118,11 +115,6 @@ public final class Section {
 
             }
         }
-        /** Prints duplicate positions in entities list */
-        final Set<Position> items = new HashSet<>();
-        entities.stream().filter(n -> !items.add(n.getPosition()))
-                .collect(Collectors.toSet())
-                .forEach(e -> System.out.println(e.getPosition()));
     }
 
     WorldImpl getWorld() {

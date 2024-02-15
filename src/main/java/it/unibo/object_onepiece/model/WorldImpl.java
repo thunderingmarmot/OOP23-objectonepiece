@@ -31,7 +31,7 @@ public final class WorldImpl implements World {
     private final int mapRows;
     private final int mapCols;
     private final Position playerDefaultSpawnPoint;
-    private Event<SectionInstantiatedArgs> onSectionInstantiated = new Event<>();
+    private final Event<SectionInstantiatedArgs> onSectionInstantiated = new Event<>();
     /**
      * Creates a world (an abstraction that contains sections).
      * @param mapRows rows of the section
@@ -125,7 +125,7 @@ public final class WorldImpl implements World {
      * 
      * @return Position where player spawns by default
      */
-    protected Position getPlayerDefaultSpawnPoint() {
+    Position getPlayerDefaultSpawnPoint() {
         return playerDefaultSpawnPoint;
     }
 }

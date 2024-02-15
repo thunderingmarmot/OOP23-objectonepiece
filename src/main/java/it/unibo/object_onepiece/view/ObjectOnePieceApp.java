@@ -2,6 +2,7 @@ package it.unibo.object_onepiece.view;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -40,17 +41,15 @@ public final class ObjectOnePieceApp extends Application {
     private static final int RIGHT_ANGLE = 90;
     private static final int HP_BARS_COUNT = 4;
     private static final float DEFAULT_AMBIENCE_SOUND_VOLUME = -30;
-
+    private static final String STYLE_SHEET = "/css/ObjectOnePieceApp.css";
     private static final Function<String, String> PATH_FUNC = t -> "/img/sprites/" + t + "/" + t + ".png";
-    private final String styleSheet = "/css/ObjectOnePieceApp.css";
 
     private enum State {
         WATER;
     }
-
     private final GridModel<State> gridModel = new GridModel<>();
     private final GridView<State> gridView = new GridView<>();
-    private Controller controller = new ControllerImpl();
+    private final Controller controller = new ControllerImpl();
     private final ProgressBar[] healthBars = new ProgressBar[4];
     private final Sound sound = new Sound();
     private final Label experienceText = new Label();
@@ -82,17 +81,17 @@ public final class ObjectOnePieceApp extends Application {
         }
 
         final Scene scene = new Scene(borderPane, 600, 600);
-        scene.getStylesheets().add(styleSheet);
+        scene.getStylesheets().add(STYLE_SHEET);
         primaryStage.setScene(scene);
         primaryStage.show();
 
         experienceText.setAlignment(Pos.CENTER);
 
-        ImageView heal = new ImageView(new Image("/img/ui/heal.png"));
+        final ImageView heal = new ImageView(new Image("/img/ui/heal.png"));
         heal.setPreserveRatio(true);
         heal.setFitWidth(barsContainer.getWidth());
 
-        ImageView audio = new ImageView(new Image("/img/ui/audio.png"));
+        final ImageView audio = new ImageView(new Image("/img/ui/audio.png"));
         audio.setPreserveRatio(true);
         audio.setFitWidth(barsContainer.getWidth());
 
@@ -154,7 +153,7 @@ public final class ObjectOnePieceApp extends Application {
             c.setOnClick(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(final MouseEvent event) {
-                    Position p = new Position(c.getRow(), c.getColumn());
+                    final Position p = new Position(c.getRow(), c.getColumn());
                     if (event.getButton() == MouseButton.SECONDARY) {
                         controller.action(p, world, Controller.States.SHOOTING);
                     } else {
@@ -191,25 +190,23 @@ public final class ObjectOnePieceApp extends Application {
     }
 
     private void drawImage(final String entityName, final int row, final int col, final Optional<CardinalDirection> d) {
-        try {
-            final URL imgPath = getClass().getResource(PATH_FUNC.apply(entityName.toLowerCase()));
-            final Image img = new Image(imgPath.toExternalForm());
-            final ImageView entityImage = new ImageView(img);
-            if (d.isPresent()) {
-                entityImage.setRotate(RIGHT_ANGLE * d.get().ordinal());
-            }
-            entityImage.setPreserveRatio(true);
-            entityImage.fitWidthProperty().bind(gridView.cellSizeProperty());
-            entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
-            if (gridView.getCellPane(gridModel.getCell(col, row)).getChildren().size() > 0) {
-                gridView.getCellPane(gridModel.getCell(col, row)).getChildren().stream().forEach(System.out::println);
-                throw new IllegalStateException("Cell where entity should be drawn already has another entity");
-            }
-            gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(entityImage);
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(new Label(entityName));
+        final URL imgPath = getClass().getResource(PATH_FUNC.apply(entityName.toLowerCase(Locale.ENGLISH)));
+        if (imgPath == null) {
+            throw new IllegalAccessError("Could not find image file");
         }
+        final Image img = new Image(imgPath.toExternalForm());
+        final ImageView entityImage = new ImageView(img);
+        if (d.isPresent()) {
+            entityImage.setRotate(RIGHT_ANGLE * d.get().ordinal());
+        }
+        entityImage.setPreserveRatio(true);
+        entityImage.fitWidthProperty().bind(gridView.cellSizeProperty());
+        entityImage.fitHeightProperty().bind(gridView.cellSizeProperty());
+        if (gridView.getCellPane(gridModel.getCell(col, row)).getChildren().size() > 0) {
+            gridView.getCellPane(gridModel.getCell(col, row)).getChildren().stream().forEach(System.out::println);
+            throw new IllegalStateException("Cell where entity should be drawn already has another entity");
+        }
+        gridView.getCellPane(gridModel.getCell(col, row)).getChildren().add(entityImage);
     }
 
     private void drawPlayerInfo(final List<Integer> healthList, final List<Integer> maxHealthList, final int experience) {
