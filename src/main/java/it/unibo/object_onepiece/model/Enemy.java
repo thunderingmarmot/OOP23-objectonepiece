@@ -94,14 +94,6 @@ public final class Enemy extends Ship {
     }
 
     /**
-     * @return the section in which is present.
-     */
-    @Override
-    protected Section getSection() {
-        return super.getSection();
-    }
-
-    /**
      * Needs to be called when is the Enemy turn.
      */
     public void goNext() {
