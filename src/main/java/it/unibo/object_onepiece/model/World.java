@@ -1,7 +1,6 @@
 package it.unibo.object_onepiece.model;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Represents World of the game, with the current section and the saved ones.
