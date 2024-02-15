@@ -117,7 +117,7 @@ public abstract class Ship extends Collider {
      * @param origin the Ship to copy from
      * @see Entity
      */
-    protected Ship(Ship origin) {
+    protected Ship(final Ship origin) {
         super(origin);
         this.weapon = origin.weapon;
         this.sail = origin.sail;
