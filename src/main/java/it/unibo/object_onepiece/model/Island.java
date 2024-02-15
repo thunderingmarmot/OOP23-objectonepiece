@@ -19,6 +19,10 @@ public final class Island extends Collidable {
         super(spawnSection, spawnPosition, spawnDirection);
     }
 
+    /**
+     * Copy constructor that creates a copy of an Island.
+     * @param origin the Island to copy from
+     */
     protected Island(final Island origin) {
         super(origin);
     }
