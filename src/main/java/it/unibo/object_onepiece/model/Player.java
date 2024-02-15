@@ -156,7 +156,7 @@ public final class Player extends Ship {
     @Override
     protected void takeDamage(final int damage, final ShipComponent s) {
         super.takeDamage(damage, s);
-        this.onPlayerUpdated.invoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
+        this.onPlayerUpdated.tryInvoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
     }
 
     /**
@@ -174,7 +174,7 @@ public final class Player extends Ship {
     @Override
     protected void die() {
         super.die();
-        this.onPlayerUpdated.invalidate();
+        this.onPlayerUpdated.lastInvoke(new PlayerUpdatedArgs(getHealths(), getMaxHealths(), this.experience));
         if (this.getWorld().getSavedState().isPresent()) {
             this.getWorld().loadSavedSection();
         } else {
