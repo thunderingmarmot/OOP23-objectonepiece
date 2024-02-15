@@ -8,7 +8,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  */
 public abstract class Entity {
 
-    private final Section section;
+    private Section section;
     private Position position;
     private CardinalDirection direction;
 
@@ -106,6 +106,15 @@ public abstract class Entity {
      */
     protected CardinalDirection getDirection() {
         return this.direction;
+    }
+
+    /**
+     * Setter for the section of the entity.
+     * 
+     * @param  section new section to set
+     */
+    protected void setSection(final Section section) {
+        this.section = section;
     }
 
     /**
