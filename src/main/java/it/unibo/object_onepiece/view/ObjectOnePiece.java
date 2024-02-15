@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 /**
  * Sample JavaFX application.
  */
-public final class ObjectOnePieceApp extends Application {
+public final class ObjectOnePiece extends Application {
     private static final int MAP_ROWS = 10;
     private static final int MAP_COLUMNS = 10;
     private static final Color CELL_BORDER_COLOR = Color.rgb(66, 138, 245);
