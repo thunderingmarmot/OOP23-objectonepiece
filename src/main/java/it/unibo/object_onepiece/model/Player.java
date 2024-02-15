@@ -90,7 +90,7 @@ public final class Player extends Ship {
         if (moveResult.equals(MoveDetails.BORDER_REACHED)) {
             this.getWorld().createNewSection(
                 (newSection) -> {
-                    Player player = new Player(this, newSection);
+                    final Player player = new Player(this, newSection);
                     player.setPosition(player.getPosition().opposite(player.getDirection(), newSection.getBounds()));
                     return player;
                 });
