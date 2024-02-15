@@ -6,6 +6,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
+import java.util.Optional;
 import java.util.function.BiFunction;
 /**
  * Basic progress bar with predifined dimensions and label to view progress in text form.
@@ -14,21 +16,21 @@ public final class ProgressBarImpl implements ProgressBar {
     private static final int BAR_WIDTH = 20;
     private static final int BAR_HEIGHT = 100;
 
-    private final VBox container = new VBox();
-    private final StackPane s = new StackPane();
-    private final Label label = new Label();
-    private final Rectangle backRectangle = new Rectangle();
-    private final Rectangle frontRectangle = new Rectangle();
+    private Color backColor = Color.WHITE;
+    private Color frontColor = Color.BLACK;
+    private int progress = 0;
+    private Optional<Integer> maxProgress = Optional.empty();
     private final BiFunction<Integer, Integer, String> labelTextBuild = (h, maxH) -> h + "/" + maxH; 
-
-    /**
-     * Creates a progress bar that has two rectangles, one for the background and front for progress.
-     */
-    public ProgressBarImpl() {
-        configPane();
-    }
-
-    private void configPane() {
+    
+    @Override
+    public VBox getContainer() {
+        final VBox container = new VBox();
+        final StackPane s = new StackPane();
+        final Label label = new Label();
+        final Rectangle backRectangle = new Rectangle();
+        backRectangle.setFill(backColor);
+        final Rectangle frontRectangle = new Rectangle();
+        frontRectangle.setFill(frontColor);
         s.setPrefHeight(BAR_HEIGHT);
         s.setMaxWidth(BAR_WIDTH);
         backRectangle.widthProperty().bind(s.widthProperty());
@@ -38,32 +40,35 @@ public final class ProgressBarImpl implements ProgressBar {
         s.getChildren().addAll(backRectangle, frontRectangle);
         container.getChildren().addAll(s, label);
         container.setAlignment(Pos.CENTER);
-    }
-
-    @Override
-    public VBox getContainer() {
+        if (maxProgress.isEmpty()) {
+            frontRectangle.setHeight(backRectangle.getHeight());
+            label.setText(Integer.toString(progress));
+        } else if (maxProgress.isPresent()) {
+            label.setText(labelTextBuild.apply(progress, maxProgress.get()));
+            frontRectangle.setHeight((backRectangle.getHeight() * progress) / maxProgress.get());    
+        }
         return container;
     }
 
     @Override
-    public void update(final int progress) {
-        frontRectangle.setHeight(backRectangle.getHeight());
-        label.setText(Integer.toString(progress));
+    public void setProgress(final int progress) {
+        this.progress = progress;
+        maxProgress = Optional.empty();
     }
 
     @Override
-    public void update(final int progress, final int maxProgress) {
+    public void setProgressMaxProgress(final int progress, final int maxProgress) {
         if (maxProgress <= 0) {
             throw new IllegalArgumentException("maxProgress cannot be less or equal to 0");
         }
-        label.setText(labelTextBuild.apply(progress, maxProgress));
-        frontRectangle.setHeight((backRectangle.getHeight() * progress) / maxProgress);
+        this.progress = progress;
+        this.maxProgress = Optional.of(maxProgress);
     }
 
     @Override
     public void setColor(final Color back, final Color front) {
-        backRectangle.setFill(back);
-        frontRectangle.setFill(front);
+        backColor = back;
+        frontColor = front;
     }
 
 }

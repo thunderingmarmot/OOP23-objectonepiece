@@ -15,13 +15,13 @@ interface ProgressBar {
      * Update progress and text.
      * @param progress
      */
-    void update(int progress);
+    void setProgress(int progress);
     /**
-     * Update progress in proportion to maxProgress and text.
+     * Update progress in proportion to maxProgress and update text.
      * @param progress
      * @param maxProgress
      */
-    void update(int progress, int maxProgress);
+    void setProgressMaxProgress(int progress, int maxProgress);
     /**
      * Changes background color and front (progress) color.
      * @param back

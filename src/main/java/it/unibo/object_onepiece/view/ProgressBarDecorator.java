@@ -20,13 +20,13 @@ abstract class ProgressBarDecorator implements ProgressBar {
     }
 
     @Override
-    public void update(final int progress) {
-        this.decorated.update(progress);
+    public void setProgress(final int progress) {
+        this.decorated.setProgress(progress);
     }
 
     @Override
-    public void update(final int progress, final int maxProgress) {
-        this.decorated.update(progress, maxProgress);
+    public void setProgressMaxProgress(final int progress, final int maxProgress) {
+        this.decorated.setProgressMaxProgress(progress, maxProgress);
     }
 
     @Override
