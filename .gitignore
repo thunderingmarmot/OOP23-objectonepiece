@@ -24,5 +24,6 @@ package-lock.json
 *.log
 *.out
 *.synctex.gz
+*.synctex
 *.toc
 report/*.pdf
