@@ -2,61 +2,102 @@
 classDiagram
 
 class Entity
-<<abstract>> Entity
+<<Abstract>> Entity
 Entity : -Position position
+Entity --* Position
 Entity : -Direction direction
+Entity --* Direction
+Entity : -Section section
 
-Entity <|-- Collidable
 class Collidable
-<<abstract>> Collidable
+<<Abstract>> Collidable
+Collidable --|> Entity
 
-Collidable <|-- Collider
+class Barrel
+Barrel --|> Collidable
+
+class Island
+Island --|> Collidable
+
+class NavalMine
+NavalMine --|> Collidable
+
 class Collider
-<<abstract>> Collider
+<<Abstract>> Collider
+Collider --|> Collidable
 
-Collider <|-- Ship
+class Ship
+<<Abstract>> Ship
+Ship --|> Collider
 Ship --* Weapon
 Ship --* Sail
 Ship --* Bow
 Ship --* Keel
-class Ship
-<<abstract>> Ship
 
 class ShipComponent
-<<abstract>> ShipComponent
+<<Abstract>> ShipComponent
 
-Weapon --|> ShipComponent 
 class Weapon
+Weapon --|> ShipComponent 
 
-Sail --|> ShipComponent
 class Sail
+Sail --|> ShipComponent
 
-Bow --|> ShipComponent
 class Bow
+Bow --|> ShipComponent
 
-Keel --|> ShipComponent
 class Keel
+Keel --|> ShipComponent
 
-Player --|> Ship
 class Player
+Player --|> Ship
 
-Enemy --|> Ship
 class Enemy
+Enemy --|> Ship
+EnemyState *-- Enemy
+
+class EnemyState
+<<Abstract>> EnemyState
+EnemyState : #perform()*
+EnemyState : #getState()*
+
+class AttackState
+AttackState --|> EnemyState
+NavigationalSystem *-- AttackState
+
+class ObstacleAvoidance
+ObstacleAvoidance --|> EnemyState
+
+class Patrol
+Patrol --|> EnemyState
+NavigationalSystem *-- Patrol
+
+class NavigationalSystem
+<<Inteface>> NavigationalSystem
+
+class Compass
+Compass --|> NavigationalSystem
 
 class Section
+Section *--* Entity
 
 class World
-<<interface>> World
+<<Interface>> World
 
+class WorldImpl
 WorldImpl --* Section
 WorldImpl --|> World
-class WorldImpl
 
 class Position
-<<record>> Position
+<<Record>> Position
 Position : +int row
 Position : +int column
 
+class Direction
+<<Enumeration>> Direction
+
 class Utils
-<<utility>> Utils
+<<Utility>> Utils
+
+class Event
 ```
