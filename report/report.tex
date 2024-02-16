@@ -158,7 +158,7 @@ Data la complessità di elaborare consigli via AI senza intervento umano, la pri
 Il requisito non funzionale riguardante il consumo energetico richiederà studi specifici sulle performance di GLaDOS che non potranno essere effettuati all'interno del monte ore previsto: tale feature sarà oggetto di futuri lavori.
 
 \subsection*{Prototipo}
-Il mondo di gioco contiene le sezioni ed è responsabile della creazione di nuove sezione e di caricare quelle salvate.
+Il mondo di gioco contiene le sezioni ed è responsabile della creazione di nuove sezioni e di caricare quelle salvate.
 %
 Ogni sezione contiene il giocatore e tutte o solo alcune delle seguenti entità: nemici, barili, mine e isole.
 %
@@ -166,9 +166,13 @@ Il giocatore si deve poter muovere nella sezione corrente e deve poter cambiare 
 %
 Sia i nemici che il giocatore sono entrambi navi che possono effettuare collisioni con le altre navi e entità.
 %
-Mentre le isole, i barili e le mine possono solo essere collisi dalle navi.
+Una nave è composta da 4 componenti che sono: la chiglia, la prua, la vela e l'arma, inoltre la distruzione di ogni componente comporta una conseguenza differente alle azioni che può svolgere la nave.
 %
-Una nave è composta da 4 componenti che sono: la chiglia, la prua, la vela e l'arma.
+Per quanto riguardo isole, barili e mine, possono solo essere collisi dalle navi.
+%
+Se il giocatore collide con le mine esse gli procurano danno alla nave, mentre se collide con i barili riceverà dell'esperienza.
+%
+Quando il giocatore interagisce con le isole deve poter riparare la nave e salvare l'esperienza e la sezione corrente.
 
 \begin{figure}[H]
 \centering{}
