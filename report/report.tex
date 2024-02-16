@@ -21,40 +21,6 @@
 
 \maketitle
 
-\begin{abstract}
-Questo documento è una relazione di meta livello, ossia una relazione che spiega come scrivere la relazione.
-%
-Lo scopo di questo documento è quello di aiutare gli studenti a comprendere quali punti trattare nella loro relazione, ed in che modo farlo, evitando di perdere del tempo prezioso in prolisse discussioni di aspetti marginali tralasciando invece aspetti di maggior rilievo.
-%
-Per ciascuna delle sezioni del documento sarà fornita una descrizione di ciò che ci si aspetta venga prodotto dal team di sviluppo, assieme ad un elenco (per forza di cose non esaustivo) di elementi che \emph{non} dovrebbero essere inclusi.
-
-Il modello della relazione segue il processo tradizionale di ingegneria del software fase per fase (in maniera semplificata).
-%
-La struttura della relazione non è indicativa ma \textit{obbligatoria}.
-%
-Gli studenti dovranno produrre un documento che abbia la medesima struttura, non saranno accettati progetti la cui relazione non risponda al requisito suddetto.
-%
-Lo studente attento dovrebbe sforzarsi di seguire le tappe suggerite in questa relazione anche per l'effettivo sviluppo del progetto: oltre ad una considerevole semplificazione del processo di redazione di questo documento, infatti, il gruppo beneficerà di un processo di sviluppo più solido e collaudato, di tipo top-down.
-
-La meta-relazione verrà fornita corredata di un template \LaTeX{} per coloro che volessero cimentarsi nell'uso.
-%
-L'uso di \LaTeX{} è vantaggioso per chi ama l'approccio ``what you mean is what you get'', ossia voglia disaccoppiare il contenuto dall'effettivo rendering del documento, accollando al motore \LaTeX{} l'onere di produrre un documento gradevole con la struttura ed il contenuto forniti.
-%
-Chi non volesse installare l'ambiente di compilazione in locale può valutare l'utilizzo dell'applicazione web \href{https://www.overleaf.com/}{Overleaf}.
-%
-L'eventuale utilizzo di \LaTeX{} non è fra i requisiti,
-non è parte del corso di Programmazione ad Oggetti, e non sarà ovviamente valutato.
-%
-I docenti accetteranno qualunque relazione in formato standard Portable Document Format (pdf) o Markdown (md), indipendentemente dal software con cui tale documento sarà redatto.
-
-Per la realizzazione degli schemi UML, si raccomanda l'utilizzo di MermaidJS\footnote{\url{https://mermaid.live/}} o PlantUML \footnote{\url{https://plantuml.com/}}.
-%
-Gli schemi in questa relazione furono realizzati con StarUML.
-%
-Come per la prosa, non è importante quale strumento sia utilizzato, ma è vitale che gli schemi siano di buona qualità e ben leggibili.
-
-\end{abstract}
-
 \tableofcontents
 
 \chapter{Analisi}
@@ -117,6 +83,25 @@ conclusi una volta che il soggetto riesce a trovare l'uscita dalla camera di tes
 \subsubsection{Requisiti non funzionali}
 \begin{itemize}
 	\item GLaDOS dovrà essere estremamente efficiente nell'uso delle risorse. Le specifiche tecniche parlano della possibilità di funzionare su dispositivi alimentati da una batteria a patata.
+\end{itemize}
+
+\subsection*{Prototipo}
+Il nostro progetto, richiesto per l'esame di Programmazione ad Oggetti, consiste in un videogioco di battaglie tra navi a tema One Piece.
+
+\subsubsection{Requisiti funzionali}
+\begin{itemize}
+	\item Il gioco è strutturato a turni, dove le mosse si alternano tra giocatore e nemici.
+	\item Il giocatore controlla una nave con cui può navigare all'interno della mappa e interagire con essa
+	attaccando i nemici, evitando le mine, raccogliendo i barili per guadagnare esperienza e attraccando alle isole per curarsi e salvare.
+	Inoltre, l'esperienza raccolta dai barili potrà essere utilizzata per riparare la nave.
+	\item Le navi nemiche hanno il compito di seguire ed attaccare la nave del giocatore.
+	\item La mappa di gioco si genera in modo casuale e quindi il gioco prosegue all'infinito.
+\end{itemize}
+
+\subsubsection{Requisiti non funzionali}
+\begin{itemize}
+	\item L'interfaccia grafica deve essere scalabile.
+	\item Il turno dei nemici deve essere calcolato in tempi brevi.
 \end{itemize}
 
 \section{Analisi e modello del dominio}
