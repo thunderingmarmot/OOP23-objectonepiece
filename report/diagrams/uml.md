@@ -96,8 +96,5 @@ Position : +int column
 class Direction
 <<Enumeration>> Direction
 
-class Utils
-<<Utility>> Utils
-
 class Event
 ```
