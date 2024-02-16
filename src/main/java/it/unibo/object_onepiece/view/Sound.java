@@ -53,7 +53,7 @@ public final class Sound {
             clip = AudioSystem.getClip();
             this.play(audioIN, clip, false);
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            log.warning("Error: " + e);
+            log.warning("Error: " + e.getStackTrace());
         }
     }
 
@@ -65,9 +65,9 @@ public final class Sound {
         try {
             ambienceAudioIN = AudioSystem.getAudioInputStream(ambienceSoundURL);
             this.ambienceClip = AudioSystem.getClip();
-            this.play(ambienceAudioIN, this.ambienceClip, false);
+            this.play(ambienceAudioIN, this.ambienceClip, true);
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            log.warning("Error: " + e);
+            log.warning("Error: " + e.getStackTrace());
         }
     }
 
