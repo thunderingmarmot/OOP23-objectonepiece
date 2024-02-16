@@ -203,16 +203,6 @@ public final class Utils {
         public boolean isInlineWith(final Position position, final CardinalDirection direction) {
             return positionsInlineConditions.get(direction).test(this, position);
         }
-
-        /**
-         * Sums this Position to the one gave as argument.
-         * @param position the Position to sum to this one
-         * @return the translated Position
-         */
-        public Position translate(final Position position) {
-            return new Position(this.row + position.row, this.column + position.column);
-        }
-
         /**
          * Calculates the CardinalDirection of the Position gave as argument in relation to this Position.
          * @param position the "destination" Position
