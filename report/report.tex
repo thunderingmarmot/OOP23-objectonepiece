@@ -279,6 +279,20 @@ logic, la cui alterazione od espansione inevitabilmente impatta il controller de
 
 In \Cref{img:goodarch} è esemplificato il diagramma UML architetturale.
 
+\subsection*{Prototipo}
+
+L'architettura del progetto segue il pattern architetturale MVC.
+%
+Più nello specifico, la View si occupa di visualizzare a schermo lo stato del gioco,
+il Controller si occupa di gestire gli input del giocatore ed agire di conseguenza, ed
+il Model si occupa unicamente della logica che definisce il gioco.
+
+Grazie a questa architettura è molto più semplice modificare o cambiare completamente la View
+senza conoscere l'architettura interna del Model.
+%
+Inoltre, il nostro gioco è strutturato per essere a turni ed è quindi "passivo", modificando il suo stato solo dopo un'input,
+tuttavia la logica dei turni è stata implementata nel Controller e questo potenzialmente ci permette di usare lo stesso Model
+anche per una versione del gioco in tempo reale che sarebbe quindi "attiva", dove il gioco non aspetta l'input dell'utente.
 
 \section{Design dettagliato}
 
