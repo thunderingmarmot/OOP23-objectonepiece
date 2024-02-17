@@ -96,6 +96,7 @@ public final class EnemyImpl extends Ship implements Enemy {
     /**
      * Needs to be called when is the Enemy turn.
      */
+    @Override
     public void goNext() {
         if (this.isShipDead()) {
             super.die();

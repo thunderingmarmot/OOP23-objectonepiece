@@ -65,20 +65,12 @@ public final class PlayerImpl extends Ship implements Player {
     }
 
     /**
-     * Checks wether the Player's current position is the same as the one passed as argument.
-     * @param position the position to check against
-     * @return a boolean that indicates wether the Player is in that same position
-     */
-    public boolean isInSamePositionAs(final Position position) {
-        return this.getPosition().equals(position);
-    }
-
-    /**
      * Moves the Player's ship towards a specified position.
      * @param destination the position to reach
      * @return a boolean that indicates wether the Player has moved
      * @see Ship
      */
+    @Override
     public boolean moveTo(final Position destination) {
         if (this.isShipDead()) {
             this.die();
@@ -105,6 +97,7 @@ public final class PlayerImpl extends Ship implements Player {
      * @return a ShootReturnType as it's defined in Weapon
      * @see Weapon
      */
+    @Override
     public boolean shootAt(final Position target) {
         if (this.isShipDead()) {
             this.die();
@@ -172,6 +165,7 @@ public final class PlayerImpl extends Ship implements Player {
     /**
      * Fully heals the Player by spending experience.
      */
+    @Override
     public void healWithExperience() {
         if (this.experience >= DEFAULT_EXPERIENCE_HEAL_COST) {
             this.subtractExperience(DEFAULT_EXPERIENCE_HEAL_COST);
