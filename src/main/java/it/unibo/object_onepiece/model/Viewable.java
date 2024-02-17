@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation that indicates wether the class it is used on can be viewed by the View.
+ * Annotation that indicates whether the class it is used on can be viewed by the View.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
