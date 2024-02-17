@@ -11,6 +11,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * Different from its counter-part, the Enemy.
  * @see PlayerImpl
  */
+@Viewable(getName = "Player")
 public final class PlayerImpl extends Ship implements Player {
     private static final int DEFAULT_EXPERIENCE_HEAL_COST = 100;
 

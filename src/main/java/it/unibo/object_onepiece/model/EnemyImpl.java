@@ -11,6 +11,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * Since it exends Ship it can shoot and move according to 
  * the algorithm
  */
+@Viewable(getName = "Enemy")
 public final class EnemyImpl extends Ship implements Enemy {
 
     /**

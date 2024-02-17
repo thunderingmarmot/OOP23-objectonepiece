@@ -39,6 +39,7 @@ public final class Section {
         3, (p, d) -> new EnemyImpl(this, p),
         4, (p, d) -> new EnemyImpl(this, p)
     ));
+
     /**
      * Record for the entity concerning Events.
      * 
@@ -166,7 +167,7 @@ public final class Section {
         this.onEntityAdded.invoke(new EntityAddedArgs(
             e.getEntityCreatedEvent(), e.getEntityUpdatedEvent(), e.getEntityRemovedEvent()));
         e.getEntityCreatedEvent().invoke(new EntityCreatedArgs(
-            e.getClass().getSimpleName(), e.getPosition(), e.getDirection()));
+            e.getClass().getAnnotation(Viewable.class).getName(), e.getPosition(), e.getDirection()));
         entities.add(e);
     }
 

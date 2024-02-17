@@ -7,6 +7,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * An Island, a Collidable that when collided with, heals the Player and saves the game.
  * @see Island
  */
+@Viewable(getName = "Island")
 public final class Island extends Collidable {
 
     /**

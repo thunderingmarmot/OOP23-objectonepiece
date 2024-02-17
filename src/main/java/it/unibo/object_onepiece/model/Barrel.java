@@ -7,6 +7,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * A Barrel, a Collidable that when collided with can be picked up.
  * @see Barrel
  */
+@Viewable(getName = "Barrel")
 public final class Barrel extends Collidable {
 
     private static final int DEFAULT_EXPERIENCE_GIVEN = 50;
