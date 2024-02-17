@@ -128,7 +128,7 @@ public abstract class Entity {
      */
     protected void setPosition(final Position newPosition) {
         this.onEntityUpdated.invoke(new EntityUpdatedArgs(
-            this.getClass().getSimpleName(), this.position, newPosition, this.direction));
+            this.getClass().getAnnotation(Viewable.class).getName(), this.position, newPosition, this.direction));
         this.position = newPosition;
     }
 
@@ -143,7 +143,7 @@ public abstract class Entity {
      */
     protected void setDirection(final CardinalDirection newDirection) {
         this.onEntityUpdated.invoke(new EntityUpdatedArgs(
-            this.getClass().getSimpleName(), this.position, this.position, newDirection));
+            this.getClass().getAnnotation(Viewable.class).getName(), this.position, this.position, newDirection));
         this.direction = newDirection;
     }
 

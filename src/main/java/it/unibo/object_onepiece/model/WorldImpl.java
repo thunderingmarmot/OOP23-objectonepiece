@@ -21,7 +21,7 @@ public final class WorldImpl implements World {
     public record SectionInstantiatedArgs(Event<EntityAddedArgs> onEntityAdded,
                                           Event<PlayerAddedArgs> onPlayerAdded) { }
 
-    private record SavedSection(List<Entity> entities, Player player) { }
+    private record SavedSection(List<Entity> entities, PlayerImpl player) { }
     /**
      * Saved section of game when player saved his stats and position on an Island.
      */
@@ -55,10 +55,10 @@ public final class WorldImpl implements World {
             new SectionInstantiatedArgs(this.currentSection.getEntityAddedEvent(), this.currentSection.getPlayerAddedEvent())
         );
         this.currentSection.generateEntities();
-        this.currentSection.addPlayer(new Player(currentSection, this.playerDefaultSpawnPoint));
+        this.currentSection.addPlayer(new PlayerImpl(currentSection, this.playerDefaultSpawnPoint));
     }
 
-    void createNewSection(final Function<Section, Player> player) {
+    void createNewSection(final Function<Section, PlayerImpl> player) {
         this.currentSection.clearEntities();
         this.currentSection.getEntityAddedEvent().invalidate();
         this.currentSection.getPlayerAddedEvent().invalidate();
@@ -109,9 +109,9 @@ public final class WorldImpl implements World {
     void setSavedState() {
         final List<Entity> entityListCopy = this.currentSection.getEntities()
             .stream()
-            .filter((e) -> !(e instanceof Player))
+            .filter((e) -> !(e instanceof PlayerImpl))
             .map((e) -> e.copy()).toList();
-        saved = Optional.of(new SavedSection(entityListCopy, this.getPlayer().copy()));
+        saved = Optional.of(new SavedSection(entityListCopy, this.currentSection.getPlayer().copy()));
     }
 
     Section getCurrentSection() {

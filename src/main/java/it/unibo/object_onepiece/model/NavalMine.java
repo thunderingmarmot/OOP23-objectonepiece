@@ -7,6 +7,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  * This class represent a naval mine that is a collidable entity,
  * that deals damage when a ship collide with it.
  */
+@Viewable(getName = "NavalMine")
 public final class NavalMine extends Collidable {
     private static final int DEFAULT_DAMAGE = 50;
     private final int damage;
