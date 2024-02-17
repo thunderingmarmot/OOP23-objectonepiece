@@ -164,6 +164,15 @@ Sail : #schooner()$ Sail
 
 class Bow
 Bow --|> ShipComponent
+Bow : -int BROKEN_CRASH_DAMAGE$
+Bow : -int crashDamage
+Bow : -int crashDamageMultiplier
+Bow : #copy() Bow
+Bow : #getCrashDamage() int
+Bow : #getCrashDamageMultiplier() int
+Bow : #standard()$ Bow
+Bow : #heavy()$ Bow
+Bow : #light()$ Bow
 
 class Keel
 Keel --|> ShipComponent
