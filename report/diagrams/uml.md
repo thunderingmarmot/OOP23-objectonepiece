@@ -17,9 +17,9 @@ Entity : #getWorld() WorldImpl
 Entity : #getSection() Section
 Entity : #getPosition() Position
 Entity : #getDirection() CardinalDirection
-Entity : #setSection(Section) void
-Entity : #setPosition(Position) void
-Entity : #setDirection(CardinalDirection) void
+Entity : #setSection(newSection) void
+Entity : #setPosition(newPosition) void
+Entity : #setDirection(newDirection) void
 Entity : #remove() void
 Entity : +getEntityCreatedEvent() Event
 Entity : +getEntityUpdatedEvent() Event
@@ -30,7 +30,7 @@ class Collidable
 Collidable --|> Entity
 Collidable --* Rigidness
 Collidable : #getRigidness()* Rigidness
-Collidable : #onCollisionWith(Collider)* void
+Collidable : #onCollisionWith(collider)* void
 
 class Rigidness
 <<Enumeration>> Rigidness
@@ -43,10 +43,10 @@ Barrel --|> Collidable
 Barrel : -int DEFAULT_EXPERIENCE_GIVEN$
 Barrel : -int experienceGiven
 Barrel : #getExperienceGiven() int
-Barrel : #onPickup(Player) void
+Barrel : #onPickup(player) void
 Barrel : #copy() Barrel
 Barrel : #getRigidness() Rigidness
-Barrel : #onCollisionWith(Collider) void
+Barrel : #onCollisionWith(collider) void
 
 class Island
 Island --|> Collidable
@@ -54,7 +54,7 @@ Island : #save() void
 Island : #heal(Player) void
 Island : #copy() Island
 Island : #getRigidness() Rigidness
-Island : #onCollisionWith(Collider) void
+Island : #onCollisionWith(collider) void
 
 class NavalMine
 NavalMine --|> Collidable
@@ -62,12 +62,12 @@ NavalMine : -int DEFAULT_DAMAGE$
 NavalMine : -int damage
 NavalMine : #copy() NavalMine
 NavalMine : #getRigidness() Rigidness
-NavalMine : #onCollisionWith(Collider) void
+NavalMine : #onCollisionWith(collider) void
 
 class Collider
 <<Abstract>> Collider
 Collider --|> Collidable
-Collider : #collideWith(Collidable)* void
+Collider : #collideWith(collidable)* void
 
 class Ship
 <<Abstract>> Ship
@@ -80,10 +80,51 @@ Ship : -Bow bow
 Ship --* Bow
 Ship : -Keel keel
 Ship --* Keel
+Ship : -List~MoveDetails~ MOVE_SUCCESS_CONDITIONS$
+Ship : -List~MoveDetails~ MOVE_COLLISION_CONDITIONS$
+MoveDetails *-- Ship
+ShootDetails *-- Ship
+Ship : #move(direction, steps) MoveDetails
+Ship : #step(direction) MoveDetails
+Ship : #checkMove(direction, obstacle) MoveDetails
+Ship : #rotate(direction) void
+Ship : #shoot(position) ShootDetails
+Ship : -hitTarget(position, damage) void
+Ship : -getEntityPositionInTrajectory(position) Position
+Ship : #takeDamage(damage, component) void
+Ship : #isShipDead() boolean
+Ship : #die() void
+Ship : #getShipComponents() List~ShipComponent~
+Ship : #getWeapon() Weapon
+Ship : #getSail() Sail
+Ship : #getBow() Bow
+Ship : #getKeel() Keel
+Ship : #setWeapon(newWeapon)
+Ship : #setSail(newSail)
+Ship : #setBow(newBow)
+Ship : #setKeel(newKeel)
 Ship : #copy() Ship
-Ship : #collideWith(Collidable) void
+Ship : #collideWith(collidable) void
 Ship : #getRigidness() Rigidness
-Ship : #onCollisionWith(Collider) void
+Ship : #onCollisionWith(collider) void
+
+class MoveDetails
+<<Enumeration>> MoveDetails
+MoveDetails : HARD_COLLISION
+MoveDetails : MEDIUM_COLLISION
+MoveDetails : BORDER_REACHED
+MoveDetails : ROTATED
+MoveDetails : MOVED_BUT_COLLIDED
+MoveDetails : MOVED_SUCCESSFULLY
+MoveDetails : OUT_OF_SPEED_RANGE
+MoveDetails : SAIL_BROKEN
+MoveDetails : NO_MOVEMENT
+
+class ShootDetails
+<<Enumeration>> ShootDetails
+ShootDetails : SHOOTED_SUCCESSFULLY
+ShootDetails : OUT_OF_SHOOTING_RANGE
+ShootDetails : WEAPON_BROKEN
 
 class ShipComponent
 <<Abstract>> ShipComponent
