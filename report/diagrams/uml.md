@@ -210,38 +210,137 @@ Player : +getPlayerUpdatedEvent() Event~PlayerUpdatedArgs~
 class Enemy
 Enemy --|> Ship
 EnemyState *-- Enemy
+Enemy : -List~MoveDetails~ ACTION_SUCCESS_CONDITIONS$
+Enemy : -int DEFAULT_TRIGGET_DISTANCE$
+Enemy : -int triggerDistance
+Enemy : -EnemyState currentState
+Enemy : -List~MoveDetails~ enemyStates
+Enemy : #copy() Enemy
+Enemy : #getTriggerDistance() int
+Enemy : goNext() void
+Enemy : getCurrentState() States
+Enemy : changeState(States state) void
+Enemy : findState(States state) EnemyState
+
+class States
+<<Enumeration>> States
+States : PATROLLING
+States : AVOIDING
+States : ATTACKING
 
 class EnemyState
 <<Abstract>> EnemyState
-EnemyState : #perform()*
-EnemyState : #getState()*
+States *-- EnemyState
+EnemyState : #perform()* boolean
+EnemyState : #getState()* States
 
 class AttackState
 AttackState --|> EnemyState
-NavigationalSystem *-- AttackState
+NavigationSystem *-- AttackState
+AttackState : -Enemy ship
+AttackState : -NavigationSystem navigationSystem
+AttackState : -Position objective
+AttackState : #perform() boolean
+AttackState : #getState() States
+AttackState : -circularTargetPlayer() void
+AttackState : -randSign() int
 
 class ObstacleAvoidance
 ObstacleAvoidance --|> EnemyState
+ObstacleAvoidance : -Enemy ship
+ObstacleAvoidance : -CardinalDirection avoidanceDirection
+ObstacleAvoidance : #perform() boolean
+ObstacleAvoidance : #getState() States
 
 class Patrol
 Patrol --|> EnemyState
-NavigationalSystem *-- Patrol
+NavigationSystem *-- Patrol
+Patrol : -NavigationSystem compass
+Patrol : -Enemy ship
+Patrol : -Bound bound
+Patrol : -States state
+Patrol : -Position objective
+Patrol : #perform() boolean
+Patrol : #getState() States
+Patrol : -checkPlayer() boolean
+Patrol : -playerPos() Position
+Patrol : -defineRandomObjective() void
 
-class NavigationalSystem
-<<Inteface>> NavigationalSystem
+class NavigationSystem
+<<Interface>> NavigationSystem
+NavigationSystem : +move(Position objective, Position current) CardinalDirection
 
 class Compass
-Compass --|> NavigationalSystem
+Compass --|> NavigationSystem
+Compass : -Map DIR_MAP$
+%% The Map DIR_MAP is actually a Map<Position, Supplier<CardinalDirection>>, but Mermaid doesn't support more than one generic argument
+Compass : +move(Position objective, Position current) CardinalDirection
 
 class Section
 Section *--* Entity
+Section : -double SCALING_FACTOR$
+Section : -int NOISE_DISPERSION
+Section : -int INSET_FACTOR
+Section : -int rowInset
+Section : -int colInset
+Section : -int genAreaCols
+Section : -int genAreaRows
+Section : -WorldImpl world
+Section : -List~Entity~ entities
+Section : -Bound bound
+Section : -Map getEntity
+%% The Map getEntity is actually a Map<Integer, BiFunction<Position, CardinalDirection, Entity>>, but Mermaid doesn't support more than one generic argument
+Section : -Event~EntityAddedArgs~ onEntityAdded
+Section : -Event~PlayerAddedArgs~ onPlayerAdded
+Section : #generateEntities() void
+Section : #setEntities(List~Entity~ entities) void
+Section : #clearEntities() void
+Section : #getWorld() WorldImpl
+Section : #getBounds() Bound
+Section : #removeEntityAt(Position position) void
+Section : #getPlayer() Player
+Section : #getEntityAt(Position position) Optional~Entity~
+Section : #getEntities() List~Entity~
+Section : #addPlayer(Player player) void
+Section : #addEntity(Entity entity) void
+Section : +getEntityAddedEvent() Event~EntityAddedArgs~
+Section : +getPlayerAddedEvent() Event~PlayerAddedArgs~
 
 class World
 <<Interface>> World
+World : +getPlayer() Player
+World : +getEnemies() List~Enemy~
+World : +getMapRows() int
+World : +getMapCols() int
+
+class SavedSection
+<<Record>> SavedSection
+SavedSection : +List~Entity~ entities
+SavedSection : +Player player
 
 class WorldImpl
 WorldImpl --* Section
 World <|-- WorldImpl
+SavedSection *-- WorldImpl 
+WorldImpl : -Optional~SavedSection~ savedSection
+WorldImpl : -Section currentSection
+WorldImpl : -int mapRows
+WorldImpl : -int mapCols
+WorldImpl : -Position playerDefaultSpawnPoint
+WorldImpl : -Event~SectionInstantiatedArgs~ onSectionInstantiated
+WorldImpl : -createNewSection() void
+WorldImpl : #createNewSection(Function player) void
+%% The Function player is actually a Function<Section, Player>, but Mermaid doesn't support more than one generic argument
+WorldImpl : #loadSavedSection() void
+WorldImpl : +getPlayer() Player
+WorldImpl : +getEnemies() List~Enemy~
+WorldImpl : #getSavedState() Optional~SavedSection~
+WorldImpl : #setSavedState() void
+WorldImpl : #getCurrentSection() Section
+WorldImpl : #instantiateSection() void
+WorldImpl : +getMapRows() int
+WorldImpl : +getMapCols() int
+WorldImpl : #getPlayerDefaultSpawnPoint() Position
 
 class Position
 <<Record>> Position
