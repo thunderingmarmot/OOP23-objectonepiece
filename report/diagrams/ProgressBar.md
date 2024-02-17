@@ -16,4 +16,28 @@ class ProgressBarDecorator {
   #ProgressBarDecorator(ProgressBar decorated) ProgressBarDecorator
 }
 
+class ProgressBarImpl {
+  <<Default>>
+}
+
+class HealthBar {
+  <<Default>>
+  #HealthBar(ProgressBar b) HealthBar
+}
+
+class ExperienceBar {
+  <<Default>>
+  #ExperienceBar(ProgressBar b) ExperienceBar
+}
+
+class ComponentBar {
+  <<Default>>
+  #ComponentBar(ProgressBar b) ComponentBar
+}
+
 ProgressBar <|-- ProgressBarDecorator
+ProgressBar <|-- ProgressBarImpl
+ProgressBarDecorator <|--	HealthBar
+ProgressBarDecorator <|--	ExperienceBar
+ProgressBarDecorator <|--	ComponentBar
+
