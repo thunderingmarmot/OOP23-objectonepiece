@@ -157,6 +157,25 @@ Data la complessità di elaborare consigli via AI senza intervento umano, la pri
 %
 Il requisito non funzionale riguardante il consumo energetico richiederà studi specifici sulle performance di GLaDOS che non potranno essere effettuati all'interno del monte ore previsto: tale feature sarà oggetto di futuri lavori.
 
+\subsection*{Prototipo}
+Il mondo di gioco contiene le sezioni ed è responsabile della creazione di nuove sezioni e di caricare quelle salvate.
+%
+Ogni sezione contiene il giocatore e tutte o solo alcune delle seguenti entità: nemici, barili, mine e isole.
+%
+Il giocatore si deve poter muovere nella sezione corrente e deve poter cambiare sezione andando nei suoi bordi. Deve inoltre poter sparare alle navi nemiche e collidere con tutte le entità.
+%
+Sia i nemici che il giocatore sono entrambi navi che possono effettuare collisioni con le altre navi e entità.
+%
+Una nave è composta da 4 componenti che sono: la chiglia, la prua, la vela e l'arma, inoltre la distruzione di ogni componente comporta una conseguenza differente alle azioni che può svolgere la nave.
+%
+Per quanto riguardo isole, barili e mine, possono solo essere collisi dalle navi.
+%
+Se il giocatore collide con le mine esse gli procurano danno alla nave, mentre se collide con i barili riceverà dell'esperienza.
+%
+Quando il giocatore interagisce con le isole deve poter riparare la nave e salvare l'esperienza e la sezione corrente.
+%
+I nemici devono poter vedere il giocatore se entra nel loro raggio visivo e devono seguirlo ed in caso sparargli se rientra nel raggio dell'arma. Essi non seguono il giocatore se cambia sezione.
+
 \begin{figure}[H]
 \centering{}
 \includegraphics{img/analysis.pdf}
@@ -611,20 +630,26 @@ Nella griglia di gioco il player è identificato dalla nave più chiara con il t
 %
 Esso si può muovere nelle quattro direzioni premendo con il click sinistro del mouse sulla casella adiacente.
 %
+Se la nave non è direzionata verso la casella in cui ci si vuole recare, la nave impiegerà un turno per girarsi
+%
 Quando il giocatore cerca di muoversi sulle caselle del bordo, si sposta su una sezione diversa del mondo e non potrà più tornare alla precedente ammenoché non l'abbia salvata.
 %
 Per sparare ad una nave nemica il giocatore deve premere con il click destro nelle celle in linea con i fianchi della nave.
 %
-Il range di sparo è di tre caselle sia per il player che per i nemici e fa un danno AoE (Area of Effect) di 3x3 caselle.
+Il range di sparo è di 3 caselle sia per il player che per i nemici e fa un danno AoE (Area of Effect) di 3x3 caselle.
 %
-Il giocatore può curarsi e salvare su una isola premendo il tasto sinistro mentre è affianco ad essa
+È possibile anche speronare una nave nemica mentre si è accanto ad essa cliccandoci sopra con il tasto sinistro del mouse.
+%
+Il giocatore può curarsi e salvare su una isola premendo il tasto sinistro mentre è a fianco ad essa.
+%
+Se il giocatore viene affondato (Keel della nave a zero) per continuare il gioco dovrà premere su una casella e a quel punto respawnerà dove ha salvato oppure in una nuova mappa.
 %
 Nel HUD vengono mostrate quattro barre di vita che riguardano la nave:
 \begin{itemize}
-	\item Weapon: vita dell'arma; raggiunto lo zero il giocatore non potrà più sparare
-	\item Bow: vita della prua; raggiunto lo zero non potrà più speronare
-	\item Sail:
-	\item Keel:
+	\item Weapon: vita dell'arma; raggiunto lo zero il giocatore non potrà più sparare.
+	\item Bow: vita della prua; raggiunto lo zero non potrà più speronare.
+	\item Sail: vita della vela; raggiunto lo zero non potrà muoversi.
+	\item Keel: vita della chiglia; raggiunto lo zero il gioco si fermerà e l'utente dovrà cliccare su una casella per respawnare.
 \end{itemize}
 Inoltre, nel HUD sono presenti anche due pulsanti.
 %

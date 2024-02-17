@@ -86,7 +86,7 @@ class World
 
 class WorldImpl
 WorldImpl --* Section
-WorldImpl --|> World
+World <|-- WorldImpl
 
 class Position
 <<Record>> Position
