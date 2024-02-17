@@ -5,7 +5,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import it.unibo.object_onepiece.model.PlayerImpl;
+import it.unibo.object_onepiece.model.Player;
 import it.unibo.object_onepiece.model.World;
 
 /**
@@ -42,7 +42,7 @@ public final class ControllerImpl implements Controller {
          * @param  player the player
          * @return        whenether it was possible to perform the action or not
          */
-        protected abstract Boolean perform(Position pos, PlayerImpl player);
+        protected abstract Boolean perform(Position pos, Player player);
         /**
          * @return The type of state that is implemented
          */

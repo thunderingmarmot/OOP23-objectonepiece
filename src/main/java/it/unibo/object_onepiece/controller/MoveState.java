@@ -2,7 +2,7 @@ package it.unibo.object_onepiece.controller;
 
 import it.unibo.object_onepiece.controller.Controller.States;
 import it.unibo.object_onepiece.controller.ControllerImpl.InputState;
-import it.unibo.object_onepiece.model.PlayerImpl;
+import it.unibo.object_onepiece.model.Player;
 import it.unibo.object_onepiece.model.Utils.Position;
 
 /**
@@ -14,7 +14,7 @@ public final class MoveState extends InputState {
      * The constructor of MoveState.
      */
     @Override
-    public Boolean perform(final Position pos, final PlayerImpl player) {
+    public Boolean perform(final Position pos, final Player player) {
         return player.moveTo(pos);
     }
 
