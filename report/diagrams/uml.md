@@ -130,13 +130,23 @@ class ShipComponent
 <<Abstract>> ShipComponent
 ShipComponent : -int maxHealth
 ShipComponent : -int health
-ShipComponent : #copy()* void
+ShipComponent : #copy()* ShipComponent
 ShipComponent : #getHealth() int
 ShipComponent : #getMaxHealth() int
 ShipComponent : #setHealth(newHealth)
 
 class Weapon
-Weapon --|> ShipComponent 
+Weapon --|> ShipComponent
+Weapon : -int maxDamage
+Weapon : -int minDamage
+Weapon : -int attackRange
+Weapon : #copy() Weapon
+Weapon : #getMaxDamage() int
+Weapon : #getMinDamage() int
+Weapon : #getRange() int
+Weapon : #cannon()$ Weapon
+Weapon : #railgun()$ Weapon
+Weapon : #heavycannon()$ Weapon
 
 class Sail
 Sail --|> ShipComponent
