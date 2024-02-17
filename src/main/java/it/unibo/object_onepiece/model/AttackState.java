@@ -1,12 +1,12 @@
 package it.unibo.object_onepiece.model;
 
-import it.unibo.object_onepiece.model.Enemy.States;
+import it.unibo.object_onepiece.model.EnemyImpl.States;
 import it.unibo.object_onepiece.model.Utils.Position;
 /**
  * The attackState of Enemy.
  */
 public final class AttackState extends EnemyState {
-    private final Enemy ship;
+    private final EnemyImpl ship;
     private final NavigationSystem navigationSystem;
     private Position objective;
     /**
@@ -14,7 +14,7 @@ public final class AttackState extends EnemyState {
      * @param ship 
      * @param navigationSystem
      */
-    protected AttackState(final Enemy ship, final NavigationSystem navigationSystem) {
+    protected AttackState(final EnemyImpl ship, final NavigationSystem navigationSystem) {
         this.ship = ship;
         this.navigationSystem = navigationSystem;
     }
@@ -37,7 +37,7 @@ public final class AttackState extends EnemyState {
 
             final var suggestedDir = navigationSystem.move(objective, this.ship.getPosition());
 
-            if (!Enemy.ACTION_SUCCESS_CONDITIONS.contains(ship.move(suggestedDir, 1))) {
+            if (!EnemyImpl.ACTION_SUCCESS_CONDITIONS.contains(ship.move(suggestedDir, 1))) {
                 ship.changeState(States.AVOIDING);
                 return false;
             } 

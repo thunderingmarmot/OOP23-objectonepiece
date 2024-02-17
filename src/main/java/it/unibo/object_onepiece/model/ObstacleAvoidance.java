@@ -1,6 +1,6 @@
 package it.unibo.object_onepiece.model;
 
-import it.unibo.object_onepiece.model.Enemy.States;
+import it.unibo.object_onepiece.model.EnemyImpl.States;
 import it.unibo.object_onepiece.model.Utils.CardinalDirection;
 /**
  * ObstacleAvoidance implements the Avoidance state of Enemy.
@@ -8,14 +8,14 @@ import it.unibo.object_onepiece.model.Utils.CardinalDirection;
  * patrolling state once the primary direction is available
  */
 public final class ObstacleAvoidance extends EnemyState {
-    private final Enemy ship;
+    private final EnemyImpl ship;
     private CardinalDirection avoidanceDirection;
 
     /**
      * The costructor of Obstacle avoidance.
      * @param ship
      */
-    protected ObstacleAvoidance(final Enemy ship) {
+    protected ObstacleAvoidance(final EnemyImpl ship) {
         this.ship = ship;
     }
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * Class defining a data container for the onPlayerUpdated Event.
- * @see Player
+ * @see PlayerImpl
  */
 public final class PlayerUpdatedArgs {
     private final List<String> nameList;

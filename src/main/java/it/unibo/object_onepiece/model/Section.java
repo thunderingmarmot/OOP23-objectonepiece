@@ -36,8 +36,8 @@ public final class Section {
         0, (p, d) -> new Island(this, p, d),
         1, (p, d) -> new Barrel(this, p, d),
         2, (p, d) -> new NavalMine(this, p, d),
-        3, (p, d) -> new Enemy(this, p),
-        4, (p, d) -> new Enemy(this, p)
+        3, (p, d) -> new EnemyImpl(this, p),
+        4, (p, d) -> new EnemyImpl(this, p)
     ));
     /**
      * Record for the entity concerning Events.
@@ -127,11 +127,11 @@ public final class Section {
         }
     }
 
-    Player getPlayer() {
-        if (entities.stream().filter(e -> e instanceof Player).count() > 1) {
+    PlayerImpl getPlayer() {
+        if (entities.stream().filter(e -> e instanceof PlayerImpl).count() > 1) {
             throw new IllegalStateException("There's more than one player");
         }
-        final Optional<Player> p = entities.stream().filter(e -> e instanceof Player).map(e -> (Player) e).findFirst();
+        final Optional<PlayerImpl> p = entities.stream().filter(e -> e instanceof PlayerImpl).map(e -> (PlayerImpl) e).findFirst();
         if (!p.isPresent()) {
             throw new IllegalStateException("No player found");
         }
@@ -147,8 +147,8 @@ public final class Section {
         return entities;
     }
 
-    void addPlayer(final Player p) {
-        if  (entities.stream().anyMatch(e -> e instanceof Player)) {
+    void addPlayer(final PlayerImpl p) {
+        if  (entities.stream().anyMatch(e -> e instanceof PlayerImpl)) {
             throw new IllegalStateException("Player already exists. Cannot generate it again");
         } else {
             removeEntityAt(p.getPosition());

@@ -48,7 +48,7 @@ public final class Island extends Collidable {
      * so the healing mechanic is defined there. 
      * @see
      */
-    protected void heal(final Player player) {
+    protected void heal(final PlayerImpl player) {
         player.heal();
     }
 
@@ -59,7 +59,7 @@ public final class Island extends Collidable {
      */
     @Override
     protected void onCollisionWith(final Collider collider) {
-        if (collider instanceof Player player) {
+        if (collider instanceof PlayerImpl player) {
             heal(player);
             save();
         }

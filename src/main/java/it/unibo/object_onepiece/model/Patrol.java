@@ -1,6 +1,6 @@
 package it.unibo.object_onepiece.model;
 
-import it.unibo.object_onepiece.model.Enemy.States;
+import it.unibo.object_onepiece.model.EnemyImpl.States;
 import it.unibo.object_onepiece.model.Utils.Bound;
 import it.unibo.object_onepiece.model.Utils.Position;
 
@@ -9,7 +9,7 @@ import it.unibo.object_onepiece.model.Utils.Position;
  */
 public final class Patrol extends EnemyState {
     private final NavigationSystem compass;
-    private final Enemy ship;
+    private final EnemyImpl ship;
     private final Bound bound;
     private final States stato = States.PATROLLING;
     private Position objective;
@@ -18,7 +18,7 @@ public final class Patrol extends EnemyState {
      * @param ship
      * @param compass
      */
-    protected Patrol(final Enemy ship, final NavigationSystem compass) {
+    protected Patrol(final EnemyImpl ship, final NavigationSystem compass) {
         this.ship = ship;
         this.compass = compass;
         this.bound = ship.getSection().getBounds();
@@ -32,7 +32,7 @@ public final class Patrol extends EnemyState {
 
         final var suggestedDir = compass.move(objective, this.ship.getPosition());
 
-        if (!Enemy.ACTION_SUCCESS_CONDITIONS.contains(ship.move(suggestedDir, 1))) {
+        if (!EnemyImpl.ACTION_SUCCESS_CONDITIONS.contains(ship.move(suggestedDir, 1))) {
             ship.changeState(States.AVOIDING);
             return false;
         } 

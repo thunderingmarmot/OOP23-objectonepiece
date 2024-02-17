@@ -1,6 +1,6 @@
 package it.unibo.object_onepiece.model;
 
-import it.unibo.object_onepiece.model.Enemy.States;
+import it.unibo.object_onepiece.model.EnemyImpl.States;
 
 abstract class EnemyState {
     /**
