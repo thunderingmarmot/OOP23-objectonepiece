@@ -10,12 +10,12 @@ public interface World {
      * 
      * @return Player object in the section
      */
-    PlayerImpl getPlayer();
+    Player getPlayer();
     /**
      * 
      * @return enemies present in the section
      */
-    List<EnemyImpl> getEnemies();
+    List<Enemy> getEnemies();
     /**
      * 
      * @return number of rows in a section

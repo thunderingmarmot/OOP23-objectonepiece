@@ -90,15 +90,15 @@ public final class WorldImpl implements World {
     }
 
     @Override
-    public PlayerImpl getPlayer() {
+    public Player getPlayer() {
         return getCurrentSection().getPlayer();
     }
 
     @Override
-    public List<EnemyImpl> getEnemies() {
+    public List<Enemy> getEnemies() {
         return getCurrentSection().getEntities().stream()
-            .filter((e) -> e instanceof EnemyImpl)
-            .map((e) -> (EnemyImpl) e)
+            .filter((e) -> e instanceof Enemy)
+            .map((e) -> (Enemy) e)
             .toList();
     }
 
@@ -111,7 +111,7 @@ public final class WorldImpl implements World {
             .stream()
             .filter((e) -> !(e instanceof PlayerImpl))
             .map((e) -> e.copy()).toList();
-        saved = Optional.of(new SavedSection(entityListCopy, this.getPlayer().copy()));
+        saved = Optional.of(new SavedSection(entityListCopy, this.currentSection.getPlayer().copy()));
     }
 
     Section getCurrentSection() {
