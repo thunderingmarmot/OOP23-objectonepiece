@@ -185,42 +185,54 @@ Keel : #heavy()$ Keel
 Keel : #light()$ Keel
 
 class Player
-Player --|> Ship
-Player : -int DEFAULT_EXPERIENCE_HEAL_COST$
-Player : -int experience
-Player : -Event~PlayerUpdatedArgs~ onPlayerUpdated
-Player : #copy() Player
-Player : +isInSamePositionAs(Position position) boolean
+<<Interface>> Player
 Player : +moveTo(Position destination) boolean
 Player : +shootAt(Position target) boolean
-Player : -getFromShipComponents(Function mapper) Stream~T~
+Player : +healWithExperience() void
+
+class PlayerImpl
+Player <|-- PlayerImpl
+PlayerImpl --|> Ship
+PlayerImpl : -int DEFAULT_EXPERIENCE_HEAL_COST$
+PlayerImpl : -int experience
+PlayerImpl : -Event~PlayerUpdatedArgs~ onPlayerUpdated
+PlayerImpl : #copy() PlayerImpl
+PlayerImpl : +isInSamePositionAs(Position position) boolean
+PlayerImpl : +moveTo(Position destination) boolean
+PlayerImpl : +shootAt(Position target) boolean
+PlayerImpl : -getFromShipComponents(Function mapper) Stream~T~
 %% The Function in getFromShipComponents is actually a Function<ShipComponent, T>, but Mermaid doesn't support more than one generic argument
-Player : #getMaxHealths() List~int~
-Player : #getHealths() List~int~
-Player : #getNames() List~String~
-Player : #getExperience() int
-Player : #addExperience(int experienceToAdd) void
-Player : #subtractExperience(int experienceToSubtract) void
-Player : #healWithExperience() void
-Player : #takeDamage(int damage, ShipComponent component) void
-Player : #heal() void
-Player : #die() void
-Player : +getPlayerUpdatedEvent() Event~PlayerUpdatedArgs~
+PlayerImpl : #getMaxHealths() List~int~
+PlayerImpl : #getHealths() List~int~
+PlayerImpl : #getNames() List~String~
+PlayerImpl : #getExperience() int
+PlayerImpl : #addExperience(int experienceToAdd) void
+PlayerImpl : #subtractExperience(int experienceToSubtract) void
+PlayerImpl : #healWithExperience() void
+PlayerImpl : #takeDamage(int damage, ShipComponent component) void
+PlayerImpl : #heal() void
+PlayerImpl : #die() void
+PlayerImpl : +getPlayerUpdatedEvent() Event~PlayerUpdatedArgs~
 
 class Enemy
-Enemy --|> Ship
-EnemyState *-- Enemy
-Enemy : -List~MoveDetails~ ACTION_SUCCESS_CONDITIONS$
-Enemy : -int DEFAULT_TRIGGET_DISTANCE$
-Enemy : -int triggerDistance
-Enemy : -EnemyState currentState
-Enemy : -List~MoveDetails~ enemyStates
-Enemy : #copy() Enemy
-Enemy : #getTriggerDistance() int
-Enemy : goNext() void
-Enemy : getCurrentState() States
-Enemy : changeState(States state) void
-Enemy : findState(States state) EnemyState
+<<Interface>> Enemy
+Enemy : +goNext() void
+
+class EnemyImpl
+Enemy <|-- EnemyImpl
+EnemyImpl --|> Ship
+EnemyState *-- EnemyImpl
+EnemyImpl : -List~MoveDetails~ ACTION_SUCCESS_CONDITIONS$
+EnemyImpl : -int DEFAULT_TRIGGET_DISTANCE$
+EnemyImpl : -int triggerDistance
+EnemyImpl : -EnemyState currentState
+EnemyImpl : -List~MoveDetails~ enemyStates
+EnemyImpl : #copy() EnemyImpl
+EnemyImpl : #getTriggerDistance() int
+EnemyImpl : goNext() void
+EnemyImpl : getCurrentState() States
+EnemyImpl : changeState(States state) void
+EnemyImpl : findState(States state) EnemyState
 
 class States
 <<Enumeration>> States
