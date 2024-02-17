@@ -9,9 +9,9 @@ Entity : -CardinalDirection direction
 Entity --* CardinalDirection
 Entity : -Section section
 Entity --* Event
-Entity : -Event onEntityCreated
-Entity : -Event onEntityUpdated
-Entity : -Event onEntityRemoved
+Entity : -Event~EntityCreatedArgs~ onEntityCreated
+Entity : -Event~EntityUpdatedArgs~ onEntityUpdated
+Entity : -Event~EntityRemovedArgs~ onEntityRemoved
 Entity : #copy()* Entity
 Entity : #getWorld() WorldImpl
 Entity : #getSection() Section
@@ -21,9 +21,9 @@ Entity : #setSection(newSection) void
 Entity : #setPosition(newPosition) void
 Entity : #setDirection(newDirection) void
 Entity : #remove() void
-Entity : +getEntityCreatedEvent() Event
-Entity : +getEntityUpdatedEvent() Event
-Entity : +getEntityRemovedEvent() Event
+Entity : +getEntityCreatedEvent() Event~EntityCreatedArgs~
+Entity : +getEntityUpdatedEvent() Event~EntityUpdatedArgs~
+Entity : +getEntityRemovedEvent() Event~EntityRemovedArgs~
 
 class Collidable
 <<Abstract>> Collidable
@@ -186,6 +186,25 @@ Keel : #light()$ Keel
 
 class Player
 Player --|> Ship
+Player : -int DEFAULT_EXPERIENCE_HEAL_COST$
+Player : -int experience
+Player : -Event~PlayerUpdatedArgs~ onPlayerUpdated
+Player : #copy() Player
+Player : +isInSamePositionAs(position) boolean
+Player : +moveTo(position) boolean
+Player : +shootAt(poistion) boolean
+Player : -getFromShipComponents(mapper) Stream~T~
+Player : #getMaxHealths() List~int~
+Player : #getHealths() List~int~
+Player : #getNames() List~String~
+Player : #getExperience() int
+Player : #addExperience(experienceToAdd) void
+Player : #subtractExperience(experienceToSubtract) void
+Player : #healWithExperience() void
+Player : #takeDamage(damage, component) void
+Player : #heal() void
+Player : #die() void
+Player : +getPlayerUpdatedEvent() Event~PlayerUpdatedArgs~
 
 class Enemy
 Enemy --|> Ship
