@@ -17,9 +17,9 @@ Entity : #getWorld() WorldImpl
 Entity : #getSection() Section
 Entity : #getPosition() Position
 Entity : #getDirection() CardinalDirection
-Entity : #setSection(newSection) void
-Entity : #setPosition(newPosition) void
-Entity : #setDirection(newDirection) void
+Entity : #setSection(Section newSection) void
+Entity : #setPosition(Position newPosition) void
+Entity : #setDirection(CardinalDirection newDirection) void
 Entity : #remove() void
 Entity : +getEntityCreatedEvent() Event~EntityCreatedArgs~
 Entity : +getEntityUpdatedEvent() Event~EntityUpdatedArgs~
@@ -30,7 +30,7 @@ class Collidable
 Collidable --|> Entity
 Collidable --* Rigidness
 Collidable : #getRigidness()* Rigidness
-Collidable : #onCollisionWith(collider)* void
+Collidable : #onCollisionWith(Collider collider)* void
 
 class Rigidness
 <<Enumeration>> Rigidness
@@ -43,18 +43,18 @@ Barrel --|> Collidable
 Barrel : -int DEFAULT_EXPERIENCE_GIVEN$
 Barrel : -int experienceGiven
 Barrel : #getExperienceGiven() int
-Barrel : #onPickup(player) void
+Barrel : #onPickup(Player player) void
 Barrel : #copy() Barrel
 Barrel : #getRigidness() Rigidness
-Barrel : #onCollisionWith(collider) void
+Barrel : #onCollisionWith(Collider collider) void
 
 class Island
 Island --|> Collidable
 Island : #save() void
-Island : #heal(Player) void
+Island : #heal(Player player) void
 Island : #copy() Island
 Island : #getRigidness() Rigidness
-Island : #onCollisionWith(collider) void
+Island : #onCollisionWith(Collider collider) void
 
 class NavalMine
 NavalMine --|> Collidable
@@ -62,12 +62,12 @@ NavalMine : -int DEFAULT_DAMAGE$
 NavalMine : -int damage
 NavalMine : #copy() NavalMine
 NavalMine : #getRigidness() Rigidness
-NavalMine : #onCollisionWith(collider) void
+NavalMine : #onCollisionWith(Collider collider) void
 
 class Collider
 <<Abstract>> Collider
 Collider --|> Collidable
-Collider : #collideWith(collidable)* void
+Collider : #collideWith(Collidable collidable)* void
 
 class Ship
 <<Abstract>> Ship
@@ -84,14 +84,14 @@ Ship : -List~MoveDetails~ MOVE_SUCCESS_CONDITIONS$
 Ship : -List~MoveDetails~ MOVE_COLLISION_CONDITIONS$
 MoveDetails *-- Ship
 ShootDetails *-- Ship
-Ship : #move(direction, steps) MoveDetails
-Ship : #step(direction) MoveDetails
-Ship : #checkMove(direction, obstacle) MoveDetails
-Ship : #rotate(direction) void
-Ship : #shoot(position) ShootDetails
-Ship : -hitTarget(position, damage) void
-Ship : -getEntityPositionInTrajectory(position) Position
-Ship : #takeDamage(damage, component) void
+Ship : #move(CardinalDirection direction, int steps) MoveDetails
+Ship : #step(CardinalDirection direction) MoveDetails
+Ship : #checkMove(CardinalDirection direction, Optional~Entity~ obstacle) MoveDetails
+Ship : #rotate(CardinalDirection direction) void
+Ship : #shoot(Position position) ShootDetails
+Ship : -hitTarget(Position position, int damage) void
+Ship : -getEntityPositionInTrajectory(Position position) Position
+Ship : #takeDamage(int damage, ShipComponent component) void
 Ship : #isShipDead() boolean
 Ship : #die() void
 Ship : #getShipComponents() List~ShipComponent~
@@ -99,14 +99,14 @@ Ship : #getWeapon() Weapon
 Ship : #getSail() Sail
 Ship : #getBow() Bow
 Ship : #getKeel() Keel
-Ship : #setWeapon(newWeapon)
-Ship : #setSail(newSail)
-Ship : #setBow(newBow)
-Ship : #setKeel(newKeel)
+Ship : #setWeapon(Weapon newWeapon)
+Ship : #setSail(Sail newSail)
+Ship : #setBow(Bow newBow)
+Ship : #setKeel(Keel newKeel)
 Ship : #copy() Ship
-Ship : #collideWith(collidable) void
+Ship : #collideWith(Collidable collidable) void
 Ship : #getRigidness() Rigidness
-Ship : #onCollisionWith(collider) void
+Ship : #onCollisionWith(Collider collider) void
 
 class MoveDetails
 <<Enumeration>> MoveDetails
@@ -133,7 +133,7 @@ ShipComponent : -int health
 ShipComponent : #copy()* ShipComponent
 ShipComponent : #getHealth() int
 ShipComponent : #getMaxHealth() int
-ShipComponent : #setHealth(newHealth)
+ShipComponent : #setHealth(int newHealth)
 
 class Weapon
 Weapon --|> ShipComponent
@@ -190,18 +190,19 @@ Player : -int DEFAULT_EXPERIENCE_HEAL_COST$
 Player : -int experience
 Player : -Event~PlayerUpdatedArgs~ onPlayerUpdated
 Player : #copy() Player
-Player : +isInSamePositionAs(position) boolean
-Player : +moveTo(position) boolean
-Player : +shootAt(poistion) boolean
-Player : -getFromShipComponents(mapper) Stream~T~
+Player : +isInSamePositionAs(Position position) boolean
+Player : +moveTo(Position destination) boolean
+Player : +shootAt(Position target) boolean
+Player : -getFromShipComponents(Function mapper) Stream~T~
+%% The Function in getFromShipComponents is actually a Function<ShipComponent, T>, but Mermaid doesn't support more than one generic argument
 Player : #getMaxHealths() List~int~
 Player : #getHealths() List~int~
 Player : #getNames() List~String~
 Player : #getExperience() int
-Player : #addExperience(experienceToAdd) void
-Player : #subtractExperience(experienceToSubtract) void
+Player : #addExperience(int experienceToAdd) void
+Player : #subtractExperience(int experienceToSubtract) void
 Player : #healWithExperience() void
-Player : #takeDamage(damage, component) void
+Player : #takeDamage(int damage, ShipComponent component) void
 Player : #heal() void
 Player : #die() void
 Player : +getPlayerUpdatedEvent() Event~PlayerUpdatedArgs~
