@@ -150,6 +150,17 @@ Weapon : #heavycannon()$ Weapon
 
 class Sail
 Sail --|> ShipComponent
+Sail : -int maxSpeed
+Sail : -int minSpeed
+Sail : -boolean rotationPower
+Sail : #copy() Sail
+Sail : #isInSpeedRange() boolean
+Sail : #getMaxSpeed() int
+Sail : #getMinSpeed() int
+Sail : #haveRotationPower() boolean
+Sail : #sloop()$ Sail
+Sail : #spinnaker()$ Sail
+Sail : #schooner()$ Sail
 
 class Bow
 Bow --|> ShipComponent
