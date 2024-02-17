@@ -176,6 +176,13 @@ Bow : #light()$ Bow
 
 class Keel
 Keel --|> ShipComponent
+Keel : -int damageEndurance
+Keel : #copy() Keel
+Keel : #isKeelDamaged() boolean
+Keel : #getDamageEndurance() int
+Keel : #standard()$ Keel
+Keel : #heavy()$ Keel
+Keel : #light()$ Keel
 
 class Player
 Player --|> Ship
