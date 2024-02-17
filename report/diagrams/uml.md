@@ -128,6 +128,12 @@ ShootDetails : WEAPON_BROKEN
 
 class ShipComponent
 <<Abstract>> ShipComponent
+ShipComponent : -int maxHealth
+ShipComponent : -int health
+ShipComponent : #copy()* void
+ShipComponent : #getHealth() int
+ShipComponent : #getMaxHealth() int
+ShipComponent : #setHealth(newHealth)
 
 class Weapon
 Weapon --|> ShipComponent 
