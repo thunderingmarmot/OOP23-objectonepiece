@@ -29,7 +29,8 @@ public interface Controller {
         /**
          * The experience is used to fix the ship.
          */
-        FIX
+        FIX,
+        RESPAWN
     }
 
     /**
