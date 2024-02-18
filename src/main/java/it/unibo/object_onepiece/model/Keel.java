@@ -9,7 +9,7 @@ package it.unibo.object_onepiece.model;
  * 
  * @see ShipComponent
  */
-public class Keel extends ShipComponent {
+public final class Keel extends ShipComponent {
     private final int damageEndurance;
 
     /**
