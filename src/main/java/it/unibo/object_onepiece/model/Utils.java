@@ -38,10 +38,10 @@ public final class Utils {
     );
 
     private static Map<CardinalDirection, BiFunction<Position, Bound, Position>> oppositePositions = Map.of(
-        CardinalDirection.NORTH, (p, b) -> new Position(p.row + (b.rows - 3), p.column),
-        CardinalDirection.SOUTH, (p, b) -> new Position(p.row - (b.rows - 3), p.column),
-        CardinalDirection.WEST, (p, b) -> new Position(p.row, p.column + (b.columns - 3)),
-        CardinalDirection.EAST, (p, b) -> new Position(p.row, p.column - (b.columns - 3))
+        CardinalDirection.NORTH, (p, b) -> new Position(b.rows - (1 + p.row), p.column),
+        CardinalDirection.SOUTH, (p, b) -> new Position(b.rows - (1 + p.row), p.column),
+        CardinalDirection.WEST, (p, b) -> new Position(p.row, b.columns - (1 + p.column)),
+        CardinalDirection.EAST, (p, b) -> new Position(p.row, b.columns - (1 + p.column))
     );
 
     private static Map<Position, CardinalDirection> versorToCardinalDirections = Map.of(
@@ -212,6 +212,18 @@ public final class Utils {
             final var versor = this.versorOf(position);
             return versorToCardinalDirections.get(versor);
         }
+
+        /**
+         * This method give the opposite position on the bounds 
+         * depending on the current position, direction and bound.
+         * 
+         * @param  direction the current direction
+         * @param  bounds    the current bound
+         * @return           the position on the opposite bound.
+         */
+        public Position opposite(final CardinalDirection direction, final Bound bound) {
+            return oppositePositions.get(direction).apply(this, bound);
+        }
     }
 
     /**
@@ -227,31 +239,6 @@ public final class Utils {
          */
         public boolean isInside(final Position position) {
             return insideBoundsConditions.stream().allMatch((condition) -> condition.test(this, position));
-        }
-
-        /**
-         * Checks if a Position is on the Bound.
-         * @param position the Position to check
-         * @return whether the Position is on or not as a boolean
-         */
-        public boolean isOnEdge(final Position position) {
-            return position.row == 1 || position.column == 1
-                || position.row == rows - 2 || position.column == columns - 2;
-        }
-
-        /**
-         * This method give the opposite position on the bounds 
-         * depending on the current position, direction and bound.
-         * 
-         * @param  direction the current direction
-         * @param  bounds    the current bound
-         * @return           the position on the opposite bound.
-         */
-        public Position getOpposite(final Position position, CardinalDirection direction) {
-            if(this.isOnEdge(position)) {
-                return oppositePositions.get(direction).apply(position, this);
-            }
-            return position;
         }
     }
 
