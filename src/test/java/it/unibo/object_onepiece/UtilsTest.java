@@ -52,8 +52,8 @@ class UtilsTest {
         final int sei = 6;
         final int dodici = 12;
 
-        assertEquals(sei, POS2.opposite(CardinalDirection.WEST, B).row());
-        assertEquals(dodici, POS2.opposite(CardinalDirection.WEST, B).column());
+        assertEquals(sei, B.getOpposite(POS1, CardinalDirection.WEST).row());
+        assertEquals(dodici, B.getOpposite(POS1, CardinalDirection.WEST).column());
     }
 
     @Test
