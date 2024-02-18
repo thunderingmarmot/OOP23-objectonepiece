@@ -4,7 +4,7 @@ package it.unibo.object_onepiece.model;
  * This class represents a keel, which is a type of ShipComponent.
  * It defines a method to retrieving damage endurance of the keel
  * and checking if the keel is damaged.
- * It also defines builder methods for the available keels.
+ * It also defines factory methods for the available keels.
  * The keel is the lateral structure of the ship.
  * 
  * @see ShipComponent
@@ -18,7 +18,7 @@ public class Keel extends ShipComponent {
      * @param  health          the health of the keel
      * @param  damageEndurance the damage endurance of the keel
      */
-    protected Keel(final int health, final int damageEndurance) {
+    private Keel(final int health, final int damageEndurance) {
         super(health);
         this.damageEndurance = damageEndurance;
     }
@@ -28,7 +28,7 @@ public class Keel extends ShipComponent {
      * 
      * @param  origin the keel to copy from
      */
-    protected Keel(final Keel origin) {
+    private Keel(final Keel origin) {
         super(origin);
         this.damageEndurance = origin.getDamageEndurance();
     }
@@ -64,7 +64,7 @@ public class Keel extends ShipComponent {
     }
 
     /**
-     * Builder for the standard keel.
+     * Factory method for the standard keel.
      * 
      * @return keel with his standard stats.
      */
@@ -76,7 +76,7 @@ public class Keel extends ShipComponent {
     }
 
     /**
-     * Builder for the heavy keel, a really strong keel
+     * Factory method for the heavy keel, a really strong keel
      * for damage endurance and health.
      * 
      * @return keel with his standard stats.
@@ -89,7 +89,7 @@ public class Keel extends ShipComponent {
     }
 
     /**
-     * Builder for the light keel, a really weak keel
+     * Factory method for the light keel, a really weak keel
      * for damage endurance and health.
      * 
      * @return keel with his standard stats.

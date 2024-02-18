@@ -107,13 +107,33 @@ Questo approccio garantisce anche che View e Model siano "loosely coupled".
 
 \subsection*{Matteo Giorgini}
 \subsubsection*{Composizione della nave}
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/Ship.png}
+	\caption{Rappresentazione UML del Composite pattern per la composizione della nave}
+	\label{img:Ship}
+\end{figure}
+
 \paragraph{Problema} Una nave è composta da varie parti che si occupano di compiti differenti.
 \paragraph{Soluzione} Usare il \textit{Composite pattern} per creare un componente composito che contiene i riferimenti ad i vari componenti della nave (Weapon, Sail, Bow, Ship).
 %
 Ogni componente svolge una funzione differente e alla sua rottura causa un malus alla nave.
 %
 Questo sistema permette di avere una nave eventualmente estendibile.
-\subsubsection*{}
+\subsubsection*{Costruzione di componenti con statistiche diverse}
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/Factory.png}
+	\caption{Rappresentazione UML del Factory pattern per la composizione della nave}
+	\label{img:Factory}
+\end{figure}
+
+\paragraph{Problema} I componenti di una nave possono avere statistiche differenti.
+\paragraph{Soluzione} Usare il \textit{Factory pattern} per creare configurazioni diverse di componenti con statistiche diverse.
+%
+Ogni componente possiede al suo interno dei metodi che costruiscono il suddetto componente con valori differenti e incapsulano il costruttore.
 
 \subsection*{Leonardo Grimaldi}
 \subsubsection*{Barra di progresso}
@@ -148,9 +168,6 @@ Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob
 
 \subsubsection{Utilizzo di \texttt{BiPredicate} dalla libreria java.util.function}
 Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/b935812786b9f4b2bf504b8380732d7609243f66/src/main/java/it/unibo/object_onepiece/model/Ship.java#L391C1-L396C11}
-
-\subsubsection{Utilizzo di \texttt{Function} dalla libreria java.util.function}
-Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/c3fa6ef0fc6adadd4db29c2110c899c068c49ea8/src/main/java/it/unibo/object_onepiece/model/Utils.java#L19C1-L24C7}
 
 \subsubsection{Utilizzo di \texttt{URL} dalla libreria java.net}
 Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/c3fa6ef0fc6adadd4db29c2110c899c068c49ea8/src/main/java/it/unibo/object_onepiece/view/Sound.java#L32C1-L38C7}
