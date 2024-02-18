@@ -461,7 +461,15 @@ Questo schema è fatto male perché:
 \subsection*{Leonardo Grimaldi}
 \subsubsection*{Barra di progresso}
 \paragraph{Problema} La view deve rappresentare barre di vita con la stessa struttura, ma colori o proprietà diverse.
-\paragraph{Soluzione} Usare il \textit{Decorator pattern} per creare una barra di progresso basilare che può essere decorata con colori diversi, assegnata un nome, aggiornata con il progresso e che restituisce il componente pronto per essere rappresentato. La classe astratta che fa da Decorator è \texttt{ProgressBarDecorator}, mentre le sue implementazioni sono 
+\paragraph{Soluzione} Usare il \textit{Decorator pattern} per creare una barra di progresso basilare che può essere assegnata colori diversi, associato un nome, aggiornata con il progresso e che restituisce il componente pronto per essere rappresentato. La classe astratta che fa da Decorator è \texttt{ProgressBarDecorator}, mentre le sue implementazioni sono 
+
+\subsubsection*{Divisione del mondo in sezioni e tracciamento del player e nemici}
+\paragraph{Problema} Dividere il mondo in sezioni che possono essere intercambiate, salvate ed estese per future funzionalità. Presenza di un unico player.
+\paragraph{Soluzione} Per consentire ai nemici di seguire il player e al controller di avanzare il turno dei nemici, si è deciso di creare una interfaccia World che contenesse un metodo \texttt{getPlayer()} che ritornasse il \texttt{Player} e un metodo \texttt{getEnemies()} che ritorna una lista di \texttt{Enemy}.
+
+\subsubsection*{Eventi di istanza di una sezione e disegno sulla view}
+\paragraph{Problema} 
+\paragraph{Soluzione}
 
 \subsection*{Edoardo Scorza}
 
