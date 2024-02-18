@@ -5,7 +5,7 @@ package it.unibo.object_onepiece.model;
  * It defines a method for determining if the Ship can make a certain
  * number of steps according to its sail stats.
  * It also defines methods to retrieving maximum speed, minimum speed
- * and rotation power of the sail, and builder methods for the available sails.
+ * and rotation power of the sail, and factory methods for the available sails.
  * 
  * @see ShipComponent
  */
@@ -22,7 +22,7 @@ public final class Sail extends ShipComponent {
      * @param  min      the minimum speed of the sail
      * @param  rotation the rotation power of the sail
      */
-    protected Sail(final int health, final int max, final int min, final boolean rotation) {
+    private Sail(final int health, final int max, final int min, final boolean rotation) {
         super(health);
         this.maxSpeed = max;
         this.minSpeed = min;
@@ -34,7 +34,7 @@ public final class Sail extends ShipComponent {
      * 
      * @param  origin the sail to copy from
      */
-    protected Sail(final Sail origin) {
+    private Sail(final Sail origin) {
         super(origin);
         this.maxSpeed = origin.getMaxSpeed();
         this.minSpeed = origin.getMinSpeed();
@@ -90,7 +90,7 @@ public final class Sail extends ShipComponent {
     }
 
     /**
-     * Builder for the sloop sail, the standard type of sail.
+     * Factory method for the sloop sail, the standard type of sail.
      * 
      * @return sail with his standard stats.
      */
@@ -104,7 +104,7 @@ public final class Sail extends ShipComponent {
     }
 
     /**
-     * Builder for the spinnaker sail, a very fast and agile sail 
+     * Factory method for the spinnaker sail, a very fast and agile sail 
      * but more fragile than the standard one.
      * 
      * @return sail with his standard stats.
@@ -119,7 +119,7 @@ public final class Sail extends ShipComponent {
     }
 
     /**
-     * Builder for the schooner sail, the best sail for speed and health.
+     * Factory method for the schooner sail, the best sail for speed and health.
      * 
      * @return sail with his standard stats.
      */

@@ -107,13 +107,33 @@ Questo approccio garantisce anche che View e Model siano "loosely coupled".
 
 \subsection*{Matteo Giorgini}
 \subsubsection*{Composizione della nave}
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/Ship.png}
+	\caption{Rappresentazione UML del Composite pattern per la composizione della nave}
+	\label{img:Ship}
+\end{figure}
+
 \paragraph{Problema} Una nave è composta da varie parti che si occupano di compiti differenti.
 \paragraph{Soluzione} Usare il \textit{Composite pattern} per creare un componente composito che contiene i riferimenti ad i vari componenti della nave (Weapon, Sail, Bow, Ship).
 %
 Ogni componente svolge una funzione differente e alla sua rottura causa un malus alla nave.
 %
 Questo sistema permette di avere una nave eventualmente estendibile.
-\subsubsection*{}
+\subsubsection*{Costruzione di componenti con statistiche diverse}
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/Factory.png}
+	\caption{Rappresentazione UML del Factory pattern per la composizione della nave}
+	\label{img:Factory}
+\end{figure}
+
+\paragraph{Problema} I componenti di una nave possono avere statistiche differenti.
+\paragraph{Soluzione} Usare il \textit{Factory pattern} per creare configurazioni diverse di componenti con statistiche diverse.
+%
+Ogni componente possiede al suo interno dei metodi che costruiscono il suddetto componente con valori differenti e incapsulano il costruttore.
 
 \subsection*{Leonardo Grimaldi}
 \subsubsection*{Barra di progresso}
@@ -157,9 +177,6 @@ Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob
 \subsubsection{Utilizzo di \texttt{BiPredicate} dalla libreria java.util.function}
 Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/b935812786b9f4b2bf504b8380732d7609243f66/src/main/java/it/unibo/object_onepiece/model/Ship.java#L391C1-L396C11}
 
-\subsubsection{Utilizzo di \texttt{Function} dalla libreria java.util.function}
-Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/c3fa6ef0fc6adadd4db29c2110c899c068c49ea8/src/main/java/it/unibo/object_onepiece/model/Utils.java#L19C1-L24C7}
-
 \subsubsection{Utilizzo di \texttt{URL} dalla libreria java.net}
 Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/c3fa6ef0fc6adadd4db29c2110c899c068c49ea8/src/main/java/it/unibo/object_onepiece/view/Sound.java#L32C1-L38C7}
 
@@ -171,6 +188,26 @@ Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob
 Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/c3fa6ef0fc6adadd4db29c2110c899c068c49ea8/src/main/java/it/unibo/object_onepiece/view/Sound.java#L56C1-L56C56}
 
 \subsection{Leonardo Grimaldi}
+
+\subsubsection{Utilizzo dell'algoritmo di \textit{White noise} dalla libreria JNoise}
+
+Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/7a0137595ea7d9762cb942ab84609625c92ad2cc/src/main/java/it/unibo/object_onepiece/model/Section.java#L85C9-L86C22}
+
+\subsubsection{Utilizzo di \texttt{GridView} e \texttt{GridModel} dalla libreria Grid}
+
+Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/6e21ea8b2bcbecf144d98e7dac5f3d1b23f450d8/src/main/java/it/unibo/object_onepiece/view/ObjectOnePiece.java#L156C5-L176C6}
+
+\subsubsection{Utilizzo della libreria JavaFX}
+
+Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/6e21ea8b2bcbecf144d98e7dac5f3d1b23f450d8/src/main/java/it/unibo/object_onepiece/view/ProgressBarImpl.java#L27C5-L59C6}
+
+\subsubsection{Utilizzo di \texttt{BiFunction} dentro una \texttt{Map}}
+
+Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/6ae9d20e3d3e9858b3098309406cf93128f788fd/src/main/java/it/unibo/object_onepiece/model/Section.java#L35C5-L41C8}
+
+\subsubsection{Utilizzo di \texttt{Stream}, \texttt{Optional} e lambda expressions}
+
+Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/6ae9d20e3d3e9858b3098309406cf93128f788fd/src/main/java/it/unibo/object_onepiece/model/Section.java#L131C1-L142C6}
 
 \subsection{Edoardo Scorza}
 \subsubsection{Lambda e supplier per la costruzione di una Mappa}
@@ -260,9 +297,11 @@ Quando il giocatore cerca di muoversi sulle caselle del bordo, si sposta su una 
 %
 Per sparare ad una nave nemica il giocatore deve premere con il click destro nelle celle in linea con i fianchi della nave.
 %
-Il range di sparo è di 3 caselle sia per il player che per i nemici e il cannone fa un danno AoE (Area of Effect) di 3x3 caselle.
+Il range di sparo è di 3 caselle sia per il player che per i nemici e il cannone fa un danno AoE (Area of Effect) di 3x3 caselle con il danno maggiore nel centro.
 %
 È possibile anche speronare una nave nemica mentre si è accanto ad essa cliccandoci sopra con il tasto sinistro del mouse.
+%
+Se il Keel di una nave è danneggiato, speronandola riceve un maggior danno rispetto a quello di default.
 %
 Il giocatore può curarsi e salvare su una isola premendo il tasto sinistro mentre è a fianco ad essa.
 %
