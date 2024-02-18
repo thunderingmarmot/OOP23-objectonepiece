@@ -44,8 +44,8 @@ public final class ObjectOnePiece extends Application {
     private static final float DEFAULT_AMBIENCE_SOUND_VOLUME = -30;
     private static final String STYLE_SHEET = "/css/ObjectOnePieceApp.css";
     private static final Function<String, String> PATH_FUNC = t -> "/img/sprites/" + t + "/" + t + ".png";
-    private static final int WINDOW_WIDTH = 650;
-    private static final int WINDOW_HEIGHT = 650;
+    private static final int WINDOW_WIDTH = 700;
+    private static final int WINDOW_HEIGHT = 700;
 
     private enum State {
         WATER;
@@ -108,12 +108,15 @@ public final class ObjectOnePiece extends Application {
         final Button useXp = new Button();
         useXp.setGraphic(heal);
 
+        final Button respawn = new Button("Respawn");
+
         final Button pauseAmbienceSound = new Button();
         pauseAmbienceSound.setGraphic(audio);
+        
 
         final VBox buttonContainer = new VBox();
         buttonContainer.setAlignment(Pos.CENTER);
-        buttonContainer.getChildren().addAll(useXp, experienceText, pauseAmbienceSound);
+        buttonContainer.getChildren().addAll(useXp, experienceText, respawn, pauseAmbienceSound);
 
 
 
@@ -143,6 +146,14 @@ public final class ObjectOnePiece extends Application {
             public void handle(final ActionEvent event) {
                 controller.pressGameButton(Controller.Buttons.FIX, world);
             }
+        });
+
+        respawn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                controller.pressGameButton(Controller.Buttons.RESPAWN, world);
+            }
+            
         });
 
         pauseAmbienceSound.setOnAction(new EventHandler<ActionEvent>() {

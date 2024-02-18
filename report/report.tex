@@ -173,20 +173,24 @@ Ogni componente possiede al suo interno dei metodi che costruiscono il suddetto 
 
 \subsection*{Edoardo Scorza}
 \subsubsection*{AI delle Entità Enemy}
-\paragraph{Problema} realizzare un sistema di algoritmi in grado di manovrare una Ship, al fine di navigare nella mappa ed attaccare il Giocatore in prossimità di essa.
-\paragraph{Soluzione} Ho deciso di optare per uno State pattern, ciò consente di separare le diverse logiche dall'Enemy e dalle logiche stesse, consentendo sia di creare algoritmi volti a una singola situazione ma anche facili da intercambiare.
-
 \begin{figure}[H]
 	\centering{}
 	\includegraphics[width=\textwidth]{img/Enemy.png}
 	\caption{Rappresentazione UML del Factory pattern per la composizione della nave}
 	\label{img:Enemy}
 \end{figure}
+\paragraph{Problema} realizzare un sistema di algoritmi in grado di manovrare una Ship, al fine di navigare nella mappa ed attaccare il Giocatore in prossimità di essa.
+\paragraph{Soluzione} Ho deciso di optare per uno State pattern, ciò consente di separare le diverse logiche dall'Enemy e dalle logiche stesse, consentendo sia di creare algoritmi volti a una singola situazione ma anche facili da intercambiare.
 
-\subsubsection*{ControllerImpl}
+\subsubsection*{Controller}
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/Controller.png}
+	\caption{Rappresentazione UML del Factory pattern per la composizione della nave}
+	\label{img:Controller}
+\end{figure}
 \paragraph{Problema} realizzare un controller che oltre a scandire il tempo del model, esponesse in modo chiaro le funzionalità del model in poche, semplici funzioni.
-\paragraph{Soluzione} Per l'input di gioco ho utilizzato uno strategy patter, atto alla separazione delle due varianti di input richieste dal nostro gioco: muoversi o sparare, in modo simile anche per la gestione di funzionalità del model collegabili a pulsanti esterni, attraverso l'uso di una mappa.
-
+\paragraph{Soluzione} Per l'input di gioco ho utilizzato uno Strategy pattern, atto alla separazione delle due varianti di input richieste dal nostro gioco: muoversi o sparare, in modo simile anche per la gestione di funzionalità del model collegabili a pulsanti esterni, attraverso l'uso di una mappa.
 
 \chapter{Sviluppo}
 \section{Testing automatizzato}
@@ -351,17 +355,15 @@ Nel HUD vengono mostrate quattro barre di vita che riguardano la nave:
 	\item Sail: vita della vela; raggiunto lo zero non potrà muoversi.
 	\item Keel: vita della chiglia; raggiunto lo zero il gioco si fermerà e l'utente dovrà cliccare su una casella per respawnare.
 \end{itemize}
-Inoltre, sotto alle barre di vita sono presenti due pulsanti.
+Inoltre, sotto alle barre di vita sono presenti tre pulsanti.
 %
 Il primo con l'icona di una tavola di legno consente al giocatore di riparare la nave (curarsi) utilizzando l'esperienza raccolta dai barili nella mappa.
 %
 Sotto ad esso si trova un numero che indica quanta esperienza l'utente ha a disposizione per ripararsi. Il costo di cura è 100.
 %
-Il secondo bottone spegne/riaccende gli effetti sonori del gioco.
-\newline
-Durante la fase di gioco è possibile che la vela della nave venga danneggiata e il player sia impossibilitato a muoversi.
+Il secondo con la scritta "Respawn" consente al player di rigenerare una nuova mappa oppure tornare all'isola salvata.
 %
-In tal caso, l'utente deve chiudere la finestra premendo la ``X'' in alto a destra e far ripartire il gioco.
+Il terzo bottone spegne/riaccende gli effetti sonori del gioco.
 
 \chapter{Esercitazioni di laboratorio}
 \subsection{leonardo.grimaldi2@studio.unibo.it}
