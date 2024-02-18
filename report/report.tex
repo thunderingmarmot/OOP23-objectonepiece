@@ -106,6 +106,12 @@ anche per una versione del gioco in tempo reale che sarebbe quindi "attiva", dov
 \section{Design dettagliato}
 
 \subsection*{Tommaso De Tommaso}
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/Event.png}
+	\caption{Rappresentazione UML della classe Event}
+	\label{img:Event}
+\end{figure}
 \subsubsection*{Aggiornamento della View}
 \paragraph{Problema} Il Model deve poter comunicare alla View quando e come aggiornarsi senza dover esporre la sua struttura interna.
 \paragraph{Soluzione} Usare l'\textit{Observer pattern} per creare un oggetto generico e riutilizzabile che si occupi, nel nostro caso, di informare la View.
