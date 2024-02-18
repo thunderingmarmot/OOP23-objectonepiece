@@ -167,16 +167,28 @@ Ogni componente possiede al suo interno dei metodi che costruiscono il suddetto 
 
 \subsection*{Leonardo Grimaldi}
 \subsubsection*{Barra di progresso}
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/ProgressBar.png}
+	\caption{Rappresentazione UML del Decorator pattern per la creazione di vari tipi di barre di progresso}
+	\label{img:ProgressBar}
+\end{figure}
+
 \paragraph{Problema} La view deve rappresentare barre di vita con la stessa struttura, ma colori o proprietà diverse.
 \paragraph{Soluzione} Usare il \textit{Decorator pattern} per creare una barra di progresso basilare che può essere assegnata colori diversi, associato un nome, aggiornata con il progresso e che restituisce il componente pronto per essere rappresentato. La classe astratta che fa da Decorator è \texttt{ProgressBarDecorator}, mentre le sue implementazioni sono 
 
 \subsubsection*{Tracciamento del player e dei nemici}
-\paragraph{Problema} Consentire al Controller di accedere al \texttt{Player} e alla lista di \texttt{Enemy} senza smascherare la struttura complessa interna del \texttt{World}
-\paragraph{Soluzione} Si è deciso di usare il Facade pattern per creare una interfaccia \texttt{World} che contenesse un metodo \texttt{getPlayer()} che ritornasse il \texttt{Player} e un metodo \texttt{getEnemies()} che ritornasse una lista di \texttt{Enemy}. Il Controller in questo modo non dovrà preoccuparsi di come vengono generate le sezioni oppure quale sia quella corrente: riceve subito le entità in quella presente per comodamente gestirne i turni. Alternativamente, avremmo potuto consentire al Controller di accedere direttamente al \texttt{WorldImpl} e le \texttt{Section}, ma avremmo violato principi di incapsulazione permettendo comportamenti indesiderati.
 
-\subsubsection*{Caricamento di una mappa/sezione salvata}
-\paragraph{Problema} 
-\paragraph{Soluzione}
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/WorldFacade.png}
+	\caption{Rappresentazione UML del Facade pattern per l'esposizione di metodi}
+	\label{img:WorldFacade}
+\end{figure}
+
+\paragraph{Problema} Consentire al Controller di accedere al \texttt{Player} e alla lista di \texttt{Enemy} senza smascherare la struttura complessa interna del \texttt{World}
+\paragraph{Soluzione} Si è deciso di usare il \textit{Facade pattern} per creare una interfaccia \texttt{World} che contenesse un metodo \texttt{getPlayer()} che ritornasse il \texttt{Player} e un metodo \texttt{getEnemies()} che ritornasse una lista di \texttt{Enemy}. Il Controller in questo modo non dovrà preoccuparsi di come vengono generate le sezioni oppure quale sia quella corrente: riceve subito le entità in quella presente per comodamente gestirne i turni. Alternativamente, avremmo potuto consentire al Controller di accedere direttamente al \texttt{WorldImpl} e le \texttt{Section}, ma avremmo violato principi di incapsulazione permettendo comportamenti indesiderati.
 
 \subsection*{Edoardo Scorza}
 \subsubsection*{AI delle Entità Enemy}
@@ -205,7 +217,7 @@ Ogni componente possiede al suo interno dei metodi che costruiscono il suddetto 
 Abbiamo eseguito dei testing utilizzando la suite di JUnit.
 %
 \begin{itemize}
-	\item NavigationSystemTest.java testa la capacità del navigation system implementato ( compass ) di dare la direzione corretta per raggiungere un obbiettivo
+	\item NavigationSystemTest.java testa la capacità del navigation system implementato (Compass) di dare la direzione corretta per raggiungere un obiettivo.
 	\item UtilsTest.java esegue i test di tutti i metodi di Position e Bound in Utils.
 \end{itemize}
 
@@ -381,7 +393,7 @@ Sotto ad esso si trova un numero che indica quanta esperienza l'utente ha a disp
 %
 Il secondo con la scritta "Respawn" consente al player di rigenerare una nuova mappa oppure tornare all'isola salvata.
 %
-Il terzo bottone spegne/riaccende gli effetti sonori del gioco.
+Il terzo bottone spegne/riaccende la musica di sottofondo del gioco.
 
 \chapter{Esercitazioni di laboratorio}
 \subsection{leonardo.grimaldi2@studio.unibo.it}
