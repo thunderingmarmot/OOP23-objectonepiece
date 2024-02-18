@@ -221,8 +221,8 @@ public final class Utils {
          * @param  bounds    the current bound
          * @return           the position on the opposite bound.
          */
-        public Position opposite(final CardinalDirection direction, final Bound bound) {
-            return oppositePositions.get(direction).apply(this, bound);
+        public Position opposite(final CardinalDirection direction, final Bound bounds) {
+            return oppositePositions.get(direction).apply(this, bounds);
         }
     }
 
