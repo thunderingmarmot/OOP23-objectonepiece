@@ -18,7 +18,9 @@ public final class ControllerImpl implements Controller {
         States.MOVING, new MoveState());
 
     private static Map<Buttons, Consumer<World>> buttons = Map.of(
-        Buttons.FIX, (w) -> w.getPlayer().healWithExperience()
+        Buttons.FIX, (w) -> w.getPlayer().healWithExperience(),
+        Buttons.RESPAWN,(w) -> w.getPlayer().respawn()
+
     );
 
     @Override

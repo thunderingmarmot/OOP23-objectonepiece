@@ -28,7 +28,7 @@ public final class EnemyImpl extends Ship implements Enemy {
          */
         AVOIDING,
         /**
-         * 
+         * The Enemy sees the player and tries to attack it
          */
         ATTACKING
     } 

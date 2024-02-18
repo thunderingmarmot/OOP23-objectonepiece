@@ -79,13 +79,6 @@ I nemici devono anche sparare al giocatore, se questo entra nel raggio dell'arma
 %
 I nemici non seguono il giocatore se cambia sezione.
 
-\begin{figure}[H]
-	\centering{}
-	\includegraphics[width=1.2\textwidth]{img/Analysis.png}
-	\caption{Schema UML dell'analisi del problema, con rappresentate le entità principali ed i rapporti fra loro}
-	\label{img:Analysis}
-\end{figure}
-
 \chapter{Design}
 
 \section{Architettura}
@@ -102,6 +95,13 @@ senza conoscere, né modificare, l'architettura interna del Model.
 Inoltre, il nostro gioco è strutturato per essere a turni ed è quindi "passivo", modificando il suo stato solo dopo un'input,
 tuttavia la logica dei turni è stata implementata nel Controller e questo potenzialmente ci permette di usare lo stesso Model
 anche per una versione del gioco in tempo reale che sarebbe quindi "attiva", dove il gioco non aspetta l'input dell'utente.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/Architecture.png}
+	\caption{Schema UML dell'architettura del progetto}
+	\label{img:Architecture}
+\end{figure}
 
 \section{Design dettagliato}
 
@@ -176,6 +176,13 @@ Ogni componente possiede al suo interno dei metodi che costruiscono il suddetto 
 \paragraph{Problema} realizzare un sistema di algoritmi in grado di manovrare una Ship, al fine di navigare nella mappa ed attaccare il Giocatore in prossimità di essa.
 \paragraph{Soluzione} Ho deciso di optare per uno State pattern, ciò consente di separare le diverse logiche dall'Enemy e dalle logiche stesse, consentendo sia di creare algoritmi volti a una singola situazione ma anche facili da intercambiare.
 
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/Enemy.png}
+	\caption{Rappresentazione UML del Factory pattern per la composizione della nave}
+	\label{img:Enemy}
+\end{figure}
+
 \subsubsection*{ControllerImpl}
 \paragraph{Problema} realizzare un controller che oltre a scandire il tempo del model, esponesse in modo chiaro le funzionalità del model in poche, semplici funzioni.
 \paragraph{Soluzione} Per l'input di gioco ho utilizzato uno strategy patter, atto alla separazione delle due varianti di input richieste dal nostro gioco: muoversi o sparare, in modo simile anche per la gestione di funzionalità del model collegabili a pulsanti esterni, attraverso l'uso di una mappa.
@@ -184,15 +191,21 @@ Ogni componente possiede al suo interno dei metodi che costruiscono il suddetto 
 \chapter{Sviluppo}
 \section{Testing automatizzato}
 
+Abbiamo eseguito dei testing utilizzando la suite di JUnit.
+%
+\begin{itemize}
+	\item UtilsTest.java esegue i test di tutti i metodi di Position e Bound in Utils.
+\end{itemize}
+
 \section{Note di sviluppo}
 
-\subsection{Tommaso De Tommaso}
+\subsection*{Tommaso De Tommaso}
 \subsubsection{Utilizzo di una "custom" \texttt{Annotation} }
 Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/f1c77c3f045ecd5f6e5b50d53eaae92590d2c32e/src/main/java/it/unibo/object_onepiece/model/PlayerImpl.java#L14}
 \subsubsection{Utilizzo di \texttt{Stream}, \texttt{Function} e lambda expressions}
 Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/f1c77c3f045ecd5f6e5b50d53eaae92590d2c32e/src/main/java/it/unibo/object_onepiece/model/PlayerImpl.java#L111-L138}
 
-\subsection{Matteo Giorgini}
+\subsection*{Matteo Giorgini}
 \subsubsection{Utilizzo di \texttt{Stream} e lambda expressions}
 Usate pervasivamente. Il seguente è un singolo esempio.
 Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/b935812786b9f4b2bf504b8380732d7609243f66/src/main/java/it/unibo/object_onepiece/model/Ship.java#L350C1-L353C123}
@@ -210,7 +223,7 @@ Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob
 \subsubsection{Utilizzo di \texttt{Logger} dalla libreria java.util.logging}
 Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/c3fa6ef0fc6adadd4db29c2110c899c068c49ea8/src/main/java/it/unibo/object_onepiece/view/Sound.java#L56C1-L56C56}
 
-\subsection{Leonardo Grimaldi}
+\subsection*{Leonardo Grimaldi}
 
 \subsubsection{Utilizzo dell'algoritmo di \textit{White noise} dalla libreria JNoise}
 
@@ -232,7 +245,7 @@ Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob
 
 Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/6ae9d20e3d3e9858b3098309406cf93128f788fd/src/main/java/it/unibo/object_onepiece/model/Section.java#L131C1-L142C6}
 
-\subsection{Edoardo Scorza}
+\subsection*{Edoardo Scorza}
 \subsubsection{Lambda e supplier per la costruzione di una Mappa}
 Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/c3fa6ef0fc6adadd4db29c2110c899c068c49ea8/src/main/java/it/unibo/object_onepiece/model/Compass.java#L16C1-L26C7}
 
