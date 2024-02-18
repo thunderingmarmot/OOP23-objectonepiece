@@ -2,7 +2,7 @@
 classDiagram
 
 class View
-View : -Consumer~int~ onValueUpdated
+View : -Consumer~int~ onExampleEvent
 
 Event~T~ *-- View : subscribe
 
@@ -19,7 +19,6 @@ Event : +invalidate() void
 Event~T~ *-- Model : invoke
 
 class Model
-Model : -value int
-Model : -valueChangedEvent Event~int~
-Model : +getValueChangedEvent Event~int~
+Model : -exampleEvent Event~int~
+Model : +getExampleEvent Event~int~
 ```
