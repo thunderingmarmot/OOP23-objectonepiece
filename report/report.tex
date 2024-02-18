@@ -167,8 +167,8 @@ Ogni componente possiede al suo interno dei metodi che costruiscono il suddetto 
 \paragraph{Problema} Consentire al Controller di accedere al \texttt{Player} e alla lista di \texttt{Enemy} senza smascherare la struttura complessa interna del \texttt{World}
 \paragraph{Soluzione} Si è deciso di usare il Facade pattern per creare una interfaccia \texttt{World} che contenesse un metodo \texttt{getPlayer()} che ritornasse il \texttt{Player} e un metodo \texttt{getEnemies()} che ritornasse una lista di \texttt{Enemy}. Il Controller in questo modo non dovrà preoccuparsi di come vengono generate le sezioni oppure quale sia quella corrente: riceve subito le entità in quella presente per comodamente gestirne i turni. Alternativamente, avremmo potuto consentire al Controller di accedere direttamente al \texttt{WorldImpl} e le \texttt{Section}, ma avremmo violato principi di incapsulazione permettendo comportamenti indesiderati.
 
-\subsubsection*{Eventi di istanza di una sezione e disegno sulla view}
-\paragraph{Problema} Comunicare alla view le 
+\subsubsection*{Caricamento di una mappa/sezione salvata}
+\paragraph{Problema} 
 \paragraph{Soluzione}
 
 \subsection*{Edoardo Scorza}

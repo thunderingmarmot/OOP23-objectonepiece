@@ -150,10 +150,10 @@ public final class ObjectOnePiece extends Application {
 
         respawn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(final ActionEvent event) {
                 controller.pressGameButton(Controller.Buttons.RESPAWN, world);
             }
-            
+
         });
 
         pauseAmbienceSound.setOnAction(new EventHandler<ActionEvent>() {
