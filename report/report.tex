@@ -462,6 +462,14 @@ Questo schema è fatto male perché:
 Questo approccio garantisce anche che View e Model siano "loosely coupled".
 
 \subsection*{Matteo Giorgini}
+\subsubsection*{Composizione della nave}
+\paragraph{Problema} Una nave è composta da varie parti che si occupano di compiti differenti.
+\paragraph{Soluzione} Usare il \textit{Composite pattern} per creare un componente composito che contiene i riferimenti ad i vari componenti della nave (Weapon, Sail, Bow, Ship).
+%
+Ogni componente svolge una funzione differente e alla sua rottura causa un malus alla nave.
+%
+Questo sistema permette di avere una nave eventualmente estendibile.
+\subsubsection*{}
 
 \subsection*{Leonardo Grimaldi}
 \subsubsection*{Barra di progresso}
@@ -694,7 +702,7 @@ Sono soddisfatto della parte che ho svolto nonostante ci siano stati molti cambi
 %
 Il mio ruolo consisteva nella realizzazione dell'entità come elemento generale e della nave (movimento, combattimento, collisioni, etc.).
 %
-Inizialmente ho sottostimato i tempi per la realizzazione della mia parte, ed ho quindi implementato successivamente nuove funzioalità come le mine ed i suoni.
+Inizialmente ho sottostimato i tempi per la realizzazione della mia parte, ed ho quindi implementato successivamente nuove funzionalità come le mine ed i suoni.
 %
 Successivamente però si sono rivelate più complicate del previsto sempre a causa della progettazione e degli scarsi test e hanno necessitato di vari adattamenti,
 che non hanno permesso la totale implementazione di alcune funzionalità opzionali.
