@@ -455,6 +455,11 @@ Questo schema è fatto male perché:
 \end{figure}
 
 \subsection*{Tommaso De Tommaso}
+\subsubsection*{Aggiornamento della View}
+\paragraph{Problema} Il Model deve poter comunicare alla View quando e come aggiornarsi senza dover esporre la sua struttura interna.
+\paragraph{Soluzione} Usare l'\textit{Observer pattern} per creare un oggetto generico e riutilizzabile che si occupi, nel nostro caso, di informare la View.
+%
+Questo approccio garantisce anche che View e Model siano "loosely coupled".
 
 \subsection*{Matteo Giorgini}
 
@@ -617,6 +622,13 @@ Permalink: \url{https://github.com/AlchemistSimulator/Alchemist/blob/d8a1799027d
 Permalink: \url{https://github.com/AlchemistSimulator/Alchemist/blob/d8a1799027d7d685569e15316a32e6394632ce71/alchemist-incarnation-protelis/src/main/java/it/unibo/alchemist/model/ProtelisIncarnation.java#L388-L440}
 Permalink: \url{}
 
+\subsection{Tommaso De Tommaso}
+\subsubsection{Utilizzo di una "custom" \texttt{Annotation} }
+Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/f1c77c3f045ecd5f6e5b50d53eaae92590d2c32e/src/main/java/it/unibo/object_onepiece/model/PlayerImpl.java#L14}
+\subsubsection{Utilizzo di \texttt{Stream}, \texttt{Function} e lambda expressions}
+Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/f1c77c3f045ecd5f6e5b50d53eaae92590d2c32e/src/main/java/it/unibo/object_onepiece/model/PlayerImpl.java#L111-L138}
+\subsubsection{Utilizzo di }
+
 \subsection{Matteo Giorgini}
 \subsubsection{Utilizzo di \texttt{Stream} e lambda expressions}
 Usate pervasivamente. Il seguente è un singolo esempio.
@@ -638,6 +650,10 @@ Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob
 \subsubsection{Utilizzo di \texttt{Logger} dalla libreria java.util.logging}
 Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/c3fa6ef0fc6adadd4db29c2110c899c068c49ea8/src/main/java/it/unibo/object_onepiece/view/Sound.java#L56C1-L56C56}
 
+\subsection{Leonardo Grimaldi}
+
+\subsection{Edoardo Scorza}
+
 \chapter{Commenti finali}
 
 In quest'ultimo capitolo si tirano le somme del lavoro svolto e si delineano eventuali sviluppi
@@ -655,7 +671,29 @@ Ciascuno dovrà autovalutare il proprio lavoro, elencando i punti di forza e di 
 Si dovrà anche cercare di descrivere \emph{in modo quanto più obiettivo possibile} il proprio ruolo all'interno del gruppo.
 Si ricorda, a tal proposito, che ciascuno studente è responsabile solo della propria sezione: non è un problema se ci sono opinioni contrastanti, a patto che rispecchino effettivamente l'opinione di chi le scrive.
 Nel caso in cui si pensasse di portare avanti il progetto, ad esempio perché effettivamente impiegato, o perché sufficientemente ben riuscito da poter esser usato come dimostrazione di esser capaci progettisti, si descriva brevemente verso che direzione portarlo.
+
 \subsection*{Tommaso De Tommaso}
+Questo progetto è stata un'ottima occasione più per "sviluppare" me stesso che il gioco in sé.
+%
+La mia parte consisteva nello sviluppo del Player, del Barrel e dell'Island.
+%
+Inoltre, dovevo sviluppare anche il sistema di salvataggio del gioco, siccome collegato alle Island.
+%
+Tutto ciò è stato terminato prima del previsto ed ho quindi pensato di aver sovrastimato la mia parte.
+%
+Temendo di non raggiungere la quota di 70 ore, ho proseguito nell'aggiunta di feature opzionali, rimanendo nei limiti del progetto, invece di fare testing.
+%
+Fino a quel momento, infatti, nessun test era stato fatto a causa dell'erroneo sentimento maggioritario, nonché il mio, di testare il gioco giocandolo, non appena la View fosse stata completata.
+%
+Inevitabilmente, quando ciò è accaduto, ci siamo ritrovati sommersi da bug e comportamenti inaspettati.
+%
+Questo ha provocato diversi aggiustamenti "dell'ultimo minuto" che non hanno ricevuto la cura del resto del progetto.
+%
+Oltre a questo, nella foga di aggiungere feature opzionali, si è deragliati molto dalla progettazione iniziale, causando diverse discordie.
+%
+Queste cose, da perfezionista quale sono, mi hanno dato non poco fastidio, ma, dopotutto, la colpa è per lo più mia.
+%
+Non penso di portare avanti questo progetto poiché, citando la meta-relazione, a mio avviso non è affatto "sufficientemente ben riuscito da poter esser usato come dimostrazione di esser capaci progettisti", ma anzi è un esempio da non imitare.
 
 \subsection*{Matteo Giorgini}
 La realizzazione di questo progetto è stata un grande insegnamento sul lavoro di gruppo.

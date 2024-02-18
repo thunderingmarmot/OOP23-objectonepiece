@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.function.BiFunction;
 
 /**
- * Implementation of Section interface.
+ * Represents a section of the world.
  */
 public final class Section {
     private static final double SCALING_FACTOR = 50.5;

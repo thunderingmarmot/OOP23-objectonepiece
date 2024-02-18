@@ -361,6 +361,4 @@ Position : +int column
 
 class CardinalDirection
 <<Enumeration>> CardinalDirection
-
-class Event
 ```
