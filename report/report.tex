@@ -156,6 +156,14 @@ Ogni componente possiede al suo interno dei metodi che costruiscono il suddetto 
 \paragraph{Soluzione}
 
 \subsection*{Edoardo Scorza}
+\subsubsection*{AI delle Entità Enemy}
+\paragraph{Problema} realizzare un sistema di algoritmi in grado di manovrare una Ship, al fine di navigare nella mappa ed attaccare il Giocatore in prossimità di essa.
+\paragraph{Soluzione} Ho deciso di optare per uno State pattern, ciò consente di separare le diverse logiche dall'Enemy e dalle logiche stesse, consentendo sia di creare algoritmi volti a una singola situazione ma anche facili da intercambiare.
+
+\subsubsection*{ControllerImpl}
+\paragraph{Problema} realizzare un controller che oltre a scandire il tempo del model, esponesse in modo chiaro le funzionalità del model in poche, semplici funzioni.
+\paragraph{Soluzione} Per l'input di gioco ho utilizzato uno strategy patter, atto alla separazione delle due varianti di input richieste dal nostro gioco: muoversi o sparare, in modo simile anche per la gestione di funzionalità del model collegabili a pulsanti esterni, attraverso l'uso di una mappa.
+
 
 \chapter{Sviluppo}
 \section{Testing automatizzato}
@@ -209,6 +217,15 @@ Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob
 Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/6ae9d20e3d3e9858b3098309406cf93128f788fd/src/main/java/it/unibo/object_onepiece/model/Section.java#L131C1-L142C6}
 
 \subsection{Edoardo Scorza}
+\subsubsection{Lambda e supplier per la costruzione di una Mappa}
+Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/c3fa6ef0fc6adadd4db29c2110c899c068c49ea8/src/main/java/it/unibo/object_onepiece/model/Compass.java#L16C1-L26C7}
+
+\subsubsection{Consumer}
+Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/805803a2ce3b2c9844d0cecb63fac15f8a5d2780/src/main/java/it/unibo/object_onepiece/controller/ControllerImpl.java#L20C4-L22C7}
+
+\subsubsection{Stream}
+Permalink: \url{https://github.com/thethunderingmarmot/OOP23-objectonepiece/blob/805803a2ce3b2c9844d0cecb63fac15f8a5d2780/src/main/java/it/unibo/object_onepiece/controller/ControllerImpl.java#L26C9-L28C10}	
+
 
 \chapter{Commenti finali}
 
