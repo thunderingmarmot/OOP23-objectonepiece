@@ -79,13 +79,6 @@ I nemici devono anche sparare al giocatore, se questo entra nel raggio dell'arma
 %
 I nemici non seguono il giocatore se cambia sezione.
 
-\begin{figure}[H]
-	\centering{}
-	\includegraphics[width=1.2\textwidth]{img/Analysis.png}
-	\caption{Schema UML dell'analisi del problema, con rappresentate le entità principali ed i rapporti fra loro}
-	\label{img:Analysis}
-\end{figure}
-
 \chapter{Design}
 
 \section{Architettura}
@@ -102,6 +95,13 @@ senza conoscere, né modificare, l'architettura interna del Model.
 Inoltre, il nostro gioco è strutturato per essere a turni ed è quindi "passivo", modificando il suo stato solo dopo un'input,
 tuttavia la logica dei turni è stata implementata nel Controller e questo potenzialmente ci permette di usare lo stesso Model
 anche per una versione del gioco in tempo reale che sarebbe quindi "attiva", dove il gioco non aspetta l'input dell'utente.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/Architecture.png}
+	\caption{Schema UML dell'architettura del progetto}
+	\label{img:Architecture}
+\end{figure}
 
 \section{Design dettagliato}
 
