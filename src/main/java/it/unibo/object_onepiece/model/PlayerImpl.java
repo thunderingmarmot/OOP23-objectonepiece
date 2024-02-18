@@ -85,7 +85,7 @@ public final class PlayerImpl extends Ship implements Player {
             this.getWorld().createNewSection(
                 (newSection) -> {
                     final PlayerImpl player = new PlayerImpl(this, newSection);
-                    player.setPosition(player.getPosition().opposite(player.getDirection(), newSection.getBounds()));
+                    player.setPosition(newSection.getBounds().getOpposite(player.getPosition(), direction));
                     return player;
                 });
         }

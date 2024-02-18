@@ -212,18 +212,6 @@ public final class Utils {
             final var versor = this.versorOf(position);
             return versorToCardinalDirections.get(versor);
         }
-
-        /**
-         * This method give the opposite position on the bounds 
-         * depending on the current position, direction and bound.
-         * 
-         * @param  direction the current direction
-         * @param  bounds    the current bound
-         * @return           the position on the opposite bound.
-         */
-        public Position opposite(final CardinalDirection direction, final Bound bounds) {
-            return oppositePositions.get(direction).apply(this, bounds);
-        }
     }
 
     /**
@@ -235,10 +223,35 @@ public final class Utils {
         /**
          * Checks if a Position is inside the Bound.
          * @param position the Position to check
-         * @return wether the Position is inside or not as a boolean
+         * @return whether the Position is inside or not as a boolean
          */
         public boolean isInside(final Position position) {
             return insideBoundsConditions.stream().allMatch((condition) -> condition.test(this, position));
+        }
+
+        /**
+         * Checks if a Position is on the Bound.
+         * @param position the Position to check
+         * @return whether the Position is on or not as a boolean
+         */
+        public boolean isOn(final Position position) {
+            return position.row == 0 || position.column == 0
+                || position.row == rows - 1 || position.column == columns - 1;
+        }
+
+        /**
+         * This method give the opposite position on the bounds 
+         * depending on the current position, direction and bound.
+         * 
+         * @param  direction the current direction
+         * @param  bounds    the current bound
+         * @return           the position on the opposite bound.
+         */
+        public Position getOpposite(final Position position, CardinalDirection direction) {
+            if(this.isOn(position)) {
+                return oppositePositions.get(direction).apply(position, this);
+            }
+            return position;
         }
     }
 
