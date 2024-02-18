@@ -3,7 +3,7 @@ package it.unibo.object_onepiece.model;
 /**
  * This class represents a bow, which is a type of ShipComponent.
  * It defines a method to retrieving crash damage of the bow.
- * It also defines and builder methods for the available bows.
+ * It also defines and factory methods for the available bows.
  * The bow is the frontal structure of the ship.
  * 
  * @see ShipComponent
@@ -20,7 +20,7 @@ public final class Bow extends ShipComponent {
      * @param  crashDamage           the crash damage of the bow
      * @param  crashDamageMultiplier the crash damage multiplier of the bow
      */
-    protected Bow(final int health, final int crashDamage, final int crashDamageMultiplier) {
+    private Bow(final int health, final int crashDamage, final int crashDamageMultiplier) {
         super(health);
         this.crashDamage = crashDamage;
         this.crashDamageMultiplier = crashDamageMultiplier;
@@ -31,7 +31,7 @@ public final class Bow extends ShipComponent {
      * 
      * @param  origin the bow to copy from
      */
-    protected Bow(final Bow origin) {
+    private Bow(final Bow origin) {
         super(origin);
         this.crashDamage = origin.getCrashDamage();
         this.crashDamageMultiplier = origin.getCrashDamageMultiplier();
@@ -69,7 +69,7 @@ public final class Bow extends ShipComponent {
     }
 
     /**
-     * Builder for the standard bow.
+     * Factory method for the standard bow.
      * 
      * @return bow with his standard stats.
      */
@@ -82,7 +82,7 @@ public final class Bow extends ShipComponent {
     }
 
     /**
-     * Builder for the heavy bow, a really strong bow
+     * Factory method for the heavy bow, a really strong bow
      * for crash damage, crash damage multiplier and health.
      * 
      * @return bow with his standard stats.
@@ -96,7 +96,7 @@ public final class Bow extends ShipComponent {
     }
 
     /**
-     * Builder for the light bow, a really weak bow
+     * Factory method for the light bow, a really weak bow
      * for crash damage, crash damage multiplier and health.
      * 
      * @return bow with his standard stats.

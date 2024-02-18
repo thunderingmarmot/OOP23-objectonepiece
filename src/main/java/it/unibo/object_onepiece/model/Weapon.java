@@ -4,7 +4,7 @@ package it.unibo.object_onepiece.model;
  * This class represents a weapon, which is a type of ShipComponent.
  * It defines a method to shoot with the weapon and retrieving maximum damage, 
  * minimum damage and range.
- * It also defines builder methods for the available weapons.
+ * It also defines factory methods for the available weapons.
  * 
  * @see ShipComponent
  */
@@ -21,7 +21,7 @@ public final class Weapon extends ShipComponent {
      * @param  min    the minimum damage of the weapon
      * @param  range  the range of the weapon
      */
-    protected Weapon(final int health, final int max, final int min, final int range) {
+    private Weapon(final int health, final int max, final int min, final int range) {
         super(health);
         this.maxDamage = max;
         this.minDamage = min;
@@ -33,7 +33,7 @@ public final class Weapon extends ShipComponent {
      * 
      * @param  origin the weapon to copy from
      */
-    protected Weapon(final Weapon origin) {
+    private Weapon(final Weapon origin) {
         super(origin);
         this.maxDamage = origin.getMaxDamage();
         this.minDamage = origin.getMinDamage();
@@ -78,7 +78,7 @@ public final class Weapon extends ShipComponent {
     }
 
     /**
-     * Builder for the cannon, the standard type of weapon.
+     * Factory method for the cannon, the standard type of weapon.
      * 
      * @return weapon with his standard stats.
      */
@@ -92,7 +92,7 @@ public final class Weapon extends ShipComponent {
     }
 
     /**
-     * Builder for the railgun, the most powerful weapon for damage and range,
+     * Factory method for the railgun, the most powerful weapon for damage and range,
      * but more fragile.
      * 
      * @return weapon with his standard stats.
@@ -107,7 +107,7 @@ public final class Weapon extends ShipComponent {
     }
 
     /**
-     * Builder for the heavycannon, the best weapon for damage and health,
+     * Factory method for the heavycannon, the best weapon for damage and health,
      * but with very short range.
      * 
      * @return weapon with his standard stats.
