@@ -92,12 +92,12 @@ I nemici non seguono il giocatore se cambia sezione.
 
 L'architettura del progetto segue il pattern architetturale MVC.
 %
-Più nello specifico, la View si occupa di visualizzare a schermo lo stato del gioco,
+Più nello specifico, la View si occupa di visualizzare a schermo lo stato corrente del gioco,
 il Controller si occupa di gestire gli input del giocatore ed agire di conseguenza, ed
 il Model si occupa unicamente della logica che definisce il gioco.
 
 Grazie a questa architettura è molto più semplice modificare o cambiare completamente la View
-senza conoscere l'architettura interna del Model.
+senza conoscere, né modificare, l'architettura interna del Model.
 %
 Inoltre, il nostro gioco è strutturato per essere a turni ed è quindi "passivo", modificando il suo stato solo dopo un'input,
 tuttavia la logica dei turni è stata implementata nel Controller e questo potenzialmente ci permette di usare lo stesso Model
@@ -106,11 +106,27 @@ anche per una versione del gioco in tempo reale che sarebbe quindi "attiva", dov
 \section{Design dettagliato}
 
 \subsection*{Tommaso De Tommaso}
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/Event.png}
+	\caption{Rappresentazione UML della classe Event con una View ed un Model ad-hoc ed un esempio di utilizzo}
+	\label{img:Event}
+\end{figure}
 \subsubsection*{Aggiornamento della View}
 \paragraph{Problema} Il Model deve poter comunicare alla View quando e come aggiornarsi senza dover esporre la sua struttura interna.
 \paragraph{Soluzione} Usare l'\textit{Observer pattern} per creare un oggetto generico e riutilizzabile che si occupi, nel nostro caso, di informare la View.
 %
 Questo approccio garantisce anche che View e Model siano "loosely coupled".
+
+\subsubsection*{Salvataggio del gioco}
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/Prototype.png}
+	\caption{Rappresentazione UML della classe Entity con un ExampleEntity che eredita da questa e implementa il metodo astratto "copy"}
+	\label{img:Prototype}
+\end{figure}
+\paragraph{Problema} Il Model deve poter salvare il suo stato, questo implica la copia dello stato di ogni entità piuttosto che la copia del suo riferimento.
+\paragraph{Soluzione} Usare il \textit{Prototype pattern} per delegare il processo di copia alle entità stesse, con un metodo astratto "copy" nella classe Entity e la sua implementazione in ogni classe che la estende.
 
 \subsection*{Matteo Giorgini}
 \subsubsection*{Composizione della nave}
