@@ -19,7 +19,7 @@ public final class ControllerImpl implements Controller {
 
     private static Map<Buttons, Consumer<World>> buttons = Map.of(
         Buttons.FIX, (w) -> w.getPlayer().healWithExperience(),
-        Buttons.RESPAWN,(w) -> w.getPlayer().respawn()
+        Buttons.RESPAWN, (w) -> w.getPlayer().respawn()
 
     );
 

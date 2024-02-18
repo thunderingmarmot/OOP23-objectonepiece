@@ -66,11 +66,7 @@ public final class AttackState extends EnemyState {
             //the pitagorean formula for one side of the triangle
             final int y = Double.valueOf(Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2))).intValue();
 
-            objective = player.getPosition().sum(new Position(x, y * randSign()));
+            objective = player.getPosition().sum(new Position(x, y * (Utils.getRandom().nextBoolean() ? 1 : -1)));
         } while (!bound.isInside(objective) || tsection.getEntityAt(objective).isPresent());
-    }
-
-    private int randSign() {
-        return Utils.getRandom().nextBoolean() ? 1 : -1;
     }
 }
