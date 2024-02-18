@@ -234,9 +234,9 @@ public final class Utils {
          * @param position the Position to check
          * @return whether the Position is on or not as a boolean
          */
-        public boolean isOn(final Position position) {
-            return position.row == 0 || position.column == 0
-                || position.row == rows - 1 || position.column == columns - 1;
+        public boolean isOnEdge(final Position position) {
+            return position.row == 1 || position.column == 1
+                || position.row == rows - 2 || position.column == columns - 2;
         }
 
         /**
@@ -248,7 +248,7 @@ public final class Utils {
          * @return           the position on the opposite bound.
          */
         public Position getOpposite(final Position position, CardinalDirection direction) {
-            if(this.isOn(position)) {
+            if(this.isOnEdge(position)) {
                 return oppositePositions.get(direction).apply(position, this);
             }
             return position;
