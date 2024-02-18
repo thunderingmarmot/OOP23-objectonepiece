@@ -160,16 +160,32 @@ Ogni componente possiede al suo interno dei metodi che costruiscono il suddetto 
 
 \subsection*{Leonardo Grimaldi}
 \subsubsection*{Barra di progresso}
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/ProgressBar.png}
+	\caption{Rappresentazione UML del Decorator pattern per la creazione di vari tipi di barre di progresso}
+	\label{img:ProgressBar}
+\end{figure}
+
 \paragraph{Problema} La view deve rappresentare barre di vita con la stessa struttura, ma colori o proprietà diverse.
 \paragraph{Soluzione} Usare il \textit{Decorator pattern} per creare una barra di progresso basilare che può essere assegnata colori diversi, associato un nome, aggiornata con il progresso e che restituisce il componente pronto per essere rappresentato. La classe astratta che fa da Decorator è \texttt{ProgressBarDecorator}, mentre le sue implementazioni sono 
 
 \subsubsection*{Tracciamento del player e dei nemici}
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/WorldFacade.png}
+	\caption{Rappresentazione UML del Facade pattern per l'esposizione di metodi}
+	\label{img:WorldFacade}
+\end{figure}
+
 \paragraph{Problema} Consentire al Controller di accedere al \texttt{Player} e alla lista di \texttt{Enemy} senza smascherare la struttura complessa interna del \texttt{World}
-\paragraph{Soluzione} Si è deciso di usare il Facade pattern per creare una interfaccia \texttt{World} che contenesse un metodo \texttt{getPlayer()} che ritornasse il \texttt{Player} e un metodo \texttt{getEnemies()} che ritornasse una lista di \texttt{Enemy}. Il Controller in questo modo non dovrà preoccuparsi di come vengono generate le sezioni oppure quale sia quella corrente: riceve subito le entità in quella presente per comodamente gestirne i turni. Alternativamente, avremmo potuto consentire al Controller di accedere direttamente al \texttt{WorldImpl} e le \texttt{Section}, ma avremmo violato principi di incapsulazione permettendo comportamenti indesiderati.
+\paragraph{Soluzione} Si è deciso di usare il \textit{Facade pattern} per creare una interfaccia \texttt{World} che contenesse un metodo \texttt{getPlayer()} che ritornasse il \texttt{Player} e un metodo \texttt{getEnemies()} che ritornasse una lista di \texttt{Enemy}. Il Controller in questo modo non dovrà preoccuparsi di come vengono generate le sezioni oppure quale sia quella corrente: riceve subito le entità in quella presente per comodamente gestirne i turni. Alternativamente, avremmo potuto consentire al Controller di accedere direttamente al \texttt{WorldImpl} e le \texttt{Section}, ma avremmo violato principi di incapsulazione permettendo comportamenti indesiderati.
 
 \subsubsection*{Caricamento di una mappa/sezione salvata}
-\paragraph{Problema} 
-\paragraph{Soluzione}
+\paragraph{Problema} Caricare la sezione dove il giocatore ha salvato reimportando tutte le entità presenti in quel momento
+\paragraph{Soluzione} Avere lo snapshot dello stato della \texttt{Section} nel \texttt{WorldImpl}. Usare il \textit{pattern Memento} dove il \texttt{WorldImpl} agisce da \textit{Caretaker} e scambia gli \textit{Originator} con il \textit{Memento} della \texttt{Section}.
 
 \subsection*{Edoardo Scorza}
 \subsubsection*{AI delle Entità Enemy}
