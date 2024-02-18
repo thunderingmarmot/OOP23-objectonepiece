@@ -38,10 +38,10 @@ public final class Utils {
     );
 
     private static Map<CardinalDirection, BiFunction<Position, Bound, Position>> oppositePositions = Map.of(
-        CardinalDirection.NORTH, (p, b) -> new Position(p.row + (b.rows - 3), p.column),
-        CardinalDirection.SOUTH, (p, b) -> new Position(p.row - (b.rows - 3), p.column),
-        CardinalDirection.WEST, (p, b) -> new Position(p.row, p.column + (b.columns - 3)),
-        CardinalDirection.EAST, (p, b) -> new Position(p.row, p.column - (b.columns - 3))
+        CardinalDirection.NORTH, (p, b) -> new Position(b.rows - (1 + p.row), p.column),
+        CardinalDirection.SOUTH, (p, b) -> new Position(b.rows - (1 + p.row), p.column),
+        CardinalDirection.WEST, (p, b) -> new Position(p.row, b.columns - (1 + p.column)),
+        CardinalDirection.EAST, (p, b) -> new Position(p.row, b.columns - (1 + p.column))
     );
 
     private static Map<Position, CardinalDirection> versorToCardinalDirections = Map.of(
@@ -235,7 +235,7 @@ public final class Utils {
         /**
          * Checks if a Position is inside the Bound.
          * @param position the Position to check
-         * @return wether the Position is inside or not as a boolean
+         * @return whether the Position is inside or not as a boolean
          */
         public boolean isInside(final Position position) {
             return insideBoundsConditions.stream().allMatch((condition) -> condition.test(this, position));

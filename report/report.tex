@@ -165,10 +165,10 @@ Ogni componente possiede al suo interno dei metodi che costruiscono il suddetto 
 
 \subsubsection*{Tracciamento del player e dei nemici}
 \paragraph{Problema} Consentire al Controller di accedere al \texttt{Player} e alla lista di \texttt{Enemy} senza smascherare la struttura complessa interna del \texttt{World}
-\paragraph{Soluzione} Si è deciso di creare una interfaccia \texttt{World} che contenesse un metodo \texttt{getPlayer()} che ritornasse il \texttt{Player} e un metodo \texttt{getEnemies()} che ritornasse una lista di \texttt{Enemy}. Questa struttura è il Facade pattern che 
+\paragraph{Soluzione} Si è deciso di usare il Facade pattern per creare una interfaccia \texttt{World} che contenesse un metodo \texttt{getPlayer()} che ritornasse il \texttt{Player} e un metodo \texttt{getEnemies()} che ritornasse una lista di \texttt{Enemy}. Il Controller in questo modo non dovrà preoccuparsi di come vengono generate le sezioni oppure quale sia quella corrente: riceve subito le entità in quella presente per comodamente gestirne i turni. Alternativamente, avremmo potuto consentire al Controller di accedere direttamente al \texttt{WorldImpl} e le \texttt{Section}, ma avremmo violato principi di incapsulazione permettendo comportamenti indesiderati.
 
-\subsubsection*{Eventi di istanza di una sezione e disegno sulla view}
-\paragraph{Problema} Comunicare alla view le 
+\subsubsection*{Caricamento di una mappa/sezione salvata}
+\paragraph{Problema} 
 \paragraph{Soluzione}
 
 \subsection*{Edoardo Scorza}
@@ -356,17 +356,15 @@ Nel HUD vengono mostrate quattro barre di vita che riguardano la nave:
 	\item Sail: vita della vela; raggiunto lo zero non potrà muoversi.
 	\item Keel: vita della chiglia; raggiunto lo zero il gioco si fermerà e l'utente dovrà cliccare su una casella per respawnare.
 \end{itemize}
-Inoltre, sotto alle barre di vita sono presenti due pulsanti.
+Inoltre, sotto alle barre di vita sono presenti tre pulsanti.
 %
 Il primo con l'icona di una tavola di legno consente al giocatore di riparare la nave (curarsi) utilizzando l'esperienza raccolta dai barili nella mappa.
 %
 Sotto ad esso si trova un numero che indica quanta esperienza l'utente ha a disposizione per ripararsi. Il costo di cura è 100.
 %
-Il secondo bottone spegne/riaccende gli effetti sonori del gioco.
-\newline
-Durante la fase di gioco è possibile che la vela della nave venga danneggiata e il player sia impossibilitato a muoversi.
+Il secondo con la scritta "Respawn" consente al player di rigenerare una nuova mappa oppure tornare all'isola salvata.
 %
-In tal caso, l'utente deve chiudere la finestra premendo la ``X'' in alto a destra e far ripartire il gioco.
+Il terzo bottone spegne/riaccende gli effetti sonori del gioco.
 
 \chapter{Esercitazioni di laboratorio}
 \subsection{leonardo.grimaldi2@studio.unibo.it}
