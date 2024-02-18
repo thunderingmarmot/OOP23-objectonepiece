@@ -112,7 +112,7 @@ public final class ObjectOnePiece extends Application {
 
         final Button pauseAmbienceSound = new Button();
         pauseAmbienceSound.setGraphic(audio);
-        
+
 
         final VBox buttonContainer = new VBox();
         buttonContainer.setAlignment(Pos.CENTER);

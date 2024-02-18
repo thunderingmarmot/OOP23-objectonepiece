@@ -1,18 +1,13 @@
 ```mermaid
 classDiagram
 
-class Player
-<<Interface>> Player
-World --* Player
-Player : +moveTo(Position destination) boolean
-Player : +shootAt(Position target) boolean
-Player : +healWithExperience() void
-Player : +respawn() void
+class View
 
-class Enemy
-<<Interface>> Enemy
-World --* Enemy
-Enemy : +goNext() void
+class Controller
+Controller --* World
+Controller *-- View
+Controller : #action(Position position, World world, States state) void
+Controller : #pressGameButton(Buttons button, World world) void
 
 class World
 <<Interface>> World
@@ -21,10 +16,4 @@ World : +getPlayer() Player
 World : +getEnemies() List~Enemy~
 World : +getMapRows() int
 World : +getMapCols() int
-
-class View
-
-class Controller
-Controller *-- World
-Controller *-- View
 ```
