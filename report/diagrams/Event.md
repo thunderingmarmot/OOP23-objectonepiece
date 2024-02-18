@@ -1,6 +1,11 @@
 ```mermaid
 classDiagram
 
+class View
+View : -Consumer~int~ onValueUpdated
+
+Event~T~ *-- View
+
 class Event~T~
 Event : -boolean isValid
 Event : -List~Consumer~T~~ listeners
@@ -10,4 +15,11 @@ Event : +invoke(T args) void
 Event : +tryInvoke(T args) boolean
 Event : +lastInvoke(T args) void
 Event : +invalidate() void
+
+Event~T~ *-- Model
+
+class Model
+Model : -value int
+Model : -valueChangedEvent Event~int~
+Model : +getValueChangedEvent Event~int~
 ```
