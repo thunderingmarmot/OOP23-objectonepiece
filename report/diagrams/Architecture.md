@@ -7,6 +7,7 @@ World --* Player
 Player : +moveTo(Position destination) boolean
 Player : +shootAt(Position target) boolean
 Player : +healWithExperience() void
+Player : +respawn() void
 
 class Enemy
 <<Interface>> Enemy
