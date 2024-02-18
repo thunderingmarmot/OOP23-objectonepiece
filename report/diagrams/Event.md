@@ -4,7 +4,7 @@ classDiagram
 class View
 View : -Consumer~int~ onValueUpdated
 
-Event~T~ *-- View
+Event~T~ *-- View : subscribes
 
 class Event~T~
 Event : -boolean isValid
@@ -16,7 +16,7 @@ Event : +tryInvoke(T args) boolean
 Event : +lastInvoke(T args) void
 Event : +invalidate() void
 
-Event~T~ *-- Model
+Event~T~ *-- Model : invokes
 
 class Model
 Model : -value int
