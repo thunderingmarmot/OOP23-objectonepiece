@@ -193,13 +193,22 @@ public final class PlayerImpl extends Ship implements Player {
     }
 
     /**
-     * Handles Player death.
+     * Handles the Player's death.
      * @see Ship
      */
     @Override
     protected void die() {
         super.die();
         this.onPlayerUpdated.invalidate();
+        this.respawn();
+    }
+
+    /**
+     * Handles the Player's respawn.
+     * @see Ship
+     */
+    @Override
+    public void respawn() {
         if (this.getWorld().getSavedState().isPresent()) {
             this.getWorld().loadSavedSection();
         } else {

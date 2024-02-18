@@ -26,4 +26,10 @@ public interface Player {
      * Fully heals the Player by spending experience.
      */
     void healWithExperience();
+
+    /**
+     * Handles the Player's respawn.
+     * @see Ship
+     */
+    void respawn();
 }
